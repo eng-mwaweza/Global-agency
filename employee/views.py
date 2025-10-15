@@ -1,0 +1,42 @@
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from global_agency.models import ContactMessage  # mfano: applications zinahifadhiwa hapa
+
+def employee_login(request):
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect("employee_dashboard")
+        else:
+            return render(request, "employee/login.html", {"error": "Invalid username or password"})
+    return render(request, "employee/login.html")
+
+
+@login_required
+def employee_dashboard(request):
+    applications = ContactMessage.objects.all().order_by("-created_at")
+    return render(request, "employee/dashboard.html", {"applications": applications})
+
+
+@login_required
+def employee_logout(request):
+    logout(request)
+    return redirect("employee_login")
+from django.shortcuts import render
+from global_agency.models import ContactMessage
+
+def dashboard(request):
+    messages = ContactMessage.objects.all().order_by('-created_at')
+    context = {
+        "contact_messages": messages,
+        "applications_count": messages.count(),
+        "messages_count": messages.count(),
+        "pending_reviews": 0,
+    }
+    return render(request, 'employee/dashboard.html', context)
+
+

@@ -1,0 +1,193 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Start Application - Global Agency</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* basic layout kept small — replace with your full CSS if needed */
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:#f9fafb; color:#111; }
+    .container { max-width:1100px; margin:2rem auto; padding:1.5rem; background:#fff; border-radius:10px; box-shadow:0 6px 20px rgba(0,0,0,0.06); }
+    h2 { color:#1a56db; text-align:center; }
+    .step { display:none; }
+    .step.active { display:block; }
+    label { display:block; margin:0.5rem 0 0.25rem; font-weight:600; }
+    input, select, textarea { width:100%; padding:0.6rem; border:1px solid #ddd; border-radius:8px; }
+    .nav { display:flex; justify-content:space-between; margin-top:1.25rem; }
+    .btn { background:#1a56db; color:white; border:none; padding:0.6rem 1rem; border-radius:8px; cursor:pointer; }
+    .btn.secondary { background:#6b7280; }
+    .progress { display:flex; justify-content:center; gap:8px; margin-bottom:1rem; }
+    .dot { width:10px; height:10px; border-radius:50%; background:#ddd; }
+    .dot.active { background:#1a56db; }
+    .errorlist { color: #b91c1c; margin-bottom: 0.5rem; }
+    .messages { margin: 0.5rem 0; }
+    .messages .success { color: green; }
+    .messages .error { color: red; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Study Abroad Application</h2>
+
+    {% if messages %}
+      <div class="messages">
+        {% for message in messages %}
+          <div class="{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <div class="progress">
+      <span class="dot active"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
+
+    <form method="post" enctype="multipart/form-data" id="applicationForm">
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+
+      <!-- Step 1: Personal -->
+      <div class="step active" id="step-1">
+        <h3>Personal Information</h3>
+        {{ form.full_name.errors }}
+        <label for="{{ form.full_name.id_for_label }}">Full name</label>
+        {{ form.full_name }}
+
+        {{ form.gender.errors }}
+        <label for="{{ form.gender.id_for_label }}">Gender</label>
+        {{ form.gender }}
+
+        {{ form.nationality.errors }}
+        <label for="{{ form.nationality.id_for_label }}">Nationality</label>
+        {{ form.nationality }}
+
+        {{ form.email.errors }}
+        <label for="{{ form.email.id_for_label }}">Email</label>
+        {{ form.email }}
+
+        {{ form.phone.errors }}
+        <label for="{{ form.phone.id_for_label }}">Phone</label>
+        {{ form.phone }}
+
+        {{ form.address.errors }}
+        <label for="{{ form.address.id_for_label }}">Address</label>
+        {{ form.address }}
+      </div>
+
+      <!-- Step 2: Parents -->
+      <div class="step" id="step-2">
+        <h3>Parents Details</h3>
+        <label>Father's Name</label>{{ form.father_name }}
+        <label>Father's Phone</label>{{ form.father_phone }}
+        <label>Father's Email</label>{{ form.father_email }}
+        <label>Father's Occupation</label>{{ form.father_occupation }}
+
+        <label>Mother's Name</label>{{ form.mother_name }}
+        <label>Mother's Phone</label>{{ form.mother_phone }}
+        <label>Mother's Email</label>{{ form.mother_email }}
+        <label>Mother's Occupation</label>{{ form.mother_occupation }}
+      </div>
+
+      <!-- Step 3: O-Level -->
+      <div class="step" id="step-3">
+        <h3>O-Level Education</h3>
+        <label>School</label>{{ form.olevel_school }}
+        <label>Country</label>{{ form.olevel_country }}
+        <label>Address</label>{{ form.olevel_address }}
+        <label>Region</label>{{ form.olevel_region }}
+        <label>Completed Year</label>{{ form.olevel_year }}
+        <label>Candidate Number</label>{{ form.olevel_candidate_no }}
+        <label>GPA/Division</label>{{ form.olevel_gpa }}
+      </div>
+
+      <!-- Step 4: A-Level -->
+      <div class="step" id="step-4">
+        <h3>A-Level Education</h3>
+        <label>School</label>{{ form.alevel_school }}
+        <label>Country</label>{{ form.alevel_country }}
+        <label>Address</label>{{ form.alevel_address }}
+        <label>Region</label>{{ form.alevel_region }}
+        <label>Completed Year</label>{{ form.alevel_year }}
+        <label>Candidate Number</label>{{ form.alevel_candidate_no }}
+        <label>GPA/Division</label>{{ form.alevel_gpa }}
+      </div>
+
+      <!-- Step 5: Preferences -->
+      <div class="step" id="step-5">
+        <h3>Study Preferences</h3>
+        <label>Preferred Country 1</label>{{ form.preferred_country_1 }}
+        <label>Preferred Country 2</label>{{ form.preferred_country_2 }}
+        <label>Preferred Country 3</label>{{ form.preferred_country_3 }}
+        <label>Preferred Country 4</label>{{ form.preferred_country_4 }}
+
+        <label>Preferred Program 1</label>{{ form.preferred_program_1 }}
+        <label>Preferred Program 2</label>{{ form.preferred_program_2 }}
+        <label>Preferred Program 3</label>{{ form.preferred_program_3 }}
+        <label>Preferred Program 4</label>{{ form.preferred_program_4 }}
+      </div>
+
+      <!-- Step 6: Emergency & Submit -->
+      <div class="step" id="step-6">
+        <h3>Emergency Contact & Submit</h3>
+        <label>Emergency Name</label>{{ form.emergency_name }}
+        <label>Emergency Address</label>{{ form.emergency_address }}
+        <label>Emergency Occupation</label>{{ form.emergency_occupation }}
+        <label>Emergency Gender</label>{{ form.emergency_gender }}
+        <label>Emergency Relation</label>{{ form.emergency_relation }}
+
+        <label>How did you hear about us?</label>
+        {{ form.heard_about_us }}
+        <label>If other, specify</label>{{ form.heard_about_other }}
+
+        <div style="margin-top:1rem;">
+          <label><input type="checkbox" id="declaration_check"> I confirm the information is correct</label>
+        </div>
+
+        <div style="margin-top:1rem;">
+          <button type="submit" id="submitBtn" class="btn" disabled>Submit Application</button>
+        </div>
+      </div>
+
+      <div class="nav">
+        <button type="button" id="prevBtn" class="btn secondary">Previous</button>
+        <button type="button" id="nextBtn" class="btn">Next</button>
+      </div>
+    </form>
+  </div>
+
+<script>
+(function(){
+  const steps = document.querySelectorAll('.step');
+  const dots  = document.querySelectorAll('.dot');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const submitBtn = document.getElementById('submitBtn');
+  const declaration = document.getElementById('declaration_check');
+  let current = 0;
+
+  function show(i){
+    steps.forEach((s, idx)=> s.classList.toggle('active', idx===i));
+    dots.forEach((d, idx)=> d.classList.toggle('active', idx===i));
+    prevBtn.style.display = i === 0 ? 'none' : 'inline-block';
+    nextBtn.style.display = i === steps.length-1 ? 'none' : 'inline-block';
+  }
+
+  prevBtn.addEventListener('click', ()=> { if(current>0) current--; show(current); });
+  nextBtn.addEventListener('click', ()=> { if(current<steps.length-1) current++; show(current); });
+
+  declaration.addEventListener('change', function(){ submitBtn.disabled = !this.checked; });
+
+  // Show first step
+  show(current);
+
+  // Optional: scroll into view for each step
+  steps.forEach(s => s.addEventListener('transitionend', ()=> s.scrollIntoView({behavior:'smooth'})));
+})();
+</script>
+</body>
+</html>

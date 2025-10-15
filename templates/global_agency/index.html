@@ -1,0 +1,17 @@
+{% extends 'global_agency/base.html' %}
+{% block title %}Home{% endblock %}
+{% block content %}
+{% include 'global_agency/includes/hero.html' %}<div class="text-center my-12">
+  <a href="{% url 'global_agency:start_application' %}" 
+     class="inline-flex items-center px-8 py-3 bg-yellow-400 hover:bg-yellow-500 text-blue-900 font-semibold rounded-full shadow-lg transition-all duration-300 transform hover:scale-105">
+    🎓 Start Application Now
+  </a>
+</div>
+
+{% include 'global_agency/includes/about.html' %}
+{% include 'global_agency/includes/services.html' %}
+{% include 'global_agency/includes/success.html' %}
+{% include 'global_agency/includes/destinations.html' %}
+{% include 'global_agency/includes/contact.html' %}
+{% endblock %}
+
