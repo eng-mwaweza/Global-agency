@@ -1,14 +1,16 @@
 from django.db import models
+
 class ContactMessage(models.Model):
-    name=models.CharField(max_length=120)
-    email=models.EmailField()
-    phone=models.CharField(max_length=50,blank=True)
-    message=models.TextField()
-    created_at=models.DateTimeField(auto_now_add=True)
-    handled=models.BooleanField(default=False)
+    name = models.CharField(max_length=120)
+    email = models.EmailField()
+    phone = models.CharField(max_length=50, blank=True)
+    destination = models.CharField(max_length=100, blank=True, null=True)
+    message = models.TextField(blank=True,  null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    handled = models.BooleanField(default=False)
+
     def __str__(self):
         return f"{self.name} - {self.email}"
-    from django.db import models
 
 class StudentApplication(models.Model):
     # Step 1: Personal Information

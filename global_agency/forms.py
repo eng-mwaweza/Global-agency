@@ -1,9 +1,14 @@
 from django import forms
-from .models import ContactMessage
 class ContactForm(forms.ModelForm):
+    from django import forms
+from .models import ContactMessage
+
+class ContactMessageForm(forms.ModelForm):
     class Meta:
-        model=ContactMessage
-        fields=['name','email','phone','message']
+        model = ContactMessage
+        fields = ['name', 'email', 'phone', 'destination', 'message']
+
+
 
 from .models import StudentApplication
 
