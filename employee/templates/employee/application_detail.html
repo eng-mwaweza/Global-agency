@@ -1,0 +1,87 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ application.full_name }} - Application Details</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 font-sans p-8">
+
+    <h1 class="text-3xl font-bold text-blue-900 mb-6">{{ application.full_name }}</h1>
+
+    <!-- Personal Information -->
+    <section class="bg-white p-6 rounded-lg shadow-md mb-6">
+        <h2 class="text-xl font-semibold mb-2">Personal Information</h2>
+        <p><strong>Gender:</strong> {{ application.gender }}</p>
+        <p><strong>Nationality:</strong> {{ application.nationality }}</p>
+        <p><strong>Email:</strong> {{ application.email }}</p>
+        <p><strong>Phone:</strong> {{ application.phone }}</p>
+        <p><strong>Address:</strong> {{ application.address }}</p>
+    </section>
+
+    <!-- Parents Details -->
+    <section class="bg-white p-6 rounded-lg shadow-md mb-6">
+        <h2 class="text-xl font-semibold mb-2">Parents Details</h2>
+        <p><strong>Father Name:</strong> {{ application.father_name }}</p>
+        <p><strong>Father Phone:</strong> {{ application.father_phone }}</p>
+        <p><strong>Father Email:</strong> {{ application.father_email }}</p>
+        <p><strong>Father Occupation:</strong> {{ application.father_occupation }}</p>
+
+        <p><strong>Mother Name:</strong> {{ application.mother_name }}</p>
+        <p><strong>Mother Phone:</strong> {{ application.mother_phone }}</p>
+        <p><strong>Mother Email:</strong> {{ application.mother_email }}</p>
+        <p><strong>Mother Occupation:</strong> {{ application.mother_occupation }}</p>
+    </section>
+
+    <!-- Education Background -->
+    <section class="bg-white p-6 rounded-lg shadow-md mb-6">
+        <h2 class="text-xl font-semibold mb-2">Education Background</h2>
+        <h3 class="font-semibold mt-2">O-Level</h3>
+        <p><strong>School:</strong> {{ application.olevel_school }}</p>
+        <p><strong>Country:</strong> {{ application.olevel_country }}</p>
+        <p><strong>Address:</strong> {{ application.olevel_address }}</p>
+        <p><strong>Region:</strong> {{ application.olevel_region }}</p>
+        <p><strong>Year:</strong> {{ application.olevel_year }}</p>
+        <p><strong>Candidate No:</strong> {{ application.olevel_candidate_no }}</p>
+        <p><strong>GPA:</strong> {{ application.olevel_gpa }}</p>
+
+        <h3 class="font-semibold mt-2">A-Level</h3>
+        <p><strong>School:</strong> {{ application.alevel_school }}</p>
+        <p><strong>Country:</strong> {{ application.alevel_country }}</p>
+        <p><strong>Address:</strong> {{ application.alevel_address }}</p>
+        <p><strong>Region:</strong> {{ application.alevel_region }}</p>
+        <p><strong>Year:</strong> {{ application.alevel_year }}</p>
+        <p><strong>Candidate No:</strong> {{ application.alevel_candidate_no }}</p>
+        <p><strong>GPA:</strong> {{ application.alevel_gpa }}</p>
+    </section>
+
+    <!-- Study Preferences -->
+    <section class="bg-white p-6 rounded-lg shadow-md mb-6">
+        <h2 class="text-xl font-semibold mb-2">Study Preferences</h2>
+        <p><strong>Preferred Country 1:</strong> {{ application.preferred_country_1 }}</p>
+        <p><strong>Preferred Country 2:</strong> {{ application.preferred_country_2 }}</p>
+        <p><strong>Preferred Country 3:</strong> {{ application.preferred_country_3 }}</p>
+        <p><strong>Preferred Country 4:</strong> {{ application.preferred_country_4 }}</p>
+        <p><strong>Preferred Program 1:</strong> {{ application.preferred_program_1 }}</p>
+        <p><strong>Preferred Program 2:</strong> {{ application.preferred_program_2 }}</p>
+        <p><strong>Preferred Program 3:</strong> {{ application.preferred_program_3 }}</p>
+        <p><strong>Preferred Program 4:</strong> {{ application.preferred_program_4 }}</p>
+    </section>
+
+    <!-- Emergency Contact -->
+    <section class="bg-white p-6 rounded-lg shadow-md mb-6">
+        <h2 class="text-xl font-semibold mb-2">Emergency Contact</h2>
+        <p><strong>Name:</strong> {{ application.emergency_name }}</p>
+        <p><strong>Address:</strong> {{ application.emergency_address }}</p>
+        <p><strong>Occupation:</strong> {{ application.emergency_occupation }}</p>
+        <p><strong>Gender:</strong> {{ application.emergency_gender }}</p>
+        <p><strong>Relation:</strong> {{ application.emergency_relation }}</p>
+        <p><strong>Heard About Us:</strong> {{ application.heard_about_us }} {{ application.heard_about_other }}</p>
+    </section>
+
+    <a href="{% url 'employee:employee_dashboard' %}" class="text-blue-600 hover:underline">← Back to Dashboard</a>
+
+</body>
+</html>

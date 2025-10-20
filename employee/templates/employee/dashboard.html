@@ -9,18 +9,17 @@
   <link href="https://unpkg.com/lucide-icons/dist/umd/lucide.min.js" rel="stylesheet">
   <style>
     body {
-      background-color: #f3f4f6;
       font-family: 'Inter', sans-serif;
     }
   </style>
 </head>
 
-<body class="min-h-screen flex bg-gray-100 text-gray-800">
+<body class="flex min-h-screen bg-gray-100 text-gray-800">
 
   <!-- Sidebar -->
-  <aside class="w-64 bg-blue-900 text-white flex flex-col">
+  <aside class="bg-blue-900 text-white w-64 flex flex-col md:fixed md:h-screen md:overflow-y-auto transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out">
     <div class="p-6 flex items-center justify-center border-b border-blue-800">
-      <img src="{% static 'global_agency/img/logo.png' %}" alt="Logo" class="w-16 h-16 rounded-full bg-white p-1 shadow-md">
+      <img src="{% static 'global_agency/img/logo.png' %}" alt="Logo" class="w-20 h-20 rounded-full bg-white p-1 shadow-md">
     </div>
 
     <nav class="flex-1 px-4 py-6 space-y-2">
@@ -51,90 +50,101 @@
   </aside>
 
   <!-- Main Content -->
-  <main class="flex-1">
+  <main class="flex-1 md:ml-64">
     <!-- Top bar -->
-    <header class="bg-white shadow-md px-6 py-4 flex justify-between items-center">
+    <header class="bg-white shadow-md px-4 py-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
       <h1 class="text-2xl font-semibold text-blue-900">Dashboard</h1>
-      <div class="flex items-center gap-4">
-        <input type="text" placeholder="Search..." class="border border-gray-300 rounded-full px-4 py-2 focus:ring-2 focus:ring-yellow-400 outline-none">
+      <div class="flex items-center gap-4 w-full sm:w-auto">
+        <input type="text" placeholder="Search..." class="flex-1 sm:flex-none border border-gray-300 rounded-full px-4 py-2 focus:ring-2 focus:ring-yellow-400 outline-none text-sm">
         <img src="{% static 'global_agency/img/logo.png.png' %}" alt="User" class="w-10 h-10 rounded-full bg-gray-200 border border-gray-300">
       </div>
     </header>
 
-    <!-- Dashboard Body -->
-    <section class="p-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-      <!-- Card 1 -->
+    <!-- Dashboard Cards -->
+    <section class="p-4 md:p-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       <div class="bg-white rounded-2xl p-6 shadow hover:shadow-lg transition">
         <h3 class="text-lg font-semibold text-gray-700 mb-2">Total Applications</h3>
         <p class="text-4xl font-bold text-blue-900">{{ applications_count|default:0 }}</p>
       </div>
-
-      <!-- Card 2 -->
       <div class="bg-white rounded-2xl p-6 shadow hover:shadow-lg transition">
         <h3 class="text-lg font-semibold text-gray-700 mb-2">New Messages</h3>
         <p class="text-4xl font-bold text-blue-900">{{ messages_count|default:0 }}</p>
       </div>
-
-      <!-- Card 3 -->
       <div class="bg-white rounded-2xl p-6 shadow hover:shadow-lg transition">
         <h3 class="text-lg font-semibold text-gray-700 mb-2">Pending Reviews</h3>
         <p class="text-4xl font-bold text-blue-900">{{ pending_reviews|default:0 }}</p>
       </div>
     </section>
 
-    <!-- Messages Table -->
-     <table class="w-full text-left border-collapse">
-  <thead>
-    <tr class="border-b border-gray-200 text-gray-600">
-      <th class="py-3 px-4">Name</th>
-      <th class="py-3 px-4">Email</th>
-      <th class="py-3 px-4">Destination</th>
-      <th class="py-3 px-4">Date</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for message in contact_messages %}
-    <tr class="hover:bg-gray-50 border-b border-gray-100">
-      <td class="py-3 px-4">{{ message.name }}</td>
-      <td class="py-3 px-4">{{ message.email }}</td>
-      <td class="py-3 px-4">{{ message.destination }}</td>
-      <td class="py-3 px-4">{{ message.created_at|date:"M d, Y" }}</td>
-    </tr>
-    {% empty %}
-    <tr>
-      <td colspan="4" class="py-4 text-center text-gray-400">No messages yet</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+   <!-- Consultant Messages Table -->
+   <section class="px-4 md:px-8 pb-12 overflow-x-auto">
+     <div class="bg-white rounded-2xl shadow-lg p-6 min-w-full">
+       <h2 class="text-xl font-semibold text-blue-900 mb-4">Consultation Messages</h2>
+       <table class="w-full text-left border-collapse table-auto">
+         <thead class="bg-gray-50">
+           <tr class="border-b border-gray-200 text-gray-600">
+             <th class="py-3 px-2 sm:px-4">Name</th>
+             <th class="py-3 px-2 sm:px-4">Email</th>
+             <th class="py-3 px-2 sm:px-4">Phone</th>
+             <th class="py-3 px-2 sm:px-4">Destination</th>
+             <th class="py-3 px-2 sm:px-4">Message</th>
+             <th class="py-3 px-2 sm:px-4">Date</th>
+           </tr>
+         </thead>
+         <tbody>
+           {% for message in contact_messages %}
+           <tr class="hover:bg-gray-50 border-b border-gray-100">
+             <td class="py-2 px-2 sm:px-4">{{ message.name }}</td>
+             <td class="py-2 px-2 sm:px-4">{{ message.email }}</td>
+             <td class="py-2 px-2 sm:px-4">{{ message.phone }}</td>
+             <td class="py-2 px-2 sm:px-4">{{ message.destination }}</td>
+             <td class="py-2 px-2 sm:px-4">{{ message.message }}</td>
+             <td class="py-2 px-2 sm:px-4">{{ message.created_at|date:"M d, Y" }}</td>
+           </tr>
+           {% empty %}
+           <tr>
+             <td colspan="6" class="py-4 text-center text-gray-400">No messages yet</td>
+           </tr>
+           {% endfor %}
+         </tbody>
+       </table>
+     </div>
+   </section>
 
-    <section class="px-8 pb-12">
-      <div class="bg-white rounded-2xl shadow-lg p-6 overflow-x-auto">
-        <h2 class="text-xl font-semibold text-blue-900 mb-4">Recent Applications</h2>
-        <table class="w-full text-left border-collapse">
-          <thead>
-            <tr class="border-b border-gray-200 text-gray-600">
-              <th class="py-3 px-4">Name</th>
-              <th class="py-3 px-4">Email</th>
-              <th class="py-3 px-4">Phone</th>
-              <th class="py-3 px-4">Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for application in applications %}
-            <tr class="hover:bg-gray-50 border-b border-gray-100">
-              <td class="py-3 px-4">{{ application.full_name }}</td>
-              <td class="py-3 px-4">{{ application.email }}</td>
-              <td class="py-3 px-4">{{ application.phone }}</td>
-              <td class="py-3 px-4">{{ application.created_at|date:"M d, Y" }}</td>
-            </tr>
-            {% empty %}
-            <tr><td colspan="4" class="py-4 text-center text-gray-400">No applications yet</td></tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-    </section>
+   <!-- Recent Applications Table -->
+   <section class="px-4 md:px-8 pb-12 overflow-x-auto">
+     <div class="bg-white rounded-2xl shadow-lg p-6 min-w-full">
+       <h2 class="text-xl font-semibold text-blue-900 mb-4">Recent Applications</h2>
+       <table class="w-full text-left border-collapse table-auto">
+         <thead class="bg-gray-50">
+           <tr class="border-b border-gray-200 text-gray-600">
+             <th class="py-3 px-2 sm:px-4">Name</th>
+             <th class="py-3 px-2 sm:px-4">Email</th>
+             <th class="py-3 px-2 sm:px-4">Phone</th>
+             <th class="py-3 px-2 sm:px-4">Date</th>
+           </tr>
+         </thead>
+         <tbody>
+           {% for application in applications %}
+           <tr class="hover:bg-gray-50 border-b border-gray-100">
+             <td class="py-2 px-2 sm:px-4">
+               <a href="{% url 'employee:application_detail' application.id %}" class="text-blue-600 hover:underline">
+                 {{ application.full_name }}
+               </a>
+             </td>
+             <td class="py-2 px-2 sm:px-4">{{ application.email }}</td>
+             <td class="py-2 px-2 sm:px-4">{{ application.phone }}</td>
+             <td class="py-2 px-2 sm:px-4">{{ application.created_at|date:"M d, Y" }}</td>
+           </tr>
+           {% empty %}
+           <tr>
+             <td colspan="4" class="py-4 text-center text-gray-400">No applications yet</td>
+           </tr>
+           {% endfor %}
+         </tbody>
+       </table>
+     </div>
+   </section>
   </main>
 
   <script>

@@ -2,16 +2,36 @@
 {% block title %}Home{% endblock %}
 {% block content %}
 {% include 'global_agency/includes/hero.html' %}<div class="text-center my-12">
-  <a href="{% url 'global_agency:start_application' %}" 
-     class="inline-flex items-center px-8 py-3 bg-yellow-400 hover:bg-yellow-500 text-blue-900 font-semibold rounded-full shadow-lg transition-all duration-300 transform hover:scale-105">
-    🎓 Start Application Now
-  </a>
-</div>
+ <!-- Floating Start Application Button -->
+<a href="{% url 'global_agency:start_application' %}" 
+   id="startApplicationBtn"
+   class="fixed bottom-6 right-6 sm:bottom-6 sm:right-6 bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-full shadow-lg z-50 transition-transform transform hover:scale-105">
+   Start Application Now
+</a>
+<script>
+  // Get the button
+  const btn = document.getElementById('startApplicationBtn');
 
+  let lastScrollTop = 0;
+
+  window.addEventListener('scroll', function() {
+    const st = window.pageYOffset || document.documentElement.scrollTop;
+
+    if (st > lastScrollTop) {
+      // Scrolling down → hide button slightly
+      btn.style.transform = 'translateY(100px)';
+    } else {
+      // Scrolling up → show button
+      btn.style.transform = 'translateY(0)';
+    }
+    lastScrollTop = st <= 0 ? 0 : st; // For Mobile or negative scrolling
+  });
+</script>
 {% include 'global_agency/includes/about.html' %}
 {% include 'global_agency/includes/services.html' %}
 {% include 'global_agency/includes/success.html' %}
 {% include 'global_agency/includes/destinations.html' %}
 {% include 'global_agency/includes/contact.html' %}
 {% endblock %}
+
 
