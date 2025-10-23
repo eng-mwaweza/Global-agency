@@ -14,11 +14,13 @@
 
       <!-- Desktop Menu -->
       <div class="hidden md:flex items-center space-x-6">
-        <a href="#home" class="hover:text-primary-blue transition duration-150 font-semibold text-base md:text-lg">Home</a>
-        <a href="#about" class="hover:text-primary-blue transition duration-150 font-semibold text-base md:text-lg">About Us</a>
-        <a href="#services" class="hover:text-primary-blue transition duration-150 font-semibold text-base md:text-lg">Services</a>
-        <a href="#destinations" class="hover:text-primary-blue transition duration-150 font-semibold text-base md:text-lg">Destinations</a>
-        <a href="#success" class="hover:text-primary-blue transition duration-150 font-semibold text-base md:text-lg">Success Stories</a>
+        <ul class="flex items-center space-x-6">
+          <li><a href="#home" class="hover:text-primary-blue transition duration-150 font-semibold text-base md:text-lg">Home</a></li>
+          <li><a href="#about" class="hover:text-primary-blue transition duration-150 font-semibold text-base md:text-lg">About Us</a></li>
+          <li><a href="#services" class="hover:text-primary-blue transition duration-150 font-semibold text-base md:text-lg">Services</a></li>
+          <li><a href="{% url 'global_agency:vyuo_ndani' %}" class="hover:text-primary-blue transition duration-150 font-semibold text-base md:text-lg">Vyuo Vya Ndani</a></li>
+          <li><a href="#success" class="hover:text-primary-blue transition duration-150 font-semibold text-base md:text-lg">Success Stories</a></li>
+        </ul>
 
         <a href="{% url 'global_agency:contact' %}"
            class="bg-primary-blue text-white px-3 py-2 rounded-full text-sm md:text-base font-semibold shadow-lg hover:bg-blue-800 transition duration-300 transform hover:scale-[1.02]">
@@ -48,11 +50,14 @@
 
     <!-- Mobile Menu -->
     <div id="mobile-menu" class="hidden md:hidden mt-2 space-y-2">
-      <a href="#home" class="block px-4 py-2 text-gray-700 font-medium hover:bg-gray-100 rounded">Home</a>
-      <a href="#about" class="block px-4 py-2 text-gray-700 font-medium hover:bg-gray-100 rounded">About Us</a>
-      <a href="#services" class="block px-4 py-2 text-gray-700 font-medium hover:bg-gray-100 rounded">Services</a>
-      <a href="#destinations" class="block px-4 py-2 text-gray-700 font-medium hover:bg-gray-100 rounded">Destinations</a>
-      <a href="#success" class="block px-4 py-2 text-gray-700 font-medium hover:bg-gray-100 rounded">Success Stories</a>
+      <ul class="space-y-2">
+        <li><a href="#home" class="block px-4 py-2 text-gray-700 font-medium hover:bg-gray-100 rounded">Home</a></li>
+        <li><a href="#about" class="block px-4 py-2 text-gray-700 font-medium hover:bg-gray-100 rounded">About Us</a></li>
+        <li><a href="#services" class="block px-4 py-2 text-gray-700 font-medium hover:bg-gray-100 rounded">Services</a></li>
+        <li><a href="{% url 'global_agency:vyuo_ndani' %}" class="block px-4 py-2 text-gray-700 font-medium hover:bg-gray-100 rounded">Vyuo Vya Ndani</a></li>
+        <li><a href="#success" class="block px-4 py-2 text-gray-700 font-medium hover:bg-gray-100 rounded">Success Stories</a></li>
+      </ul>
+      
       <a href="{% url 'global_agency:contact' %}" class="block px-4 py-2 text-white bg-primary-blue rounded font-medium hover:bg-blue-800">Book Free Consult</a>
 
       <!-- Mobile Language Selector (hidden) -->

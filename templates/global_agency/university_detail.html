@@ -1,0 +1,197 @@
+{% extends 'global_agency/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-3 sm:px-4 py-6 sm:py-10">
+    <!-- Back Button -->
+    <div class="mb-6">
+        <a href="{% url 'global_agency:vyuo_ndani' %}" class="inline-flex items-center text-blue-600 hover:text-blue-800 transition">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+            </svg>
+            Back to All Universities
+        </a>
+    </div>
+
+    <!-- University Header -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 sm:p-8 mb-8">
+        <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between">
+            <div class="flex-1">
+                <h1 class="text-2xl sm:text-3xl font-bold text-blue-900 mb-4">{{ university.name }}</h1>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+                    <div class="flex items-center text-gray-600">
+                        <span class="mr-3 text-lg">📍</span>
+                        <div>
+                            <span class="font-medium block text-sm text-gray-500">Location</span>
+                            <span class="text-gray-800">{{ university.location }}</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center text-gray-600">
+                        <span class="mr-3 text-lg">🏛</span>
+                        <div>
+                            <span class="font-medium block text-sm text-gray-500">Institution Type</span>
+                            <span class="text-gray-800">{{ university.type }}</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center text-gray-600">
+                        <span class="mr-3 text-lg">🏢</span>
+                        <div>
+                            <span class="font-medium block text-sm text-gray-500">Ownership</span>
+                            <span class="text-gray-800">{{ university.ownership }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="lg:pl-8 mt-6 lg:mt-0">
+                <div class="bg-blue-50 rounded-lg p-4 border border-blue-200">
+                    <h3 class="font-semibold text-blue-800 mb-2 text-sm uppercase tracking-wide">Quick Stats</h3>
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-blue-600">{{ university.programs|length }}</div>
+                        <div class="text-sm text-blue-700 mt-1">Programs Available</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Programs Section -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 sm:p-8 mb-8">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
+            <h2 class="text-xl sm:text-2xl font-bold text-blue-900">
+                Available Programs ({{ university.programs|length }})
+            </h2>
+            <div class="mt-2 sm:mt-0">
+                <span class="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+                    Total Capacity: {{ university.programs|length }} programs
+                </span>
+            </div>
+        </div>
+
+        <div class="space-y-6">
+            {% for program in university.programs %}
+            <div class="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-all duration-300 program-card">
+                <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-4">
+                    <div class="flex-1">
+                        <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between">
+                            <div class="flex-1">
+                                <h3 class="text-lg sm:text-xl font-semibold text-blue-800 mb-2">
+                                    {{ program.name }}
+                                </h3>
+                                <p class="text-gray-600 text-sm mb-2">
+                                    <span class="font-medium">Program Code:</span> 
+                                    <span class="bg-gray-100 px-2 py-1 rounded text-gray-800 font-mono">{{ program.code }}</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="lg:pl-6 mt-4 lg:mt-0 min-w-[200px]">
+                        <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                            <div class="grid grid-cols-2 gap-3 text-sm">
+                                <div class="text-center">
+                                    <div class="text-gray-500 text-xs font-medium mb-1">Duration</div>
+                                    <div class="text-gray-800 font-semibold">{{ program.duration }} yrs</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-gray-500 text-xs font-medium mb-1">Capacity</div>
+                                    <div class="text-gray-800 font-semibold">{{ program.capacity }}</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-gray-500 text-xs font-medium mb-1">Min Points</div>
+                                    <div class="text-gray-800 font-semibold">{{ program.minimum_points }}</div>
+                                </div>
+                                <div class="text-center">
+                                    <a href="{% url 'global_agency:start_application' %}?university={{ university.name|urlencode }}&program={{ program.name|urlencode }}"
+                                       class="inline-block bg-yellow-500 text-white px-3 py-2 rounded-lg hover:bg-yellow-600 transition font-medium text-xs whitespace-nowrap">
+                                        Apply Now
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Admission Requirements -->
+                <div class="mt-4 pt-4 border-t border-gray-100">
+                    <h4 class="font-semibold text-gray-800 mb-3 flex items-center">
+                        <svg class="w-5 h-5 mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        Admission Requirements
+                    </h4>
+                    <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                        <p class="text-gray-700 leading-relaxed text-sm">{{ program.admission_requirements }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- General Admission Information -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 sm:p-8">
+        <h2 class="text-xl sm:text-2xl font-bold text-blue-900 mb-6 border-b border-gray-200 pb-4">
+            General Admission Information
+        </h2>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Minimum Entry Requirements -->
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                    <svg class="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                    </svg>
+                    Minimum Entry Requirements
+                </h3>
+                <div class="space-y-4">
+                    {% for requirement in admission_guidebook.minimum_entry_requirements.general_programs %}
+                    <div class="border-l-4 border-blue-500 pl-4 py-2 bg-blue-50 rounded-r-lg">
+                        <h4 class="font-medium text-gray-700 text-sm">{{ requirement.category }}</h4>
+                        <p class="text-sm text-gray-600 mt-1">{{ requirement.requirement }}</p>
+                    </div>
+                    {% empty %}
+                    <div class="text-gray-500 text-sm italic">
+                        No general admission requirements available.
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Important Dates -->
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                    <svg class="w-5 h-5 mr-2 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                    </svg>
+                    Important Dates ({{ admission_guidebook.academic_year }})
+                </h3>
+                <div class="space-y-3">
+                    {% for key, value in admission_guidebook.general_information.important_dates.items %}
+                    <div class="flex justify-between items-center border-b border-gray-100 pb-2">
+                        <span class="text-sm text-gray-600 capitalize">{{ key|title }}:</span>
+                        <span class="text-sm font-medium text-gray-800 bg-purple-100 px-2 py-1 rounded">{{ value }}</span>
+                    </div>
+                    {% empty %}
+                    <div class="text-gray-500 text-sm italic">
+                        No important dates available.
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.program-card {
+    transition: all 0.3s ease;
+}
+
+.program-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+</style>
+{% endblock %}

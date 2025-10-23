@@ -12,7 +12,11 @@ DATABASES={'default':{'ENGINE':'django.db.backends.sqlite3','NAME':BASE_DIR/'db.
 LANGUAGE_CODE='en-us'
 TIME_ZONE='Africa/Dar_es_Salaam'
 STATIC_URL='/static/'
-STATICFILES_DIRS=[BASE_DIR/'static']
+# STATICFILES_DIRS=[BASE_DIR/'static']
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+    # other static directories
+]
 MEDIA_URL='/media/'
 MEDIA_ROOT=BASE_DIR/'media'
 DEFAULT_AUTO_FIELD='django.db.models.BigAutoField'

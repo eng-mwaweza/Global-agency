@@ -8,5 +8,7 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('contact/', views.contact, name='contact'),
     path('start-application/', views.start_application, name='start_application'),
+    path('vyuo-vya-ndani/', views.vyuo_ndani, name='vyuo_ndani'),
+    path('university/<str:university_name>/', views.university_detail, name='university_detail'),
 ]
 

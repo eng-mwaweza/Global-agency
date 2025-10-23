@@ -62,6 +62,17 @@
   {% block content %}{% endblock %}
 
   {% include 'global_agency/includes/footer.html' %}
+<nav class="bg-white shadow-md sticky top-0 z-50">
+  <div class="container mx-auto flex justify-between items-center p-4">
+    <a href="{% url 'global_agency:home' %}" class="text-xl font-bold text-blue-900">Global Agency</a>
+    <ul class="flex space-x-6">
+      <li><a href="{% url 'global_agency:home' %}" class="hover:text-blue-700">Home</a></li>
+      <li><a href="{% url 'global_agency:vyuo_ndani' %}" class="hover:text-blue-700">Vyuo Vya Ndani</a></li>
+      <li><a href="{% url 'global_agency:contact' %}" class="hover:text-blue-700">Contact</a></li>
+      <li><a href="{% url 'global_agency:start_application' %}" class="hover:text-blue-700">Start Application</a></li>
+    </ul>
+  </div>
+</nav>
 
 </body>
 </html>

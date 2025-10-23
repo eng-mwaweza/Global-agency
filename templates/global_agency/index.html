@@ -33,5 +33,101 @@
 {% include 'global_agency/includes/destinations.html' %}
 {% include 'global_agency/includes/contact.html' %}
 {% endblock %}
+{% load static %}
+<!-- ===================================== -->
+<!-- Vyuo vya Ndani (Tanzania Universities) -->
+<!-- ===================================== -->
+<section id="tanzania-universities" class="py-16 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl font-bold text-primary-blue mb-2">Vyuo vya Ndani (Tanzania Universities)</h2>
+      <p class="text-gray-600 text-lg">Explore universities across Tanzania by name, region, or course.</p>
+    </div>
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  const listContainer = document.getElementById("university-list");
+  const nameInput = document.getElementById("search-name");
+  const courseInput = document.getElementById("search-course");
+  const regionSelect = document.getElementById("search-region");
+
+  let universities = [];
+
+  // Load universities from JSON file
+  try {
+    const response = await fetch("{% static 'global_agency/data/universities.json' %}");
+    universities = await response.json();
+    displayUniversities(universities);
+  } catch (error) {
+    listContainer.innerHTML = "<p class='text-red-600'>Failed to load universities.</p>";
+  }
+
+  // Function to display universities
+  function displayUniversities(data) {
+    listContainer.innerHTML = "";
+    if (data.length === 0) {
+      listContainer.innerHTML = "<p class='text-center text-gray-500 col-span-3'>No universities found.</p>";
+      return;
+    }
+
+    data.forEach(u => {
+      const card = document.createElement("div");
+      card.className = "bg-white p-6 rounded-xl shadow hover:shadow-lg transition transform hover:scale-[1.02]";
+      card.innerHTML = `
+        <h3 class="text-lg font-semibold text-blue-900">${u.name}</h3>
+        <p class="text-gray-600 text-sm mb-1">📍 Region: ${u.region}</p>
+        <p class="text-gray-600 text-sm">🎓 Courses: ${u.courses.join(", ")}</p>
+      `;
+      listContainer.appendChild(card);
+    });
+  }
+
+  // Filter universities
+  function filterUniversities() {
+    const name = nameInput.value.toLowerCase();
+    const course = courseInput.value.toLowerCase();
+    const region = regionSelect.value.toLowerCase();
+
+    const filtered = universities.filter(u =>
+      u.name.toLowerCase().includes(name) &&
+      u.region.toLowerCase().includes(region) &&
+      u.courses.join(" ").toLowerCase().includes(course)
+    );
+
+    displayUniversities(filtered);
+  }
+
+  nameInput.addEventListener("input", filterUniversities);
+  courseInput.addEventListener("input", filterUniversities);
+  regionSelect.addEventListener("change", filterUniversities);
+});
+</script>
+
+    <!-- Search Filters -->
+    <div class="flex flex-col md:flex-row items-center justify-center gap-4 mb-8">
+      <input id="search-name" type="text" placeholder="Search by University Name"
+        class="w-full md:w-1/3 px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-primary-blue outline-none">
+
+      <select id="search-region"
+        class="w-full md:w-1/4 px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-primary-blue outline-none">
+        <option value="">Select Region</option>
+        <option value="Dar es Salaam">Dar es Salaam</option>
+        <option value="Dodoma">Dodoma</option>
+        <option value="Arusha">Arusha</option>
+        <option value="Mwanza">Mwanza</option>
+        <option value="Morogoro">Morogoro</option>
+        <option value="Mbeya">Mbeya</option>
+        <option value="Tanga">Tanga</option>
+      </select>
+
+      <input id="search-course" type="text" placeholder="Search by Course"
+        class="w-full md:w-1/3 px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-primary-blue outline-none">
+    </div>
+
+    <!-- University List -->
+    <div id="university-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Universities will be loaded here dynamically -->
+    </div>
+  </div>
+</section>
 
 
