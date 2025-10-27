@@ -18,7 +18,46 @@
           <li><a href="#home" class="hover:text-primary-blue transition duration-150 font-semibold text-base md:text-lg">Home</a></li>
           <li><a href="#about" class="hover:text-primary-blue transition duration-150 font-semibold text-base md:text-lg">About Us</a></li>
           <li><a href="#services" class="hover:text-primary-blue transition duration-150 font-semibold text-base md:text-lg">Services</a></li>
-          <li><a href="{% url 'global_agency:vyuo_ndani' %}" class="hover:text-primary-blue transition duration-150 font-semibold text-base md:text-lg">Vyuo Vya Ndani</a></li>
+          
+          <!-- Universities Dropdown -->
+          <li class="relative group">
+            <button class="hover:text-primary-blue transition duration-150 font-semibold text-base md:text-lg flex items-center">
+              Universities
+              <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </button>
+            
+            <!-- Dropdown Menu -->
+            <div class="absolute left-0 mt-2 w-64 bg-white rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 border border-gray-200 z-50">
+              <div class="py-2">
+                <!-- Vyuo Vya Ndani Section -->
+                <div class="px-4 py-2 border-b border-gray-100">
+                  <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wide">Vyuo Vya Ndani</h3>
+                </div>
+                <a href="{% url 'global_agency:vyuo_ndani' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-primary-blue transition duration-150">
+                  All Local Universities
+                </a>
+                <!-- Abroad Universities Section -->
+                <div class="px-4 py-2 border-b border-t border-gray-100 mt-2">
+                  <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wide">Abroad Universities</h3>
+                </div>
+                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-primary-blue transition duration-150">
+                  Harvard University
+                </a>
+                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-primary-blue transition duration-150">
+                  Stanford University
+                </a>
+                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-primary-blue transition duration-150">
+                  University of Oxford
+                </a>
+                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-primary-blue transition duration-150">
+                  MIT
+                </a>
+              </div>
+            </div>
+          </li>
+
           <li><a href="#success" class="hover:text-primary-blue transition duration-150 font-semibold text-base md:text-lg">Success Stories</a></li>
         </ul>
 
@@ -54,7 +93,45 @@
         <li><a href="#home" class="block px-4 py-2 text-gray-700 font-medium hover:bg-gray-100 rounded">Home</a></li>
         <li><a href="#about" class="block px-4 py-2 text-gray-700 font-medium hover:bg-gray-100 rounded">About Us</a></li>
         <li><a href="#services" class="block px-4 py-2 text-gray-700 font-medium hover:bg-gray-100 rounded">Services</a></li>
-        <li><a href="{% url 'global_agency:vyuo_ndani' %}" class="block px-4 py-2 text-gray-700 font-medium hover:bg-gray-100 rounded">Vyuo Vya Ndani</a></li>
+        
+        <!-- Mobile Universities Dropdown -->
+        <li class="px-4">
+          <details class="group">
+            <summary class="flex justify-between items-center py-2 text-gray-700 font-medium cursor-pointer list-none">
+              <span>Universities</span>
+              <svg class="w-4 h-4 transform group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </summary>
+            
+            <div class="mt-2 space-y-1 border-l-2 border-primary-blue ml-2 pl-4">
+              <!-- Vyuo Vya Ndani Mobile -->
+              <div class="pt-2">
+                <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wide">Vyuo Vya Ndani</h3>
+              </div>
+              <a href="{% url 'global_agency:vyuo_ndani' %}" class="block py-2 text-sm text-gray-700 hover:text-primary-blue transition duration-150">
+                All Local Universities
+              </a>
+              <!-- Abroad Universities Mobile -->
+              <div class="pt-4 border-t border-gray-200">
+                <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wide">Abroad Universities</h3>
+              </div>
+              <a href="#" class="block py-2 text-sm text-gray-700 hover:text-primary-blue transition duration-150">
+                Harvard University
+              </a>
+              <a href="#" class="block py-2 text-sm text-gray-700 hover:text-primary-blue transition duration-150">
+                Stanford University
+              </a>
+              <a href="#" class="block py-2 text-sm text-gray-700 hover:text-primary-blue transition duration-150">
+                University of Oxford
+              </a>
+              <a href="#" class="block py-2 text-sm text-gray-700 hover:text-primary-blue transition duration-150">
+                MIT
+              </a>
+            </div>
+          </details>
+        </li>
+
         <li><a href="#success" class="block px-4 py-2 text-gray-700 font-medium hover:bg-gray-100 rounded">Success Stories</a></li>
       </ul>
       
