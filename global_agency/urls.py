@@ -14,6 +14,6 @@ urlpatterns = [
       path('universities/country/<str:country>/', views.country_universities, name='country_universities'),
     path('universities/abroad/<str:university_slug>/', views.abroad_university_detail, name='abroad_university_detail'),
     path('universities/countries/', views.all_countries, name='all_countries'),
-    
+    path('tcu-services/', views.tcu_services, name='tcu_services'),
      ]
 

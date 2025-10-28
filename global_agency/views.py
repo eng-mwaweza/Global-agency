@@ -950,3 +950,350 @@ def all_countries(request):
     
     context = {'countries': countries}
     return render(request, 'global_agency/all_countries.html', context)
+def tcu_services(request):
+    """
+    Render comprehensive TCU services page with detailed explanations
+    """
+    tcu_services_data = {
+        'overview': {
+            'title': 'Tanzania Commission for Universities (TCU)',
+            'description': 'TCU is the regulatory body for higher education in Tanzania, responsible for ensuring quality assurance, accreditation, and standardization of university education.',
+            'mission': 'To promote and coordinate the provision of quality university education and ensure equitable access to all.',
+            'vision': 'To be a center of excellence in regulating and promoting quality university education.'
+        },
+        'services': [
+            {
+                'category': 'University Accreditation & Quality Assurance',
+                'icon': '🏛️',
+                'color': 'blue',
+                'services': [
+                    {
+                        'title': 'Institutional Accreditation',
+                        'description': 'Comprehensive evaluation and approval of universities and higher education institutions to ensure they meet established quality standards.',
+                        'process': [
+                            'Application submission and documentation review',
+                            'Physical inspection and infrastructure assessment',
+                            'Academic staff qualifications verification',
+                            'Quality assurance systems evaluation',
+                            'Final accreditation decision'
+                        ],
+                        'requirements': [
+                            'Minimum infrastructure standards',
+                            'Qualified academic staff',
+                            'Adequate learning resources',
+                            'Quality management systems',
+                            'Financial sustainability'
+                        ],
+                        'duration': '3-6 months',
+                        'fee': 'Varies by institution size'
+                    },
+                    {
+                        'title': 'Program Accreditation',
+                        'description': 'Evaluation and approval of specific academic programs offered by universities to ensure they meet national and international standards.',
+                        'process': [
+                            'Program curriculum review',
+                            'Faculty qualifications assessment',
+                            'Learning facilities inspection',
+                            'Graduate employability analysis',
+                            'Program relevance evaluation'
+                        ],
+                        'requirements': [
+                            'Relevant and updated curriculum',
+                            'Qualified teaching staff',
+                            'Adequate laboratory/workshop facilities',
+                            'Industry relevance',
+                            'Assessment mechanisms'
+                        ],
+                        'duration': '2-4 months',
+                        'fee': 'Based on program level'
+                    },
+                    {
+                        'title': 'Quality Assurance Audits',
+                        'description': 'Regular monitoring and evaluation of accredited institutions to ensure continuous compliance with quality standards.',
+                        'process': [
+                            'Annual performance reviews',
+                            'Random institutional audits',
+                            'Student satisfaction surveys',
+                            'Graduate tracer studies',
+                            'Quality improvement recommendations'
+                        ],
+                        'requirements': [
+                            'Annual quality assurance reports',
+                            'Student performance data',
+                            'Staff development records',
+                            'Infrastructure maintenance logs',
+                            'Financial audit reports'
+                        ],
+                        'duration': 'Ongoing',
+                        'fee': 'Part of accreditation maintenance'
+                    }
+                ]
+            },
+            {
+                'category': 'Student Services & Support',
+                'icon': '🎓',
+                'color': 'green',
+                'services': [
+                    {
+                        'title': 'Equivalence of Foreign Qualifications',
+                        'description': 'Evaluation and recognition of academic qualifications obtained from foreign institutions to determine their equivalence in Tanzania.',
+                        'process': [
+                            'Document submission and verification',
+                            'Qualification assessment',
+                            'Credit hour calculation',
+                            'Equivalence determination',
+                            'Certificate issuance'
+                        ],
+                        'requirements': [
+                            'Original academic certificates',
+                            'Transcripts and course descriptions',
+                            'Accreditation status of foreign institution',
+                            'English translation if needed',
+                            'Application fee payment'
+                        ],
+                        'duration': '4-8 weeks',
+                        'fee': 'TZS 50,000 - 200,000'
+                    },
+                    {
+                        'title': 'Credit Transfer Verification',
+                        'description': 'Assessment and approval of credit transfers between institutions, including international credit transfers.',
+                        'process': [
+                            'Credit transfer application',
+                            'Course content comparison',
+                            'Credit hour evaluation',
+                            'Transfer approval/rejection',
+                            'Notification to institutions'
+                        ],
+                        'requirements': [
+                            'Official transcripts',
+                            'Course syllabi and descriptions',
+                            'Institution accreditation status',
+                            'Grade conversion guidelines',
+                            'Transfer policy compliance'
+                        ],
+                        'duration': '2-4 weeks',
+                        'fee': 'TZS 30,000 per application'
+                    },
+                    {
+                        'title': 'Student Complaints Handling',
+                        'description': 'Resolution mechanism for student grievances related to academic matters, fees, and institutional policies.',
+                        'process': [
+                            'Complaint registration',
+                            'Investigation and fact-finding',
+                            'Institution response collection',
+                            'Mediation and resolution',
+                            'Follow-up and monitoring'
+                        ],
+                        'requirements': [
+                            'Written complaint with evidence',
+                            'Exhaustion of institutional remedies',
+                            'Clear description of grievance',
+                            'Supporting documentation',
+                            'Contact information'
+                        ],
+                        'duration': '2-6 weeks',
+                        'fee': 'Free service'
+                    }
+                ]
+            },
+            {
+                'category': 'Admission & Placement Services',
+                'icon': '📚',
+                'color': 'purple',
+                'services': [
+                    {
+                        'title': 'Undergraduate Admission Guidelines',
+                        'description': 'Development and implementation of standardized admission procedures for undergraduate programs across all universities.',
+                        'process': [
+                            'Admission criteria development',
+                            'Cut-off point determination',
+                            'Application processing guidelines',
+                            'Selection committee oversight',
+                            'Admission results verification'
+                        ],
+                        'requirements': [
+                            'Advanced Certificate of Secondary Education',
+                            'Minimum entry requirements',
+                            'Subject combinations compliance',
+                            'English proficiency',
+                            'Medical fitness certificate'
+                        ],
+                        'duration': 'Annual cycle',
+                        'fee': 'Included in application fees'
+                    },
+                    {
+                        'title': 'Postgraduate Admission Procedures',
+                        'description': 'Coordination and standardization of admission processes for masters and doctoral programs.',
+                        'process': [
+                            'Program eligibility assessment',
+                            'Academic prerequisites verification',
+                            'Research proposal evaluation',
+                            'Supervisor availability confirmation',
+                            'Admission approval'
+                        ],
+                        'requirements': [
+                            'Relevant bachelor\'s degree',
+                            'Minimum GPA requirements',
+                            'Research proposal (for research programs)',
+                            'Recommendation letters',
+                            'Work experience (where applicable)'
+                        ],
+                        'duration': 'Varies by program',
+                        'fee': 'Program-specific fees apply'
+                    },
+                    {
+                        'title': 'International Student Admission',
+                        'description': 'Coordination of admission processes for international students seeking to study in Tanzanian universities.',
+                        'process': [
+                            'Document equivalence verification',
+                            'Language proficiency assessment',
+                            'Visa support coordination',
+                            'Institutional placement',
+                            'Orientation program coordination'
+                        ],
+                        'requirements': [
+                            'Equivalent academic qualifications',
+                            'English proficiency certificate',
+                            'Passport and visa documents',
+                            'Financial capability proof',
+                            'Medical insurance'
+                        ],
+                        'duration': '6-12 weeks',
+                        'fee': 'Varies by nationality'
+                    }
+                ]
+            },
+            {
+                'category': 'Research & Development Support',
+                'icon': '🔬',
+                'color': 'orange',
+                'services': [
+                    {
+                        'title': 'Research Grant Approvals',
+                        'description': 'Oversight and approval of research grants and funding for academic research projects.',
+                        'process': [
+                            'Research proposal submission',
+                            'Scientific merit evaluation',
+                            'Ethical compliance review',
+                            'Budget approval',
+                            'Grant disbursement coordination'
+                        ],
+                        'requirements': [
+                            'Detailed research proposal',
+                            'Ethical clearance certificate',
+                            'Budget justification',
+                            'Research team qualifications',
+                            'Institutional support letter'
+                        ],
+                        'duration': '3-6 months',
+                        'fee': 'Administrative fees may apply'
+                    },
+                    {
+                        'title': 'Research Ethics Clearance',
+                        'description': 'Ensuring all academic research complies with national and international ethical standards.',
+                        'process': [
+                            'Ethics application submission',
+                            'Risk assessment evaluation',
+                            'Participant protection review',
+                            'Ethical compliance verification',
+                            'Clearance certificate issuance'
+                        ],
+                        'requirements': [
+                            'Informed consent procedures',
+                            'Data protection measures',
+                            'Risk mitigation strategies',
+                            'Participant recruitment plans',
+                            'Conflict of interest declarations'
+                        ],
+                        'duration': '4-8 weeks',
+                        'fee': 'TZS 100,000 - 500,000'
+                    },
+                    {
+                        'title': 'Academic Publication Standards',
+                        'description': 'Setting and maintaining standards for academic publications and research outputs.',
+                        'process': [
+                            'Publication guidelines development',
+                            'Quality standards enforcement',
+                            'Plagiarism prevention measures',
+                            'Citation standards maintenance',
+                            'Research impact assessment'
+                        ],
+                        'requirements': [
+                            'Original research content',
+                            'Proper citation and referencing',
+                            'Peer review compliance',
+                            'Ethical research conduct',
+                            'Data transparency'
+                        ],
+                        'duration': 'Ongoing',
+                        'fee': 'No direct fees'
+                    }
+                ]
+            },
+            {
+                'category': 'Policy Development & Coordination',
+                'icon': '📋',
+                'color': 'red',
+                'services': [
+                    {
+                        'title': 'Higher Education Policy Formulation',
+                        'description': 'Development of national policies and strategies for higher education development and reform.',
+                        'process': [
+                            'Stakeholder consultations',
+                            'Policy research and analysis',
+                            'Draft policy development',
+                            'Public review and feedback',
+                            'Policy implementation planning'
+                        ],
+                        'requirements': [
+                            'National development goals alignment',
+                            'International best practices',
+                            'Stakeholder input integration',
+                            'Resource availability assessment',
+                            'Implementation framework'
+                        ],
+                        'duration': '6-12 months',
+                        'fee': 'Government funded'
+                    },
+                    {
+                        'title': 'International Collaboration Coordination',
+                        'description': 'Facilitation and coordination of international partnerships and collaborations between Tanzanian and foreign universities.',
+                        'process': [
+                            'Partnership agreement review',
+                            'Quality standards verification',
+                            'Credit transfer arrangements',
+                            'Student exchange coordination',
+                            'Collaboration monitoring'
+                        ],
+                        'requirements': [
+                            'Memorandum of Understanding',
+                            'Equivalent accreditation status',
+                            'Quality assurance mechanisms',
+                            'Student protection measures',
+                            'Regular reporting'
+                        ],
+                        'duration': '3-6 months',
+                        'fee': 'Administrative costs only'
+                    }
+                ]
+            }
+        ],
+        'contact_info': {
+            'website': 'https://www.tcu.go.tz',
+            'email': 'info@tcu.go.tz',
+            'phone': '+255 22 277 3033',
+            'address': 'TCU House, 26 Jakaya Kikwete Road, Dar es Salaam, Tanzania',
+            'working_hours': 'Monday - Friday: 8:00 AM - 4:00 PM'
+        },
+        'important_links': [
+            {'name': 'TCU Official Website', 'url': 'https://www.tcu.go.tz', 'icon': '🌐'},
+            {'name': 'Online Services Portal', 'url': 'https://services.tcu.go.tz', 'icon': '💻'},
+            {'name': 'Accredited Universities List', 'url': 'https://www.tcu.go.tz/universities', 'icon': '🏛️'},
+            {'name': 'Admission Guidelines', 'url': 'https://www.tcu.go.tz/admission', 'icon': '📚'},
+            {'name': 'Research Guidelines', 'url': 'https://www.tcu.go.tz/research', 'icon': '🔬'},
+            {'name': 'Student Complaints Portal', 'url': 'https://www.tcu.go.tz/complaints', 'icon': '🎓'}
+        ]
+    }
+    
+    context = {'tcu_data': tcu_services_data}
+    return render(request, 'global_agency/tcu_services.html', context)
