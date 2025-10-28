@@ -1,0 +1,167 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universities in {{ country.name }} - Global Agency</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation (same as your main nav) -->
+    {% include 'global_agency/includes/navbar.html' %}
+
+    <!-- Header Section -->
+    <section class="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">Universities in {{ country.name }}</h1>
+                <p class="text-xl text-blue-100 max-w-3xl mx-auto">
+                    Discover top universities in {{ country.name }} with detailed admission requirements, tuition fees, and application procedures.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Universities Grid -->
+    <section class="py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Filters -->
+            <div class="mb-8 bg-white rounded-lg shadow-sm p-6">
+                <div class="flex flex-wrap gap-4 items-center justify-between">
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-900">Filter Universities</h3>
+                    </div>
+                    <div class="flex flex-wrap gap-4">
+                        <select class="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option>All Programs</option>
+                            <option>Engineering</option>
+                            <option>Medicine</option>
+                            <option>Business</option>
+                            <option>Computer Science</option>
+                        </select>
+                        <select class="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option>All Cities</option>
+                            <option>Major Cities</option>
+                            <option>Public Universities</option>
+                            <option>Private Universities</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Universities List -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {% for university in country.universities %}
+                <div class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group">
+                    <div class="p-6">
+                        <div class="flex items-start justify-between mb-4">
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
+                                    {{ university.name }}
+                                </h3>
+                                <p class="text-gray-600 text-sm mt-1">
+                                    <i class="fas fa-map-marker-alt text-blue-500 mr-2"></i>
+                                    {{ country.name }}
+                                </p>
+                            </div>
+                            <div class="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-sm font-semibold">
+                                Top Ranked
+                            </div>
+                        </div>
+
+                        <div class="space-y-3 mb-6">
+                            <div class="flex items-center text-sm text-gray-600">
+                                <i class="fas fa-graduation-cap text-green-500 mr-3 w-5"></i>
+                                <span>Undergraduate & Graduate Programs</span>
+                            </div>
+                            <div class="flex items-center text-sm text-gray-600">
+                                <i class="fas fa-dollar-sign text-green-500 mr-3 w-5"></i>
+                                <span>Tuition: $15,000 - $45,000/year</span>
+                            </div>
+                            <div class="flex items-center text-sm text-gray-600">
+                                <i class="fas fa-calendar-alt text-green-500 mr-3 w-5"></i>
+                                <span>Application Deadline: Jan 15</span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-1 text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                                <span class="text-gray-600 text-sm ml-2">4.5</span>
+                            </div>
+                            <!-- FIXED: Changed university_detail to abroad_university_detail -->
+                            <a href="{% url 'global_agency:abroad_university_detail' university.slug %}" 
+                               class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors font-semibold text-sm">
+                                View Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Quick Facts -->
+            <div class="mt-16 bg-white rounded-xl shadow-sm p-8">
+                <h2 class="text-2xl font-bold text-gray-900 mb-6">Study in {{ country.name }} - Key Information</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="text-center p-4">
+                        <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-passport text-blue-600 text-2xl"></i>
+                        </div>
+                        <h3 class="font-semibold text-gray-900 mb-2">Visa Requirements</h3>
+                        <p class="text-gray-600 text-sm">Student visa required, proof of admission and financial support needed</p>
+                    </div>
+                    <div class="text-center p-4">
+                        <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-money-bill-wave text-green-600 text-2xl"></i>
+                        </div>
+                        <h3 class="font-semibold text-gray-900 mb-2">Living Costs</h3>
+                        <p class="text-gray-600 text-sm">$800 - $1,500 per month depending on city</p>
+                    </div>
+                    <div class="text-center p-4">
+                        <div class="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-briefcase text-purple-600 text-2xl"></i>
+                        </div>
+                        <h3 class="font-semibold text-gray-900 mb-2">Work Opportunities</h3>
+                        <p class="text-gray-600 text-sm">Up to 20 hours/week during studies, full-time during breaks</p>
+                    </div>
+                    <div class="text-center p-4">
+                        <div class="bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-graduation-cap text-orange-600 text-2xl"></i>
+                        </div>
+                        <h3 class="font-semibold text-gray-900 mb-2">Scholarships</h3>
+                        <p class="text-gray-600 text-sm">Available for international students based on merit</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="bg-blue-600 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl font-bold text-white mb-4">Ready to Apply?</h2>
+            <p class="text-blue-100 text-lg mb-8 max-w-2xl mx-auto">
+                Get expert guidance on your application to universities in {{ country.name }}. We'll help you with admission requirements, visa process, and scholarship applications.
+            </p>
+            <a href="{% url 'global_agency:contact' %}" 
+               class="bg-white text-blue-600 px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition-colors inline-block">
+                Book Free Consultation
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p>&copy; 2025 Global Agency. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -15,7 +15,7 @@
       <!-- Desktop Menu -->
       <div class="hidden md:flex items-center space-x-6">
         <ul class="flex items-center space-x-6">
-          <li><a href="#home" class="hover:text-primary-blue transition duration-150 font-semibold text-base md:text-lg">Home</a></li>
+          <li><a href="{% url 'global_agency:home' %}" class="hover:text-primary-blue transition duration-150 font-semibold text-base md:text-lg">Home</a></li>
           <li><a href="#about" class="hover:text-primary-blue transition duration-150 font-semibold text-base md:text-lg">About Us</a></li>
           <li><a href="#services" class="hover:text-primary-blue transition duration-150 font-semibold text-base md:text-lg">Services</a></li>
           
@@ -29,7 +29,7 @@
             </button>
             
             <!-- Dropdown Menu -->
-            <div class="absolute left-0 mt-2 w-64 bg-white rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 border border-gray-200 z-50">
+            <div class="absolute left-0 mt-2 w-80 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 border border-gray-200 z-50">
               <div class="py-2">
                 <!-- Vyuo Vya Ndani Section -->
                 <div class="px-4 py-2 border-b border-gray-100">
@@ -38,22 +38,55 @@
                 <a href="{% url 'global_agency:vyuo_ndani' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-primary-blue transition duration-150">
                   All Local Universities
                 </a>
+                
                 <!-- Abroad Universities Section -->
                 <div class="px-4 py-2 border-b border-t border-gray-100 mt-2">
                   <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wide">Abroad Universities</h3>
                 </div>
-                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-primary-blue transition duration-150">
+                
+                <!-- Quick University Links -->
+                <a href="{% url 'global_agency:abroad_university_detail' 'harvard' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-primary-blue transition duration-150">
                   Harvard University
                 </a>
-                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-primary-blue transition duration-150">
+                <a href="{% url 'global_agency:abroad_university_detail' 'stanford' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-primary-blue transition duration-150">
                   Stanford University
                 </a>
-                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-primary-blue transition duration-150">
-                  University of Oxford
-                </a>
-                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-primary-blue transition duration-150">
+                <a href="{% url 'global_agency:abroad_university_detail' 'mit' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-primary-blue transition duration-150">
                   MIT
                 </a>
+                <a href="{% url 'global_agency:abroad_university_detail' 'oxford' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-primary-blue transition duration-150">
+                  University of Oxford
+                </a>
+                
+                <!-- Country Submenu -->
+                <div class="px-4 py-2 border-t border-gray-100 mt-2">
+                  <h4 class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Browse by Country</h4>
+                </div>
+                <div class="grid grid-cols-2 gap-1 px-2">
+                  <a href="{% url 'global_agency:country_universities' 'usa' %}" class="flex items-center justify-between px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-primary-blue rounded transition duration-150">
+                    <span>🇺🇸 USA</span>
+                  </a>
+                  
+                  <a href="{% url 'global_agency:country_universities' 'uk' %}" class="flex items-center justify-between px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-primary-blue rounded transition duration-150">
+                    <span>🇬🇧 UK</span>
+                  </a>
+                  
+                  <a href="{% url 'global_agency:country_universities' 'canada' %}" class="flex items-center justify-between px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-primary-blue rounded transition duration-150">
+                    <span>🇨🇦 Canada</span>
+                  </a>
+                  
+                  <a href="{% url 'global_agency:country_universities' 'australia' %}" class="flex items-center justify-between px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-primary-blue rounded transition duration-150">
+                    <span>🇦🇺 Australia</span>
+                  </a>
+                  
+                  <a href="{% url 'global_agency:country_universities' 'germany' %}" class="flex items-center justify-between px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-primary-blue rounded transition duration-150">
+                    <span>🇩🇪 Germany</span>
+                  </a>
+                  
+                  <a href="{% url 'global_agency:all_countries' %}" class="flex items-center justify-between px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-primary-blue rounded transition duration-150">
+                    <span>🌍 More...</span>
+                  </a>
+                </div>
               </div>
             </div>
           </li>
@@ -65,16 +98,6 @@
            class="bg-primary-blue text-white px-3 py-2 rounded-full text-sm md:text-base font-semibold shadow-lg hover:bg-blue-800 transition duration-300 transform hover:scale-[1.02]">
            Book Free Consult
         </a>
-
-        <!-- Desktop Language Selector (hidden) -->
-        <div class="flex items-center space-x-2 hidden">
-          <label for="language-selector" class="text-sm md:text-base font-medium text-gray-700">Language:</label>
-          <select id="language-selector" class="block w-full py-1 px-2 md:px-3 border border-gray-300 bg-white rounded-lg shadow-sm text-sm md:text-base">
-            <option value="en">English</option>
-            <option value="sw">Kiswahili</option>
-            <option value="ar">العربية</option>
-          </select>
-        </div>
       </div>
 
       <!-- Mobile Menu Button -->
@@ -90,7 +113,7 @@
     <!-- Mobile Menu -->
     <div id="mobile-menu" class="hidden md:hidden mt-2 space-y-2">
       <ul class="space-y-2">
-        <li><a href="#home" class="block px-4 py-2 text-gray-700 font-medium hover:bg-gray-100 rounded">Home</a></li>
+        <li><a href="{% url 'global_agency:home' %}" class="block px-4 py-2 text-gray-700 font-medium hover:bg-gray-100 rounded">Home</a></li>
         <li><a href="#about" class="block px-4 py-2 text-gray-700 font-medium hover:bg-gray-100 rounded">About Us</a></li>
         <li><a href="#services" class="block px-4 py-2 text-gray-700 font-medium hover:bg-gray-100 rounded">Services</a></li>
         
@@ -112,21 +135,38 @@
               <a href="{% url 'global_agency:vyuo_ndani' %}" class="block py-2 text-sm text-gray-700 hover:text-primary-blue transition duration-150">
                 All Local Universities
               </a>
+              
               <!-- Abroad Universities Mobile -->
               <div class="pt-4 border-t border-gray-200">
                 <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wide">Abroad Universities</h3>
               </div>
-              <a href="#" class="block py-2 text-sm text-gray-700 hover:text-primary-blue transition duration-150">
+              
+              <!-- Quick University Links -->
+              <a href="{% url 'global_agency:abroad_university_detail' 'harvard' %}" class="block py-2 text-sm text-gray-700 hover:text-primary-blue transition duration-150">
                 Harvard University
               </a>
-              <a href="#" class="block py-2 text-sm text-gray-700 hover:text-primary-blue transition duration-150">
+              <a href="{% url 'global_agency:abroad_university_detail' 'stanford' %}" class="block py-2 text-sm text-gray-700 hover:text-primary-blue transition duration-150">
                 Stanford University
               </a>
-              <a href="#" class="block py-2 text-sm text-gray-700 hover:text-primary-blue transition duration-150">
-                University of Oxford
-              </a>
-              <a href="#" class="block py-2 text-sm text-gray-700 hover:text-primary-blue transition duration-150">
+              <a href="{% url 'global_agency:abroad_university_detail' 'mit' %}" class="block py-2 text-sm text-gray-700 hover:text-primary-blue transition duration-150">
                 MIT
+              </a>
+              
+              <!-- Country Links -->
+              <div class="pt-2">
+                <h4 class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Browse Countries</h4>
+              </div>
+              <a href="{% url 'global_agency:country_universities' 'usa' %}" class="block py-2 text-sm text-gray-700 hover:text-primary-blue transition duration-150">
+                🇺🇸 USA Universities
+              </a>
+              <a href="{% url 'global_agency:country_universities' 'uk' %}" class="block py-2 text-sm text-gray-700 hover:text-primary-blue transition duration-150">
+                🇬🇧 UK Universities
+              </a>
+              <a href="{% url 'global_agency:country_universities' 'canada' %}" class="block py-2 text-sm text-gray-700 hover:text-primary-blue transition duration-150">
+                🇨🇦 Canada Universities
+              </a>
+              <a href="{% url 'global_agency:all_countries' %}" class="block py-2 text-sm text-gray-700 hover:text-primary-blue transition duration-150">
+                🌍 All Countries
               </a>
             </div>
           </details>
@@ -136,16 +176,6 @@
       </ul>
       
       <a href="{% url 'global_agency:contact' %}" class="block px-4 py-2 text-white bg-primary-blue rounded font-medium hover:bg-blue-800">Book Free Consult</a>
-
-      <!-- Mobile Language Selector (hidden) -->
-      <div class="flex items-center px-4 py-2 space-x-2 hidden">
-        <label for="mobile-language-selector" class="text-gray-700 font-medium">Language:</label>
-        <select id="mobile-language-selector" class="block w-full py-1 px-2 border border-gray-300 bg-white rounded-md text-sm">
-          <option value="en">English</option>
-          <option value="sw">Kiswahili</option>
-          <option value="ar">العربية</option>
-        </select>
-      </div>
     </div>
   </div>
 </nav>
