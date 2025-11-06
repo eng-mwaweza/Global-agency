@@ -952,346 +952,170 @@ def all_countries(request):
     return render(request, 'global_agency/all_countries.html', context)
 def tcu_services(request):
     """
-    Render comprehensive TCU services page with detailed explanations
+    Render TCU services page showing how GASE helps students with TCU processes
     """
     tcu_services_data = {
         'overview': {
-            'title': 'Tanzania Commission for Universities (TCU)',
-            'description': 'TCU is the regulatory body for higher education in Tanzania, responsible for ensuring quality assurance, accreditation, and standardization of university education.',
-            'mission': 'To promote and coordinate the provision of quality university education and ensure equitable access to all.',
-            'vision': 'To be a center of excellence in regulating and promoting quality university education.'
+            'title': 'TCU Services Through GASE',
+            'description': 'GASE partners with Tanzania Commission for Universities to simplify and expedite official education services for students.',
+            'mission': 'To make TCU services accessible and efficient for all students',
+            'vision': 'Seamless education services for local and international students'
         },
         'services': [
             {
-                'category': 'University Accreditation & Quality Assurance',
-                'icon': '🏛️',
+                'category': 'Student Mobility Services',
+                'icon': '🌍',
                 'color': 'blue',
                 'services': [
                     {
-                        'title': 'Institutional Accreditation',
-                        'description': 'Comprehensive evaluation and approval of universities and higher education institutions to ensure they meet established quality standards.',
-                        'process': [
-                            'Application submission and documentation review',
-                            'Physical inspection and infrastructure assessment',
-                            'Academic staff qualifications verification',
-                            'Quality assurance systems evaluation',
-                            'Final accreditation decision'
+                        'title': 'Program Transfer',
+                        'description': 'Transfer between universities with TCU approval and credit recognition.',
+                        'we_help': [
+                            {
+                                'title': 'Prepare and verify documents',
+                                'description': 'We ensure all transfer documents are complete and properly formatted before submission'
+                            },
+                            {
+                                'title': 'Evaluate credit transfers',
+                                'description': 'We help assess which credits will transfer and ensure proper recognition'
+                            },
+                            {
+                                'title': 'Expedite TCU processing',
+                                'description': 'We use our partnership to speed up approval and reduce waiting times'
+                            }
                         ],
-                        'requirements': [
-                            'Minimum infrastructure standards',
-                            'Qualified academic staff',
-                            'Adequate learning resources',
-                            'Quality management systems',
-                            'Financial sustainability'
-                        ],
-                        'duration': '3-6 months',
-                        'fee': 'Varies by institution size'
+                        'duration': '2-4 weeks',
+                        'fee': 'TZS 30,000'
                     },
                     {
-                        'title': 'Program Accreditation',
-                        'description': 'Evaluation and approval of specific academic programs offered by universities to ensure they meet national and international standards.',
-                        'process': [
-                            'Program curriculum review',
-                            'Faculty qualifications assessment',
-                            'Learning facilities inspection',
-                            'Graduate employability analysis',
-                            'Program relevance evaluation'
+                        'title': 'University Exchange',
+                        'description': 'Support for national and international university exchange programs.',
+                        'we_help': [
+                            {
+                                'title': 'Coordinate applications',
+                                'description': 'We manage all application steps and ensure requirements are met on time'
+                            },
+                            {
+                                'title': 'Arrange visa and accommodation',
+                                'description': 'We provide guidance on visa requirements and help find suitable housing'
+                            },
+                            {
+                                'title': 'Process TCU approvals',
+                                'description': 'We handle all TCU documentation and ensure smooth approval process'
+                            }
                         ],
-                        'requirements': [
-                            'Relevant and updated curriculum',
-                            'Qualified teaching staff',
-                            'Adequate laboratory/workshop facilities',
-                            'Industry relevance',
-                            'Assessment mechanisms'
-                        ],
-                        'duration': '2-4 months',
-                        'fee': 'Based on program level'
-                    },
-                    {
-                        'title': 'Quality Assurance Audits',
-                        'description': 'Regular monitoring and evaluation of accredited institutions to ensure continuous compliance with quality standards.',
-                        'process': [
-                            'Annual performance reviews',
-                            'Random institutional audits',
-                            'Student satisfaction surveys',
-                            'Graduate tracer studies',
-                            'Quality improvement recommendations'
-                        ],
-                        'requirements': [
-                            'Annual quality assurance reports',
-                            'Student performance data',
-                            'Staff development records',
-                            'Infrastructure maintenance logs',
-                            'Financial audit reports'
-                        ],
-                        'duration': 'Ongoing',
-                        'fee': 'Part of accreditation maintenance'
+                        'duration': '1-3 weeks',
+                        'fee': 'TZS 25,000'
                     }
                 ]
             },
             {
-                'category': 'Student Services & Support',
-                'icon': '🎓',
+                'category': 'Verification Services',
+                'icon': '📄',
                 'color': 'green',
                 'services': [
                     {
-                        'title': 'Equivalence of Foreign Qualifications',
-                        'description': 'Evaluation and recognition of academic qualifications obtained from foreign institutions to determine their equivalence in Tanzania.',
-                        'process': [
-                            'Document submission and verification',
-                            'Qualification assessment',
-                            'Credit hour calculation',
-                            'Equivalence determination',
-                            'Certificate issuance'
-                        ],
-                        'requirements': [
-                            'Original academic certificates',
-                            'Transcripts and course descriptions',
-                            'Accreditation status of foreign institution',
-                            'English translation if needed',
-                            'Application fee payment'
-                        ],
-                        'duration': '4-8 weeks',
-                        'fee': 'TZS 50,000 - 200,000'
-                    },
-                    {
-                        'title': 'Credit Transfer Verification',
-                        'description': 'Assessment and approval of credit transfers between institutions, including international credit transfers.',
-                        'process': [
-                            'Credit transfer application',
-                            'Course content comparison',
-                            'Credit hour evaluation',
-                            'Transfer approval/rejection',
-                            'Notification to institutions'
-                        ],
-                        'requirements': [
-                            'Official transcripts',
-                            'Course syllabi and descriptions',
-                            'Institution accreditation status',
-                            'Grade conversion guidelines',
-                            'Transfer policy compliance'
+                        'title': 'Certificate Verification',
+                        'description': 'Official verification of academic certificates for employment or further studies.',
+                        'we_help': [
+                            {
+                                'title': 'Authenticate documents',
+                                'description': 'We verify certificate authenticity and ensure they meet TCU standards'
+                            },
+                            {
+                                'title': 'Speed up processing',
+                                'description': 'We use direct channels to reduce verification time significantly'
+                            },
+                            {
+                                'title': 'Ensure secure delivery',
+                                'description': 'We provide safe and tracked delivery of verified certificates to you'
+                            }
                         ],
                         'duration': '2-4 weeks',
-                        'fee': 'TZS 30,000 per application'
+                        'fee': 'TZS 50,000'
                     },
                     {
-                        'title': 'Student Complaints Handling',
-                        'description': 'Resolution mechanism for student grievances related to academic matters, fees, and institutional policies.',
-                        'process': [
-                            'Complaint registration',
-                            'Investigation and fact-finding',
-                            'Institution response collection',
-                            'Mediation and resolution',
-                            'Follow-up and monitoring'
+                        'title': 'Foreign Qualification Recognition',
+                        'description': 'TCU recognition of foreign qualifications for use in Tanzania.',
+                        'we_help': [
+                            {
+                                'title': 'Translate documents',
+                                'description': 'We provide official translation services for foreign language certificates'
+                            },
+                            {
+                                'title': 'Assess equivalence',
+                                'description': 'We evaluate how foreign qualifications match Tanzanian education standards'
+                            },
+                            {
+                                'title': 'Navigate the process',
+                                'description': 'We guide you through complex recognition procedures step by step'
+                            }
                         ],
-                        'requirements': [
-                            'Written complaint with evidence',
-                            'Exhaustion of institutional remedies',
-                            'Clear description of grievance',
-                            'Supporting documentation',
-                            'Contact information'
-                        ],
-                        'duration': '2-6 weeks',
-                        'fee': 'Free service'
+                        'duration': '4-6 weeks',
+                        'fee': 'TZS 100,000'
                     }
                 ]
             },
             {
-                'category': 'Admission & Placement Services',
-                'icon': '📚',
+                'category': 'Admission Support',
+                'icon': '🎓',
                 'color': 'purple',
                 'services': [
                     {
-                        'title': 'Undergraduate Admission Guidelines',
-                        'description': 'Development and implementation of standardized admission procedures for undergraduate programs across all universities.',
-                        'process': [
-                            'Admission criteria development',
-                            'Cut-off point determination',
-                            'Application processing guidelines',
-                            'Selection committee oversight',
-                            'Admission results verification'
+                        'title': 'Study Abroad Approval',
+                        'description': 'TCU approval for Tanzanian students pursuing education overseas.',
+                        'we_help': [
+                            {
+                                'title': 'Verify documents',
+                                'description': 'We check all required documents meet TCU standards before submission'
+                            },
+                            {
+                                'title': 'Process approvals',
+                                'description': 'We handle the entire approval process with TCU on your behalf'
+                            },
+                            {
+                                'title': 'Monitor status',
+                                'description': 'We provide regular updates on your application progress and timeline'
+                            }
                         ],
-                        'requirements': [
-                            'Advanced Certificate of Secondary Education',
-                            'Minimum entry requirements',
-                            'Subject combinations compliance',
-                            'English proficiency',
-                            'Medical fitness certificate'
-                        ],
-                        'duration': 'Annual cycle',
-                        'fee': 'Included in application fees'
+                        'duration': '3-5 weeks',
+                        'fee': 'TZS 75,000'
                     },
                     {
-                        'title': 'Postgraduate Admission Procedures',
-                        'description': 'Coordination and standardization of admission processes for masters and doctoral programs.',
-                        'process': [
-                            'Program eligibility assessment',
-                            'Academic prerequisites verification',
-                            'Research proposal evaluation',
-                            'Supervisor availability confirmation',
-                            'Admission approval'
+                        'title': 'Accreditation Verification',
+                        'description': 'Verify TCU accreditation status of universities and programs.',
+                        'we_help': [
+                            {
+                                'title': 'Access TCU database',
+                                'description': 'We directly check accreditation status through our TCU partnership'
+                            },
+                            {
+                                'title': 'Generate official reports',
+                                'description': 'We provide certified accreditation reports for your records'
+                            },
+                            {
+                                'title': 'Guide institution selection',
+                                'description': 'We recommend accredited alternatives if your chosen institution isn\'t approved'
+                            }
                         ],
-                        'requirements': [
-                            'Relevant bachelor\'s degree',
-                            'Minimum GPA requirements',
-                            'Research proposal (for research programs)',
-                            'Recommendation letters',
-                            'Work experience (where applicable)'
-                        ],
-                        'duration': 'Varies by program',
-                        'fee': 'Program-specific fees apply'
-                    },
-                    {
-                        'title': 'International Student Admission',
-                        'description': 'Coordination of admission processes for international students seeking to study in Tanzanian universities.',
-                        'process': [
-                            'Document equivalence verification',
-                            'Language proficiency assessment',
-                            'Visa support coordination',
-                            'Institutional placement',
-                            'Orientation program coordination'
-                        ],
-                        'requirements': [
-                            'Equivalent academic qualifications',
-                            'English proficiency certificate',
-                            'Passport and visa documents',
-                            'Financial capability proof',
-                            'Medical insurance'
-                        ],
-                        'duration': '6-12 weeks',
-                        'fee': 'Varies by nationality'
-                    }
-                ]
-            },
-            {
-                'category': 'Research & Development Support',
-                'icon': '🔬',
-                'color': 'orange',
-                'services': [
-                    {
-                        'title': 'Research Grant Approvals',
-                        'description': 'Oversight and approval of research grants and funding for academic research projects.',
-                        'process': [
-                            'Research proposal submission',
-                            'Scientific merit evaluation',
-                            'Ethical compliance review',
-                            'Budget approval',
-                            'Grant disbursement coordination'
-                        ],
-                        'requirements': [
-                            'Detailed research proposal',
-                            'Ethical clearance certificate',
-                            'Budget justification',
-                            'Research team qualifications',
-                            'Institutional support letter'
-                        ],
-                        'duration': '3-6 months',
-                        'fee': 'Administrative fees may apply'
-                    },
-                    {
-                        'title': 'Research Ethics Clearance',
-                        'description': 'Ensuring all academic research complies with national and international ethical standards.',
-                        'process': [
-                            'Ethics application submission',
-                            'Risk assessment evaluation',
-                            'Participant protection review',
-                            'Ethical compliance verification',
-                            'Clearance certificate issuance'
-                        ],
-                        'requirements': [
-                            'Informed consent procedures',
-                            'Data protection measures',
-                            'Risk mitigation strategies',
-                            'Participant recruitment plans',
-                            'Conflict of interest declarations'
-                        ],
-                        'duration': '4-8 weeks',
-                        'fee': 'TZS 100,000 - 500,000'
-                    },
-                    {
-                        'title': 'Academic Publication Standards',
-                        'description': 'Setting and maintaining standards for academic publications and research outputs.',
-                        'process': [
-                            'Publication guidelines development',
-                            'Quality standards enforcement',
-                            'Plagiarism prevention measures',
-                            'Citation standards maintenance',
-                            'Research impact assessment'
-                        ],
-                        'requirements': [
-                            'Original research content',
-                            'Proper citation and referencing',
-                            'Peer review compliance',
-                            'Ethical research conduct',
-                            'Data transparency'
-                        ],
-                        'duration': 'Ongoing',
-                        'fee': 'No direct fees'
-                    }
-                ]
-            },
-            {
-                'category': 'Policy Development & Coordination',
-                'icon': '📋',
-                'color': 'red',
-                'services': [
-                    {
-                        'title': 'Higher Education Policy Formulation',
-                        'description': 'Development of national policies and strategies for higher education development and reform.',
-                        'process': [
-                            'Stakeholder consultations',
-                            'Policy research and analysis',
-                            'Draft policy development',
-                            'Public review and feedback',
-                            'Policy implementation planning'
-                        ],
-                        'requirements': [
-                            'National development goals alignment',
-                            'International best practices',
-                            'Stakeholder input integration',
-                            'Resource availability assessment',
-                            'Implementation framework'
-                        ],
-                        'duration': '6-12 months',
-                        'fee': 'Government funded'
-                    },
-                    {
-                        'title': 'International Collaboration Coordination',
-                        'description': 'Facilitation and coordination of international partnerships and collaborations between Tanzanian and foreign universities.',
-                        'process': [
-                            'Partnership agreement review',
-                            'Quality standards verification',
-                            'Credit transfer arrangements',
-                            'Student exchange coordination',
-                            'Collaboration monitoring'
-                        ],
-                        'requirements': [
-                            'Memorandum of Understanding',
-                            'Equivalent accreditation status',
-                            'Quality assurance mechanisms',
-                            'Student protection measures',
-                            'Regular reporting'
-                        ],
-                        'duration': '3-6 months',
-                        'fee': 'Administrative costs only'
+                        'duration': '1-2 weeks',
+                        'fee': 'TZS 20,000'
                     }
                 ]
             }
         ],
         'contact_info': {
-            'website': 'https://www.tcu.go.tz',
-            'email': 'info@tcu.go.tz',
-            'phone': '+255 22 277 3033',
-            'address': 'TCU House, 26 Jakaya Kikwete Road, Dar es Salaam, Tanzania',
-            'working_hours': 'Monday - Friday: 8:00 AM - 4:00 PM'
+            'website': 'https://www.gase-agency.com',
+            'email': 'tcu-services@gase-agency.com',
+            'phone': '+255 123 456 789',
+            'address': 'Global Agency Services, Dar es Salaam, Tanzania',
+            'working_hours': 'Monday - Friday: 8:00 AM - 5:00 PM'
         },
         'important_links': [
-            {'name': 'TCU Official Website', 'url': 'https://www.tcu.go.tz', 'icon': '🌐'},
-            {'name': 'Online Services Portal', 'url': 'https://services.tcu.go.tz', 'icon': '💻'},
-            {'name': 'Accredited Universities List', 'url': 'https://www.tcu.go.tz/universities', 'icon': '🏛️'},
-            {'name': 'Admission Guidelines', 'url': 'https://www.tcu.go.tz/admission', 'icon': '📚'},
-            {'name': 'Research Guidelines', 'url': 'https://www.tcu.go.tz/research', 'icon': '🔬'},
-            {'name': 'Student Complaints Portal', 'url': 'https://www.tcu.go.tz/complaints', 'icon': '🎓'}
+            {'name': 'GASE Website', 'url': 'https://www.gase-agency.com', 'icon': '🌐'},
+            {'name': 'TCU Official Website', 'url': 'https://www.tcu.go.tz', 'icon': '🏛️'},
+            {'name': 'Service Application', 'url': '#', 'icon': '📝'},
+            {'name': 'Status Check', 'url': '#', 'icon': '🔍'}
         ]
     }
     
