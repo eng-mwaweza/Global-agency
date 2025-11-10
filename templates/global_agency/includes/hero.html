@@ -26,7 +26,6 @@
 
                     <a href="#services" class="inline-flex justify-center items-center px-8 py-3 border border-primary-blue text-base font-medium rounded-full text-primary-blue bg-white shadow-md hover:bg-blue-50 transition duration-300" data-lang-key="hero_cta_explore">
                         Explore Our Services
-                        
                     </a>
                 </div>
             </div>
@@ -62,3 +61,455 @@
         </div>
     </div>
 </header>
+
+<!-- Animated International Campus Banner Section -->
+<section class="w-full bg-gray-900 relative overflow-hidden" id="animated-banner">
+    <div class="relative h-96 lg:h-112 overflow-hidden">
+        <!-- Multiple Background Images with Parallax -->
+        <div class="absolute inset-0">
+            <!-- Main Background Image -->
+            <div class="parallax-bg absolute inset-0 transform scale-110">
+                <img src="{% static 'global_agency/img/international-campus-banner.jpg' %}" 
+                     alt="Students studying at international universities around the world"
+                     class="w-full h-full object-cover opacity-90">
+            </div>
+            
+            <!-- Horizontal Moving Images -->
+            <div class="moving-image move-right-to-left-1">
+                <img src="{% static 'global_agency/img/campus-1.jpg' %}" 
+                     alt="University campus building"
+                     class="rounded-lg shadow-2xl border-4 border-white/20">
+            </div>
+            <div class="moving-image move-left-to-right-1">
+                <img src="{% static 'global_agency/img/campus-2.jpg' %}" 
+                     alt="Students in library"
+                     class="rounded-lg shadow-2xl border-4 border-white/20">
+            </div>
+            <div class="moving-image move-right-to-left-2">
+                <img src="{% static 'global_agency/img/campus-3.jpg' %}" 
+                     alt="Graduation ceremony"
+                     class="rounded-lg shadow-2xl border-4 border-white/20">
+            </div>
+            <div class="moving-image move-left-to-right-2">
+                <img src="{% static 'global_agency/img/campus-4.jpg' %}" 
+                     alt="University campus"
+                     class="rounded-lg shadow-2xl border-4 border-white/20">
+            </div>
+            <div class="moving-image move-right-to-left-3">
+                <img src="{% static 'global_agency/img/campus-5.jpg' %}" 
+                     alt="Student life"
+                     class="rounded-lg shadow-2xl border-4 border-white/20">
+            </div>
+            <div class="moving-image move-left-to-right-3">
+                <img src="{% static 'global_agency/img/campus-6.jpg' %}" 
+                     alt="Campus facilities"
+                     class="rounded-lg shadow-2xl border-4 border-white/20">
+            </div>
+        </div>
+        
+        <!-- Animated Overlay -->
+        <div class="absolute inset-0 bg-gradient-to-r from-blue-900/80 via-purple-900/60 to-green-900/80">
+            <!-- Animated particles -->
+            <div class="particles">
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+            </div>
+        </div>
+        
+        <!-- Content with Animation -->
+        <div class="absolute inset-0 flex items-center">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+                <div class="lg:w-1/2 animate-fade-in-up">
+                    <h2 class="text-3xl lg:text-4xl font-bold text-white mb-4 animate-text-glow">
+                        Study at World-Class Universities Abroad
+                    </h2>
+                    <p class="text-lg text-blue-100 mb-6 animate-fade-in-delay">
+                        Join thousands of successful students who have achieved their dreams through our guidance at prestigious institutions worldwide.
+                    </p>
+                    <div class="flex flex-wrap gap-3 animate-slide-in-right">
+                        <span class="bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-white/30 transition-all duration-300 transform hover:scale-105">United States</span>
+                        <span class="bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-white/30 transition-all duration-300 transform hover:scale-105">United Kingdom</span>
+                        <span class="bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-white/30 transition-all duration-300 transform hover:scale-105">Canada</span>
+                        <span class="bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-white/30 transition-all duration-300 transform hover:scale-105">Australia</span>
+                        <span class="bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-white/30 transition-all duration-300 transform hover:scale-105">Germany</span>
+                        <span class="bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-white/30 transition-all duration-300 transform hover:scale-105">+35 More</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Animated Floating Elements -->
+        <div class="absolute top-8 right-8 hidden lg:block animate-float-slow">
+            <div class="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-white border border-white/20 hover:bg-white/20 transition-all duration-300">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-graduation-cap text-accent-gold animate-pulse"></i>
+                    <span class="font-semibold">Top Universities</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="absolute bottom-8 left-8 hidden lg:block animate-float">
+            <div class="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-white border border-white/20 hover:bg-white/20 transition-all duration-300">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-globe-americas text-accent-gold animate-spin-slow"></i>
+                    <span class="font-semibold">40+ Countries</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <div class="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center">
+                <div class="w-1 h-3 bg-white/70 rounded-full mt-2 animate-scroll-indicator"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+/* Parallax Effect */
+.parallax-bg {
+    transition: transform 0.1s ease-out;
+}
+
+/* Moving Images */
+.moving-image {
+    position: absolute;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    opacity: 0.9;
+    transition: all 0.3s ease;
+}
+
+.moving-image:hover {
+    transform: scale(1.1);
+    z-index: 10;
+    opacity: 1;
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
+/* Right to Left Animations */
+.move-right-to-left-1 {
+    top: 15%;
+    width: 160px;
+    animation: moveRightToLeft1 25s linear infinite;
+}
+
+.move-right-to-left-2 {
+    top: 45%;
+    width: 140px;
+    animation: moveRightToLeft2 30s linear infinite;
+}
+
+.move-right-to-left-3 {
+    top: 75%;
+    width: 150px;
+    animation: moveRightToLeft3 35s linear infinite;
+}
+
+/* Left to Right Animations */
+.move-left-to-right-1 {
+    top: 25%;
+    width: 150px;
+    animation: moveLeftToRight1 28s linear infinite;
+}
+
+.move-left-to-right-2 {
+    top: 55%;
+    width: 130px;
+    animation: moveLeftToRight2 32s linear infinite;
+}
+
+.move-left-to-right-3 {
+    top: 85%;
+    width: 145px;
+    animation: moveLeftToRight3 38s linear infinite;
+}
+
+/* Right to Left Keyframes */
+@keyframes moveRightToLeft1 {
+    0% {
+        transform: translateX(100vw) rotate(-5deg);
+    }
+    100% {
+        transform: translateX(-200px) rotate(5deg);
+    }
+}
+
+@keyframes moveRightToLeft2 {
+    0% {
+        transform: translateX(120vw) rotate(3deg);
+    }
+    100% {
+        transform: translateX(-300px) rotate(-3deg);
+    }
+}
+
+@keyframes moveRightToLeft3 {
+    0% {
+        transform: translateX(110vw) rotate(-2deg);
+    }
+    100% {
+        transform: translateX(-250px) rotate(2deg);
+    }
+}
+
+/* Left to Right Keyframes */
+@keyframes moveLeftToRight1 {
+    0% {
+        transform: translateX(-200px) rotate(4deg);
+    }
+    100% {
+        transform: translateX(100vw) rotate(-4deg);
+    }
+}
+
+@keyframes moveLeftToRight2 {
+    0% {
+        transform: translateX(-300px) rotate(-3deg);
+    }
+    100% {
+        transform: translateX(120vw) rotate(3deg);
+    }
+}
+
+@keyframes moveLeftToRight3 {
+    0% {
+        transform: translateX(-250px) rotate(2deg);
+    }
+    100% {
+        transform: translateX(110vw) rotate(-2deg);
+    }
+}
+
+/* Particle Animation */
+.particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.particle {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    animation: float-particle 15s infinite linear;
+}
+
+.particle:nth-child(1) {
+    width: 4px;
+    height: 4px;
+    top: 20%;
+    left: 10%;
+    animation-duration: 20s;
+}
+
+.particle:nth-child(2) {
+    width: 6px;
+    height: 6px;
+    top: 60%;
+    left: 80%;
+    animation-duration: 25s;
+}
+
+.particle:nth-child(3) {
+    width: 3px;
+    height: 3px;
+    top: 40%;
+    left: 40%;
+    animation-duration: 18s;
+}
+
+.particle:nth-child(4) {
+    width: 5px;
+    height: 5px;
+    top: 80%;
+    left: 30%;
+    animation-duration: 22s;
+}
+
+.particle:nth-child(5) {
+    width: 4px;
+    height: 4px;
+    top: 30%;
+    left: 70%;
+    animation-duration: 19s;
+}
+
+.particle:nth-child(6) {
+    width: 7px;
+    height: 7px;
+    top: 70%;
+    left: 60%;
+    animation-duration: 28s;
+}
+
+@keyframes float-particle {
+    0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Text Animations */
+.animate-fade-in-up {
+    animation: fadeInUp 1s ease-out;
+}
+
+.animate-fade-in-delay {
+    animation: fadeInUp 1s ease-out 0.3s both;
+}
+
+.animate-slide-in-right {
+    animation: slideInRight 1s ease-out 0.6s both;
+}
+
+.animate-text-glow {
+    animation: textGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes textGlow {
+    from {
+        text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+    }
+    to {
+        text-shadow: 0 0 20px rgba(59, 130, 246, 0.8), 0 0 30px rgba(59, 130, 246, 0.6);
+    }
+}
+
+/* Floating Elements */
+.animate-float {
+    animation: float-element 3s ease-in-out infinite;
+}
+
+.animate-float-slow {
+    animation: float-element 4s ease-in-out infinite 1s;
+}
+
+@keyframes float-element {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+.animate-spin-slow {
+    animation: spin 8s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Scroll Indicator */
+.animate-scroll-indicator {
+    animation: scrollIndicator 2s infinite;
+}
+
+@keyframes scrollIndicator {
+    0% { transform: translateY(0); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: translateY(20px); opacity: 0; }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .moving-image {
+        width: 120px !important;
+    }
+    
+    .move-right-to-left-1,
+    .move-right-to-left-2,
+    .move-right-to-left-3,
+    .move-left-to-right-1,
+    .move-left-to-right-2,
+    .move-left-to-right-3 {
+        animation-duration: 20s !important;
+    }
+}
+</style>
+
+<script>
+// Parallax Scroll Effect
+document.addEventListener('scroll', function() {
+    const banner = document.getElementById('animated-banner');
+    const scrolled = window.pageYOffset;
+    const parallaxSpeed = 0.5;
+    const bannerOffset = banner.offsetTop;
+    const bannerHeight = banner.offsetHeight;
+    
+    if (scrolled > bannerOffset - window.innerHeight && scrolled < bannerOffset + bannerHeight) {
+        const parallax = (scrolled - bannerOffset) * parallaxSpeed;
+        const parallaxBg = banner.querySelector('.parallax-bg');
+        if (parallaxBg) {
+            parallaxBg.style.transform = `scale(1.1) translateY(${parallax}px)`;
+        }
+    }
+});
+
+// Intersection Observer for animations
+const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.animationPlayState = 'running';
+        }
+    });
+}, observerOptions);
+
+// Observe animated elements
+document.addEventListener('DOMContentLoaded', function() {
+    const animatedElements = document.querySelectorAll('.animate-fade-in-up, .animate-fade-in-delay, .animate-slide-in-right');
+    animatedElements.forEach(el => {
+        observer.observe(el);
+    });
+});
+</script>
+
+<!-- 2. About Section -->
+<section id="about" class="pt-0 pb-0 bg-gray-100 scroll-mt-20">
+    <!-- ... your existing about section content ... -->
+</section>
