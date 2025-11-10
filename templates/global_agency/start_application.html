@@ -4,10 +4,10 @@
 <head>
   <meta charset="utf-8">
   <title>Start Application - Global Agency</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
   <style>
-    /* basic layout kept small — replace with your full CSS if needed */
-    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:#f9fafb; color:#111; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:#f9fafb; color:#111; margin: 0; padding: 0; }
     .container { max-width:1100px; margin:2rem auto; padding:1.5rem; background:#fff; border-radius:10px; box-shadow:0 6px 20px rgba(0,0,0,0.06); }
     h2 { color:#1a56db; text-align:center; }
     .step { display:none; }
@@ -26,7 +26,51 @@
     .messages .error { color: red; }
   </style>
 </head>
-<body>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="{% url 'global_agency:home' %}" class="flex items-center space-x-2">
+                        <i class="fas fa-graduation-cap text-green-600 text-2xl"></i>
+                        <span class="text-xl font-bold text-gray-900">Global Agency</span>
+                    </a>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="{% url 'global_agency:home' %}" class="text-gray-700 hover:text-green-600 font-medium transition duration-300">Home</a>
+                    <a href="{% url 'global_agency:tcu_services' %}" class="text-gray-700 hover:text-green-600 font-medium transition duration-300">TCU Services</a>
+                    <a href="{% url 'global_agency:all_countries' %}" class="text-gray-700 hover:text-green-600 font-medium transition duration-300">Universities</a>
+                    <a href="{% url 'global_agency:vyuo_ndani' %}" class="text-gray-700 hover:text-green-600 font-medium transition duration-300">Local Universities</a>
+                    <a href="{% url 'global_agency:start_application' %}" class="bg-green-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-700 transition duration-300">Apply Now</a>
+                    <a href="{% url 'global_agency:contact' %}" class="text-gray-700 hover:text-green-600 font-medium transition duration-300">Contact</a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button type="button" class="text-gray-700 hover:text-green-600 focus:outline-none focus:text-green-600">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="md:hidden hidden bg-white border-t">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="{% url 'global_agency:home' %}" class="block px-3 py-2 text-gray-700 hover:text-green-600 font-medium">Home</a>
+                <a href="{% url 'global_agency:tcu_services' %}" class="block px-3 py-2 text-gray-700 hover:text-green-600 font-medium">TCU Services</a>
+                <a href="{% url 'global_agency:all_countries' %}" class="block px-3 py-2 text-gray-700 hover:text-green-600 font-medium">Universities</a>
+                <a href="{% url 'global_agency:vyuo_ndani' %}" class="block px-3 py-2 text-gray-700 hover:text-green-600 font-medium">Local Universities</a>
+                <a href="{% url 'global_agency:start_application' %}" class="block px-3 py-2 bg-green-600 text-white rounded-lg font-medium">Apply Now</a>
+                <a href="{% url 'global_agency:contact' %}" class="block px-3 py-2 text-gray-700 hover:text-green-600 font-medium">Contact</a>
+            </div>
+        </div>
+    </nav>
+
   <div class="container">
     <h2>Study Abroad Application</h2>
 
@@ -187,6 +231,18 @@
 
   // Optional: scroll into view for each step
   steps.forEach(s => s.addEventListener('transitionend', ()=> s.scrollIntoView({behavior:'smooth'})));
+
+  // Mobile menu toggle
+  const mobileMenuButton = document.querySelector('.md:hidden button');
+  
+  mobileMenuButton.addEventListener('click', function() {
+    const menu = document.querySelector('.md-hidden');
+    if (menu.classList.contains('hidden')) {
+      menu.classList.remove('hidden');
+    } else {
+      menu.classList.add('hidden');
+    }
+  });
 })();
 </script>
 </body>
