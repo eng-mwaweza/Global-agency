@@ -1,18 +1,295 @@
 <footer class="bg-dark-text py-10">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <span class="text-2xl font-extrabold text-white">Global <span class="text-accent-gold">Agency</span> Services</span>
-        <p class="mt-4 text-gray-400 text-sm">
-            &copy; 2025 Global Agency Services. <span data-lang-key="footer_rights">All rights reserved.</span> | Your trusted partner for study abroad since 20XX.
-        </p>
-        <div class="mt-6 space-x-4 text-sm">
-            <a href="#" class="text-gray-400 hover:text-white transition duration-150" data-lang-key="footer_privacy">Privacy Policy</a>
-            <span class="text-gray-600">|</span>
-            <a href="#" class="text-gray-400 hover:text-white transition duration-150" data-lang-key="footer_terms">Terms of Service</a>
-            <span class="text-gray-600">|</span>
-            <a href="{% url 'employee:employee_login' %}" 
-               class="text-gray-400 hover:text-white transition duration-150">
-               Employee Login
-            </a>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Contact Information Section -->
+        <div id="contact-info" class="hidden bg-gray-800 rounded-lg p-6 mb-8 transition-all duration-300">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-left">
+                <!-- Contact Details -->
+                <div>
+                    <h3 class="text-white font-semibold mb-4 flex items-center">
+                        <i class="fas fa-map-marker-alt mr-2 text-accent-gold"></i>
+                        Office Location
+                    </h3>
+                    <p class="text-gray-400 text-sm">
+                        Global Agency Services (GASE)<br>
+                        Kigamboni<br>
+                        Dar es Salaam, Tanzania<br>
+                        P.O. Box 36098
+                    </p>
+                </div>
+
+                <!-- Contact Numbers -->
+                <div>
+                    <h3 class="text-white font-semibold mb-4 flex items-center">
+                        <i class="fas fa-phone-alt mr-2 text-accent-gold"></i>
+                        Call Us
+                    </h3>
+                    <div class="space-y-2 text-sm">
+                        <p class="text-gray-400">
+                            <strong class="text-white">Main Office:</strong><br>
+                            <a href="tel:+255746177230" class="text-gray-400 hover:text-white transition duration-150">
+                                +255 746 177 230
+                            </a>
+                        </p>
+                        <p class="text-gray-400">
+                            <strong class="text-white">WhatsApp:</strong><br>
+                            <a href="https://wa.me/255746177230" class="text-gray-400 hover:text-white transition duration-150">
+                                +255 746 177 230
+                            </a>
+                        </p>
+                        <p class="text-gray-400">
+                            <strong class="text-white">Telegram:</strong><br>
+                            <a href="https://t.me/255746177230" class="text-gray-400 hover:text-white transition duration-150">
+                                +255 746 177 230
+                            </a>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Email & Online -->
+                <div>
+                    <h3 class="text-white font-semibold mb-4 flex items-center">
+                        <i class="fas fa-envelope mr-2 text-accent-gold"></i>
+                        Email & Online
+                    </h3>
+                    <div class="space-y-2 text-sm">
+                        <p class="text-gray-400">
+                            <strong class="text-white">General Inquiries:</strong><br>
+                            <a href="mailto:info@neovam.com" class="text-gray-400 hover:text-white transition duration-150">
+                                infoglobalagency@neovam.com
+                            </a>
+                        </p>
+                            </a>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Business Hours -->
+                <div>
+                    <h3 class="text-white font-semibold mb-4 flex items-center">
+                        <i class="fas fa-clock mr-2 text-accent-gold"></i>
+                        Business Hours
+                    </h3>
+                    <div class="space-y-1 text-sm text-gray-400">
+                        <p><strong class="text-white">Monday - Friday:</strong><br>8:00 AM - 6:00 PM</p>
+                        <p><strong class="text-white">Saturday:</strong><br>9:00 AM - 2:00 PM</p>
+                        <p><strong class="text-white">Sunday:</strong><br>Closed</p>
+                        <p class="text-xs text-accent-gold mt-2">* Emergency support available</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Services Information -->
+            <div class="mt-6 pt-6 border-t border-gray-700">
+                <h3 class="text-white font-semibold mb-4 text-center">Our Services</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center text-sm text-gray-400">
+                    <div>🎓 Study Abroad</div>
+                    <div>📚 TCU Services</div>
+                    <div>🛂 Visa Processing</div>
+                    <div>🏠 Accommodation</div>
+                </div>
+            </div>
+
+            <!-- Social Media Links -->
+            <div class="mt-6 pt-6 border-t border-gray-700">
+                <h3 class="text-white font-semibold mb-4 text-center">Follow Global Agency (GASE)</h3>
+                <div class="flex justify-center space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-blue-400 transition duration-150 transform hover:scale-110">
+                        <i class="fab fa-facebook-f text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-blue-300 transition duration-150 transform hover:scale-110">
+                        <i class="fab fa-twitter text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-pink-500 transition duration-150 transform hover:scale-110">
+                        <i class="fab fa-instagram text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-blue-600 transition duration-150 transform hover:scale-110">
+                        <i class="fab fa-linkedin-in text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-red-600 transition duration-150 transform hover:scale-110">
+                        <i class="fab fa-youtube text-xl"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Footer Content -->
+        <div class="text-center">
+            <!-- Contact Us Button -->
+            <button id="contact-toggle" 
+                    class="bg-accent-gold text-dark-text px-8 py-3 rounded-full font-semibold hover:bg-yellow-500 transition duration-300 transform hover:scale-105 mb-8 shadow-lg">
+                <i class="fas fa-phone-alt mr-2"></i>
+                Contact Global Agency (GASE)
+            </button>
+
+            <!-- Brand Logo -->
+            <div class="mb-4">
+                <span class="text-2xl font-extrabold text-white">Global <span class="text-accent-gold">Agency</span> Services</span>
+                <p class="text-gray-400 text-sm mt-2">(GASE) - Your Trusted Education Partner</p>
+            </div>
+            
+            <!-- Quick Contact Summary -->
+            <div class="mb-4 text-sm text-gray-400">
+                <p>📍 Kigamboni, Dar es Salaam | 📞 +255 746 177 230 | 📧 infoglobalagency@neovam.com</p>
+            </div>
+            
+            <!-- Copyright Text -->
+            <p class="mt-4 text-gray-400 text-sm">
+                &copy; 2025 Global Agency Services (GASE). <span data-lang-key="footer_rights">All rights reserved.</span> | Your trusted partner for study abroad since 2015.
+            </p>
+            
+            <!-- Footer Links -->
+            <div class="mt-6 space-x-4 text-sm">
+                <a href="#" class="text-gray-400 hover:text-white transition duration-150" data-lang-key="footer_privacy">Privacy Policy</a>
+                <span class="text-gray-600">|</span>
+                <a href="#" class="text-gray-400 hover:text-white transition duration-150" data-lang-key="footer_terms">Terms of Service</a>
+                <span class="text-gray-600">|</span>
+                <a href="{% url 'employee:employee_login' %}" 
+                   class="text-gray-400 hover:text-white transition duration-150">
+                   Employee Login
+                </a>
+            </div>
+
+            <!-- Quick Action Buttons -->
+            <div class="mt-6 flex flex-wrap justify-center gap-4">
+                <a href="{% url 'global_agency:contact' %}" 
+                   class="bg-primary-blue text-white px-6 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition duration-300 inline-flex items-center">
+                   <i class="fas fa-calendar-check mr-2"></i>
+                   Book Free Consultation
+                </a>
+                <a href="tel:+255746177230" 
+                   class="bg-green-600 text-white px-6 py-2 rounded-lg text-sm font-semibold hover:bg-green-700 transition duration-300 inline-flex items-center">
+                   <i class="fas fa-phone mr-2"></i>
+                   Call Now
+                </a>
+                <a href="https://wa.me/255746177230" 
+                   class="bg-green-500 text-white px-6 py-2 rounded-lg text-sm font-semibold hover:bg-green-600 transition duration-300 inline-flex items-center">
+                   <i class="fab fa-whatsapp mr-2"></i>
+                   WhatsApp Us
+                </a>
+            </div>
+
+            <!-- Trust Badges -->
+            <div class="mt-6 pt-6 border-t border-gray-700">
+                <div class="flex flex-wrap justify-center items-center gap-6 text-gray-400 text-sm">
+                    <div class="flex items-center">
+                        <i class="fas fa-shield-alt text-accent-gold mr-2"></i>
+                        <span>Trusted Education Partner</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-users text-accent-gold mr-2"></i>
+                        <span>5000+ Students Served</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-graduation-cap text-accent-gold mr-2"></i>
+                        <span>TCU Certified</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </footer>
+
+<!-- Add Font Awesome for icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+<style>
+    /* Smooth animations for contact section */
+    #contact-info {
+        transition: all 0.5s ease-in-out;
+    }
+    
+    #contact-info.hidden {
+        opacity: 0;
+        max-height: 0;
+        overflow: hidden;
+    }
+    
+    #contact-info:not(.hidden) {
+        opacity: 1;
+        max-height: 600px;
+    }
+
+    /* Hover effects for social icons */
+    .fab:hover {
+        transform: translateY(-2px);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        #contact-info .grid {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+        
+        .quick-action-buttons {
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .quick-action-buttons a {
+            width: 200px;
+            justify-content: center;
+        }
+        
+        .trust-badges {
+            flex-direction: column;
+            gap: 1rem;
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const contactToggle = document.getElementById('contact-toggle');
+        const contactInfo = document.getElementById('contact-info');
+
+        if (contactToggle && contactInfo) {
+            contactToggle.addEventListener('click', function() {
+                contactInfo.classList.toggle('hidden');
+                
+                // Update button text based on state
+                if (contactInfo.classList.contains('hidden')) {
+                    contactToggle.innerHTML = '<i class="fas fa-phone-alt mr-2"></i>Contact Global Agency (GASE)';
+                } else {
+                    contactToggle.innerHTML = '<i class="fas fa-times mr-2"></i>Close Contact Info';
+                }
+            });
+
+            // Close contact info when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!contactInfo.contains(event.target) && !contactToggle.contains(event.target)) {
+                    contactInfo.classList.add('hidden');
+                    contactToggle.innerHTML = '<i class="fas fa-phone-alt mr-2"></i>Contact Global Agency (GASE)';
+                }
+            });
+        }
+
+        // Smooth interactions for contact methods
+        const emailLinks = document.querySelectorAll('a[href^="mailto:"]');
+        emailLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const email = this.getAttribute('href').replace('mailto:', '');
+                window.location.href = `mailto:${email}`;
+            });
+        });
+
+        const telLinks = document.querySelectorAll('a[href^="tel:"]');
+        telLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const phone = this.getAttribute('href').replace('tel:', '');
+                window.location.href = `tel:${phone}`;
+            });
+        });
+
+        // Add click tracking for analytics
+        const actionButtons = document.querySelectorAll('.quick-action-buttons a, #contact-toggle');
+        actionButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // You can add Google Analytics or other tracking here
+                console.log('Contact action clicked:', this.textContent.trim());
+            });
+        });
+    });
+</script>
