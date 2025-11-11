@@ -1,6 +1,91 @@
 {% extends 'global_agency/base.html' %}
 {% load static %}
 {% block content %}
+<!-- Animated Banner Section -->
+<section class="w-full bg-gradient-to-r from-blue-900 via-purple-900 to-indigo-900 relative overflow-hidden mb-8 sm:mb-12">
+  <div class="relative h-64 sm:h-80 lg:h-96 overflow-hidden">
+    <!-- Background Image with Parallax -->
+    <div class="absolute inset-0">
+      <img src="{% static 'global_agency/img/tanzania-universities-banner.jpg' %}" 
+           alt="Tanzania Universities Campus Life"
+           class="w-full h-full object-cover opacity-40 parallax-bg">
+    </div>
+    
+    <!-- Moving University Images -->
+    <div class="absolute inset-0">
+      <!-- Moving from right to left -->
+      <div class="moving-university move-rtl-1">
+        <img src="{% static 'global_agency/img/universities/udsm-campus.jpg' %}" 
+             alt="UDSM Campus" 
+             class="w-32 h-20 sm:w-48 sm:h-28 object-cover rounded-lg shadow-2xl border-2 border-white/30">
+      </div>
+      <div class="moving-university move-rtl-2">
+        <img src="{% static 'global_agency/img/universities/udom-campus.jpg' %}" 
+             alt="UDOM Campus" 
+             class="w-32 h-20 sm:w-48 sm:h-28 object-cover rounded-lg shadow-2xl border-2 border-white/30">
+      </div>
+      <div class="moving-university move-rtl-3">
+        <img src="{% static 'global_agency/img/universities/must-campus.jpg' %}" 
+             alt="MUST Campus" 
+             class="w-32 h-20 sm:w-48 sm:h-28 object-cover rounded-lg shadow-2xl border-2 border-white/30">
+      </div>
+      
+      <!-- Moving from left to right -->
+      <div class="moving-university move-ltr-1">
+        <img src="{% static 'global_agency/img/universities/udsm-campus.jpg' %}" 
+             alt="UDSM Campus" 
+             class="w-28 h-16 sm:w-40 sm:h-24 object-cover rounded-lg shadow-2xl border-2 border-white/30">
+      </div>
+      <div class="moving-university move-ltr-2">
+        <img src="{% static 'global_agency/img/universities/udom-campus.jpg' %}" 
+             alt="UDOM Campus" 
+             class="w-28 h-16 sm:w-40 sm:h-24 object-cover rounded-lg shadow-2xl border-2 border-white/30">
+      </div>
+      <div class="moving-university move-ltr-3">
+        <img src="{% static 'global_agency/img/universities/must-campus.jpg' %}" 
+             alt="MUST Campus" 
+             class="w-28 h-16 sm:w-40 sm:h-24 object-cover rounded-lg shadow-2xl border-2 border-white/30">
+      </div>
+    </div>
+    
+    <!-- Content Overlay -->
+    <div class="absolute inset-0 flex items-center justify-center">
+      <div class="text-center text-white max-w-4xl mx-auto px-4">
+        <h1 class="text-3xl sm:text-5xl lg:text-6xl font-bold mb-4 animate-pulse">
+          Explore <span class="text-yellow-400">Tanzania</span> Universities
+        </h1>
+        <p class="text-lg sm:text-xl lg:text-2xl text-blue-100 mb-6 max-w-3xl mx-auto">
+          Discover top universities, programs, and opportunities across Tanzania's premier higher education institutions
+        </p>
+        <div class="flex flex-wrap justify-center gap-3">
+          <span class="bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-medium border border-white/30">Public Universities</span>
+          <span class="bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-medium border border-white/30">Private Colleges</span>
+          <span class="bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-medium border border-white/30">Technical Institutes</span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Floating Stats -->
+    <div class="absolute bottom-6 left-6 hidden sm:block">
+      <div class="bg-white/10 backdrop-blur-sm rounded-lg p-3 text-white border border-white/20">
+        <div class="flex items-center space-x-2">
+          <i class="fas fa-university text-yellow-400"></i>
+          <span class="font-semibold">{{ page_obj.paginator.count }}+ Universities</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="absolute bottom-6 right-6 hidden sm:block">
+      <div class="bg-white/10 backdrop-blur-sm rounded-lg p-3 text-white border border-white/20">
+        <div class="flex items-center space-x-2">
+          <i class="fas fa-graduation-cap text-yellow-400"></i>
+          <span class="font-semibold">1000+ Programs</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <div class="max-w-7xl mx-auto px-3 sm:px-4 py-6 sm:py-10">
   <!-- Header Section -->
   <div class="text-center mb-8 sm:mb-12">
@@ -180,6 +265,91 @@
 </div>
 
 <style>
+/* Banner Animations */
+.moving-university {
+  position: absolute;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  opacity: 0.8;
+  transition: all 0.3s ease;
+}
+
+.moving-university:hover {
+  opacity: 1;
+  transform: scale(1.1);
+  z-index: 10;
+}
+
+/* Right to Left Animations */
+.move-rtl-1 {
+  top: 20%;
+  animation: moveRightToLeft1 25s linear infinite;
+}
+
+.move-rtl-2 {
+  top: 50%;
+  animation: moveRightToLeft2 30s linear infinite;
+}
+
+.move-rtl-3 {
+  top: 70%;
+  animation: moveRightToLeft3 35s linear infinite;
+}
+
+/* Left to Right Animations */
+.move-ltr-1 {
+  top: 30%;
+  animation: moveLeftToRight1 28s linear infinite;
+}
+
+.move-ltr-2 {
+  top: 60%;
+  animation: moveLeftToRight2 32s linear infinite;
+}
+
+.move-ltr-3 {
+  top: 80%;
+  animation: moveLeftToRight3 38s linear infinite;
+}
+
+/* Right to Left Keyframes */
+@keyframes moveRightToLeft1 {
+  0% { transform: translateX(100vw) rotate(-5deg); }
+  100% { transform: translateX(-200px) rotate(5deg); }
+}
+
+@keyframes moveRightToLeft2 {
+  0% { transform: translateX(120vw) rotate(3deg); }
+  100% { transform: translateX(-300px) rotate(-3deg); }
+}
+
+@keyframes moveRightToLeft3 {
+  0% { transform: translateX(110vw) rotate(-2deg); }
+  100% { transform: translateX(-250px) rotate(2deg); }
+}
+
+/* Left to Right Keyframes */
+@keyframes moveLeftToRight1 {
+  0% { transform: translateX(-200px) rotate(4deg); }
+  100% { transform: translateX(100vw) rotate(-4deg); }
+}
+
+@keyframes moveLeftToRight2 {
+  0% { transform: translateX(-300px) rotate(-3deg); }
+  100% { transform: translateX(120vw) rotate(3deg); }
+}
+
+@keyframes moveLeftToRight3 {
+  0% { transform: translateX(-250px) rotate(2deg); }
+  100% { transform: translateX(110vw) rotate(-2deg); }
+}
+
+/* Parallax Effect */
+.parallax-bg {
+  transition: transform 0.1s ease-out;
+}
+
 /* Custom scrollbar for programs list */
 .custom-scrollbar::-webkit-scrollbar { width: 4px; }
 .custom-scrollbar::-webkit-scrollbar-track { background: #f8fafc; border-radius: 10px; }
@@ -207,6 +377,52 @@ input:focus, select:focus { outline: none; box-shadow: 0 0 0 3px rgba(59, 130, 2
   .p-6 { padding: 1rem !important; }
   .grid { grid-template-columns: 1fr !important; }
   .flex-wrap { flex-wrap: wrap; }
+  
+  /* Adjust banner for mobile */
+  .moving-university {
+    width: 100px !important;
+    height: 60px !important;
+  }
+  
+  .move-rtl-1, .move-rtl-2, .move-rtl-3,
+  .move-ltr-1, .move-ltr-2, .move-ltr-3 {
+    animation-duration: 20s !important;
+  }
 }
 </style>
+
+<script>
+// Parallax scroll effect for banner
+document.addEventListener('scroll', function() {
+  const banner = document.querySelector('.parallax-bg');
+  const scrolled = window.pageYOffset;
+  const parallaxSpeed = 0.3;
+  
+  if (banner && scrolled < window.innerHeight) {
+    const parallax = scrolled * parallaxSpeed;
+    banner.style.transform = `translateY(${parallax}px)`;
+  }
+});
+
+// Pause animations when not in viewport
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    const movingElements = entry.target.querySelectorAll('.moving-university');
+    movingElements.forEach(el => {
+      if (entry.isIntersecting) {
+        el.style.animationPlayState = 'running';
+      } else {
+        el.style.animationPlayState = 'paused';
+      }
+    });
+  });
+}, { threshold: 0.1 });
+
+document.addEventListener('DOMContentLoaded', function() {
+  const banner = document.querySelector('section');
+  if (banner) {
+    observer.observe(banner);
+  }
+});
+</script>
 {% endblock %}

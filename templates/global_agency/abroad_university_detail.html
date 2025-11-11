@@ -47,6 +47,180 @@
         </div>
     </section>
 
+    <!-- Top Abroad Universities Section -->
+    <section class="py-16 bg-gradient-to-br from-gray-50 to-blue-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                    Explore Other Top <span class="text-blue-600">Global Universities</span>
+                </h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                    Discover world-class institutions that offer exceptional education and global opportunities
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Harvard University -->
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="{% static 'global_agency/img/universities/abroad/harvard.jpg' %}" 
+                             alt="Harvard University Campus"
+                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                             onerror="this.src='https://images.unsplash.com/photo-1541339907198-e08756dedf3f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80'">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                        <div class="absolute bottom-4 left-4">
+                            <span class="bg-red-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                                #1 Worldwide
+                            </span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Harvard University</h3>
+                        <p class="text-gray-600 text-sm mb-3 flex items-center">
+                            <i class="fas fa-map-marker-alt text-red-500 mr-2"></i>
+                            Cambridge, USA
+                        </p>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-sm text-gray-500">Ivy League</span>
+                            <span class="text-yellow-500">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </span>
+                        </div>
+                        <a href="{% url 'global_agency:abroad_university_detail' 'harvard' %}" 
+                           class="block w-full bg-red-600 text-white text-center py-3 rounded-lg font-semibold hover:bg-red-700 transition-colors">
+                            Explore Harvard
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Stanford University -->
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="{% static 'global_agency/img/universities/abroad/stanford.jpg' %}" 
+                             alt="Stanford University Campus"
+                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                             onerror="this.src='https://images.unsplash.com/photo-1541339907198-e08756dedf3f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80'">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                        <div class="absolute bottom-4 left-4">
+                            <span class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                                #2 Worldwide
+                            </span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Stanford University</h3>
+                        <p class="text-gray-600 text-sm mb-3 flex items-center">
+                            <i class="fas fa-map-marker-alt text-red-500 mr-2"></i>
+                            California, USA
+                        </p>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-sm text-gray-500">Silicon Valley</span>
+                            <span class="text-yellow-500">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </span>
+                        </div>
+                        <a href="{% url 'global_agency:abroad_university_detail' 'stanford' %}" 
+                           class="block w-full bg-red-500 text-white text-center py-3 rounded-lg font-semibold hover:bg-red-600 transition-colors">
+                            Explore Stanford
+                        </a>
+                    </div>
+                </div>
+
+                <!-- MIT -->
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="{% static 'global_agency/img/universities/abroad/mit.jpg' %}" 
+                             alt="MIT Campus"
+                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                             onerror="this.src='https://images.unsplash.com/photo-1541339907198-e08756dedf3f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80'">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                        <div class="absolute bottom-4 left-4">
+                            <span class="bg-gray-700 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                                #3 Worldwide
+                            </span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">MIT</h3>
+                        <p class="text-gray-600 text-sm mb-3 flex items-center">
+                            <i class="fas fa-map-marker-alt text-red-500 mr-2"></i>
+                            Massachusetts, USA
+                        </p>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-sm text-gray-500">Technology</span>
+                            <span class="text-yellow-500">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </span>
+                        </div>
+                        <a href="{% url 'global_agency:abroad_university_detail' 'mit' %}" 
+                           class="block w-full bg-gray-700 text-white text-center py-3 rounded-lg font-semibold hover:bg-gray-800 transition-colors">
+                            Explore MIT
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Oxford University -->
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="{% static 'global_agency/img/universities/abroad/oxford.jpg' %}" 
+                             alt="Oxford University Campus"
+                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                             onerror="this.src='https://images.unsplash.com/photo-1541339907198-e08756dedf3f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80'">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                        <div class="absolute bottom-4 left-4">
+                            <span class="bg-blue-700 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                                #1 UK
+                            </span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Oxford University</h3>
+                        <p class="text-gray-600 text-sm mb-3 flex items-center">
+                            <i class="fas fa-map-marker-alt text-red-500 mr-2"></i>
+                            Oxford, UK
+                        </p>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-sm text-gray-500">Russell Group</span>
+                            <span class="text-yellow-500">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </span>
+                        </div>
+                        <a href="{% url 'global_agency:abroad_university_detail' 'oxford' %}" 
+                           class="block w-full bg-blue-700 text-white text-center py-3 rounded-lg font-semibold hover:bg-blue-800 transition-colors">
+                            Explore Oxford
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- View All Universities Button -->
+            <div class="text-center mt-12">
+                <a href="{% url 'global_agency:all_countries' %}" 
+                   class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                    <i class="fas fa-globe-americas mr-3"></i>
+                    Explore All 600+ Universities
+                    <i class="fas fa-arrow-right ml-3"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
     <!-- Main Content -->
     <section class="py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

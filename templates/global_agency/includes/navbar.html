@@ -17,7 +17,93 @@
         <ul class="flex items-center space-x-6">
           <li><a href="{% url 'global_agency:home' %}" class="hover:text-primary-blue transition duration-150 font-semibold text-base md:text-lg">Home</a></li>
           <li><a href="#about" class="hover:text-primary-blue transition duration-150 font-semibold text-base md:text-lg">About Us</a></li>
-          <li><a href="#services" class="hover:text-primary-blue transition duration-150 font-semibold text-base md:text-lg">Services</a></li>
+          
+          <!-- Services Dropdown -->
+          <li class="relative group">
+            <button class="hover:text-primary-blue transition duration-150 font-semibold text-base md:text-lg flex items-center focus:outline-none">
+              Services
+              <svg class="w-4 h-4 ml-1 transform group-hover:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </button>
+            
+            <!-- Services Dropdown Menu -->
+            <div class="absolute left-0 mt-2 w-72 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 border border-gray-200 z-50 transform origin-top">
+              <div class="p-4">
+                <!-- Service 1: Counseling -->
+                <a href="#services" class="flex items-center p-3 hover:bg-blue-50 rounded-lg transition duration-150 group/service">
+                  <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
+                    <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14z"/><path d="m21 21-4.3-4.3"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 class="font-semibold text-gray-900 group-hover/service:text-primary-blue">Profile & Course Match</h4>
+                    <p class="text-xs text-gray-600 mt-1">Personalized counseling for perfect university match</p>
+                  </div>
+                </a>
+
+                <!-- Service 2: Application -->
+                <a href="#services" class="flex items-center p-3 hover:bg-blue-50 rounded-lg transition duration-150 group/service mt-2">
+                  <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
+                    <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><path d="M14 2v6h6"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 class="font-semibold text-gray-900 group-hover/service:text-primary-blue">Application & Offers</h4>
+                    <p class="text-xs text-gray-600 mt-1">Meticulous application review and submission</p>
+                  </div>
+                </a>
+
+                <!-- Service 3: Finance & Scholarship -->
+                <a href="#services" class="flex items-center p-3 hover:bg-blue-50 rounded-lg transition duration-150 group/service mt-2">
+                  <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
+                    <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 class="font-semibold text-gray-900 group-hover/service:text-primary-blue">Funding & Scholarships</h4>
+                    <p class="text-xs text-gray-600 mt-1">Education loans and scholarship guidance</p>
+                  </div>
+                </a>
+
+                <!-- Service 4: Visa -->
+                <a href="#services" class="flex items-center p-3 hover:bg-blue-50 rounded-lg transition duration-150 group/service mt-2">
+                  <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
+                    <svg class="w-5 h-5 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 class="font-semibold text-gray-900 group-hover/service:text-primary-blue">Visa & Interview Prep</h4>
+                    <p class="text-xs text-gray-600 mt-1">Highest success rate visa documentation</p>
+                  </div>
+                </a>
+
+                <!-- Service 5: Departure -->
+                <a href="#services" class="flex items-center p-3 hover:bg-blue-50 rounded-lg transition duration-150 group/service mt-2">
+                  <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
+                    <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.8 13.9 16 11H9V5L2 4v2l7 2v3l-7 1v2l7 1v3l7-2V11l1.8-2.9c.7-1.1.7-2.6 0-3.7-.7-1.1-2.1-1.7-3.4-1.2L12 6"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 class="font-semibold text-gray-900 group-hover/service:text-primary-blue">Pre & Post Departure</h4>
+                    <p class="text-xs text-gray-600 mt-1">Accommodation and flight arrangements</p>
+                  </div>
+                </a>
+
+                <!-- View All Services -->
+                <div class="mt-4 pt-3 border-t border-gray-200">
+                  <a href="#services" class="block text-center bg-primary-blue text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-700 transition duration-150 text-sm">
+                    View All Services
+                  </a>
+                </div>
+              </div>
+            </div>
+          </li>
           
           <!-- Universities Dropdown -->
           <li class="relative group">
@@ -28,7 +114,7 @@
               </svg>
             </button>
             
-            <!-- Dropdown Menu -->
+            <!-- Universities Dropdown Menu -->
             <div class="absolute left-0 mt-2 w-80 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 border border-gray-200 z-50 transform origin-top">
               <div class="p-4">
                 <!-- Local Universities Section -->
@@ -104,7 +190,93 @@
       <div class="py-2 space-y-0">
         <a href="{% url 'global_agency:home' %}" class="block px-4 py-3 text-gray-700 font-medium hover:bg-gray-50 border-b border-gray-100 transition duration-150">Home</a>
         <a href="#about" class="block px-4 py-3 text-gray-700 font-medium hover:bg-gray-50 border-b border-gray-100 transition duration-150">About Us</a>
-        <a href="#services" class="block px-4 py-3 text-gray-700 font-medium hover:bg-gray-50 border-b border-gray-100 transition duration-150">Services</a>
+        
+        <!-- Mobile Services Dropdown -->
+        <div class="border-b border-gray-100">
+          <button id="mobile-services-toggle" class="w-full text-left px-4 py-3 text-gray-700 font-medium hover:bg-gray-50 flex justify-between items-center transition duration-150">
+            <span>Services</span>
+            <svg id="mobile-services-arrow" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
+          <div id="mobile-services-menu" class="hidden bg-gray-50 transition-all duration-300 overflow-hidden">
+            <div class="px-6 py-3 border-b border-gray-200">
+              <a href="#services" class="flex items-center py-3 text-sm text-gray-700 hover:text-primary-blue transition duration-150">
+                <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
+                  <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14z"/><path d="m21 21-4.3-4.3"/>
+                  </svg>
+                </div>
+                <div>
+                  <h4 class="font-semibold">Profile & Course Match</h4>
+                  <p class="text-xs text-gray-600 mt-1">Personalized counseling</p>
+                </div>
+              </a>
+            </div>
+            
+            <div class="px-6 py-3 border-b border-gray-200">
+              <a href="#services" class="flex items-center py-3 text-sm text-gray-700 hover:text-primary-blue transition duration-150">
+                <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
+                  <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
+                  </svg>
+                </div>
+                <div>
+                  <h4 class="font-semibold">Application & Offers</h4>
+                  <p class="text-xs text-gray-600 mt-1">Application review</p>
+                </div>
+              </a>
+            </div>
+            
+            <div class="px-6 py-3 border-b border-gray-200">
+              <a href="#services" class="flex items-center py-3 text-sm text-gray-700 hover:text-primary-blue transition duration-150">
+                <div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
+                  <svg class="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                  </svg>
+                </div>
+                <div>
+                  <h4 class="font-semibold">Funding & Scholarships</h4>
+                  <p class="text-xs text-gray-600 mt-1">Financial guidance</p>
+                </div>
+              </a>
+            </div>
+            
+            <div class="px-6 py-3 border-b border-gray-200">
+              <a href="#services" class="flex items-center py-3 text-sm text-gray-700 hover:text-primary-blue transition duration-150">
+                <div class="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
+                  <svg class="w-4 h-4 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/>
+                  </svg>
+                </div>
+                <div>
+                  <h4 class="font-semibold">Visa & Interview Prep</h4>
+                  <p class="text-xs text-gray-600 mt-1">Visa documentation</p>
+                </div>
+              </a>
+            </div>
+            
+            <div class="px-6 py-3">
+              <a href="#services" class="flex items-center py-3 text-sm text-gray-700 hover:text-primary-blue transition duration-150">
+                <div class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
+                  <svg class="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.8 13.9 16 11H9V5L2 4v2l7 2v3l-7 1v2l7 1v3l7-2V11l1.8-2.9c.7-1.1.7-2.6 0-3.7-.7-1.1-2.1-1.7-3.4-1.2L12 6"/>
+                  </svg>
+                </div>
+                <div>
+                  <h4 class="font-semibold">Pre & Post Departure</h4>
+                  <p class="text-xs text-gray-600 mt-1">Accommodation & flights</p>
+                </div>
+              </a>
+            </div>
+            
+            <div class="px-6 py-4 border-t border-gray-200">
+              <a href="#services" class="block text-center bg-primary-blue text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-700 transition duration-150 text-sm">
+                View All Services
+              </a>
+            </div>
+          </div>
+        </div>
         
         <!-- Mobile Universities Dropdown -->
         <div class="border-b border-gray-100">
@@ -172,6 +344,9 @@
     const universitiesToggle = document.getElementById('mobile-universities-toggle');
     const universitiesMenu = document.getElementById('mobile-universities-menu');
     const mobileArrow = document.getElementById('mobile-arrow');
+    const servicesToggle = document.getElementById('mobile-services-toggle');
+    const servicesMenu = document.getElementById('mobile-services-menu');
+    const servicesArrow = document.getElementById('mobile-services-arrow');
 
     // Toggle main mobile menu
     if (mobileMenuButton && mobileMenu) {
@@ -190,16 +365,31 @@
       });
     }
 
+    // Toggle services submenu
+    if (servicesToggle && servicesMenu && servicesArrow) {
+      servicesToggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        servicesMenu.classList.toggle('hidden');
+        servicesArrow.classList.toggle('rotate-180');
+      });
+    }
+
     // Close menu when clicking outside
     document.addEventListener('click', function(event) {
       if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
         if (!mobileMenu.contains(event.target) && !mobileMenuButton.contains(event.target)) {
           mobileMenu.classList.add('hidden');
-          // Also close universities submenu if open
+          // Also close submenus if open
           if (universitiesMenu && !universitiesMenu.classList.contains('hidden')) {
             universitiesMenu.classList.add('hidden');
             if (mobileArrow) {
               mobileArrow.classList.remove('rotate-180');
+            }
+          }
+          if (servicesMenu && !servicesMenu.classList.contains('hidden')) {
+            servicesMenu.classList.add('hidden');
+            if (servicesArrow) {
+              servicesArrow.classList.remove('rotate-180');
             }
           }
         }
@@ -211,19 +401,30 @@
     mobileLinks.forEach(link => {
       link.addEventListener('click', function() {
         mobileMenu.classList.add('hidden');
-        // Reset universities menu state
+        // Reset menu states
         if (universitiesMenu && !universitiesMenu.classList.contains('hidden')) {
           universitiesMenu.classList.add('hidden');
           if (mobileArrow) {
             mobileArrow.classList.remove('rotate-180');
           }
         }
+        if (servicesMenu && !servicesMenu.classList.contains('hidden')) {
+          servicesMenu.classList.add('hidden');
+          if (servicesArrow) {
+            servicesArrow.classList.remove('rotate-180');
+          }
+        }
       });
     });
 
-    // Prevent dropdown from closing when clicking inside it
+    // Prevent dropdown from closing when clicking inside them
     if (universitiesMenu) {
       universitiesMenu.addEventListener('click', function(e) {
+        e.stopPropagation();
+      });
+    }
+    if (servicesMenu) {
+      servicesMenu.addEventListener('click', function(e) {
         e.stopPropagation();
       });
     }
@@ -247,13 +448,15 @@
   }
 
   /* Mobile menu animations */
-  #mobile-universities-menu {
+  #mobile-universities-menu,
+  #mobile-services-menu {
     max-height: 0;
     transition: max-height 0.3s ease-in-out;
   }
 
-  #mobile-universities-menu:not(.hidden) {
-    max-height: 500px;
+  #mobile-universities-menu:not(.hidden),
+  #mobile-services-menu:not(.hidden) {
+    max-height: 600px;
   }
 
   /* Ensure mobile menu appears above other content */
