@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Application - Student Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            line-height: 1.6;
+        }
+        .header {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+        }
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .nav-menu a:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        .form-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: bold;
+        }
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+        }
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=US-ASCII,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'><path fill='%23333' d='M2 0L0 2h4zm0 5L0 3h4z'/></svg>");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 0.65rem;
+        }
+        .btn-primary {
+            background: #007bff;
+            color: white;
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+        .btn-primary:hover {
+            background: #0056b3;
+        }
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            text-decoration: none;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            display: inline-block;
+            margin-right: 1rem;
+        }
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .application-type-info {
+            background: #e7f3ff;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #007bff;
+        }
+        .required-field::after {
+            content: " *";
+            color: #dc3545;
+        }
+        .hidden {
+            display: none;
+        }
+        .payment-notice {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-left: 4px solid #fdcb6e;
+        }
+        .payment-notice h4 {
+            color: #856404;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .payment-notice p {
+            color: #856404;
+            margin: 0;
+        }
+        .payment-amount {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #e17055;
+            margin: 0.5rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Student Portal</h1>
+        <nav class="nav-menu">
+            <a href="{% url 'student_portal:dashboard' %}">Dashboard</a>
+            <a href="{% url 'student_portal:profile' %}">My Profile</a>
+            <a href="{% url 'student_portal:applications' %}">Applications</a>
+            <a href="{% url 'student_portal:documents' %}">Documents</a>
+            <a href="{% url 'student_portal:messages' %}">Messages</a>
+        </nav>
+        <div>
+            Welcome, {{ user.get_full_name|default:user.username }}!
+            <a href="{% url 'student_portal:logout' %}" style="background: #dc3545; color: white; padding: 0.5rem 1rem; text-decoration: none; border-radius: 4px; margin-left: 1rem;">Logout</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="form-card">
+            <h2 style="margin-bottom: 2rem; color: #333;">Create New Application</h2>
+
+            <form method="post">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label for="id_application_type" class="required-field">Application Type</label>
+                    <select name="application_type" id="id_application_type" class="form-control" required>
+                        <option value="">Select Application Type</option>
+                        <option value="university">University Application</option>
+                        <option value="visa">Visa Application</option>
+                        <option value="scholarship">Scholarship Application</option>
+                        <option value="loan">Student Loan Application</option>
+                    </select>
+                </div>
+
+                <!-- University Application Fields -->
+                <div id="university-fields" class="hidden">
+                    <div class="application-type-info">
+                        <h4>University Application</h4>
+                        <p>Apply to universities abroad or locally. Make sure you have all required documents ready.</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="id_university_name" class="required-field">University Name</label>
+                        <input type="text" name="university_name" id="id_university_name" class="form-control" placeholder="Enter university name">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="id_course" class="required-field">Course/Program</label>
+                            <input type="text" name="course" id="id_course" class="form-control" placeholder="e.g., Computer Science">
+                        </div>
+                        <div class="form-group">
+                            <label for="id_country" class="required-field">Country</label>
+                            <input type="text" name="country" id="id_country" class="form-control" placeholder="e.g., United States">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Visa Application Fields -->
+                <div id="visa-fields" class="hidden">
+                    <div class="application-type-info">
+                        <h4>Visa Application</h4>
+                        <p>Apply for student visa. You'll need passport, admission letter, and financial documents.</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="id_visa_country" class="required-field">Destination Country</label>
+                        <input type="text" name="visa_country" id="id_visa_country" class="form-control" placeholder="e.g., United States">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_visa_type" class="required-field">Visa Type</label>
+                        <select name="visa_course" id="id_visa_type" class="form-control">
+                            <option value="">Select Visa Type</option>
+                            <option value="student_visa">Student Visa</option>
+                            <option value="tourist_visa">Tourist Visa</option>
+                            <option value="work_visa">Work Visa</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_duration" class="required-field">Intended Duration</label>
+                        <input type="text" name="visa_duration" id="id_duration" class="form-control" placeholder="e.g., 2 years">
+                    </div>
+                </div>
+
+                <!-- Scholarship Application Fields -->
+                <div id="scholarship-fields" class="hidden">
+                    <div class="application-type-info">
+                        <h4>Scholarship Application</h4>
+                        <p>Apply for scholarships and financial aid programs.</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="id_scholarship_name" class="required-field">Scholarship Name/Provider</label>
+                        <input type="text" name="scholarship_university_name" id="id_scholarship_name" class="form-control" placeholder="e.g., Government Scholarship, University Scholarship">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_scholarship_type" class="required-field">Scholarship Type</label>
+                        <select name="scholarship_course" id="id_scholarship_type" class="form-control">
+                            <option value="">Select Scholarship Type</option>
+                            <option value="full_scholarship">Full Scholarship</option>
+                            <option value="partial_scholarship">Partial Scholarship</option>
+                            <option value="research_grant">Research Grant</option>
+                            <option value="merit_based">Merit-Based</option>
+                            <option value="need_based">Need-Based</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_coverage" class="required-field">Coverage Details</label>
+                        <input type="text" name="scholarship_country" id="id_coverage" class="form-control" placeholder="e.g., Tuition + Living Expenses">
+                    </div>
+                </div>
+
+                <!-- Loan Application Fields -->
+                <div id="loan-fields" class="hidden">
+                    <div class="application-type-info">
+                        <h4>Student Loan Application</h4>
+                        <p>Apply for student loans through various loan boards.</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="id_loan_provider" class="required-field">Loan Provider</label>
+                        <input type="text" name="loan_university_name" id="id_loan_provider" class="form-control" placeholder="e.g., Higher Education Loan Board">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="id_loan_amount" class="required-field">Loan Amount Requested</label>
+                            <input type="text" name="loan_course" id="id_loan_amount" class="form-control" placeholder="e.g., $20,000">
+                        </div>
+                        <div class="form-group">
+                            <label for="id_loan_purpose" class="required-field">Purpose of Loan</label>
+                            <select name="loan_country" id="id_loan_purpose" class="form-control">
+                                <option value="">Select Purpose</option>
+                                <option value="tuition">Tuition Fees</option>
+                                <option value="accommodation">Accommodation</option>
+                                <option value="books">Books & Materials</option>
+                                <option value="living_expenses">Living Expenses</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PAYMENT NOTICE SECTION -->
+                <div class="payment-notice">
+                    <h4>💰 Payment Required</h4>
+                    <div class="payment-amount">Service Charge: TZS 5,000</div>
+                    <p><strong>Important:</strong> A service charge of <strong>TZS 5,000</strong> is required to submit your application. 
+                    After filling this form, you will be redirected to the payment page. Your application will only be processed after successful payment.</p>
+                    <p style="margin-top: 0.5rem;"><strong>No payment = No application submission</strong></p>
+                </div>
+
+                <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                    <button type="submit" class="btn-primary">Continue to Payment</button>
+                    <a href="{% url 'student_portal:applications' %}" class="btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('id_application_type').addEventListener('change', function() {
+            const type = this.value;
+            
+            // Hide all fields
+            document.getElementById('university-fields').classList.add('hidden');
+            document.getElementById('visa-fields').classList.add('hidden');
+            document.getElementById('scholarship-fields').classList.add('hidden');
+            document.getElementById('loan-fields').classList.add('hidden');
+            
+            // Clear all required fields when switching types
+            clearAllFields();
+            
+            // Show relevant fields
+            if (type === 'university') {
+                document.getElementById('university-fields').classList.remove('hidden');
+                setFieldsRequired('university');
+            } else if (type === 'visa') {
+                document.getElementById('visa-fields').classList.remove('hidden');
+                setFieldsRequired('visa');
+            } else if (type === 'scholarship') {
+                document.getElementById('scholarship-fields').classList.remove('hidden');
+                setFieldsRequired('scholarship');
+            } else if (type === 'loan') {
+                document.getElementById('loan-fields').classList.remove('hidden');
+                setFieldsRequired('loan');
+            }
+        });
+
+        function clearAllFields() {
+            // Clear all input fields when switching application types
+            const allInputs = document.querySelectorAll('input, select');
+            allInputs.forEach(input => {
+                if (input.id !== 'id_application_type') {
+                    input.value = '';
+                    input.required = false;
+                }
+            });
+        }
+
+        function setFieldsRequired(type) {
+            // Set required fields based on application type
+            if (type === 'university') {
+                document.getElementById('id_university_name').required = true;
+                document.getElementById('id_course').required = true;
+                document.getElementById('id_country').required = true;
+            } else if (type === 'visa') {
+                document.getElementById('id_visa_country').required = true;
+                document.getElementById('id_visa_type').required = true;
+                document.getElementById('id_duration').required = true;
+            } else if (type === 'scholarship') {
+                document.getElementById('id_scholarship_name').required = true;
+                document.getElementById('id_scholarship_type').required = true;
+                document.getElementById('id_coverage').required = true;
+            } else if (type === 'loan') {
+                document.getElementById('id_loan_provider').required = true;
+                document.getElementById('id_loan_amount').required = true;
+                document.getElementById('id_loan_purpose').required = true;
+            }
+        }
+
+        // Initialize - hide all fields initially
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('university-fields').classList.add('hidden');
+            document.getElementById('visa-fields').classList.add('hidden');
+            document.getElementById('scholarship-fields').classList.add('hidden');
+            document.getElementById('loan-fields').classList.add('hidden');
+        });
+    </script>
+</body>
+</html>

@@ -16,6 +16,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'global_agency',
     'employee',
+     'student_portal',  
 ]
 
 MIDDLEWARE = [
@@ -73,3 +74,4 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+# AUTH_USER_MODEL = 'global_agency.StudentUser'

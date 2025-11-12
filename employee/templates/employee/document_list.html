@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documents - Employee Portal</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background-color: #f8f9fa; line-height: 1.6; }
+        .header { background: linear-gradient(135deg, #28a745, #20c997); color: white; padding: 1rem 2rem; }
+        .nav-menu { display: flex; gap: 2rem; margin-top: 1rem; }
+        .nav-menu a { color: white; text-decoration: none; padding: 0.5rem 1rem; border-radius: 4px; }
+        .nav-menu a:hover { background-color: rgba(255,255,255,0.2); }
+        .container { max-width: 1400px; margin: 2rem auto; padding: 0 2rem; }
+        .filters { background: white; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .search-box { display: flex; gap: 1rem; margin-bottom: 1rem; }
+        .search-box input { flex: 1; padding: 0.75rem; border: 1px solid #ddd; border-radius: 4px; }
+        .doc-type-filters { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .filter-btn { padding: 0.5rem 1rem; border: 1px solid #ddd; border-radius: 4px; background: white; cursor: pointer; text-decoration: none; color: #333; }
+        .filter-btn.active { background: #28a745; color: white; border-color: #28a745; }
+        .filter-btn:hover { background: #e9ecef; }
+        table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        th, td { padding: 1rem; text-align: left; border-bottom: 1px solid #dee2e6; }
+        th { background: #f8f9fa; font-weight: bold; color: #495057; }
+        tr:hover { background: #f8f9fa; }
+        .btn { padding: 0.5rem 1rem; border-radius: 4px; text-decoration: none; display: inline-block; border: none; cursor: pointer; }
+        .btn-primary { background: #007bff; color: white; }
+        .btn-success { background: #28a745; color: white; }
+        .btn-sm { padding: 0.25rem 0.75rem; font-size: 0.875rem; }
+        .empty-state { text-align: center; padding: 3rem; color: #666; }
+        .verified-badge { color: #28a745; font-weight: bold; }
+        .pending-badge { color: #dc3545; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Employee Portal</h1>
+        <nav class="nav-menu">
+            <a href="{% url 'employee:employee_dashboard' %}">Dashboard</a>
+            <a href="{% url 'employee:student_application_list' %}">Student Applications</a>
+            <a href="{% url 'employee:document_list' %}" style="background: rgba(255,255,255,0.2);">Documents</a>
+            <a href="{% url 'employee:contact_messages' %}">Contact Messages</a>
+            <a href="{% url 'admin:index' %}">Admin</a>
+            <a href="{% url 'employee:employee_logout' %}">Logout</a>
+        </nav>
+        <div style="margin-top: 1rem;">Welcome, {{ user.get_full_name|default:user.username }}</div>
+    </div>
+
+    <div class="container">
+        <h2>Student Documents</h2>
+        
+        <!-- Filters and Search -->
+        <div class="filters">
+            <form method="get" class="search-box">
+                <input type="text" name="search" placeholder="Search by student name or document type..." value="{{ search_query|default:'' }}">
+                <button type="submit" class="btn btn-success">Search</button>
+                {% if search_query or doc_type_filter %}
+                <a href="{% url 'employee:document_list' %}" class="btn" style="background: #6c757d; color: white;">Clear</a>
+                {% endif %}
+            </form>
+            
+            <div class="doc-type-filters">
+                <strong>Filter by Document Type:</strong>
+                <a href="{% url 'employee:document_list' %}" class="filter-btn {% if not doc_type_filter %}active{% endif %}">All</a>
+                <a href="?doc_type=passport" class="filter-btn {% if doc_type_filter == 'passport' %}active{% endif %}">Passport</a>
+                <a href="?doc_type=academic_transcript" class="filter-btn {% if doc_type_filter == 'academic_transcript' %}active{% endif %}">Transcripts</a>
+                <a href="?doc_type=degree_certificate" class="filter-btn {% if doc_type_filter == 'degree_certificate' %}active{% endif %}">Degree Certificates</a>
+                <a href="?doc_type=recommendation_letter" class="filter-btn {% if doc_type_filter == 'recommendation_letter' %}active{% endif %}">Recommendation Letters</a>
+                <a href="?doc_type=financial_documents" class="filter-btn {% if doc_type_filter == 'financial_documents' %}active{% endif %}">Financial Documents</a>
+            </div>
+        </div>
+
+        <!-- Documents Table -->
+        <div style="background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+            {% if documents %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th>Document Type</th>
+                        <th>File Name</th>
+                        <th>Description</th>
+                        <th>Uploaded</th>
+                        <th>Verification</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for doc in documents %}
+                    <tr>
+                        <td>
+                            <strong>{{ doc.student.get_full_name|default:doc.student.username }}</strong><br>
+                            <small>{{ doc.student.email }}</small>
+                        </td>
+                        <td>
+                            <strong>{{ doc.get_document_type_display }}</strong>
+                        </td>
+                        <td>
+                            {{ doc.file.name|slice:"12:" }}<br>
+                            <small style="color: #666;">{{ doc.file.size|filesizeformat }}</small>
+                        </td>
+                        <td>
+                            {% if doc.description %}
+                                {{ doc.description|truncatewords:10 }}
+                            {% else %}
+                                <span style="color: #999;">No description</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ doc.uploaded_at|date:"M d, Y" }}</td>
+                        <td>
+                            {% if doc.is_verified %}
+                                <span class="verified-badge">✓ Verified</span>
+                            {% else %}
+                                <span class="pending-badge">Pending</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ doc.file.url }}" target="_blank" class="btn btn-primary btn-sm">View</a>
+                            <a href="{% url 'employee:student_application_list' %}?search={{ doc.student.username }}" class="btn btn-success btn-sm">Student Apps</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="empty-state">
+                <h3>No Documents Found</h3>
+                <p>{% if search_query or doc_type_filter %}Try adjusting your search criteria{% else %}No documents have been uploaded yet.{% endif %}</p>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Document Statistics -->
+        <div style="margin-top: 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+            <div style="background: white; padding: 1rem; border-radius: 8px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                <div style="font-size: 1.5rem; font-weight: bold; color: #17a2b8;">{{ documents.count }}</div>
+                <div>Total Documents</div>
+            </div>
+            <div style="background: white; padding: 1rem; border-radius: 8px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                <div style="font-size: 1.5rem; font-weight: bold; color: #28a745;">{{ documents|length }}</div>
+                <div>Displayed</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

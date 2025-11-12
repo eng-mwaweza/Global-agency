@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ service_name }} - Student Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            line-height: 1.6;
+        }
+        .header {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+        }
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .nav-menu a:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        .form-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .service-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e9ecef;
+        }
+        .service-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: bold;
+        }
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .btn-primary {
+            background: #007bff;
+            color: white;
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+        .btn-primary:hover {
+            background: #0056b3;
+        }
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            text-decoration: none;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            display: inline-block;
+            margin-right: 1rem;
+        }
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+        .document-checklist {
+            background: #e7f3ff;
+            padding: 1.5rem;
+            border-radius: 6px;
+            margin-bottom: 2rem;
+            border-left: 4px solid #007bff;
+        }
+        .document-checklist h4 {
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        .document-checklist ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .document-checklist li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #b8d4f0;
+        }
+        .document-checklist li:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Student Portal</h1>
+        <nav class="nav-menu">
+            <a href="{% url 'student_portal:dashboard' %}">Dashboard</a>
+            <a href="{% url 'student_portal:profile' %}">My Profile</a>
+            <a href="{% url 'student_portal:applications' %}">Applications</a>
+            <a href="{% url 'student_portal:documents' %}">Documents</a>
+            <a href="{% url 'student_portal:messages' %}">Messages</a>
+        </nav>
+        <div>
+            Welcome, {{ user.get_full_name|default:user.username }}!
+            <a href="{% url 'student_portal:logout' %}" style="background: #dc3545; color: white; padding: 0.5rem 1rem; text-decoration: none; border-radius: 4px; margin-left: 1rem;">Logout</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="form-card">
+            <div class="service-header">
+                {% if service_type == 'university' %}
+                <div class="service-icon">🎓</div>
+                {% elif service_type == 'visa' %}
+                <div class="service-icon">🛂</div>
+                {% elif service_type == 'passport' %}
+                <div class="service-icon">📘</div>
+                {% elif service_type == 'loan' %}
+                <div class="service-icon">💰</div>
+                {% elif service_type == 'tcu' %}
+                <div class="service-icon">🏛️</div>
+                {% elif service_type == 'flight' %}
+                <div class="service-icon">✈️</div>
+                {% endif %}
+                <h2>{{ service_name }}</h2>
+                <p>Please fill in all the required information below</p>
+            </div>
+
+            <div class="document-checklist">
+                <h4>📋 Required Documents Checklist</h4>
+                <ul>
+                    {% if service_type == 'university' %}
+                    <li>✅ Academic transcripts and certificates</li>
+                    <li>✅ Passport-sized photographs</li>
+                    <li>✅ Recommendation letters (2-3)</li>
+                    <li>✅ Statement of Purpose</li>
+                    <li>✅ CV/Resume</li>
+                    <li>✅ Language test results (if applicable)</li>
+                    {% elif service_type == 'visa' %}
+                    <li>✅ Valid passport</li>
+                    <li>✅ University admission letter</li>
+                    <li>✅ Financial support documents</li>
+                    <li>✅ Academic certificates</li>
+                    <li>✅ Passport photographs</li>
+                    <li>✅ Visa application form</li>
+                    {% elif service_type == 'passport' %}
+                    <li>✅ Birth certificate</li>
+                    <li>✅ National ID card</li>
+                    <li>✅ Passport photographs</li>
+                    <li>✅ Application form</li>
+                    <li>✅ Payment receipt</li>
+                    {% elif service_type == 'loan' %}
+                    <li>✅ Admission letter</li>
+                    <li>✅ Fee structure from university</li>
+                    <li>✅ Financial statements</li>
+                    <li>✅ Guarantor information</li>
+                    <li>✅ Academic records</li>
+                    {% elif service_type == 'tcu' %}
+                    <li>✅ Academic certificates</li>
+                    <li>✅ Transcripts</li>
+                    <li>✅ Identification documents</li>
+                    <li>✅ Application forms</li>
+                    {% elif service_type == 'flight' %}
+                    <li>✅ Passport information</li>
+                    <li>✅ Travel dates</li>
+                    <li>✅ Destination details</li>
+                    <li>✅ Contact information</li>
+                    {% endif %}
+                </ul>
+            </div>
+
+            <form method="post">
+                {% csrf_token %}
+                
+                {% if service_type == 'university' %}
+                <div class="form-group">
+                    <label for="university_name">University Name *</label>
+                    <input type="text" id="university_name" name="university_name" class="form-control" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="course">Course/Program *</label>
+                        <input type="text" id="course" name="course" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="intake">Intake Period *</label>
+                        <select id="intake" name="intake" class="form-control" required>
+                            <option value="">Select Intake</option>
+                            <option value="fall">Fall Semester</option>
+                            <option value="spring">Spring Semester</option>
+                            <option value="summer">Summer Semester</option>
+                            <option value="winter">Winter Semester</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="country">Country *</label>
+                        <input type="text" id="country" name="country" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="duration">Program Duration *</label>
+                        <input type="text" id="duration" name="duration" class="form-control" required placeholder="e.g., 4 years">
+                    </div>
+                </div>
+
+                {% elif service_type == 'visa' %}
+                <div class="form-group">
+                    <label for="destination_country">Destination Country *</label>
+                    <input type="text" id="destination_country" name="destination_country" class="form-control" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="visa_type">Visa Type *</label>
+                        <select id="visa_type" name="visa_type" class="form-control" required>
+                            <option value="">Select Visa Type</option>
+                            <option value="student">Student Visa</option>
+                            <option value="tourist">Tourist Visa</option>
+                            <option value="work">Work Visa</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="duration">Intended Stay Duration *</label>
+                        <input type="text" id="duration" name="duration" class="form-control" required placeholder="e.g., 2 years">
+                    </div>
+                </div>
+
+                {% elif service_type == 'flight' %}
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="departure">Departure City *</label>
+                        <input type="text" id="departure" name="departure" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="destination">Destination City *</label>
+                        <input type="text" id="destination" name="destination" class="form-control" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="departure_date">Departure Date *</label>
+                        <input type="date" id="departure_date" name="departure_date" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="return_date">Return Date (Optional)</label>
+                        <input type="date" id="return_date" name="return_date" class="form-control">
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="form-group">
+                    <label for="additional_notes">Additional Notes or Special Requirements</label>
+                    <textarea id="additional_notes" name="additional_notes" class="form-control" rows="4" placeholder="Any additional information or special requirements..."></textarea>
+                </div>
+
+                <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                    <button type="submit" class="btn-primary">Submit Application</button>
+                    <a href="{% url 'student_portal:document_services' %}" class="btn-secondary">Back to Services</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

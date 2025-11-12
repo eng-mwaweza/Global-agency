@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Services - Student Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            line-height: 1.6;
+        }
+        .header {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+        }
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .nav-menu a:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        .services-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        .service-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            border: 1px solid #e9ecef;
+        }
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #007bff;
+        }
+        .service-card h3 {
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        .service-card p {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+        .btn-primary {
+            background: #007bff;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            text-decoration: none;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: inline-block;
+        }
+        .btn-primary:hover {
+            background: #0056b3;
+        }
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            text-decoration: none;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            display: inline-block;
+            margin-top: 2rem;
+        }
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+        .requirements {
+            text-align: left;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+        .requirements h4 {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        .requirements ul {
+            color: #666;
+            padding-left: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Student Portal</h1>
+        <nav class="nav-menu">
+            <a href="{% url 'student_portal:dashboard' %}">Dashboard</a>
+            <a href="{% url 'student_portal:profile' %}">My Profile</a>
+            <a href="{% url 'student_portal:applications' %}">Applications</a>
+            <a href="{% url 'student_portal:documents' %}">Documents</a>
+            <a href="{% url 'student_portal:messages' %}">Messages</a>
+        </nav>
+        <div>
+            Welcome, {{ user.get_full_name|default:user.username }}!
+            <a href="{% url 'student_portal:logout' %}" style="background: #dc3545; color: white; padding: 0.5rem 1rem; text-decoration: none; border-radius: 4px; margin-left: 1rem;">Logout</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="services-header">
+            <h2>Document Services</h2>
+            <p>Select a service to begin your application process</p>
+        </div>
+
+        <div class="services-grid">
+            <!-- University Applications -->
+            <div class="service-card" onclick="location.href='{% url 'student_portal:service_form' 'university' %}'">
+                <div class="service-icon">🎓</div>
+                <h3>University Applications</h3>
+                <p>Apply to universities abroad and locally. Complete applications for various programs and institutions.</p>
+                <div class="requirements">
+                    <h4>Required Documents:</h4>
+                    <ul>
+                        <li>Academic transcripts</li>
+                        <li>Degree certificates</li>
+                        <li>Recommendation letters</li>
+                        <li>Statement of Purpose</li>
+                        <li>Passport copy</li>
+                    </ul>
+                </div>
+                <a href="{% url 'student_portal:service_form' 'university' %}" class="btn-primary">Start Application</a>
+            </div>
+
+            <!-- Visa Support -->
+            <div class="service-card" onclick="location.href='{% url 'student_portal:service_form' 'visa' %}'">
+                <div class="service-icon">🛂</div>
+                <h3>Visa Support</h3>
+                <p>Get assistance with student visa applications, documentation, and processing for various countries.</p>
+                <div class="requirements">
+                    <h4>Required Documents:</h4>
+                    <ul>
+                        <li>Valid passport</li>
+                        <li>University admission letter</li>
+                        <li>Financial documents</li>
+                        <li>Academic certificates</li>
+                        <li>Passport photos</li>
+                    </ul>
+                </div>
+                <a href="{% url 'student_portal:service_form' 'visa' %}" class="btn-primary">Apply for Visa</a>
+            </div>
+
+            <!-- Passport Application -->
+            <div class="service-card" onclick="location.href='{% url 'student_portal:service_form' 'passport' %}'">
+                <div class="service-icon">📘</div>
+                <h3>Passport Application</h3>
+                <p>Assistance with new passport applications, renewals, and related documentation services.</p>
+                <div class="requirements">
+                    <h4>Required Documents:</h4>
+                    <ul>
+                        <li>Birth certificate</li>
+                        <li>National ID</li>
+                        <li>Passport photos</li>
+                        <li>Application form</li>
+                        <li>Payment receipt</li>
+                    </ul>
+                </div>
+                <a href="{% url 'student_portal:service_form' 'passport' %}" class="btn-primary">Apply for Passport</a>
+            </div>
+
+            <!-- Student Loan Services -->
+            <div class="service-card" onclick="location.href='{% url 'student_portal:service_form' 'loan' %}'">
+                <div class="service-icon">💰</div>
+                <h3>Student Loan Services</h3>
+                <p>Apply for student loans through various loan boards and financial institutions.</p>
+                <div class="requirements">
+                    <h4>Required Documents:</h4>
+                    <ul>
+                        <li>Admission letter</li>
+                        <li>Fee structure</li>
+                        <li>Financial statements</li>
+                        <li>Guarantor documents</li>
+                        <li>Academic records</li>
+                    </ul>
+                </div>
+                <a href="{% url 'student_portal:service_form' 'loan' %}" class="btn-primary">Apply for Loan</a>
+            </div>
+
+            <!-- TCU Services -->
+            <div class="service-card" onclick="location.href='{% url 'student_portal:service_form' 'tcu' %}'">
+                <div class="service-icon">🏛️</div>
+                <h3>TCU Services</h3>
+                <p>Tanzania Commission for Universities services including accreditation and recognition.</p>
+                <div class="requirements">
+                    <h4>Required Documents:</h4>
+                    <ul>
+                        <li>Academic certificates</li>
+                        <li>Transcripts</li>
+                        <li>Application forms</li>
+                        <li>Identification documents</li>
+                    </ul>
+                </div>
+                <a href="{% url 'student_portal:service_form' 'tcu' %}" class="btn-primary">Access TCU Services</a>
+            </div>
+
+            <!-- Flight Ticket Booking -->
+            <div class="service-card" onclick="location.href='{% url 'student_portal:service_form' 'flight' %}'">
+                <div class="service-icon">✈️</div>
+                <h3>Flight Ticket Booking</h3>
+                <p>Book your student flights with special rates and baggage allowances for students.</p>
+                <div class="requirements">
+                    <h4>Required Information:</h4>
+                    <ul>
+                        <li>Passport details</li>
+                        <li>Travel dates</li>
+                        <li>Destination</li>
+                        <li>Contact information</li>
+                    </ul>
+                </div>
+                <a href="{% url 'student_portal:service_form' 'flight' %}" class="btn-primary">Book Flight</a>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 3rem;">
+            <a href="{% url 'student_portal:documents' %}" class="btn-secondary">Back to Documents</a>
+        </div>
+    </div>
+</body>
+</html>

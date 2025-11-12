@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Details - Employee Portal</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background-color: #f8f9fa; line-height: 1.6; }
+        .header { background: linear-gradient(135deg, #28a745, #20c997); color: white; padding: 1rem 2rem; }
+        .nav-menu { display: flex; gap: 2rem; margin-top: 1rem; }
+        .nav-menu a { color: white; text-decoration: none; padding: 0.5rem 1rem; border-radius: 4px; }
+        .nav-menu a:hover { background-color: rgba(255,255,255,0.2); }
+        .container { max-width: 1200px; margin: 2rem auto; padding: 0 2rem; }
+        .card { background: white; padding: 2rem; border-radius: 8px; margin-bottom: 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .status-badge { padding: 0.5rem 1rem; border-radius: 20px; font-size: 1rem; font-weight: bold; display: inline-block; }
+        .status-pending_payment { background: #6c757d; color: white; }
+        .status-submitted { background: #17a2b8; color: white; }
+        .status-under_review { background: #ffc107; color: black; }
+        .status-approved { background: #28a745; color: white; }
+        .status-rejected { background: #dc3545; color: white; }
+        .status-selected { background: #6610f2; color: white; }
+        .btn { padding: 0.5rem 1rem; border-radius: 4px; text-decoration: none; display: inline-block; border: none; cursor: pointer; }
+        .btn-primary { background: #007bff; color: white; }
+        .btn-success { background: #28a745; color: white; }
+        .btn-secondary { background: #6c757d; color: white; }
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin: 1.5rem 0; }
+        .info-item { padding: 1rem; background: #f8f9fa; border-radius: 6px; }
+        .info-label { font-weight: bold; color: #495057; margin-bottom: 0.5rem; }
+        .document-item { display: flex; justify-content: between; align-items: center; padding: 1rem; border: 1px solid #e9ecef; border-radius: 6px; margin-bottom: 0.5rem; }
+        .payment-item { padding: 1rem; background: #f8f9fa; border-radius: 6px; margin-bottom: 0.5rem; }
+        .verified-badge { color: #28a745; font-weight: bold; }
+        .pending-badge { color: #dc3545; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Employee Portal</h1>
+        <nav class="nav-menu">
+            <a href="{% url 'employee:employee_dashboard' %}">Dashboard</a>
+            <a href="{% url 'employee:student_application_list' %}">Student Applications</a>
+            <a href="{% url 'employee:document_list' %}">Documents</a>
+            <a href="{% url 'employee:contact_messages' %}">Contact Messages</a>
+            <a href="{% url 'admin:index' %}">Admin</a>
+            <a href="{% url 'employee:employee_logout' %}">Logout</a>
+        </nav>
+        <div style="margin-top: 1rem;">Welcome, {{ user.get_full_name|default:user.username }}</div>
+    </div>
+
+    <div class="container">
+        <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 2rem;">
+            <h2>Application Details</h2>
+            <a href="{% url 'employee:student_application_list' %}" class="btn btn-secondary">← Back to Applications</a>
+        </div>
+
+        <!-- Application Overview -->
+        <div class="card">
+            <div style="display: flex; justify-content: between; align-items: start; margin-bottom: 1.5rem;">
+                <div>
+                    <h3>Application #{{ application.id }}</h3>
+                    <p style="color: #666;">Submitted on {{ application.created_at|date:"F d, Y" }}</p>
+                </div>
+                <span class="status-badge status-{{ application.status }}">
+                    {{ application.get_status_display }}
+                </span>
+            </div>
+
+            <!-- Status Update Form -->
+            <form method="post" action="{% url 'employee:update_student_application_status' application.id %}">
+                {% csrf_token %}
+                <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1.5rem;">
+                    <strong>Update Status:</strong>
+                    <select name="status" style="padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                        {% for status_value, status_label in application.APPLICATION_STATUS %}
+                        <option value="{{ status_value }}" {% if application.status == status_value %}selected{% endif %}>
+                            {{ status_label }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit" class="btn btn-success">Update Status</button>
+                </div>
+            </form>
+
+            <!-- Application Information -->
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="info-label">Student Information</div>
+                    <div><strong>Name:</strong> {{ application.student.get_full_name|default:application.student.username }}</div>
+                    <div><strong>Email:</strong> {{ application.student.email }}</div>
+                    <div><strong>Username:</strong> {{ application.student.username }}</div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-label">Application Type</div>
+                    <div style="font-size: 1.2rem; font-weight: bold; color: #007bff;">
+                        {{ application.get_application_type_display }}
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-label">Payment Information</div>
+                    <div><strong>Status:</strong> 
+                        {% if application.is_paid %}
+                        <span class="verified-badge">Paid (TZS {{ application.payment_amount }})</span>
+                        {% else %}
+                        <span class="pending-badge">Pending Payment</span>
+                        {% endif %}
+                    </div>
+                    <div><strong>Submitted:</strong> {{ application.submission_date|date:"M d, Y" }}</div>
+                </div>
+            </div>
+
+            <!-- Application Details -->
+            <div style="margin-top: 1.5rem;">
+                <h4>Application Details</h4>
+                <div class="info-grid">
+                    {% if application.university_name %}
+                    <div class="info-item">
+                        <div class="info-label">University/Institution</div>
+                        <div>{{ application.university_name }}</div>
+                    </div>
+                    {% endif %}
+
+                    {% if application.course %}
+                    <div class="info-item">
+                        <div class="info-label">Course/Program</div>
+                        <div>{{ application.course }}</div>
+                    </div>
+                    {% endif %}
+
+                    {% if application.country %}
+                    <div class="info-item">
+                        <div class="info-label">Country/Destination</div>
+                        <div>{{ application.country }}</div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Documents Section -->
+        <div class="card">
+            <h3>Uploaded Documents</h3>
+            {% if documents %}
+            <div style="margin-top: 1rem;">
+                {% for doc in documents %}
+                <div class="document-item">
+                    <div>
+                        <strong>{{ doc.get_document_type_display }}</strong><br>
+                        <small>Uploaded: {{ doc.uploaded_at|date:"M d, Y" }}</small><br>
+                        {% if doc.description %}<small>{{ doc.description }}</small>{% endif %}
+                    </div>
+                    <div>
+                        {% if doc.is_verified %}
+                        <span class="verified-badge">✓ Verified</span>
+                        {% else %}
+                        <span class="pending-badge">Pending Verification</span>
+                        {% endif %}
+                        <a href="{{ doc.file.url }}" target="_blank" class="btn btn-primary btn-sm">View Document</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p style="text-align: center; color: #666; padding: 2rem;">No documents uploaded for this application.</p>
+            {% endif %}
+        </div>
+
+        <!-- Payment History -->
+        {% if payments %}
+        <div class="card">
+            <h3>Payment History</h3>
+            <div style="margin-top: 1rem;">
+                {% for payment in payments %}
+                <div class="payment-item">
+                    <div><strong>Payment #{{ payment.id }}</strong></div>
+                    <div>Amount: TZS {{ payment.amount }}</div>
+                    <div>Method: {{ payment.payment_method }}</div>
+                    <div>Date: {{ payment.payment_date|date:"M d, Y H:i" }}</div>
+                    <div>Transaction ID: {{ payment.transaction_id }}</div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

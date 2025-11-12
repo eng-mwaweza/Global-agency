@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Applications - Employee Portal</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background-color: #f8f9fa; line-height: 1.6; }
+        .header { background: linear-gradient(135deg, #28a745, #20c997); color: white; padding: 1rem 2rem; }
+        .nav-menu { display: flex; gap: 2rem; margin-top: 1rem; }
+        .nav-menu a { color: white; text-decoration: none; padding: 0.5rem 1rem; border-radius: 4px; }
+        .nav-menu a:hover { background-color: rgba(255,255,255,0.2); }
+        .container { max-width: 1400px; margin: 2rem auto; padding: 0 2rem; }
+        .filters { background: white; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .search-box { display: flex; gap: 1rem; margin-bottom: 1rem; }
+        .search-box input { flex: 1; padding: 0.75rem; border: 1px solid #ddd; border-radius: 4px; }
+        .status-filters { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .status-btn { padding: 0.5rem 1rem; border: 1px solid #ddd; border-radius: 4px; background: white; cursor: pointer; text-decoration: none; color: #333; }
+        .status-btn.active { background: #28a745; color: white; border-color: #28a745; }
+        .status-btn:hover { background: #e9ecef; }
+        table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        th, td { padding: 1rem; text-align: left; border-bottom: 1px solid #dee2e6; }
+        th { background: #f8f9fa; font-weight: bold; color: #495057; }
+        tr:hover { background: #f8f9fa; }
+        .status-badge { padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.875rem; font-weight: bold; }
+        .status-pending_payment { background: #6c757d; color: white; }
+        .status-submitted { background: #17a2b8; color: white; }
+        .status-under_review { background: #ffc107; color: black; }
+        .status-approved { background: #28a745; color: white; }
+        .status-rejected { background: #dc3545; color: white; }
+        .status-selected { background: #6610f2; color: white; }
+        .btn { padding: 0.5rem 1rem; border-radius: 4px; text-decoration: none; display: inline-block; border: none; cursor: pointer; }
+        .btn-primary { background: #007bff; color: white; }
+        .btn-success { background: #28a745; color: white; }
+        .btn-sm { padding: 0.25rem 0.75rem; font-size: 0.875rem; }
+        .empty-state { text-align: center; padding: 3rem; color: #666; }
+        .application-type { font-weight: bold; color: #495057; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Employee Portal</h1>
+        <nav class="nav-menu">
+            <a href="{% url 'employee:employee_dashboard' %}">Dashboard</a>
+            <a href="{% url 'employee:student_application_list' %}" style="background: rgba(255,255,255,0.2);">Student Applications</a>
+            <a href="{% url 'employee:document_list' %}">Documents</a>
+            <a href="{% url 'employee:contact_messages' %}">Contact Messages</a>
+            <a href="{% url 'admin:index' %}">Admin</a>
+            <a href="{% url 'employee:employee_logout' %}">Logout</a>
+        </nav>
+        <div style="margin-top: 1rem;">Welcome, {{ user.get_full_name|default:user.username }}</div>
+    </div>
+
+    <div class="container">
+        <h2>Student Portal Applications</h2>
+        
+        <!-- Filters and Search -->
+        <div class="filters">
+            <form method="get" class="search-box">
+                <input type="text" name="search" placeholder="Search by student name, university, course, country..." value="{{ search_query|default:'' }}">
+                <button type="submit" class="btn btn-success">Search</button>
+                {% if search_query or status_filter %}
+                <a href="{% url 'employee:student_application_list' %}" class="btn" style="background: #6c757d; color: white;">Clear</a>
+                {% endif %}
+            </form>
+            
+            <div class="status-filters">
+                <strong>Filter by Status:</strong>
+                <a href="{% url 'employee:student_application_list' %}" class="status-btn {% if not status_filter %}active{% endif %}">All</a>
+                <a href="?status=pending_payment" class="status-btn {% if status_filter == 'pending_payment' %}active{% endif %}">Pending Payment</a>
+                <a href="?status=submitted" class="status-btn {% if status_filter == 'submitted' %}active{% endif %}">Submitted</a>
+                <a href="?status=under_review" class="status-btn {% if status_filter == 'under_review' %}active{% endif %}">Under Review</a>
+                <a href="?status=approved" class="status-btn {% if status_filter == 'approved' %}active{% endif %}">Approved</a>
+                <a href="?status=rejected" class="status-btn {% if status_filter == 'rejected' %}active{% endif %}">Rejected</a>
+                <a href="?status=selected" class="status-btn {% if status_filter == 'selected' %}active{% endif %}">Selected</a>
+            </div>
+        </div>
+
+        <!-- Applications Table -->
+        <div style="background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+            {% if applications %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th>Application Type</th>
+                        <th>Details</th>
+                        <th>Payment Status</th>
+                        <th>Application Status</th>
+                        <th>Submitted Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for app in applications %}
+                    <tr>
+                        <td>
+                            <strong>{{ app.student.get_full_name|default:app.student.username }}</strong><br>
+                            <small>{{ app.student.email }}</small><br>
+                            <small style="color: #666;">ID: {{ app.id }}</small>
+                        </td>
+                        <td>
+                            <span class="application-type">{{ app.get_application_type_display }}</span>
+                        </td>
+                        <td>
+                            {% if app.university_name %}
+                                <strong>University:</strong> {{ app.university_name }}<br>
+                            {% endif %}
+                            {% if app.course %}
+                                <strong>Course:</strong> {{ app.course }}<br>
+                            {% endif %}
+                            {% if app.country %}
+                                <strong>Country:</strong> {{ app.country }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if app.is_paid %}
+                                <span style="color: #28a745; font-weight: bold;">✓ Paid</span>
+                            {% else %}
+                                <span style="color: #dc3545; font-weight: bold;">Pending</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <span class="status-badge status-{{ app.status }}">
+                                {{ app.get_status_display }}
+                            </span>
+                        </td>
+                        <td>{{ app.created_at|date:"M d, Y" }}</td>
+                        <td>
+                            <a href="{% url 'employee:student_application_detail' app.id %}" class="btn btn-primary btn-sm">View Details</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="empty-state">
+                <h3>No Applications Found</h3>
+                <p>{% if search_query or status_filter %}Try adjusting your search criteria{% else %}No student applications have been submitted yet.{% endif %}</p>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Application Statistics -->
+        <div style="margin-top: 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+            <div style="background: white; padding: 1rem; border-radius: 8px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                <div style="font-size: 1.5rem; font-weight: bold; color: #17a2b8;">{{ applications.count }}</div>
+                <div>Total Applications</div>
+            </div>
+            <div style="background: white; padding: 1rem; border-radius: 8px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                <div style="font-size: 1.5rem; font-weight: bold; color: #ffc107;">{{ applications|length }}</div>
+                <div>Displayed</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

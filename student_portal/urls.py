@@ -1,0 +1,28 @@
+from django.urls import path
+from . import views
+
+app_name = 'student_portal'
+
+urlpatterns = [
+    path('', views.student_dashboard, name='dashboard'),
+    path('login/', views.student_login, name='login'),
+    path('logout/', views.student_logout, name='logout'),
+    
+    # Profile
+    path('profile/', views.student_profile, name='profile'),
+    
+    # Applications
+    path('applications/', views.applications, name='applications'),
+    path('applications/<int:application_id>/', views.application_detail, name='application_detail'),
+    path('applications/create/', views.create_application, name='create_application'),
+    path('applications/<int:application_id>/payment/', views.payment_page, name='payment'),
+    
+    # Documents
+    path('documents/', views.documents, name='documents'),
+    path('documents/services/', views.document_services, name='document_services'),
+    path('documents/services/<str:service_type>/', views.service_form, name='service_form'),
+    
+    # Messages
+    path('messages/', views.messages_list, name='messages'),
+    path('messages/<int:message_id>/read/', views.mark_message_read, name='mark_message_read'),
+]

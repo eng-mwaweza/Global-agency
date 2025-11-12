@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Details - Student Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            line-height: 1.6;
+        }
+        .header {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+        }
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .nav-menu a:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        .application-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        .application-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e9ecef;
+        }
+        .application-type {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+        .application-status {
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+    
+        .status-submitted { background: #17a2b8; color: white; }
+        .status-under_review { background: #ffc107; color: black; }
+        .status-approved { background: #28a745; color: white; }
+        .status-rejected { background: #dc3545; color: white; }
+        .status-selected { background: #6610f2; color: white; }
+        .detail-section {
+            margin-bottom: 2rem;
+        }
+        .detail-section h3 {
+            color: #333;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .detail-item {
+            margin-bottom: 1rem;
+        }
+        .detail-label {
+            font-weight: bold;
+            color: #555;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+        .detail-value {
+            color: #333;
+        }
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            text-decoration: none;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            display: inline-block;
+            margin-right: 1rem;
+        }
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #007bff;
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 0.5rem;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #007bff;
+        }
+        .timeline-date {
+            font-size: 0.875rem;
+            color: #666;
+            margin-bottom: 0.25rem;
+        }
+        .timeline-content {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Student Portal</h1>
+        <nav class="nav-menu">
+            <a href="{% url 'student_portal:dashboard' %}">Dashboard</a>
+            <a href="{% url 'student_portal:profile' %}">My Profile</a>
+            <a href="{% url 'student_portal:applications' %}">Applications</a>
+            <a href="{% url 'student_portal:documents' %}">Documents</a>
+            <a href="{% url 'student_portal:messages' %}">Messages</a>
+        </nav>
+        <div>
+            Welcome, {{ user.get_full_name|default:user.username }}!
+            <a href="{% url 'student_portal:logout' %}" style="background: #dc3545; color: white; padding: 0.5rem 1rem; text-decoration: none; border-radius: 4px; margin-left: 1rem;">Logout</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="application-card">
+            <div class="application-header">
+                <div class="application-type">
+                    {{ application.get_application_type_display }}
+                </div>
+                <span class="application-status status-{{ application.status }}">
+                    {{ application.get_status_display }}
+                </span>
+            </div>
+
+            <div class="detail-section">
+                <h3>Application Details</h3>
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <span class="detail-label">Application Type</span>
+                        <div class="detail-value">{{ application.get_application_type_display }}</div>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Status</span>
+                        <div class="detail-value">
+                            <span class="application-status status-{{ application.status }}" style="padding: 0.25rem 0.75rem;">
+                                {{ application.get_status_display }}
+                            </span>
+                        </div>
+                    </div>
+                    {% if application.university_name %}
+                    <div class="detail-item">
+                        <span class="detail-label">University</span>
+                        <div class="detail-value">{{ application.university_name }}</div>
+                    </div>
+                    {% endif %}
+                    {% if application.course %}
+                    <div class="detail-item">
+                        <span class="detail-label">Course/Program</span>
+                        <div class="detail-value">{{ application.course }}</div>
+                    </div>
+                    {% endif %}
+                    {% if application.country %}
+                    <div class="detail-item">
+                        <span class="detail-label">Country</span>
+                        <div class="detail-value">{{ application.country }}</div>
+                    </div>
+                    {% endif %}
+                    <div class="detail-item">
+                        <span class="detail-label">Created Date</span>
+                        <div class="detail-value">{{ application.created_at|date:"F d, Y" }}</div>
+                    </div>
+                    {% if application.submission_date %}
+                    <div class="detail-item">
+                        <span class="detail-label">Submission Date</span>
+                        <div class="detail-value">{{ application.submission_date|date:"F d, Y" }}</div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="detail-section">
+                <h3>Application Timeline</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-date">{{ application.created_at|date:"M d, Y" }}</div>
+                        <div class="timeline-content">Application created</div>
+                    </div>
+                    {% if application.status != 'draft' %}
+                    <div class="timeline-item">
+                        <div class="timeline-date">{{ application.submission_date|date:"M d, Y" }}</div>
+                        <div class="timeline-content">Application submitted for review</div>
+                    </div>
+                    {% endif %}
+                    {% if application.status == 'under_review' %}
+                    <div class="timeline-item">
+                        <div class="timeline-date">{{ application.updated_at|date:"M d, Y" }}</div>
+                        <div class="timeline-content">Application is under review</div>
+                    </div>
+                    {% elif application.status == 'approved' %}
+                    <div class="timeline-item">
+                        <div class="timeline-date">{{ application.updated_at|date:"M d, Y" }}</div>
+                        <div class="timeline-content">Application approved</div>
+                    </div>
+                    {% elif application.status == 'selected' %}
+                    <div class="timeline-item">
+                        <div class="timeline-date">{{ application.updated_at|date:"M d, Y" }}</div>
+                        <div class="timeline-content">You have been selected</div>
+                    </div>
+                    {% elif application.status == 'rejected' %}
+                    <div class="timeline-item">
+                        <div class="timeline-date">{{ application.updated_at|date:"M d, Y" }}</div>
+                        <div class="timeline-content">Application was not successful</div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div style="margin-top: 2rem;">
+                <a href="{% url 'student_portal:applications' %}" class="btn-secondary">Back to Applications</a>
+                <a href="{% url 'student_portal:documents' %}" class="btn-secondary">Manage Documents</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
