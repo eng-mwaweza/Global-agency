@@ -62,9 +62,6 @@ def application_success(request):
     """Display success page after application submission"""
     return render(request, 'global_agency/application_success.html')
 
-# ... KEEP ALL YOUR EXISTING VIEWS BELOW EXACTLY AS THEY ARE ...
-# [All your existing views for universities, countries, TCU services remain unchanged]
-
 def load_universities_data():
     """Load universities data from JSON file"""
     BASE_DIR = Path(__file__).resolve().parent.parent
@@ -205,7 +202,6 @@ def country_universities(request, country):
                 {'name': 'McMaster University', 'slug': 'mcmaster'},
             ]
         },
-        # ... [rest of your existing country data remains the same]
     }
     
     country_data = countries_data.get(country.lower())
@@ -225,7 +221,7 @@ def abroad_university_detail(request, university_slug):
     """
     # COMPREHENSIVE university data for ALL countries
     universities = {
-        # ... [your existing university data remains exactly the same]
+        # ... [your existing university data]
     }
     
     university = universities.get(university_slug)
@@ -244,7 +240,6 @@ def all_countries(request):
         {'code': 'usa', 'name': 'United States', 'flag': '🇺🇸', 'description': 'World-class universities with diverse programs'},
         {'code': 'uk', 'name': 'United Kingdom', 'flag': '🇬🇧', 'description': 'Historic universities with 3-year bachelor degrees'},
         {'code': 'canada', 'name': 'Canada', 'flag': '🇨🇦', 'description': 'High-quality education with post-study work opportunities'},
-        # ... [rest of your existing countries data]
     ]
     
     context = {'countries': countries}
@@ -254,6 +249,57 @@ def tcu_services(request):
     """
     Render TCU services page showing how GASE helps students with TCU processes
     """
-    # ... [your existing TCU services data remains exactly the same]
-    context = {'tcu_data': tcu_services_data}
+    # Define the TCU services data
+    tcu_services_data = {
+        'universities': [
+            {
+                'name': 'University of Dar es Salaam (UDSM)',
+                'accreditation_status': 'Fully Accredited',
+                'established': 1970,
+                'location': 'Dar es Salaam',
+                'programs': ['Bachelor', 'Masters', 'PhD', 'Diploma'],
+                'contact': 'info@udsm.ac.tz',
+                'website': 'www.udsm.ac.tz',
+                'ranking': '1st in Tanzania'
+            },
+            {
+                'name': 'University of Dodoma (UDOM)',
+                'accreditation_status': 'Fully Accredited', 
+                'established': 2007,
+                'location': 'Dodoma',
+                'programs': ['Bachelor', 'Masters', 'PhD', 'Certificate'],
+                'contact': 'info@udom.ac.tz',
+                'website': 'www.udom.ac.tz',
+                'ranking': 'Top 5 in Tanzania'
+            },
+        ],
+        'services': [
+            {
+                'name': 'University Accreditation',
+                'description': 'Accreditation of universities and higher education institutions in Tanzania',
+                'requirements': ['Completed application form', 'Detailed curriculum', 'Faculty qualifications', 'Infrastructure details'],
+                'processing_time': '3-6 months',
+                'fee': 'TZS 5,000,000'
+            },
+            {
+                'name': 'Program Accreditation', 
+                'description': 'Accreditation of academic programs and courses',
+                'requirements': ['Program outline', 'Assessment methods', 'Learning resources', 'Quality assurance plan'],
+                'processing_time': '2-4 months',
+                'fee': 'TZS 2,000,000'
+            },
+        ],
+        'contact_info': {
+            'address': 'TCU House, Ali Hassan Mwinyi Road, Dar es Salaam',
+            'phone': '+255 22 277 3241', 
+            'email': 'info@tcu.go.tz',
+            'website': 'www.tcu.go.tz',
+            'working_hours': 'Mon-Fri: 8:00 AM - 4:00 PM'
+        }
+    }
+    
+    context = {
+        'tcu_data': tcu_services_data,
+        'page_title': 'TCU Services - Global Agency Services'
+    }
     return render(request, 'global_agency/tcu_services.html', context)
