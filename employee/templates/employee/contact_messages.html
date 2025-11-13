@@ -45,6 +45,9 @@
         .tab.active { background: #28a745; color: white; border-color: #28a745; }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
+        .messages-alert { padding: 1rem; margin-bottom: 1rem; border-radius: 4px; }
+        .alert-success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .alert-error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
     </style>
 </head>
 <body>
@@ -63,6 +66,15 @@
 
     <div class="container">
         <h2>Contact Messages & Consultations</h2>
+        
+        <!-- Display Django messages -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="messages-alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-success{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
         
         <!-- Tabs -->
         <div class="tabs">
@@ -206,7 +218,6 @@
             {% if consultations %}
                 {% for consultation in consultations %}
                 <div class="message-card consultation-card">
-                    <!-- Same consultation card content as above -->
                     <div class="message-header">
                         <div>
                             <h4 style="margin: 0;">📅 Free Consultation Request</h4>
@@ -274,7 +285,6 @@
             {% if contact_messages %}
                 {% for message in contact_messages %}
                 <div class="message-card contact-card">
-                    <!-- Same contact message card content as above -->
                     <div class="message-header">
                         <div>
                             <h4 style="margin: 0;">📧 {{ message.subject|default:"Contact Form Message" }}</h4>

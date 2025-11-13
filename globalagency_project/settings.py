@@ -6,6 +6,11 @@ SECRET_KEY = 'final'
 DEBUG = True
 ALLOWED_HOSTS = ["*"]
 
+# ADD THESE AUTHENTICATION SETTINGS
+LOGIN_URL = '/employee/login/'
+LOGIN_REDIRECT_URL = '/employee/dashboard/'
+LOGOUT_REDIRECT_URL = '/employee/login/'
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
