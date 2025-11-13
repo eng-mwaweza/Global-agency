@@ -94,6 +94,38 @@
             font-size: 2rem;
             margin-right: 1rem;
         }
+        .payment-fields {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            display: none;
+        }
+        .payment-fields.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+        }
         .btn-primary {
             background: #28a745;
             color: white;
@@ -104,6 +136,7 @@
             font-size: 1.1rem;
             width: 100%;
             transition: background-color 0.3s;
+            margin-top: 1rem;
         }
         .btn-primary:hover {
             background: #218838;
@@ -123,6 +156,36 @@
         }
         .btn-secondary:hover {
             background: #545b62;
+        }
+        .provider-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        .provider-option {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .provider-option.selected {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+        .payment-instructions {
+            background: #e7f3ff;
+            padding: 1rem;
+            border-radius: 6px;
+            border-left: 4px solid #007bff;
+            margin-top: 1rem;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
@@ -165,21 +228,48 @@
                 <p><strong>Application ID:</strong> {{ application.id }}</p>
             </div>
 
-            <form method="post">
+            <form method="post" id="paymentForm">
                 {% csrf_token %}
+                <input type="hidden" name="payment_amount" value="{{ payment_amount }}">
+                <input type="hidden" name="application_id" value="{{ application.id }}">
                 
                 <div class="payment-methods">
                     <h4>Select Payment Method:</h4>
                     
+                    <!-- Mobile Money -->
                     <div class="payment-method" onclick="selectPaymentMethod('mobile_money')">
                         <input type="radio" name="payment_method" value="mobile_money" id="mobile_money" checked>
                         <div class="payment-icon">📱</div>
                         <div>
                             <strong>Mobile Money</strong>
-                            <p>M-Pesa, Tigo Pesa, Airtel Money</p>
+                            <p>halo pesa, Tigo Pesa, Airtel Money</p>
                         </div>
                     </div>
                     
+                    <div id="mobileMoneyFields" class="payment-fields">
+                        <div class="form-group">
+                            <label>Select Mobile Money Provider:</label>
+                            <div class="provider-options">
+                                <div class="provider-option selected" onclick="selectProvider('mpesa')">halo pesa</div>
+                                <div class="provider-option" onclick="selectProvider('tigo_pesa')">Tigo Pesa</div>
+                                <div class="provider-option" onclick="selectProvider('airtel_money')">Airtel Money</div>
+                            </div>
+                            <input type="hidden" name="mobile_provider" id="mobileProvider" value="mpesa">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone_number">Phone Number:</label>
+                            <input type="tel" id="phone_number" name="phone_number" placeholder="e.g., 255712345678" required>
+                            <small style="color: #666;">Format: 255712345678 (12 digits starting with 255)</small>
+                        </div>
+                        
+                        <!-- Payment Instructions -->
+                        <div class="payment-instructions">
+                            <strong>📱 Payment Instructions:</strong>
+                            <p>Click "Pay TZS {{ payment_amount }}" below to open your mobile money app and complete the payment directly on your phone.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Bank Transfer -->
                     <div class="payment-method" onclick="selectPaymentMethod('bank_transfer')">
                         <input type="radio" name="payment_method" value="bank_transfer" id="bank_transfer">
                         <div class="payment-icon">🏦</div>
@@ -189,6 +279,30 @@
                         </div>
                     </div>
                     
+                    <div id="bankTransferFields" class="payment-fields">
+                        <div class="form-group">
+                            <label for="bank_name">Bank Name:</label>
+                            <select id="bank_name" name="bank_name" required>
+                                <option value="">Select your bank</option>
+                                <option value="crdb">CRDB Bank</option>
+                                <option value="nmb">NMB Bank</option>
+                                <option value="nbc">NBC Bank</option>
+                                <option value="stanbic">Stanbic Bank</option>
+                                <option value="equity">Equity Bank</option>
+                                <option value="other">Other Bank</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="account_number">Account Number:</label>
+                            <input type="text" id="account_number" name="account_number" placeholder="Enter your account number" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="account_name">Account Holder Name:</label>
+                            <input type="text" id="account_name" name="account_name" placeholder="As it appears on your bank account" required>
+                        </div>
+                    </div>
+                    
+                    <!-- Credit/Debit Card -->
                     <div class="payment-method" onclick="selectPaymentMethod('card')">
                         <input type="radio" name="payment_method" value="card" id="card">
                         <div class="payment-icon">💳</div>
@@ -197,9 +311,33 @@
                             <p>Visa, MasterCard</p>
                         </div>
                     </div>
+                    
+                    <div id="cardFields" class="payment-fields">
+                        <div class="form-group">
+                            <label for="card_number">Card Number:</label>
+                            <input type="text" id="card_number" name="card_number" placeholder="1234 5678 9012 3456" required>
+                        </div>
+                        <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div>
+                                <label for="expiry_date">Expiry Date:</label>
+                                <input type="text" id="expiry_date" name="expiry_date" placeholder="MM/YY" required>
+                            </div>
+                            <div>
+                                <label for="cvv">CVV:</label>
+                                <input type="text" id="cvv" name="cvv" placeholder="123" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="card_holder">Card Holder Name:</label>
+                            <input type="text" id="card_holder" name="card_holder" placeholder="As shown on card" required>
+                        </div>
+                    </div>
                 </div>
 
-                <button type="submit" class="btn-primary">Pay TZS {{ payment_amount }}</button>
+                <!-- MAIN PAYMENT BUTTON -->
+                <button type="button" class="btn-primary" id="submitBtn" onclick="processPayment()">
+                    Pay TZS {{ payment_amount }}
+                </button>
             </form>
 
             <a href="{% url 'student_portal:applications' %}" class="btn-secondary">Cancel Payment</a>
@@ -213,7 +351,12 @@
     </div>
 
     <script>
+        let selectedMethod = 'mobile_money';
+        let selectedProvider = 'mpesa';
+
         function selectPaymentMethod(method) {
+            selectedMethod = method;
+            
             // Remove selected class from all methods
             document.querySelectorAll('.payment-method').forEach(m => {
                 m.classList.remove('selected');
@@ -224,6 +367,93 @@
             
             // Check the radio button
             document.getElementById(method).checked = true;
+            
+            // Hide all payment fields
+            document.querySelectorAll('.payment-fields').forEach(field => {
+                field.classList.remove('active');
+            });
+            
+            // Show relevant payment fields
+            if (method === 'mobile_money') {
+                document.getElementById('mobileMoneyFields').classList.add('active');
+            } else if (method === 'bank_transfer') {
+                document.getElementById('bankTransferFields').classList.add('active');
+            } else if (method === 'card') {
+                document.getElementById('cardFields').classList.add('active');
+            }
+        }
+
+        function selectProvider(provider) {
+            selectedProvider = provider;
+            
+            // Remove selected class from all providers
+            document.querySelectorAll('.provider-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked provider
+            event.target.classList.add('selected');
+            
+            // Update hidden input
+            document.getElementById('mobileProvider').value = provider;
+        }
+
+        function processPayment() {
+            if (selectedMethod === 'mobile_money') {
+                initiateMobilePayment();
+            } else {
+                // For bank transfer and card, submit the form normally
+                document.getElementById('paymentForm').submit();
+            }
+        }
+
+        function initiateMobilePayment() {
+            const phoneNumber = document.getElementById('phone_number').value;
+            const amount = {{ payment_amount }};
+            
+            // Basic validation
+            if (!phoneNumber || phoneNumber.length !== 12) {
+                alert('Please enter a valid phone number with 12 digits (255XXXXXXXXX)');
+                return;
+            }
+
+            // Generate USSD code based on selected provider
+            let ussdCode = '';
+            
+            switch(selectedProvider) {
+                case 'mpesa':
+                    ussdCode = `*150*00*1*1*${amount}*${phoneNumber.substring(3)}%23`;
+                    break;
+                case 'tigo_pesa':
+                    ussdCode = `*150*01*1*1*${amount}*${phoneNumber.substring(3)}%23`;
+                    break;
+                case 'airtel_money':
+                    ussdCode = `*150*60*1*1*${amount}*${phoneNumber.substring(3)}%23`;
+                    break;
+            }
+
+            // Create the deep link URL
+            const paymentUrl = `tel:${ussdCode}`;
+            
+            // Show confirmation
+            const providerNames = {
+                'mpesa': 'M-Pesa',
+                'tigo_pesa': 'Tigo Pesa',
+                'airtel_money': 'Airtel Money'
+            };
+            
+            if (confirm(`Open ${providerNames[selectedProvider]} to pay TZS ${amount}?\n\nPhone: ${phoneNumber}\n\nClick OK to open your mobile money app.`)) {
+                // Redirect to mobile payment app
+                window.location.href = paymentUrl;
+                
+                // After 3 seconds, show option to mark payment as complete
+                setTimeout(() => {
+                    if (confirm('Have you completed the payment on your phone?\n\nClick OK if payment was successful, or Cancel if you need to try again.')) {
+                        // Submit the form to mark payment as complete
+                        document.getElementById('paymentForm').submit();
+                    }
+                }, 3000);
+            }
         }
 
         // Initialize with mobile money selected
