@@ -18,34 +18,50 @@
         .header {
             background: linear-gradient(135deg, #007bff, #0056b3);
             color: white;
-            padding: 1rem 2rem;
+            padding: 1rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            flex-wrap: wrap;
+        }
+        .header h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
         }
         .nav-menu {
             display: flex;
-            gap: 2rem;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 0.5rem 0;
         }
         .nav-menu a {
             color: white;
             text-decoration: none;
-            padding: 0.5rem 1rem;
+            padding: 0.5rem;
             border-radius: 4px;
             transition: background-color 0.3s;
+            font-size: 0.9rem;
         }
         .nav-menu a:hover {
             background-color: rgba(255,255,255,0.2);
         }
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 0.5rem 0;
+            font-size: 0.9rem;
+        }
         .container {
             max-width: 1000px;
             margin: 2rem auto;
-            padding: 0 2rem;
+            padding: 0 1rem;
         }
         .profile-card {
             background: white;
-            padding: 2rem;
+            padding: 1.5rem;
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             margin-bottom: 2rem;
@@ -56,21 +72,29 @@
             margin-bottom: 2rem;
             padding-bottom: 1rem;
             border-bottom: 2px solid #e9ecef;
+            flex-wrap: wrap;
+            gap: 1.5rem;
         }
         .profile-picture {
-            width: 120px;
-            height: 120px;
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
             object-fit: cover;
             border: 4px solid #007bff;
-            margin-right: 2rem;
+        }
+        .profile-info {
+            flex: 1;
+            min-width: 200px;
         }
         .profile-info h2 {
             color: #333;
             margin-bottom: 0.5rem;
+            font-size: 1.5rem;
         }
         .profile-info p {
             color: #666;
+            margin-bottom: 0.25rem;
+            font-size: 0.95rem;
         }
         .form-group {
             margin-bottom: 1.5rem;
@@ -80,6 +104,7 @@
             margin-bottom: 0.5rem;
             color: #333;
             font-weight: bold;
+            font-size: 0.95rem;
         }
         .form-control {
             width: 100%;
@@ -87,25 +112,36 @@
             border: 1px solid #ddd;
             border-radius: 6px;
             font-size: 1rem;
-            transition: border-color 0.3s;
+            transition: all 0.3s;
         }
         .form-control:focus {
             outline: none;
             border-color: #007bff;
-            box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+            box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+        }
+        textarea.form-control {
+            resize: vertical;
+            min-height: 100px;
         }
         .btn-primary {
-            background: #007bff;
+            background: linear-gradient(135deg, #007bff, #0056b3);
             color: white;
             padding: 0.75rem 2rem;
             border: none;
             border-radius: 6px;
             cursor: pointer;
             font-size: 1rem;
-            transition: background-color 0.3s;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-align: center;
+            width: 100%;
+            margin-bottom: 1rem;
         }
         .btn-primary:hover {
-            background: #0056b3;
+            background: linear-gradient(135deg, #0056b3, #004085);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,123,255,0.3);
         }
         .btn-secondary {
             background: #6c757d;
@@ -117,32 +153,220 @@
             font-size: 1rem;
             text-decoration: none;
             display: inline-block;
-            margin-right: 1rem;
+            text-align: center;
+            width: 100%;
+            transition: background-color 0.3s;
         }
         .btn-secondary:hover {
             background: #545b62;
         }
         .form-row {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr;
             gap: 1rem;
         }
         .current-picture {
             text-align: center;
             margin-bottom: 1rem;
         }
+        .current-picture img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+        }
+        .current-picture p {
+            margin-top: 0.5rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
         .messages {
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
         }
         .alert {
             padding: 1rem;
             border-radius: 6px;
             margin-bottom: 1rem;
+            font-size: 0.95rem;
         }
         .alert-success {
             background: #d4edda;
             color: #155724;
             border: 1px solid #c3e6cb;
+        }
+        .btn-logout {
+            background: #dc3545;
+            color: white;
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            border-radius: 4px;
+            display: inline-block;
+            font-size: 0.9rem;
+        }
+        
+        /* Mobile-specific styles */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .header h1 {
+                font-size: 1.25rem;
+            }
+            .nav-menu {
+                width: 100%;
+                justify-content: space-between;
+                margin: 0.5rem 0;
+            }
+            .nav-menu a {
+                padding: 0.5rem;
+                font-size: 0.9rem;
+            }
+            .user-info {
+                width: 100%;
+                justify-content: space-between;
+            }
+            .container {
+                margin: 1rem auto;
+                padding: 0 0.5rem;
+            }
+            .profile-card {
+                padding: 1.25rem;
+            }
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            .profile-picture {
+                width: 90px;
+                height: 90px;
+                margin-right: 0;
+            }
+            .profile-info h2 {
+                font-size: 1.25rem;
+            }
+            .btn-primary:hover {
+                transform: none;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .nav-menu {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            .nav-menu a {
+                width: 100%;
+                text-align: center;
+            }
+            .user-info {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+            .btn-logout {
+                width: 100%;
+                text-align: center;
+                margin-left: 0 !important;
+                margin-top: 0.5rem;
+            }
+            .profile-picture {
+                width: 80px;
+                height: 80px;
+            }
+            .profile-info h2 {
+                font-size: 1.1rem;
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr 1fr;
+            }
+            .btn-primary, .btn-secondary {
+                width: auto;
+                margin-bottom: 0;
+            }
+            .button-group {
+                display: flex;
+                gap: 1rem;
+            }
+        }
+        
+        /* Profile picture placeholder styles */
+        .profile-picture-placeholder {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            border: 4px solid #007bff;
+        }
+        
+        @media (max-width: 768px) {
+            .profile-picture-placeholder {
+                width: 90px;
+                height: 90px;
+                font-size: 1.75rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .profile-picture-placeholder {
+                width: 80px;
+                height: 80px;
+                font-size: 1.5rem;
+            }
+        }
+        
+        /* File input styling */
+        input[type="file"] {
+            padding: 0.5rem;
+        }
+        
+        /* Animation for form elements */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .form-group {
+            animation: fadeIn 0.5s ease-out;
+            animation-fill-mode: both;
+        }
+        
+        .form-group:nth-child(1) { animation-delay: 0.1s; }
+        .form-group:nth-child(2) { animation-delay: 0.2s; }
+        .form-group:nth-child(3) { animation-delay: 0.3s; }
+        .form-group:nth-child(4) { animation-delay: 0.4s; }
+        .form-group:nth-child(5) { animation-delay: 0.5s; }
+        .form-group:nth-child(6) { animation-delay: 0.6s; }
+        .form-group:nth-child(7) { animation-delay: 0.7s; }
+        .form-group:nth-child(8) { animation-delay: 0.8s; }
+        
+        /* Form validation styles */
+        .form-group input:invalid:not(:focus):not(:placeholder-shown),
+        .form-group textarea:invalid:not(:focus):not(:placeholder-shown) {
+            border-color: #dc3545;
+            background-color: #f8d7da;
+        }
+        
+        .form-group input:valid:not(:focus):not(:placeholder-shown),
+        .form-group textarea:valid:not(:focus):not(:placeholder-shown) {
+            border-color: #28a745;
+            background-color: #d4edda;
         }
     </style>
 </head>
@@ -156,9 +380,9 @@
             <a href="{% url 'student_portal:documents' %}">Documents</a>
             <a href="{% url 'student_portal:messages' %}">Messages</a>
         </nav>
-        <div>
+        <div class="user-info">
             Welcome, {{ user.get_full_name|default:user.username }}!
-            <a href="{% url 'student_portal:logout' %}" style="background: #dc3545; color: white; padding: 0.5rem 1rem; text-decoration: none; border-radius: 4px; margin-left: 1rem;">Logout</a>
+            <a href="{% url 'student_portal:logout' %}" class="btn-logout">Logout</a>
         </div>
     </div>
 
@@ -168,7 +392,7 @@
                 {% if profile.profile_picture %}
                 <img src="{{ profile.profile_picture.url }}" alt="Profile Picture" class="profile-picture">
                 {% else %}
-                <div style="width: 120px; height: 120px; border-radius: 50%; background: #007bff; color: white; display: flex; align-items: center; justify-content: center; font-size: 3rem; margin-right: 2rem;">
+                <div class="profile-picture-placeholder">
                     {{ user.first_name|first|upper }}{{ user.last_name|first|upper }}
                 </div>
                 {% endif %}
@@ -195,27 +419,27 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label for="id_first_name">First Name</label>
-                        <input type="text" name="first_name" id="id_first_name" class="form-control" value="{{ user.first_name }}">
+                        <input type="text" name="first_name" id="id_first_name" class="form-control" value="{{ user.first_name }}" required>
                     </div>
                     <div class="form-group">
                         <label for="id_last_name">Last Name</label>
-                        <input type="text" name="last_name" id="id_last_name" class="form-control" value="{{ user.last_name }}">
+                        <input type="text" name="last_name" id="id_last_name" class="form-control" value="{{ user.last_name }}" required>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="id_email">Email Address</label>
-                    <input type="email" name="email" id="id_email" class="form-control" value="{{ user.email }}">
+                    <input type="email" name="email" id="id_email" class="form-control" value="{{ user.email }}" required>
                 </div>
 
                 <div class="form-group">
                     <label for="id_phone_number">Phone Number</label>
-                    <input type="text" name="phone_number" id="id_phone_number" class="form-control" value="{{ profile.phone_number }}">
+                    <input type="tel" name="phone_number" id="id_phone_number" class="form-control" value="{{ profile.phone_number }}" placeholder="e.g., +255 712 345 678">
                 </div>
 
                 <div class="form-group">
                     <label for="id_address">Address</label>
-                    <textarea name="address" id="id_address" class="form-control" rows="3">{{ profile.address }}</textarea>
+                    <textarea name="address" id="id_address" class="form-control" rows="3" placeholder="Enter your complete address">{{ profile.address }}</textarea>
                 </div>
 
                 <div class="form-row">
@@ -225,7 +449,7 @@
                     </div>
                     <div class="form-group">
                         <label for="id_nationality">Nationality</label>
-                        <input type="text" name="nationality" id="id_nationality" class="form-control" value="{{ profile.nationality }}">
+                        <input type="text" name="nationality" id="id_nationality" class="form-control" value="{{ profile.nationality }}" placeholder="e.g., Tanzanian">
                     </div>
                 </div>
 
@@ -238,19 +462,56 @@
                     <label for="id_profile_picture">Profile Picture</label>
                     {% if profile.profile_picture %}
                     <div class="current-picture">
-                        <img src="{{ profile.profile_picture.url }}" alt="Current Profile Picture" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px;">
+                        <img src="{{ profile.profile_picture.url }}" alt="Current Profile Picture">
                         <p>Current picture</p>
                     </div>
                     {% endif %}
                     <input type="file" name="profile_picture" id="id_profile_picture" class="form-control" accept="image/*">
+                    <small style="color: #666; font-size: 0.8rem;">Recommended: Square image, max 2MB</small>
                 </div>
 
-                <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                <div class="button-group" style="margin-top: 2rem;">
                     <button type="submit" class="btn-primary">Update Profile</button>
                     <a href="{% url 'student_portal:dashboard' %}" class="btn-secondary">Back to Dashboard</a>
                 </div>
             </form>
         </div>
     </div>
+
+    <script>
+        // Add input formatting for better UX
+        document.addEventListener('DOMContentLoaded', function() {
+            // Phone number formatting
+            const phoneInput = document.getElementById('id_phone_number');
+            if (phoneInput) {
+                phoneInput.addEventListener('input', function(e) {
+                    this.value = this.value.replace(/[^0-9+\s]/g, '');
+                });
+            }
+            
+            // Date of birth max validation (must be at least 16 years old)
+            const dobInput = document.getElementById('id_date_of_birth');
+            if (dobInput) {
+                const today = new Date();
+                const minDate = new Date(today.getFullYear() - 16, today.getMonth(), today.getDate());
+                dobInput.max = minDate.toISOString().split('T')[0];
+            }
+            
+            // File size validation for profile picture
+            const fileInput = document.getElementById('id_profile_picture');
+            if (fileInput) {
+                fileInput.addEventListener('change', function(e) {
+                    const file = this.files[0];
+                    if (file && file.size > 2 * 1024 * 1024) { // 2MB limit
+                        alert('File size must be less than 2MB');
+                        this.value = '';
+                    }
+                });
+            }
+            
+            // Auto-focus first field
+            document.getElementById('id_first_name').focus();
+        });
+    </script>
 </body>
 </html>

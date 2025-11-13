@@ -18,43 +18,68 @@
         .header {
             background: linear-gradient(135deg, #007bff, #0056b3);
             color: white;
-            padding: 1rem 2rem;
+            padding: 1rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            flex-wrap: wrap;
+        }
+        .header h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
         }
         .nav-menu {
             display: flex;
-            gap: 2rem;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 0.5rem 0;
         }
         .nav-menu a {
             color: white;
             text-decoration: none;
-            padding: 0.5rem 1rem;
+            padding: 0.5rem;
             border-radius: 4px;
             transition: background-color 0.3s;
+            font-size: 0.9rem;
         }
         .nav-menu a:hover {
             background-color: rgba(255,255,255,0.2);
         }
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 0.5rem 0;
+            font-size: 0.9rem;
+        }
         .container {
             max-width: 1200px;
             margin: 2rem auto;
-            padding: 0 2rem;
+            padding: 0 1rem;
         }
         .services-header {
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
+        }
+        .services-header h2 {
+            color: #333;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        .services-header p {
+            color: #666;
+            font-size: 1.1rem;
         }
         .services-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
         }
         .service-card {
             background: white;
-            padding: 2rem;
+            padding: 1.5rem;
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             text-align: center;
@@ -67,17 +92,19 @@
             box-shadow: 0 8px 25px rgba(0,0,0,0.15);
         }
         .service-icon {
-            font-size: 3rem;
+            font-size: 2.5rem;
             margin-bottom: 1rem;
             color: #007bff;
         }
         .service-card h3 {
             color: #333;
             margin-bottom: 1rem;
+            font-size: 1.25rem;
         }
         .service-card p {
             color: #666;
             margin-bottom: 1.5rem;
+            font-size: 0.95rem;
         }
         .btn-primary {
             background: #007bff;
@@ -89,6 +116,9 @@
             cursor: pointer;
             transition: background-color 0.3s;
             display: inline-block;
+            font-size: 0.9rem;
+            width: 100%;
+            margin-top: 1rem;
         }
         .btn-primary:hover {
             background: #0056b3;
@@ -103,6 +133,9 @@
             cursor: pointer;
             display: inline-block;
             margin-top: 2rem;
+            font-size: 0.9rem;
+            width: 100%;
+            text-align: center;
         }
         .btn-secondary:hover {
             background: #545b62;
@@ -117,10 +150,125 @@
         .requirements h4 {
             color: #333;
             margin-bottom: 0.5rem;
+            font-size: 1rem;
         }
         .requirements ul {
             color: #666;
             padding-left: 1.5rem;
+            font-size: 0.9rem;
+        }
+        .requirements li {
+            margin-bottom: 0.25rem;
+        }
+        .btn-logout {
+            background: #dc3545;
+            color: white;
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            border-radius: 4px;
+            display: inline-block;
+            font-size: 0.9rem;
+        }
+        
+        /* Mobile-specific styles */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .header h1 {
+                font-size: 1.25rem;
+            }
+            .nav-menu {
+                width: 100%;
+                justify-content: space-between;
+                margin: 0.5rem 0;
+            }
+            .nav-menu a {
+                padding: 0.5rem;
+                font-size: 0.9rem;
+            }
+            .user-info {
+                width: 100%;
+                justify-content: space-between;
+            }
+            .container {
+                margin: 1rem auto;
+                padding: 0 0.5rem;
+            }
+            .services-header h2 {
+                font-size: 1.75rem;
+            }
+            .services-header p {
+                font-size: 1rem;
+            }
+            .service-card {
+                padding: 1.25rem;
+            }
+            .service-icon {
+                font-size: 2rem;
+            }
+            .service-card h3 {
+                font-size: 1.1rem;
+            }
+            .requirements {
+                padding: 0.75rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .nav-menu {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            .nav-menu a {
+                width: 100%;
+                text-align: center;
+            }
+            .user-info {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+            .btn-logout {
+                width: 100%;
+                text-align: center;
+                margin-left: 0 !important;
+                margin-top: 0.5rem;
+            }
+            .services-header h2 {
+                font-size: 1.5rem;
+            }
+            .service-card {
+                padding: 1rem;
+            }
+            .service-icon {
+                font-size: 1.75rem;
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .btn-primary {
+                width: auto;
+            }
+            .btn-secondary {
+                width: auto;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .services-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        @media (min-width: 1200px) {
+            .services-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
         }
     </style>
 </head>
@@ -134,9 +282,9 @@
             <a href="{% url 'student_portal:documents' %}">Documents</a>
             <a href="{% url 'student_portal:messages' %}">Messages</a>
         </nav>
-        <div>
+        <div class="user-info">
             Welcome, {{ user.get_full_name|default:user.username }}!
-            <a href="{% url 'student_portal:logout' %}" style="background: #dc3545; color: white; padding: 0.5rem 1rem; text-decoration: none; border-radius: 4px; margin-left: 1rem;">Logout</a>
+            <a href="{% url 'student_portal:logout' %}" class="btn-logout">Logout</a>
         </div>
     </div>
 
