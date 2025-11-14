@@ -168,6 +168,20 @@
             color: #e17055;
             margin: 0.5rem 0;
         }
+        .error-messages {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #dc3545;
+        }
+        .error-messages ul {
+            margin: 0.5rem 0 0 1.5rem;
+        }
+        .error-messages li {
+            margin-bottom: 0.25rem;
+        }
         
         /* Mobile-specific styles */
         @media (max-width: 768px) {
@@ -256,6 +270,21 @@
         .button-group {
             margin-top: 2rem;
         }
+        
+        .field-errors {
+            color: #dc3545;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+        
+        .success-message {
+            background: #d1edff;
+            color: #0c5460;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #007bff;
+        }
     </style>
 </head>
 <body>
@@ -278,18 +307,52 @@
         <div class="form-card">
             <h2 style="margin-bottom: 2rem; color: #333;">Create New Application</h2>
 
-            <form method="post">
+            <!-- Display Django messages -->
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="{% if message.tags == 'success' %}success-message{% else %}error-messages{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <!-- Display form errors -->
+            {% if form.errors %}
+                <div class="error-messages">
+                    <strong>Please fix the following errors:</strong>
+                    <ul>
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <li><strong>{{ field.label }}:</strong> {{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                        {% for error in form.non_field_errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+            <form method="post" id="application-form">
                 {% csrf_token %}
                 
+                <!-- Application Type Field -->
                 <div class="form-group">
                     <label for="id_application_type" class="required-field">Application Type</label>
                     <select name="application_type" id="id_application_type" class="form-control" required>
                         <option value="">Select Application Type</option>
-                        <option value="university">University Application</option>
-                        <option value="visa">Visa Application</option>
-                        <option value="scholarship">Scholarship Application</option>
-                        <option value="loan">Student Loan Application</option>
+                        <option value="university" {% if form.application_type.value == 'university' %}selected{% endif %}>University Application</option>
+                        <option value="visa" {% if form.application_type.value == 'visa' %}selected{% endif %}>Visa Application</option>
+                        <option value="scholarship" {% if form.application_type.value == 'scholarship' %}selected{% endif %}>Scholarship Application</option>
+                        <option value="loan" {% if form.application_type.value == 'loan' %}selected{% endif %}>Student Loan Application</option>
                     </select>
+                    {% if form.application_type.errors %}
+                        <div class="field-errors">
+                            {% for error in form.application_type.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                 </div>
 
                 <!-- University Application Fields -->
@@ -301,17 +364,41 @@
                     
                     <div class="form-group">
                         <label for="id_university_name" class="required-field">University Name</label>
-                        <input type="text" name="university_name" id="id_university_name" class="form-control" placeholder="Enter university name">
+                        <input type="text" name="university_name" id="id_university_name" class="form-control" 
+                               placeholder="Enter university name" value="{{ form.university_name.value|default:'' }}">
+                        {% if form.university_name.errors %}
+                            <div class="field-errors">
+                                {% for error in form.university_name.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="id_course" class="required-field">Course/Program</label>
-                            <input type="text" name="course" id="id_course" class="form-control" placeholder="e.g., Computer Science">
+                            <label for="id_course_program" class="required-field">Course/Program</label>
+                            <input type="text" name="course_program" id="id_course_program" class="form-control" 
+                                   placeholder="e.g., Computer Science" value="{{ form.course_program.value|default:'' }}">
+                            {% if form.course_program.errors %}
+                                <div class="field-errors">
+                                    {% for error in form.course_program.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="form-group">
-                            <label for="id_country" class="required-field">Country</label>
-                            <input type="text" name="country" id="id_country" class="form-control" placeholder="e.g., United States">
+                            <label for="id_destination_country" class="required-field">Country</label>
+                            <input type="text" name="destination_country" id="id_destination_country" class="form-control" 
+                                   placeholder="e.g., United States" value="{{ form.destination_country.value|default:'' }}">
+                            {% if form.destination_country.errors %}
+                                <div class="field-errors">
+                                    {% for error in form.destination_country.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -324,23 +411,46 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="id_visa_country" class="required-field">Destination Country</label>
-                        <input type="text" name="visa_country" id="id_visa_country" class="form-control" placeholder="e.g., United States">
+                        <label for="id_visa_destination_country" class="required-field">Destination Country</label>
+                        <input type="text" name="destination_country" id="id_visa_destination_country" class="form-control" 
+                               placeholder="e.g., United States" value="{{ form.destination_country.value|default:'' }}">
+                        {% if form.destination_country.errors %}
+                            <div class="field-errors">
+                                {% for error in form.destination_country.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                     </div>
 
                     <div class="form-group">
                         <label for="id_visa_type" class="required-field">Visa Type</label>
-                        <select name="visa_course" id="id_visa_type" class="form-control">
+                        <select name="visa_type" id="id_visa_type" class="form-control">
                             <option value="">Select Visa Type</option>
-                            <option value="student_visa">Student Visa</option>
-                            <option value="tourist_visa">Tourist Visa</option>
-                            <option value="work_visa">Work Visa</option>
+                            <option value="student_visa" {% if form.visa_type.value == 'student_visa' %}selected{% endif %}>Student Visa</option>
+                            <option value="tourist_visa" {% if form.visa_type.value == 'tourist_visa' %}selected{% endif %}>Tourist Visa</option>
+                            <option value="work_visa" {% if form.visa_type.value == 'work_visa' %}selected{% endif %}>Work Visa</option>
                         </select>
+                        {% if form.visa_type.errors %}
+                            <div class="field-errors">
+                                {% for error in form.visa_type.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                     </div>
 
                     <div class="form-group">
-                        <label for="id_duration" class="required-field">Intended Duration</label>
-                        <input type="text" name="visa_duration" id="id_duration" class="form-control" placeholder="e.g., 2 years">
+                        <label for="id_intended_duration" class="required-field">Intended Duration</label>
+                        <input type="text" name="intended_duration" id="id_intended_duration" class="form-control" 
+                               placeholder="e.g., 2 years" value="{{ form.intended_duration.value|default:'' }}">
+                        {% if form.intended_duration.errors %}
+                            <div class="field-errors">
+                                {% for error in form.intended_duration.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
 
@@ -352,25 +462,48 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="id_scholarship_name" class="required-field">Scholarship Name/Provider</label>
-                        <input type="text" name="scholarship_university_name" id="id_scholarship_name" class="form-control" placeholder="e.g., Government Scholarship, University Scholarship">
+                        <label for="id_scholarship_provider" class="required-field">Scholarship Name/Provider</label>
+                        <input type="text" name="scholarship_provider" id="id_scholarship_provider" class="form-control" 
+                               placeholder="e.g., Government Scholarship, University Scholarship" value="{{ form.scholarship_provider.value|default:'' }}">
+                        {% if form.scholarship_provider.errors %}
+                            <div class="field-errors">
+                                {% for error in form.scholarship_provider.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                     </div>
 
                     <div class="form-group">
                         <label for="id_scholarship_type" class="required-field">Scholarship Type</label>
-                        <select name="scholarship_course" id="id_scholarship_type" class="form-control">
+                        <select name="scholarship_type" id="id_scholarship_type" class="form-control">
                             <option value="">Select Scholarship Type</option>
-                            <option value="full_scholarship">Full Scholarship</option>
-                            <option value="partial_scholarship">Partial Scholarship</option>
-                            <option value="research_grant">Research Grant</option>
-                            <option value="merit_based">Merit-Based</option>
-                            <option value="need_based">Need-Based</option>
+                            <option value="full_scholarship" {% if form.scholarship_type.value == 'full_scholarship' %}selected{% endif %}>Full Scholarship</option>
+                            <option value="partial_scholarship" {% if form.scholarship_type.value == 'partial_scholarship' %}selected{% endif %}>Partial Scholarship</option>
+                            <option value="research_grant" {% if form.scholarship_type.value == 'research_grant' %}selected{% endif %}>Research Grant</option>
+                            <option value="merit_based" {% if form.scholarship_type.value == 'merit_based' %}selected{% endif %}>Merit-Based</option>
+                            <option value="need_based" {% if form.scholarship_type.value == 'need_based' %}selected{% endif %}>Need-Based</option>
                         </select>
+                        {% if form.scholarship_type.errors %}
+                            <div class="field-errors">
+                                {% for error in form.scholarship_type.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                     </div>
 
                     <div class="form-group">
-                        <label for="id_coverage" class="required-field">Coverage Details</label>
-                        <input type="text" name="scholarship_country" id="id_coverage" class="form-control" placeholder="e.g., Tuition + Living Expenses">
+                        <label for="id_coverage_details" class="required-field">Coverage Details</label>
+                        <input type="text" name="coverage_details" id="id_coverage_details" class="form-control" 
+                               placeholder="e.g., Tuition + Living Expenses" value="{{ form.coverage_details.value|default:'' }}">
+                        {% if form.coverage_details.errors %}
+                            <div class="field-errors">
+                                {% for error in form.coverage_details.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
 
@@ -383,24 +516,47 @@
                     
                     <div class="form-group">
                         <label for="id_loan_provider" class="required-field">Loan Provider</label>
-                        <input type="text" name="loan_university_name" id="id_loan_provider" class="form-control" placeholder="e.g., Higher Education Loan Board">
+                        <input type="text" name="loan_provider" id="id_loan_provider" class="form-control" 
+                               placeholder="e.g., Higher Education Loan Board" value="{{ form.loan_provider.value|default:'' }}">
+                        {% if form.loan_provider.errors %}
+                            <div class="field-errors">
+                                {% for error in form.loan_provider.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
                             <label for="id_loan_amount" class="required-field">Loan Amount Requested</label>
-                            <input type="text" name="loan_course" id="id_loan_amount" class="form-control" placeholder="e.g., $20,000">
+                            <input type="text" name="loan_amount" id="id_loan_amount" class="form-control" 
+                                   placeholder="e.g., $20,000" value="{{ form.loan_amount.value|default:'' }}">
+                            {% if form.loan_amount.errors %}
+                                <div class="field-errors">
+                                    {% for error in form.loan_amount.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="form-group">
                             <label for="id_loan_purpose" class="required-field">Purpose of Loan</label>
-                            <select name="loan_country" id="id_loan_purpose" class="form-control">
+                            <select name="loan_purpose" id="id_loan_purpose" class="form-control">
                                 <option value="">Select Purpose</option>
-                                <option value="tuition">Tuition Fees</option>
-                                <option value="accommodation">Accommodation</option>
-                                <option value="books">Books & Materials</option>
-                                <option value="living_expenses">Living Expenses</option>
-                                <option value="other">Other</option>
+                                <option value="tuition" {% if form.loan_purpose.value == 'tuition' %}selected{% endif %}>Tuition Fees</option>
+                                <option value="accommodation" {% if form.loan_purpose.value == 'accommodation' %}selected{% endif %}>Accommodation</option>
+                                <option value="books" {% if form.loan_purpose.value == 'books' %}selected{% endif %}>Books & Materials</option>
+                                <option value="living_expenses" {% if form.loan_purpose.value == 'living_expenses' %}selected{% endif %}>Living Expenses</option>
+                                <option value="other" {% if form.loan_purpose.value == 'other' %}selected{% endif %}>Other</option>
                             </select>
+                            {% if form.loan_purpose.errors %}
+                                <div class="field-errors">
+                                    {% for error in form.loan_purpose.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -423,72 +579,122 @@
     </div>
 
     <script>
-        document.getElementById('id_application_type').addEventListener('change', function() {
-            const type = this.value;
+        document.addEventListener('DOMContentLoaded', function() {
+            const applicationTypeSelect = document.getElementById('id_application_type');
+            const universityFields = document.getElementById('university-fields');
+            const visaFields = document.getElementById('visa-fields');
+            const scholarshipFields = document.getElementById('scholarship-fields');
+            const loanFields = document.getElementById('loan-fields');
             
-            // Hide all fields
-            document.getElementById('university-fields').classList.add('hidden');
-            document.getElementById('visa-fields').classList.add('hidden');
-            document.getElementById('scholarship-fields').classList.add('hidden');
-            document.getElementById('loan-fields').classList.add('hidden');
+            // Hide all fields initially
+            hideAllFields();
             
-            // Clear all required fields when switching types
-            clearAllFields();
-            
-            // Show relevant fields
-            if (type === 'university') {
-                document.getElementById('university-fields').classList.remove('hidden');
-                setFieldsRequired('university');
-            } else if (type === 'visa') {
-                document.getElementById('visa-fields').classList.remove('hidden');
-                setFieldsRequired('visa');
-            } else if (type === 'scholarship') {
-                document.getElementById('scholarship-fields').classList.remove('hidden');
-                setFieldsRequired('scholarship');
-            } else if (type === 'loan') {
-                document.getElementById('loan-fields').classList.remove('hidden');
-                setFieldsRequired('loan');
+            // Show relevant fields based on current selection (in case of form errors)
+            const currentType = applicationTypeSelect.value;
+            if (currentType) {
+                showFieldsForType(currentType);
             }
-        });
-
-        function clearAllFields() {
-            // Clear all input fields when switching application types
-            const allInputs = document.querySelectorAll('input, select');
-            allInputs.forEach(input => {
-                if (input.id !== 'id_application_type') {
-                    input.value = '';
-                    input.required = false;
+            
+            // Add change event listener
+            applicationTypeSelect.addEventListener('change', function() {
+                const type = this.value;
+                hideAllFields();
+                if (type) {
+                    showFieldsForType(type);
                 }
             });
-        }
-
-        function setFieldsRequired(type) {
-            // Set required fields based on application type
-            if (type === 'university') {
-                document.getElementById('id_university_name').required = true;
-                document.getElementById('id_course').required = true;
-                document.getElementById('id_country').required = true;
-            } else if (type === 'visa') {
-                document.getElementById('id_visa_country').required = true;
-                document.getElementById('id_visa_type').required = true;
-                document.getElementById('id_duration').required = true;
-            } else if (type === 'scholarship') {
-                document.getElementById('id_scholarship_name').required = true;
-                document.getElementById('id_scholarship_type').required = true;
-                document.getElementById('id_coverage').required = true;
-            } else if (type === 'loan') {
-                document.getElementById('id_loan_provider').required = true;
-                document.getElementById('id_loan_amount').required = true;
-                document.getElementById('id_loan_purpose').required = true;
+            
+            function hideAllFields() {
+                universityFields.classList.add('hidden');
+                visaFields.classList.add('hidden');
+                scholarshipFields.classList.add('hidden');
+                loanFields.classList.add('hidden');
+                
+                // Clear all non-application-type fields
+                const allInputs = document.querySelectorAll('input:not([name="application_type"]), select:not([name="application_type"])');
+                allInputs.forEach(input => {
+                    if (input.type !== 'hidden' && input.name !== 'csrfmiddlewaretoken') {
+                        input.value = '';
+                        input.required = false;
+                    }
+                });
             }
-        }
-
-        // Initialize - hide all fields initially
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('university-fields').classList.add('hidden');
-            document.getElementById('visa-fields').classList.add('hidden');
-            document.getElementById('scholarship-fields').classList.add('hidden');
-            document.getElementById('loan-fields').classList.add('hidden');
+            
+            function showFieldsForType(type) {
+                const fields = {
+                    'university': {
+                        element: universityFields,
+                        required: ['id_university_name', 'id_course_program', 'id_destination_country']
+                    },
+                    'visa': {
+                        element: visaFields,
+                        required: ['id_visa_destination_country', 'id_visa_type', 'id_intended_duration']
+                    },
+                    'scholarship': {
+                        element: scholarshipFields,
+                        required: ['id_scholarship_provider', 'id_scholarship_type', 'id_coverage_details']
+                    },
+                    'loan': {
+                        element: loanFields,
+                        required: ['id_loan_provider', 'id_loan_amount', 'id_loan_purpose']
+                    }
+                };
+                
+                if (fields[type]) {
+                    fields[type].element.classList.remove('hidden');
+                    fields[type].required.forEach(fieldId => {
+                        const field = document.getElementById(fieldId);
+                        if (field) {
+                            field.required = true;
+                        }
+                    });
+                }
+            }
+            
+            // Form validation
+            document.getElementById('application-form').addEventListener('submit', function(e) {
+                const applicationType = applicationTypeSelect.value;
+                if (!applicationType) {
+                    e.preventDefault();
+                    alert('Please select an application type.');
+                    return false;
+                }
+                
+                // Check if required fields for the selected type are filled
+                let isValid = true;
+                let firstEmptyField = null;
+                
+                const requiredFields = {
+                    'university': ['id_university_name', 'id_course_program', 'id_destination_country'],
+                    'visa': ['id_visa_destination_country', 'id_visa_type', 'id_intended_duration'],
+                    'scholarship': ['id_scholarship_provider', 'id_scholarship_type', 'id_coverage_details'],
+                    'loan': ['id_loan_provider', 'id_loan_amount', 'id_loan_purpose']
+                };
+                
+                if (requiredFields[applicationType]) {
+                    requiredFields[applicationType].forEach(fieldId => {
+                        const field = document.getElementById(fieldId);
+                        if (field && !field.value.trim()) {
+                            isValid = false;
+                            if (!firstEmptyField) {
+                                firstEmptyField = field;
+                            }
+                            field.style.borderColor = '#dc3545';
+                        } else if (field) {
+                            field.style.borderColor = '';
+                        }
+                    });
+                }
+                
+                if (!isValid) {
+                    e.preventDefault();
+                    alert('Please fill in all required fields for the selected application type.');
+                    if (firstEmptyField) {
+                        firstEmptyField.focus();
+                    }
+                    return false;
+                }
+            });
         });
     </script>
 </body>

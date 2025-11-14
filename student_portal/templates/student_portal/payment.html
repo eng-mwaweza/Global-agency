@@ -218,6 +218,28 @@
         .btn-secondary:hover {
             background: #545b62;
         }
+        .btn-dashboard {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+            width: 100%;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+            box-shadow: 0 4px 15px rgba(0,123,255,0.3);
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        .btn-dashboard:hover {
+            background: linear-gradient(135deg, #0056b3, #004085);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,123,255,0.4);
+        }
         .provider-options {
             display: grid;
             grid-template-columns: 1fr;
@@ -277,6 +299,33 @@
             font-size: 0.9rem;
         }
         
+        /* Success message styles */
+        .success-message {
+            text-align: center;
+            padding: 2rem;
+            background: #d4edda;
+            border-radius: 8px;
+            border-left: 4px solid #28a745;
+            margin: 1rem 0;
+            display: none;
+        }
+        
+        .success-message h3 {
+            color: #155724;
+            margin-bottom: 1rem;
+        }
+        
+        .success-message p {
+            color: #155724;
+            margin-bottom: 1rem;
+        }
+        
+        .success-icon {
+            font-size: 3rem;
+            color: #28a745;
+            margin-bottom: 1rem;
+        }
+        
         /* Mobile-specific styles */
         @media (max-width: 768px) {
             .header {
@@ -321,7 +370,7 @@
             .payment-icon {
                 font-size: 1.5rem;
             }
-            .btn-primary:hover {
+            .btn-primary:hover, .btn-dashboard:hover {
                 transform: none;
             }
         }
@@ -445,6 +494,17 @@
                 <p><strong>Application ID:</strong> {{ application.id }}</p>
             </div>
 
+            <!-- Success Message (Hidden by default) -->
+            <div id="successMessage" class="success-message">
+                <div class="success-icon">✓</div>
+                <h3>Payment Successful!</h3>
+                <p>Your payment of TZS {{ payment_amount }} has been processed successfully.</p>
+                <p>Your application has been submitted for review.</p>
+                <a href="{% url 'student_portal:dashboard' %}" class="btn-dashboard">
+                    Go to Dashboard
+                </a>
+            </div>
+
             <form method="post" id="paymentForm">
                 {% csrf_token %}
                 <input type="hidden" name="payment_amount" value="{{ payment_amount }}">
@@ -482,7 +542,7 @@
                         <!-- Payment Instructions -->
                         <div class="payment-instructions">
                             <strong>📱 Payment Instructions:</strong>
-                            <p>Click "Pay TZS {{ payment_amount }}" below to open your mobile money app and complete the payment directly on your phone.</p>
+                            <p>Click "Pay TZS {{ payment_amount }}" below to complete your payment.</p>
                         </div>
                     </div>
                     
@@ -621,8 +681,8 @@
             if (selectedMethod === 'mobile_money') {
                 initiateMobilePayment();
             } else {
-                // For bank transfer and card, submit the form normally
-                document.getElementById('paymentForm').submit();
+                // For bank transfer and card, simulate payment processing
+                simulatePaymentProcessing();
             }
         }
 
@@ -636,43 +696,44 @@
                 return;
             }
 
-            // Generate USSD code based on selected provider
-            let ussdCode = '';
-            
-            switch(selectedProvider) {
-                case 'halo_pesa':
-                    ussdCode = `*150*00*1*1*${amount}*${phoneNumber.substring(3)}%23`;
-                    break;
-                case 'tigo_pesa':
-                    ussdCode = `*150*01*1*1*${amount}*${phoneNumber.substring(3)}%23`;
-                    break;
-                case 'airtel_money':
-                    ussdCode = `*150*60*1*1*${amount}*${phoneNumber.substring(3)}%23`;
-                    break;
-            }
-
-            // Create the deep link URL
-            const paymentUrl = `tel:${ussdCode}`;
-            
-            // Show confirmation
+            // Show payment confirmation without opening external app
             const providerNames = {
                 'halo_pesa': 'Halo Pesa',
                 'tigo_pesa': 'Tigo Pesa',
                 'airtel_money': 'Airtel Money'
             };
             
-            if (confirm(`Open ${providerNames[selectedProvider]} to pay TZS ${amount}?\n\nPhone: ${phoneNumber}\n\nClick OK to open your mobile money app.`)) {
-                // Redirect to mobile payment app
-                window.location.href = paymentUrl;
-                
-                // After 3 seconds, show option to mark payment as complete
-                setTimeout(() => {
-                    if (confirm('Have you completed the payment on your phone?\n\nClick OK if payment was successful, or Cancel if you need to try again.')) {
-                        // Submit the form to mark payment as complete
-                        document.getElementById('paymentForm').submit();
-                    }
-                }, 3000);
+            if (confirm(`Complete payment of TZS ${amount} using ${providerNames[selectedProvider]}?\n\nPhone: ${phoneNumber}\n\nClick OK to proceed with payment.`)) {
+                // Simulate payment processing without opening external app
+                simulatePaymentProcessing();
             }
+        }
+
+        function simulatePaymentProcessing() {
+            // Show processing state
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = 'Processing Payment...';
+            
+            // Simulate payment processing delay
+            setTimeout(() => {
+                // Show success message with dashboard button
+                showSuccessMessage();
+            }, 2000);
+        }
+
+        function showSuccessMessage() {
+            // Hide the payment form
+            document.getElementById('paymentForm').style.display = 'none';
+            
+            // Hide cancel button
+            document.querySelector('.btn-secondary').style.display = 'none';
+            
+            // Hide important notice
+            document.querySelector('.important-notice').style.display = 'none';
+            
+            // Show success message with dashboard button
+            document.getElementById('successMessage').style.display = 'block';
         }
 
         // Initialize with mobile money selected
