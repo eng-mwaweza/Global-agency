@@ -6,82 +6,300 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ application.full_name }} - Application Details</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for better mobile experience */
+        @media (max-width: 640px) {
+            .mobile-card {
+                margin-left: -1rem;
+                margin-right: -1rem;
+                border-radius: 0;
+            }
+        }
+        
+        /* Print styles */
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            .print-break {
+                page-break-after: always;
+            }
+        }
+    </style>
 </head>
-<body class="bg-gray-50 font-sans p-8">
+<body class="bg-gray-50 font-sans p-4 sm:p-6 lg:p-8">
 
-    <h1 class="text-3xl font-bold text-blue-900 mb-6">{{ application.full_name }}</h1>
+    <!-- Header Section -->
+    <div class="max-w-6xl mx-auto">
+        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6 sm:mb-8">
+            <div>
+                <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-blue-900 mb-2">{{ application.full_name }}</h1>
+                <p class="text-gray-600 text-sm sm:text-base">Application Details</p>
+            </div>
+            <div class="no-print">
+                <a href="{% url 'employee:employee_dashboard' %}" 
+                   class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 text-sm sm:text-base">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                    </svg>
+                    Back to Dashboard
+                </a>
+            </div>
+        </div>
 
-    <!-- Personal Information -->
-    <section class="bg-white p-6 rounded-lg shadow-md mb-6">
-        <h2 class="text-xl font-semibold mb-2">Personal Information</h2>
-        <p><strong>Gender:</strong> {{ application.gender }}</p>
-        <p><strong>Nationality:</strong> {{ application.nationality }}</p>
-        <p><strong>Email:</strong> {{ application.email }}</p>
-        <p><strong>Phone:</strong> {{ application.phone }}</p>
-        <p><strong>Address:</strong> {{ application.address }}</p>
-    </section>
+        <!-- Personal Information -->
+        <section class="bg-white p-4 sm:p-6 rounded-lg shadow-md mb-4 sm:mb-6 mobile-card">
+            <h2 class="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-blue-800 border-b border-gray-200 pb-2">Personal Information</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+                <div class="space-y-1">
+                    <p class="text-sm text-gray-600">Gender</p>
+                    <p class="font-medium">{{ application.gender|default:"Not provided" }}</p>
+                </div>
+                <div class="space-y-1">
+                    <p class="text-sm text-gray-600">Nationality</p>
+                    <p class="font-medium">{{ application.nationality|default:"Not provided" }}</p>
+                </div>
+                <div class="space-y-1">
+                    <p class="text-sm text-gray-600">Email</p>
+                    <p class="font-medium break-words">{{ application.email|default:"Not provided" }}</p>
+                </div>
+                <div class="space-y-1">
+                    <p class="text-sm text-gray-600">Phone</p>
+                    <p class="font-medium">{{ application.phone|default:"Not provided" }}</p>
+                </div>
+                <div class="space-y-1 sm:col-span-2 lg:col-span-3">
+                    <p class="text-sm text-gray-600">Address</p>
+                    <p class="font-medium">{{ application.address|default:"Not provided" }}</p>
+                </div>
+            </div>
+        </section>
 
-    <!-- Parents Details -->
-    <section class="bg-white p-6 rounded-lg shadow-md mb-6">
-        <h2 class="text-xl font-semibold mb-2">Parents Details</h2>
-        <p><strong>Father Name:</strong> {{ application.father_name }}</p>
-        <p><strong>Father Phone:</strong> {{ application.father_phone }}</p>
-        <p><strong>Father Email:</strong> {{ application.father_email }}</p>
-        <p><strong>Father Occupation:</strong> {{ application.father_occupation }}</p>
+        <!-- Parents Details -->
+        <section class="bg-white p-4 sm:p-6 rounded-lg shadow-md mb-4 sm:mb-6 mobile-card">
+            <h2 class="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-blue-800 border-b border-gray-200 pb-2">Parents Details</h2>
+            
+            <!-- Father's Information -->
+            <div class="mb-4 sm:mb-6">
+                <h3 class="font-semibold text-blue-700 mb-3 text-base sm:text-lg">Father's Information</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                    <div class="space-y-1">
+                        <p class="text-sm text-gray-600">Name</p>
+                        <p class="font-medium">{{ application.father_name|default:"Not provided" }}</p>
+                    </div>
+                    <div class="space-y-1">
+                        <p class="text-sm text-gray-600">Phone</p>
+                        <p class="font-medium">{{ application.father_phone|default:"Not provided" }}</p>
+                    </div>
+                    <div class="space-y-1">
+                        <p class="text-sm text-gray-600">Email</p>
+                        <p class="font-medium break-words">{{ application.father_email|default:"Not provided" }}</p>
+                    </div>
+                    <div class="space-y-1">
+                        <p class="text-sm text-gray-600">Occupation</p>
+                        <p class="font-medium">{{ application.father_occupation|default:"Not provided" }}</p>
+                    </div>
+                </div>
+            </div>
 
-        <p><strong>Mother Name:</strong> {{ application.mother_name }}</p>
-        <p><strong>Mother Phone:</strong> {{ application.mother_phone }}</p>
-        <p><strong>Mother Email:</strong> {{ application.mother_email }}</p>
-        <p><strong>Mother Occupation:</strong> {{ application.mother_occupation }}</p>
-    </section>
+            <!-- Mother's Information -->
+            <div>
+                <h3 class="font-semibold text-blue-700 mb-3 text-base sm:text-lg">Mother's Information</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                    <div class="space-y-1">
+                        <p class="text-sm text-gray-600">Name</p>
+                        <p class="font-medium">{{ application.mother_name|default:"Not provided" }}</p>
+                    </div>
+                    <div class="space-y-1">
+                        <p class="text-sm text-gray-600">Phone</p>
+                        <p class="font-medium">{{ application.mother_phone|default:"Not provided" }}</p>
+                    </div>
+                    <div class="space-y-1">
+                        <p class="text-sm text-gray-600">Email</p>
+                        <p class="font-medium break-words">{{ application.mother_email|default:"Not provided" }}</p>
+                    </div>
+                    <div class="space-y-1">
+                        <p class="text-sm text-gray-600">Occupation</p>
+                        <p class="font-medium">{{ application.mother_occupation|default:"Not provided" }}</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    <!-- Education Background -->
-    <section class="bg-white p-6 rounded-lg shadow-md mb-6">
-        <h2 class="text-xl font-semibold mb-2">Education Background</h2>
-        <h3 class="font-semibold mt-2">O-Level</h3>
-        <p><strong>School:</strong> {{ application.olevel_school }}</p>
-        <p><strong>Country:</strong> {{ application.olevel_country }}</p>
-        <p><strong>Address:</strong> {{ application.olevel_address }}</p>
-        <p><strong>Region:</strong> {{ application.olevel_region }}</p>
-        <p><strong>Year:</strong> {{ application.olevel_year }}</p>
-        <p><strong>Candidate No:</strong> {{ application.olevel_candidate_no }}</p>
-        <p><strong>GPA:</strong> {{ application.olevel_gpa }}</p>
+        <!-- Education Background -->
+        <section class="bg-white p-4 sm:p-6 rounded-lg shadow-md mb-4 sm:mb-6 mobile-card">
+            <h2 class="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-blue-800 border-b border-gray-200 pb-2">Education Background</h2>
+            
+            <!-- O-Level -->
+            <div class="mb-4 sm:mb-6">
+                <h3 class="font-semibold text-blue-700 mb-3 text-base sm:text-lg">O-Level Education</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+                    <div class="space-y-1">
+                        <p class="text-sm text-gray-600">School</p>
+                        <p class="font-medium">{{ application.olevel_school|default:"Not provided" }}</p>
+                    </div>
+                    <div class="space-y-1">
+                        <p class="text-sm text-gray-600">Country</p>
+                        <p class="font-medium">{{ application.olevel_country|default:"Not provided" }}</p>
+                    </div>
+                    <div class="space-y-1">
+                        <p class="text-sm text-gray-600">Region</p>
+                        <p class="font-medium">{{ application.olevel_region|default:"Not provided" }}</p>
+                    </div>
+                    <div class="space-y-1">
+                        <p class="text-sm text-gray-600">Year</p>
+                        <p class="font-medium">{{ application.olevel_year|default:"Not provided" }}</p>
+                    </div>
+                    <div class="space-y-1">
+                        <p class="text-sm text-gray-600">Candidate No</p>
+                        <p class="font-medium">{{ application.olevel_candidate_no|default:"Not provided" }}</p>
+                    </div>
+                    <div class="space-y-1">
+                        <p class="text-sm text-gray-600">GPA</p>
+                        <p class="font-medium">{{ application.olevel_gpa|default:"Not provided" }}</p>
+                    </div>
+                    <div class="space-y-1 sm:col-span-2 lg:col-span-3">
+                        <p class="text-sm text-gray-600">Address</p>
+                        <p class="font-medium">{{ application.olevel_address|default:"Not provided" }}</p>
+                    </div>
+                </div>
+            </div>
 
-        <h3 class="font-semibold mt-2">A-Level</h3>
-        <p><strong>School:</strong> {{ application.alevel_school }}</p>
-        <p><strong>Country:</strong> {{ application.alevel_country }}</p>
-        <p><strong>Address:</strong> {{ application.alevel_address }}</p>
-        <p><strong>Region:</strong> {{ application.alevel_region }}</p>
-        <p><strong>Year:</strong> {{ application.alevel_year }}</p>
-        <p><strong>Candidate No:</strong> {{ application.alevel_candidate_no }}</p>
-        <p><strong>GPA:</strong> {{ application.alevel_gpa }}</p>
-    </section>
+            <!-- A-Level -->
+            <div>
+                <h3 class="font-semibold text-blue-700 mb-3 text-base sm:text-lg">A-Level Education</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+                    <div class="space-y-1">
+                        <p class="text-sm text-gray-600">School</p>
+                        <p class="font-medium">{{ application.alevel_school|default:"Not provided" }}</p>
+                    </div>
+                    <div class="space-y-1">
+                        <p class="text-sm text-gray-600">Country</p>
+                        <p class="font-medium">{{ application.alevel_country|default:"Not provided" }}</p>
+                    </div>
+                    <div class="space-y-1">
+                        <p class="text-sm text-gray-600">Region</p>
+                        <p class="font-medium">{{ application.alevel_region|default:"Not provided" }}</p>
+                    </div>
+                    <div class="space-y-1">
+                        <p class="text-sm text-gray-600">Year</p>
+                        <p class="font-medium">{{ application.alevel_year|default:"Not provided" }}</p>
+                    </div>
+                    <div class="space-y-1">
+                        <p class="text-sm text-gray-600">Candidate No</p>
+                        <p class="font-medium">{{ application.alevel_candidate_no|default:"Not provided" }}</p>
+                    </div>
+                    <div class="space-y-1">
+                        <p class="text-sm text-gray-600">GPA</p>
+                        <p class="font-medium">{{ application.alevel_gpa|default:"Not provided" }}</p>
+                    </div>
+                    <div class="space-y-1 sm:col-span-2 lg:col-span-3">
+                        <p class="text-sm text-gray-600">Address</p>
+                        <p class="font-medium">{{ application.alevel_address|default:"Not provided" }}</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    <!-- Study Preferences -->
-    <section class="bg-white p-6 rounded-lg shadow-md mb-6">
-        <h2 class="text-xl font-semibold mb-2">Study Preferences</h2>
-        <p><strong>Preferred Country 1:</strong> {{ application.preferred_country_1 }}</p>
-        <p><strong>Preferred Country 2:</strong> {{ application.preferred_country_2 }}</p>
-        <p><strong>Preferred Country 3:</strong> {{ application.preferred_country_3 }}</p>
-        <p><strong>Preferred Country 4:</strong> {{ application.preferred_country_4 }}</p>
-        <p><strong>Preferred Program 1:</strong> {{ application.preferred_program_1 }}</p>
-        <p><strong>Preferred Program 2:</strong> {{ application.preferred_program_2 }}</p>
-        <p><strong>Preferred Program 3:</strong> {{ application.preferred_program_3 }}</p>
-        <p><strong>Preferred Program 4:</strong> {{ application.preferred_program_4 }}</p>
-    </section>
+        <!-- Study Preferences -->
+        <section class="bg-white p-4 sm:p-6 rounded-lg shadow-md mb-4 sm:mb-6 mobile-card">
+            <h2 class="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-blue-800 border-b border-gray-200 pb-2">Study Preferences</h2>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                <!-- Preferred Countries -->
+                <div>
+                    <h3 class="font-semibold text-blue-700 mb-3 text-base">Preferred Countries</h3>
+                    <div class="space-y-2">
+                        {% for i in "1234" %}
+                        <div class="flex items-center space-x-3 p-2 bg-gray-50 rounded">
+                            <span class="text-sm text-gray-500 w-6">{{ forloop.counter }}</span>
+                            <span class="font-medium">{{ application|get_attribute:"preferred_country_"|add:i|default:"Not specified" }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
 
-    <!-- Emergency Contact -->
-    <section class="bg-white p-6 rounded-lg shadow-md mb-6">
-        <h2 class="text-xl font-semibold mb-2">Emergency Contact</h2>
-        <p><strong>Name:</strong> {{ application.emergency_name }}</p>
-        <p><strong>Address:</strong> {{ application.emergency_address }}</p>
-        <p><strong>Occupation:</strong> {{ application.emergency_occupation }}</p>
-        <p><strong>Gender:</strong> {{ application.emergency_gender }}</p>
-        <p><strong>Relation:</strong> {{ application.emergency_relation }}</p>
-        <p><strong>Heard About Us:</strong> {{ application.heard_about_us }} {{ application.heard_about_other }}</p>
-    </section>
+                <!-- Preferred Programs -->
+                <div>
+                    <h3 class="font-semibold text-blue-700 mb-3 text-base">Preferred Programs</h3>
+                    <div class="space-y-2">
+                        {% for i in "1234" %}
+                        <div class="flex items-center space-x-3 p-2 bg-gray-50 rounded">
+                            <span class="text-sm text-gray-500 w-6">{{ forloop.counter }}</span>
+                            <span class="font-medium">{{ application|get_attribute:"preferred_program_"|add:i|default:"Not specified" }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    <a href="{% url 'employee:employee_dashboard' %}" class="text-blue-600 hover:underline">← Back to Dashboard</a>
+        <!-- Emergency Contact -->
+        <section class="bg-white p-4 sm:p-6 rounded-lg shadow-md mb-6 mobile-card">
+            <h2 class="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-blue-800 border-b border-gray-200 pb-2">Emergency Contact</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+                <div class="space-y-1">
+                    <p class="text-sm text-gray-600">Name</p>
+                    <p class="font-medium">{{ application.emergency_name|default:"Not provided" }}</p>
+                </div>
+                <div class="space-y-1">
+                    <p class="text-sm text-gray-600">Relation</p>
+                    <p class="font-medium">{{ application.emergency_relation|default:"Not provided" }}</p>
+                </div>
+                <div class="space-y-1">
+                    <p class="text-sm text-gray-600">Gender</p>
+                    <p class="font-medium">{{ application.emergency_gender|default:"Not provided" }}</p>
+                </div>
+                <div class="space-y-1">
+                    <p class="text-sm text-gray-600">Occupation</p>
+                    <p class="font-medium">{{ application.emergency_occupation|default:"Not provided" }}</p>
+                </div>
+                <div class="space-y-1 sm:col-span-2 lg:col-span-3">
+                    <p class="text-sm text-gray-600">Address</p>
+                    <p class="font-medium">{{ application.emergency_address|default:"Not provided" }}</p>
+                </div>
+                <div class="space-y-1 sm:col-span-2 lg:col-span-3">
+                    <p class="text-sm text-gray-600">Heard About Us</p>
+                    <p class="font-medium">
+                        {{ application.heard_about_us|default:"Not specified" }}
+                        {% if application.heard_about_other %}
+                        - {{ application.heard_about_other }}
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bottom Navigation -->
+        <div class="no-print flex justify-center mt-8">
+            <a href="{% url 'employee:employee_dashboard' %}" 
+               class="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 font-medium">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Back to Dashboard
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Add print functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add print button dynamically
+            const header = document.querySelector('.max-w-6xl > div:first-child');
+            if (header) {
+                const printBtn = document.createElement('button');
+                printBtn.innerHTML = `
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+                    </svg>
+                    Print Application
+                `;
+                printBtn.className = 'inline-flex items-center px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors duration-200 text-sm sm:text-base ml-2 no-print';
+                printBtn.onclick = function() { window.print(); };
+                header.querySelector('.no-print').appendChild(printBtn);
+            }
+        });
+    </script>
 
 </body>
 </html>

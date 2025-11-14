@@ -4,101 +4,490 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Application Details - Employee Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: Arial, sans-serif; background-color: #f8f9fa; line-height: 1.6; }
-        .header { background: linear-gradient(135deg, #28a745, #20c997); color: white; padding: 1rem 2rem; }
-        .nav-menu { display: flex; gap: 2rem; margin-top: 1rem; }
-        .nav-menu a { color: white; text-decoration: none; padding: 0.5rem 1rem; border-radius: 4px; }
-        .nav-menu a:hover { background-color: rgba(255,255,255,0.2); }
-        .container { max-width: 1200px; margin: 2rem auto; padding: 0 2rem; }
-        .card { background: white; padding: 2rem; border-radius: 8px; margin-bottom: 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .status-badge { padding: 0.5rem 1rem; border-radius: 20px; font-size: 1rem; font-weight: bold; display: inline-block; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #f8f9fa; 
+            line-height: 1.6; 
+            color: #333;
+        }
+        
+        /* Header Styles */
+        .header { 
+            background: linear-gradient(135deg, #28a745, #20c997); 
+            color: white; 
+            padding: 1.5rem 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+        .welcome-text {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        /* Navigation */
+        .nav-menu { 
+            display: flex; 
+            gap: 1rem; 
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+        .nav-menu a { 
+            color: white; 
+            text-decoration: none; 
+            padding: 0.5rem 1rem; 
+            border-radius: 4px; 
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        .nav-menu a:hover { 
+            background-color: rgba(255,255,255,0.2); 
+            transform: translateY(-2px);
+        }
+        
+        /* Main Container */
+        .container { 
+            max-width: 1200px; 
+            margin: 2rem auto; 
+            padding: 0 2rem; 
+        }
+        
+        /* Page Header */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        .page-header h2 {
+            color: #333;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        /* Card Styles */
+        .card { 
+            background: white; 
+            padding: 2rem; 
+            border-radius: 12px; 
+            margin-bottom: 2rem; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #28a745, #20c997);
+        }
+        
+        /* Status Badges */
+        .status-badge { 
+            padding: 0.5rem 1.5rem; 
+            border-radius: 20px; 
+            font-size: 1rem; 
+            font-weight: bold; 
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
         .status-pending_payment { background: #6c757d; color: white; }
         .status-submitted { background: #17a2b8; color: white; }
         .status-under_review { background: #ffc107; color: black; }
         .status-approved { background: #28a745; color: white; }
         .status-rejected { background: #dc3545; color: white; }
         .status-selected { background: #6610f2; color: white; }
-        .btn { padding: 0.5rem 1rem; border-radius: 4px; text-decoration: none; display: inline-block; border: none; cursor: pointer; }
-        .btn-primary { background: #007bff; color: white; }
-        .btn-success { background: #28a745; color: white; }
-        .btn-secondary { background: #6c757d; color: white; }
-        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin: 1.5rem 0; }
-        .info-item { padding: 1rem; background: #f8f9fa; border-radius: 6px; }
-        .info-label { font-weight: bold; color: #495057; margin-bottom: 0.5rem; }
-        .document-item { display: flex; justify-content: between; align-items: center; padding: 1rem; border: 1px solid #e9ecef; border-radius: 6px; margin-bottom: 0.5rem; }
-        .payment-item { padding: 1rem; background: #f8f9fa; border-radius: 6px; margin-bottom: 0.5rem; }
-        .verified-badge { color: #28a745; font-weight: bold; }
-        .pending-badge { color: #dc3545; font-weight: bold; }
+        
+        /* Buttons */
+        .btn { 
+            padding: 0.5rem 1rem; 
+            border-radius: 6px; 
+            text-decoration: none; 
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: none; 
+            cursor: pointer; 
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .btn-primary { 
+            background: #007bff; 
+            color: white; 
+        }
+        .btn-primary:hover {
+            background: #0069d9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,123,255,0.3);
+        }
+        .btn-success { 
+            background: #28a745; 
+            color: white; 
+        }
+        .btn-success:hover {
+            background: #218838;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(40,167,69,0.3);
+        }
+        .btn-secondary { 
+            background: #6c757d; 
+            color: white; 
+        }
+        .btn-secondary:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+        .btn-sm { 
+            padding: 0.4rem 0.8rem; 
+            font-size: 0.875rem; 
+        }
+        
+        /* Info Grid */
+        .info-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 1.5rem; 
+            margin: 1.5rem 0; 
+        }
+        .info-item { 
+            padding: 1.5rem; 
+            background: #f8f9fa; 
+            border-radius: 8px; 
+            border-left: 4px solid #28a745;
+            transition: transform 0.3s ease;
+        }
+        .info-item:hover {
+            transform: translateX(5px);
+        }
+        .info-label { 
+            font-weight: bold; 
+            color: #495057; 
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        /* Document Items */
+        .document-item { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 1.5rem; 
+            border: 1px solid #e9ecef; 
+            border-radius: 8px; 
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+        .document-item:hover {
+            border-color: #007bff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        /* Payment Items */
+        .payment-item { 
+            padding: 1.5rem; 
+            background: #f8f9fa; 
+            border-radius: 8px; 
+            margin-bottom: 1rem;
+            border-left: 4px solid #17a2b8;
+        }
+        
+        /* Status Badges */
+        .verified-badge { 
+            color: #28a745; 
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .verified-badge::before {
+            content: "✓";
+            font-weight: bold;
+        }
+        .pending-badge { 
+            color: #dc3545; 
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .pending-badge::before {
+            content: "●";
+            font-size: 0.8rem;
+        }
+        
+        /* Form Elements */
+        select {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        select:focus {
+            outline: none;
+            border-color: #28a745;
+            box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.2);
+        }
+        
+        /* Application Header */
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        /* Progress Bar */
+        .progress-container {
+            margin: 1.5rem 0;
+        }
+        .progress-bar {
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #28a745, #20c997);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        .progress-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.875rem;
+            color: #6c757d;
+        }
+        
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .nav-menu {
+                width: 100%;
+                justify-content: space-between;
+            }
+            .nav-menu a {
+                flex: 1;
+                text-align: center;
+                margin-bottom: 0.5rem;
+            }
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .page-header .btn {
+                margin-top: 1rem;
+            }
+            .app-header {
+                flex-direction: column;
+            }
+            .status-badge {
+                margin-top: 1rem;
+            }
+            .document-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 1rem;
+            }
+            .header {
+                padding: 1rem;
+            }
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Loading Animation */
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        .loading {
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        
+        /* Timeline */
+        .timeline {
+            position: relative;
+            margin: 1.5rem 0;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #e9ecef;
+        }
+        .timeline-item {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #28a745;
+            border: 2px solid white;
+            box-shadow: 0 0 0 2px #28a745;
+        }
+        .timeline-date {
+            font-size: 0.875rem;
+            color: #6c757d;
+        }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>Employee Portal</h1>
-        <nav class="nav-menu">
-            <a href="{% url 'employee:employee_dashboard' %}">Dashboard</a>
-            <a href="{% url 'employee:student_application_list' %}">Student Applications</a>
-            <a href="{% url 'employee:document_list' %}">Documents</a>
-            <a href="{% url 'employee:contact_messages' %}">Contact Messages</a>
-            <a href="{% url 'admin:index' %}">Admin</a>
-            <a href="{% url 'employee:employee_logout' %}">Logout</a>
-        </nav>
-        <div style="margin-top: 1rem;">Welcome, {{ user.get_full_name|default:user.username }}</div>
+        <div class="header-content">
+            <div>
+                <h1>Employee Portal</h1>
+                <div class="welcome-text">Welcome, {{ user.get_full_name|default:user.username }}</div>
+            </div>
+            <nav class="nav-menu">
+                <a href="{% url 'employee:employee_dashboard' %}">Dashboard</a>
+                <a href="{% url 'employee:student_application_list' %}">Student Applications</a>
+                <a href="{% url 'employee:document_list' %}">Documents</a>
+                <a href="{% url 'employee:contact_messages' %}">Contact Messages</a>
+                <a href="{% url 'admin:index' %}">Admin</a>
+                <a href="{% url 'employee:employee_logout' %}">Logout</a>
+            </nav>
+        </div>
     </div>
 
     <div class="container">
-        <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 2rem;">
-            <h2>Application Details</h2>
-            <a href="{% url 'employee:student_application_list' %}" class="btn btn-secondary">← Back to Applications</a>
+        <div class="page-header">
+            <h2><i class="fas fa-file-alt"></i> Application Details</h2>
+            <a href="{% url 'employee:student_application_list' %}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to Applications
+            </a>
         </div>
 
         <!-- Application Overview -->
         <div class="card">
-            <div style="display: flex; justify-content: between; align-items: start; margin-bottom: 1.5rem;">
+            <div class="app-header">
                 <div>
                     <h3>Application #{{ application.id }}</h3>
-                    <p style="color: #666;">Submitted on {{ application.created_at|date:"F d, Y" }}</p>
+                    <p style="color: #666; margin-top: 0.5rem;">
+                        <i class="far fa-calendar"></i> Submitted on {{ application.created_at|date:"F d, Y" }}
+                    </p>
                 </div>
                 <span class="status-badge status-{{ application.status }}">
-                    {{ application.get_status_display }}
+                    <i class="fas fa-circle"></i> {{ application.get_status_display }}
                 </span>
+            </div>
+
+            <!-- Application Progress -->
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 
+                        {% if application.status == 'pending_payment' %}20%
+                        {% elif application.status == 'submitted' %}40%
+                        {% elif application.status == 'under_review' %}60%
+                        {% elif application.status == 'approved' %}80%
+                        {% elif application.status == 'selected' %}100%
+                        {% else %}10%{% endif %}">
+                    </div>
+                </div>
+                <div class="progress-labels">
+                    <span>Submitted</span>
+                    <span>Under Review</span>
+                    <span>Approved</span>
+                    <span>Completed</span>
+                </div>
             </div>
 
             <!-- Status Update Form -->
             <form method="post" action="{% url 'employee:update_student_application_status' application.id %}">
                 {% csrf_token %}
-                <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1.5rem;">
+                <div style="display: flex; gap: 1rem; align-items: center; margin: 1.5rem 0; flex-wrap: wrap;">
                     <strong>Update Status:</strong>
-                    <select name="status" style="padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                    <select name="status" style="padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px; min-width: 200px;">
                         {% for status_value, status_label in application.APPLICATION_STATUS %}
                         <option value="{{ status_value }}" {% if application.status == status_value %}selected{% endif %}>
                             {{ status_label }}
                         </option>
                         {% endfor %}
                     </select>
-                    <button type="submit" class="btn btn-success">Update Status</button>
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-sync-alt"></i> Update Status
+                    </button>
                 </div>
             </form>
 
             <!-- Application Information -->
             <div class="info-grid">
                 <div class="info-item">
-                    <div class="info-label">Student Information</div>
+                    <div class="info-label"><i class="fas fa-user-graduate"></i> Student Information</div>
                     <div><strong>Name:</strong> {{ application.student.get_full_name|default:application.student.username }}</div>
                     <div><strong>Email:</strong> {{ application.student.email }}</div>
                     <div><strong>Username:</strong> {{ application.student.username }}</div>
                 </div>
 
                 <div class="info-item">
-                    <div class="info-label">Application Type</div>
+                    <div class="info-label"><i class="fas fa-tag"></i> Application Type</div>
                     <div style="font-size: 1.2rem; font-weight: bold; color: #007bff;">
                         {{ application.get_application_type_display }}
                     </div>
                 </div>
 
                 <div class="info-item">
-                    <div class="info-label">Payment Information</div>
+                    <div class="info-label"><i class="fas fa-money-bill-wave"></i> Payment Information</div>
                     <div><strong>Status:</strong> 
                         {% if application.is_paid %}
                         <span class="verified-badge">Paid (TZS {{ application.payment_amount }})</span>
@@ -112,77 +501,159 @@
 
             <!-- Application Details -->
             <div style="margin-top: 1.5rem;">
-                <h4>Application Details</h4>
+                <h4><i class="fas fa-info-circle"></i> Application Details</h4>
                 <div class="info-grid">
                     {% if application.university_name %}
                     <div class="info-item">
-                        <div class="info-label">University/Institution</div>
+                        <div class="info-label"><i class="fas fa-university"></i> University/Institution</div>
                         <div>{{ application.university_name }}</div>
                     </div>
                     {% endif %}
 
                     {% if application.course %}
                     <div class="info-item">
-                        <div class="info-label">Course/Program</div>
+                        <div class="info-label"><i class="fas fa-book"></i> Course/Program</div>
                         <div>{{ application.course }}</div>
                     </div>
                     {% endif %}
 
                     {% if application.country %}
                     <div class="info-item">
-                        <div class="info-label">Country/Destination</div>
+                        <div class="info-label"><i class="fas fa-globe"></i> Country/Destination</div>
                         <div>{{ application.country }}</div>
                     </div>
                     {% endif %}
                 </div>
             </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <a href="#" class="btn btn-primary">
+                    <i class="fas fa-envelope"></i> Contact Student
+                </a>
+                <a href="#" class="btn btn-secondary">
+                    <i class="fas fa-print"></i> Print Application
+                </a>
+                <a href="#" class="btn btn-success">
+                    <i class="fas fa-download"></i> Export Details
+                </a>
+            </div>
         </div>
 
         <!-- Documents Section -->
         <div class="card">
-            <h3>Uploaded Documents</h3>
+            <h3><i class="fas fa-file-upload"></i> Uploaded Documents</h3>
             {% if documents %}
             <div style="margin-top: 1rem;">
                 {% for doc in documents %}
                 <div class="document-item">
                     <div>
                         <strong>{{ doc.get_document_type_display }}</strong><br>
-                        <small>Uploaded: {{ doc.uploaded_at|date:"M d, Y" }}</small><br>
+                        <small><i class="far fa-calendar"></i> Uploaded: {{ doc.uploaded_at|date:"M d, Y" }}</small><br>
                         {% if doc.description %}<small>{{ doc.description }}</small>{% endif %}
                     </div>
-                    <div>
+                    <div style="display: flex; align-items: center; gap: 1rem;">
                         {% if doc.is_verified %}
-                        <span class="verified-badge">✓ Verified</span>
+                        <span class="verified-badge">Verified</span>
                         {% else %}
                         <span class="pending-badge">Pending Verification</span>
                         {% endif %}
-                        <a href="{{ doc.file.url }}" target="_blank" class="btn btn-primary btn-sm">View Document</a>
+                        <a href="{{ doc.file.url }}" target="_blank" class="btn btn-primary btn-sm">
+                            <i class="fas fa-eye"></i> View
+                        </a>
+                        <a href="{{ doc.file.url }}" download class="btn btn-secondary btn-sm">
+                            <i class="fas fa-download"></i> Download
+                        </a>
                     </div>
                 </div>
                 {% endfor %}
             </div>
             {% else %}
-            <p style="text-align: center; color: #666; padding: 2rem;">No documents uploaded for this application.</p>
+            <p style="text-align: center; color: #666; padding: 2rem;">
+                <i class="fas fa-file-exclamation" style="font-size: 2rem; margin-bottom: 1rem; display: block;"></i>
+                No documents uploaded for this application.
+            </p>
             {% endif %}
         </div>
 
         <!-- Payment History -->
         {% if payments %}
         <div class="card">
-            <h3>Payment History</h3>
+            <h3><i class="fas fa-history"></i> Payment History</h3>
             <div style="margin-top: 1rem;">
                 {% for payment in payments %}
                 <div class="payment-item">
                     <div><strong>Payment #{{ payment.id }}</strong></div>
-                    <div>Amount: TZS {{ payment.amount }}</div>
-                    <div>Method: {{ payment.payment_method }}</div>
-                    <div>Date: {{ payment.payment_date|date:"M d, Y H:i" }}</div>
-                    <div>Transaction ID: {{ payment.transaction_id }}</div>
+                    <div><i class="fas fa-money-bill"></i> Amount: TZS {{ payment.amount }}</div>
+                    <div><i class="fas fa-credit-card"></i> Method: {{ payment.payment_method }}</div>
+                    <div><i class="far fa-calendar"></i> Date: {{ payment.payment_date|date:"M d, Y H:i" }}</div>
+                    <div><i class="fas fa-receipt"></i> Transaction ID: {{ payment.transaction_id }}</div>
                 </div>
                 {% endfor %}
             </div>
         </div>
         {% endif %}
+
+        <!-- Application Timeline -->
+        <div class="card">
+            <h3><i class="fas fa-stream"></i> Application Timeline</h3>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">{{ application.created_at|date:"M d, Y" }}</div>
+                    <div><strong>Application Submitted</strong></div>
+                    <div>Student submitted the application form</div>
+                </div>
+                {% if application.submission_date %}
+                <div class="timeline-item">
+                    <div class="timeline-date">{{ application.submission_date|date:"M d, Y" }}</div>
+                    <div><strong>Application Processed</strong></div>
+                    <div>Application moved to review stage</div>
+                </div>
+                {% endif %}
+                <!-- Add more timeline items based on status changes -->
+            </div>
+        </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add loading animation to cards
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                card.classList.add('loading');
+            });
+            
+            // Remove loading animation after a short delay
+            setTimeout(() => {
+                cards.forEach(card => {
+                    card.classList.remove('loading');
+                });
+            }, 1000);
+            
+            // Add click animation to buttons
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    // Add ripple effect
+                    const ripple = document.createElement('span');
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size/2;
+                    const y = e.clientY - rect.top - size/2;
+                    
+                    ripple.style.width = ripple.style.height = size + 'px';
+                    ripple.style.left = x + 'px';
+                    ripple.style.top = y + 'px';
+                    ripple.classList.add('ripple');
+                    
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+        });
+    </script>
 </body>
 </html>

@@ -6,60 +6,243 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employee Login | Global Agency</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
-            background: url("{% static 'global_agency/img/hero_students.jpg' %}") center/cover no-repeat;
+            background: url("{% static 'global_agency/img/hero_students.jpg' %}") center/cover no-repeat fixed;
+            min-height: 100vh;
         }
         .glass-card {
             background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+        .input-field {
+            transition: all 0.3s ease;
+        }
+        .input-field:focus {
+            box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.3);
+        }
+        .floating-label {
+            transition: all 0.3s ease;
+        }
+        .btn-hover-effect {
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-hover-effect::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%);
+            transform-origin: 50% 50%;
+        }
+        .btn-hover-effect:hover::after {
+            animation: ripple 1s ease-out;
+        }
+        @keyframes ripple {
+            0% {
+                transform: scale(0, 0);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(20, 20);
+                opacity: 0;
+            }
+        }
+        .message-slide {
+            animation: slideDown 0.5s ease-out;
+        }
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .shake {
+            animation: shake 0.5s ease-in-out;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
         }
     </style>
 </head>
 
 <body class="min-h-screen flex items-center justify-center px-4 py-10 relative">
-    <div class="absolute inset-0 bg-gradient-to-br from-blue-900/70 to-yellow-500/40"></div>
+    <div class="absolute inset-0 bg-gradient-to-br from-blue-900/80 via-purple-900/60 to-yellow-500/40"></div>
 
-    <div class="glass-card relative z-10 rounded-3xl shadow-2xl w-full max-w-md p-10">
+    <!-- Background decorative elements -->
+    <div class="absolute top-10 left-10 w-20 h-20 rounded-full bg-yellow-400/20 blur-xl"></div>
+    <div class="absolute bottom-10 right-10 w-32 h-32 rounded-full bg-blue-400/20 blur-xl"></div>
+    <div class="absolute top-1/2 left-1/4 w-16 h-16 rounded-full bg-white/10 blur-lg"></div>
+
+    <div class="glass-card relative z-10 rounded-3xl shadow-2xl w-full max-w-md p-8 md:p-10">
         <div class="text-center mb-8">
-            <img src="{% static 'global_agency/img/logo.png' %}" alt="Global Agency Logo"
-                 class="mx-auto w-24 h-24 mb-3 rounded-full shadow-lg bg-white p-2">
-            <h2 class="text-3xl font-extrabold text-white tracking-wide">Employee Portal</h2>
+            <div class="relative inline-block">
+                <img src="{% static 'global_agency/img/logo.png' %}" alt="Global Agency Logo"
+                     class="mx-auto w-24 h-24 mb-3 rounded-full shadow-lg bg-white p-2 transform hover:scale-105 transition-transform duration-300">
+                <div class="absolute -top-1 -right-1 w-6 h-6 bg-green-400 rounded-full border-2 border-white"></div>
+            </div>
+            <h2 class="text-3xl font-extrabold text-white tracking-wide mt-2">Employee Portal</h2>
             <p class="text-gray-200 mt-2 text-sm">Login to manage student applications</p>
         </div>
 
         {% if messages %}
-        <div class="mb-4">
+        <div class="mb-6 message-slide">
             {% for message in messages %}
-                <p class="text-center text-red-300 font-semibold bg-white/10 p-2 rounded">{{ message }}</p>
+                <div class="flex items-center justify-between p-3 rounded-lg {% if message.tags == 'error' %}bg-red-500/20 text-red-200 border border-red-400/30{% else %}bg-green-500/20 text-green-200 border border-green-400/30{% endif %}">
+                    <div class="flex items-center">
+                        <i class="fas {% if message.tags == 'error' %}fa-exclamation-circle{% else %}fa-check-circle{% endif %} mr-2"></i>
+                        <span>{{ message }}</span>
+                    </div>
+                    <button type="button" class="text-white focus:outline-none">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
             {% endfor %}
         </div>
         {% endif %}
 
-        <form method="POST" class="space-y-5">
+        <form method="POST" class="space-y-6" id="loginForm">
             {% csrf_token %}
-            <div>
-                <label class="block text-sm font-medium text-white mb-1">Username</label>
-                <input name="username" type="text" placeholder="Enter your username"
-                       class="w-full border border-white/30 rounded-lg p-3 bg-white/20 text-white placeholder-gray-200 focus:ring-2 focus:ring-yellow-400 focus:outline-none">
+            <div class="relative">
+                <label class="block text-sm font-medium text-white mb-2 floating-label">Username</label>
+                <div class="relative">
+                    <input name="username" type="text" placeholder="Enter your username" required
+                           class="w-full border border-white/30 rounded-xl p-4 bg-white/20 text-white placeholder-gray-200 input-field pl-12">
+                    <i class="fas fa-user absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-200"></i>
+                </div>
             </div>
 
-            <div>
-                <label class="block text-sm font-medium text-white mb-1">Password</label>
-                <input name="password" type="password" placeholder="Enter your password"
-                       class="w-full border border-white/30 rounded-lg p-3 bg-white/20 text-white placeholder-gray-200 focus:ring-2 focus:ring-yellow-400 focus:outline-none">
+            <div class="relative">
+                <label class="block text-sm font-medium text-white mb-2 floating-label">Password</label>
+                <div class="relative">
+                    <input name="password" type="password" placeholder="Enter your password" required
+                           class="w-full border border-white/30 rounded-xl p-4 bg-white/20 text-white placeholder-gray-200 input-field pl-12 pr-12"
+                           id="passwordField">
+                    <i class="fas fa-lock absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-200"></i>
+                    <button type="button" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-200 focus:outline-none" id="togglePassword">
+                        <i class="fas fa-eye" id="passwordIcon"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between text-sm">
+                <label class="flex items-center text-gray-200">
+                    <input type="checkbox" class="rounded bg-white/20 border-white/30 text-yellow-500 focus:ring-yellow-400">
+                    <span class="ml-2">Remember me</span>
+                </label>
+                <a href="#" class="text-yellow-300 hover:text-yellow-200 transition-colors duration-300">Forgot Password?</a>
             </div>
 
             <button type="submit"
-                    class="w-full py-3 bg-yellow-400 hover:bg-yellow-500 text-blue-900 font-bold rounded-lg shadow-lg transform hover:scale-[1.02] transition-all duration-300">
-                Sign In
+                    class="w-full py-4 bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-blue-900 font-bold rounded-xl shadow-lg transform hover:scale-[1.02] transition-all duration-300 btn-hover-effect flex items-center justify-center">
+                <span>Sign In</span>
+                <i class="fas fa-arrow-right ml-2"></i>
             </button>
         </form>
 
-        <p class="mt-8 text-center text-gray-200 text-sm">
+        <div class="mt-8 pt-6 border-t border-white/20">
+            <div class="text-center">
+                <p class="text-gray-200 text-sm mb-2">Need help with your account?</p>
+                <a href="#" class="text-yellow-300 hover:text-yellow-200 text-sm font-medium transition-colors duration-300 flex items-center justify-center">
+                    <i class="fas fa-headset mr-2"></i>
+                    Contact Support
+                </a>
+            </div>
+        </div>
+
+        <p class="mt-8 text-center text-gray-200 text-xs">
             &copy; {{ now|date:"Y" }} Global Agency. All Rights Reserved.
         </p>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Password visibility toggle
+            const togglePassword = document.getElementById('togglePassword');
+            const passwordField = document.getElementById('passwordField');
+            const passwordIcon = document.getElementById('passwordIcon');
+            
+            togglePassword.addEventListener('click', function() {
+                const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordField.setAttribute('type', type);
+                passwordIcon.classList.toggle('fa-eye');
+                passwordIcon.classList.toggle('fa-eye-slash');
+            });
+            
+            // Form validation and effects
+            const loginForm = document.getElementById('loginForm');
+            const inputs = loginForm.querySelectorAll('input[required]');
+            
+            inputs.forEach(input => {
+                // Add focus effects
+                input.addEventListener('focus', function() {
+                    this.parentElement.parentElement.querySelector('.floating-label').classList.add('text-yellow-300', 'font-semibold');
+                });
+                
+                input.addEventListener('blur', function() {
+                    if (!this.value) {
+                        this.parentElement.parentElement.querySelector('.floating-label').classList.remove('text-yellow-300', 'font-semibold');
+                    }
+                });
+                
+                // Add input validation styling
+                input.addEventListener('input', function() {
+                    if (this.value) {
+                        this.classList.remove('border-white/30');
+                        this.classList.add('border-yellow-400');
+                    } else {
+                        this.classList.remove('border-yellow-400');
+                        this.classList.add('border-white/30');
+                    }
+                });
+            });
+            
+            // Form submission animation
+            loginForm.addEventListener('submit', function(e) {
+                let isValid = true;
+                
+                inputs.forEach(input => {
+                    if (!input.value) {
+                        isValid = false;
+                        input.classList.add('shake');
+                        setTimeout(() => {
+                            input.classList.remove('shake');
+                        }, 500);
+                    }
+                });
+                
+                if (!isValid) {
+                    e.preventDefault();
+                } else {
+                    // Add loading state to button
+                    const submitBtn = this.querySelector('button[type="submit"]');
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Signing In...';
+                    submitBtn.disabled = true;
+                }
+            });
+            
+            // Close message alerts
+            document.querySelectorAll('[class*="message-slide"] button').forEach(button => {
+                button.addEventListener('click', function() {
+                    this.closest('[class*="message-slide"]').style.display = 'none';
+                });
+            });
+        });
+    </script>
 </body>
 </html>
