@@ -2,6 +2,67 @@ from django.db import models
 from django.contrib.auth.models import User
 from student_portal.models import Application, Document
 
+class UserProfile(models.Model):
+    USER_ROLES = [
+        ('student', 'Student'),
+        ('employee', 'Employee'),
+        ('admin', 'Administrator'),
+    ]
+    
+    REGISTRATION_METHODS = [
+        ('self', 'Self Registration'),
+        ('admin', 'Admin Created'),
+    ]
+    
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    role = models.CharField(max_length=20, choices=USER_ROLES, default='student')
+    registration_method = models.CharField(max_length=20, choices=REGISTRATION_METHODS, default='self')
+    department = models.CharField(max_length=100, blank=True)
+    phone_number = models.CharField(max_length=15, blank=True)
+    employee_id = models.CharField(max_length=20, unique=True, blank=True, null=True)
+    position = models.CharField(max_length=100, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.user.get_full_name()} - {self.role}"
+
+    def is_employee(self):
+        """Check if user is employee OR admin"""
+        return self.role in ['employee', 'admin']
+    
+    def is_student(self):
+        """Check if user is student"""
+        return self.role == 'student'
+    
+    def is_admin(self):
+        """Check if user is admin"""
+        return self.role == 'admin'
+    
+    def is_admin_created_employee(self):
+        """Check if user is admin-created employee (employee role + admin registration)"""
+        return self.role in ['employee', 'admin'] and self.registration_method == 'admin'
+    
+    def can_access_employee_portal(self):
+        """Employee portal access: must be employee/admin AND created by admin"""
+        return self.is_employee() and self.registration_method == 'admin'
+    
+    def can_access_student_portal(self):
+        """Student portal access: must be student AND self-registered"""
+        return self.is_student() and self.registration_method == 'self'
+    
+    def is_regular_employee(self):
+        """Check if user is employee (not admin)"""
+        return self.role == 'employee'
+    
+    def get_role_display_name(self):
+        """Get human-readable role name"""
+        return dict(self.USER_ROLES).get(self.role, self.role)
+    
+    def get_registration_method_display_name(self):
+        """Get human-readable registration method"""
+        return dict(self.REGISTRATION_METHODS).get(self.registration_method, self.registration_method)
+
 class EmployeeProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     department = models.CharField(max_length=100, blank=True)
@@ -26,3 +87,12 @@ class ApplicationAssignment(models.Model):
 
     def __str__(self):
         return f"{self.application} - {self.employee.username}"
+    
+    def get_status_display_name(self):
+        """Get human-readable status name"""
+        status_dict = {
+            'assigned': 'Assigned',
+            'in_progress': 'In Progress',
+            'completed': 'Completed'
+        }
+        return status_dict.get(self.status, self.status)

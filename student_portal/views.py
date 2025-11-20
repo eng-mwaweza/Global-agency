@@ -10,10 +10,31 @@ from datetime import datetime
 from .models import StudentProfile, Application, Document, Message, Payment
 from .forms import StudentProfileForm, DocumentForm, ApplicationForm
 
+# ADD THIS IMPORT
+from employee.models import UserProfile
+
 @csrf_protect
 def student_login(request):
+    # ADDED: Role-based access control
     if request.user.is_authenticated:
-        return redirect('student_portal:dashboard')
+        try:
+            profile = UserProfile.objects.get(user=request.user)
+            if profile.can_access_student_portal():
+                return redirect('student_portal:dashboard')
+            else:
+                # Logout if user cannot access student portal
+                logout(request)
+                messages.error(request, "Access denied. Please use the employee portal.")
+                return redirect('student_portal:login')
+        except UserProfile.DoesNotExist:
+            # Check if user has student profile, if not create one
+            try:
+                StudentProfile.objects.get(user=request.user)
+                return redirect('student_portal:dashboard')
+            except StudentProfile.DoesNotExist:
+                # Auto-create student profile for existing authenticated user
+                StudentProfile.objects.create(user=request.user)
+                return redirect('student_portal:dashboard')
     
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -21,16 +42,39 @@ def student_login(request):
         user = authenticate(request, username=username, password=password)
         
         if user is not None:
-            login(request, user)
-            messages.success(request, 'Login successful!')
-            return redirect('student_portal:dashboard')
+            # ADDED: Check if user can access student portal
+            try:
+                profile = UserProfile.objects.get(user=user)
+                if profile.can_access_student_portal():
+                    login(request, user)
+                    messages.success(request, 'Login successful!')
+                    return redirect('student_portal:dashboard')
+                else:
+                    messages.error(request, 'Access denied. This portal is for self-registered students only.')
+            except UserProfile.DoesNotExist:
+                # User doesn't have employee profile - check/create student profile
+                try:
+                    StudentProfile.objects.get(user=user)
+                    login(request, user)
+                    messages.success(request, 'Login successful!')
+                    return redirect('student_portal:dashboard')
+                except StudentProfile.DoesNotExist:
+                    # Auto-create student profile for student users
+                    StudentProfile.objects.create(user=user)
+                    login(request, user)
+                    messages.success(request, 'Login successful! Please complete your profile.')
+                    return redirect('student_portal:profile')
         else:
             messages.error(request, 'Invalid login credentials')
     
     return render(request, 'student_portal/login.html')
 
+# ALL OTHER VIEWS REMAIN EXACTLY THE SAME
 @login_required(login_url='student_portal:login')
 def student_dashboard(request):
+    # Ensure student profile exists
+    StudentProfile.objects.get_or_create(user=request.user)
+    
     # Get student data
     applications = Application.objects.filter(student=request.user)
     documents = Document.objects.filter(student=request.user)
@@ -45,7 +89,11 @@ def student_dashboard(request):
 
 @login_required
 def student_profile(request):
+    # This will automatically create profile if it doesn't exist
     profile, created = StudentProfile.objects.get_or_create(user=request.user)
+    
+    if created:
+        messages.info(request, 'Please complete your profile information.')
     
     if request.method == 'POST':
         form = StudentProfileForm(request.POST, request.FILES, instance=profile)
@@ -62,17 +110,26 @@ def student_profile(request):
 
 @login_required
 def applications(request):
+    # Ensure student profile exists
+    StudentProfile.objects.get_or_create(user=request.user)
+    
     applications_list = Application.objects.filter(student=request.user).order_by('-created_at')
     return render(request, 'student_portal/applications.html', {'applications': applications_list})
 
 @login_required
 def application_detail(request, application_id):
+    # Ensure student profile exists
+    StudentProfile.objects.get_or_create(user=request.user)
+    
     application = get_object_or_404(Application, id=application_id, student=request.user)
     return render(request, 'student_portal/application_detail.html', {'application': application})
 
 @login_required
 @csrf_protect
 def create_application(request):
+    # Ensure student profile exists
+    StudentProfile.objects.get_or_create(user=request.user)
+    
     if request.method == 'POST':
         form = ApplicationForm(request.POST)
         if form.is_valid():
@@ -112,6 +169,9 @@ def create_application(request):
 @login_required
 @csrf_protect
 def payment_page(request, application_id):
+    # Ensure student profile exists
+    StudentProfile.objects.get_or_create(user=request.user)
+    
     application = get_object_or_404(Application, id=application_id, student=request.user)
     
     # Check if application is already paid
@@ -311,6 +371,9 @@ def process_card_payment(request, application, card_number, card_holder, expiry_
 @login_required
 def payment_verification(request, payment_id):
     """Page to verify payment status"""
+    # Ensure student profile exists
+    StudentProfile.objects.get_or_create(user=request.user)
+    
     payment = get_object_or_404(Payment, id=payment_id, student=request.user)
     
     if request.method == 'POST':
@@ -393,6 +456,9 @@ def payment_webhook(request, provider):
 
 @login_required
 def documents(request):
+    # Ensure student profile exists
+    StudentProfile.objects.get_or_create(user=request.user)
+    
     if request.method == 'POST':
         form = DocumentForm(request.POST, request.FILES)
         if form.is_valid():
@@ -417,6 +483,9 @@ def documents(request):
 
 @login_required
 def document_services(request):
+    # Ensure student profile exists
+    StudentProfile.objects.get_or_create(user=request.user)
+    
     services = [
         {'type': 'university', 'name': 'University Application', 'description': 'Assistance with university applications'},
         {'type': 'visa', 'name': 'Visa Support', 'description': 'Visa application and processing support'},
@@ -429,6 +498,9 @@ def document_services(request):
 
 @login_required
 def service_form(request, service_type):
+    # Ensure student profile exists
+    StudentProfile.objects.get_or_create(user=request.user)
+    
     service_names = {
         'university': 'University Application',
         'visa': 'Visa Support',
@@ -469,6 +541,9 @@ def service_form(request, service_type):
 
 @login_required
 def messages_list(request):
+    # Ensure student profile exists
+    StudentProfile.objects.get_or_create(user=request.user)
+    
     messages_list = Message.objects.filter(student=request.user).order_by('-created_at')
     
     # Mark all as read when user visits messages page
@@ -500,6 +575,9 @@ def student_logout(request):
 # Utility function to check payment status
 @login_required
 def check_payment_status(request, payment_id):
+    # Ensure student profile exists
+    StudentProfile.objects.get_or_create(user=request.user)
+    
     payment = get_object_or_404(Payment, id=payment_id, student=request.user)
     return JsonResponse({
         'is_successful': payment.is_successful,
@@ -511,6 +589,9 @@ def check_payment_status(request, payment_id):
 @login_required
 def delete_application(request, application_id):
     """Delete an application"""
+    # Ensure student profile exists
+    StudentProfile.objects.get_or_create(user=request.user)
+    
     if request.method == 'POST':
         try:
             application = get_object_or_404(Application, id=application_id, student=request.user)
@@ -530,6 +611,9 @@ def delete_application(request, application_id):
 @login_required
 def delete_document(request, document_id):
     """Delete a document"""
+    # Ensure student profile exists
+    StudentProfile.objects.get_or_create(user=request.user)
+    
     if request.method == 'POST':
         try:
             document = get_object_or_404(Document, id=document_id, student=request.user)
@@ -543,6 +627,9 @@ def delete_document(request, document_id):
 @login_required
 def application_statistics(request):
     """Get application statistics for dashboard"""
+    # Ensure student profile exists
+    StudentProfile.objects.get_or_create(user=request.user)
+    
     applications = Application.objects.filter(student=request.user)
     
     stats = {

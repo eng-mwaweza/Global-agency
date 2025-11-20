@@ -78,6 +78,11 @@
             25% { transform: translateX(-5px); }
             75% { transform: translateX(5px); }
         }
+        /* Fix for CSRF token visibility */
+        input[name="csrfmiddlewaretoken"] {
+            position: absolute;
+            left: -9999px;
+        }
     </style>
 </head>
 
@@ -108,7 +113,7 @@
                         <i class="fas {% if message.tags == 'error' %}fa-exclamation-circle{% else %}fa-check-circle{% endif %} mr-2"></i>
                         <span>{{ message }}</span>
                     </div>
-                    <button type="button" class="text-white focus:outline-none">
+                    <button type="button" class="text-white focus:outline-none" onclick="this.parentElement.style.display='none'">
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
@@ -116,21 +121,42 @@
         </div>
         {% endif %}
 
-        <form method="POST" class="space-y-6" id="loginForm">
+        {% if error %}
+        <div class="mb-6 message-slide">
+            <div class="flex items-center justify-between p-3 rounded-lg bg-red-500/20 text-red-200 border border-red-400/30">
+                <div class="flex items-center">
+                    <i class="fas fa-exclamation-circle mr-2"></i>
+                    <span>{{ error }}</span>
+                </div>
+                <button type="button" class="text-white focus:outline-none" onclick="this.parentElement.style.display='none'">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        {% endif %}
+
+        <form method="POST" action="{% url 'employee:employee_login' %}" class="space-y-6" id="loginForm">
             {% csrf_token %}
+            
+            <!-- CSRF Token (hidden but present) -->
+            <div style="display: none;">
+                {{ csrf_token }}
+            </div>
+
             <div class="relative">
-                <label class="block text-sm font-medium text-white mb-2 floating-label">Username</label>
+                <label for="username" class="block text-sm font-medium text-white mb-2 floating-label">Username</label>
                 <div class="relative">
-                    <input name="username" type="text" placeholder="Enter your username" required
-                           class="w-full border border-white/30 rounded-xl p-4 bg-white/20 text-white placeholder-gray-200 input-field pl-12">
+                    <input id="username" name="username" type="text" placeholder="Enter your username" required
+                           class="w-full border border-white/30 rounded-xl p-4 bg-white/20 text-white placeholder-gray-200 input-field pl-12"
+                           value="{{ request.POST.username }}">
                     <i class="fas fa-user absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-200"></i>
                 </div>
             </div>
 
             <div class="relative">
-                <label class="block text-sm font-medium text-white mb-2 floating-label">Password</label>
+                <label for="password" class="block text-sm font-medium text-white mb-2 floating-label">Password</label>
                 <div class="relative">
-                    <input name="password" type="password" placeholder="Enter your password" required
+                    <input id="password" name="password" type="password" placeholder="Enter your password" required
                            class="w-full border border-white/30 rounded-xl p-4 bg-white/20 text-white placeholder-gray-200 input-field pl-12 pr-12"
                            id="passwordField">
                     <i class="fas fa-lock absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-200"></i>
@@ -165,8 +191,15 @@
             </div>
         </div>
 
+        <div class="mt-6 text-center">
+            <a href="{% url 'student_portal:login' %}" class="text-white hover:text-yellow-300 text-sm transition-colors duration-300">
+                <i class="fas fa-user-graduate mr-2"></i>
+                Student Portal Login
+            </a>
+        </div>
+
         <p class="mt-8 text-center text-gray-200 text-xs">
-            &copy; {{ now|date:"Y" }} Global Agency. All Rights Reserved.
+            &copy; 2024 Global Agency. All Rights Reserved.
         </p>
     </div>
 
@@ -177,72 +210,92 @@
             const passwordField = document.getElementById('passwordField');
             const passwordIcon = document.getElementById('passwordIcon');
             
-            togglePassword.addEventListener('click', function() {
-                const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
-                passwordField.setAttribute('type', type);
-                passwordIcon.classList.toggle('fa-eye');
-                passwordIcon.classList.toggle('fa-eye-slash');
-            });
+            if (togglePassword && passwordField && passwordIcon) {
+                togglePassword.addEventListener('click', function() {
+                    const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+                    passwordField.setAttribute('type', type);
+                    passwordIcon.classList.toggle('fa-eye');
+                    passwordIcon.classList.toggle('fa-eye-slash');
+                });
+            }
             
             // Form validation and effects
             const loginForm = document.getElementById('loginForm');
-            const inputs = loginForm.querySelectorAll('input[required]');
-            
-            inputs.forEach(input => {
-                // Add focus effects
-                input.addEventListener('focus', function() {
-                    this.parentElement.parentElement.querySelector('.floating-label').classList.add('text-yellow-300', 'font-semibold');
-                });
-                
-                input.addEventListener('blur', function() {
-                    if (!this.value) {
-                        this.parentElement.parentElement.querySelector('.floating-label').classList.remove('text-yellow-300', 'font-semibold');
-                    }
-                });
-                
-                // Add input validation styling
-                input.addEventListener('input', function() {
-                    if (this.value) {
-                        this.classList.remove('border-white/30');
-                        this.classList.add('border-yellow-400');
-                    } else {
-                        this.classList.remove('border-yellow-400');
-                        this.classList.add('border-white/30');
-                    }
-                });
-            });
-            
-            // Form submission animation
-            loginForm.addEventListener('submit', function(e) {
-                let isValid = true;
+            if (loginForm) {
+                const inputs = loginForm.querySelectorAll('input[required]');
                 
                 inputs.forEach(input => {
-                    if (!input.value) {
-                        isValid = false;
-                        input.classList.add('shake');
-                        setTimeout(() => {
-                            input.classList.remove('shake');
-                        }, 500);
-                    }
+                    // Add focus effects
+                    input.addEventListener('focus', function() {
+                        const label = this.parentElement.parentElement.querySelector('.floating-label');
+                        if (label) {
+                            label.classList.add('text-yellow-300', 'font-semibold');
+                        }
+                    });
+                    
+                    input.addEventListener('blur', function() {
+                        const label = this.parentElement.parentElement.querySelector('.floating-label');
+                        if (label && !this.value) {
+                            label.classList.remove('text-yellow-300', 'font-semibold');
+                        }
+                    });
+                    
+                    // Add input validation styling
+                    input.addEventListener('input', function() {
+                        if (this.value) {
+                            this.classList.remove('border-white/30');
+                            this.classList.add('border-yellow-400');
+                        } else {
+                            this.classList.remove('border-yellow-400');
+                            this.classList.add('border-white/30');
+                        }
+                    });
                 });
                 
-                if (!isValid) {
-                    e.preventDefault();
-                } else {
-                    // Add loading state to button
-                    const submitBtn = this.querySelector('button[type="submit"]');
-                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Signing In...';
-                    submitBtn.disabled = true;
-                }
-            });
+                // Form submission animation
+                loginForm.addEventListener('submit', function(e) {
+                    let isValid = true;
+                    
+                    inputs.forEach(input => {
+                        if (!input.value) {
+                            isValid = false;
+                            input.classList.add('shake');
+                            setTimeout(() => {
+                                input.classList.remove('shake');
+                            }, 500);
+                        }
+                    });
+                    
+                    if (!isValid) {
+                        e.preventDefault();
+                    } else {
+                        // Add loading state to button
+                        const submitBtn = this.querySelector('button[type="submit"]');
+                        if (submitBtn) {
+                            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Signing In...';
+                            submitBtn.disabled = true;
+                        }
+                    }
+                });
+            }
             
             // Close message alerts
-            document.querySelectorAll('[class*="message-slide"] button').forEach(button => {
+            document.querySelectorAll('.message-slide button').forEach(button => {
                 button.addEventListener('click', function() {
-                    this.closest('[class*="message-slide"]').style.display = 'none';
+                    this.closest('.message-slide').style.display = 'none';
                 });
             });
         });
+
+        // Debug function to check CSRF token
+        function debugCSRF() {
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]');
+            console.log('CSRF Token present:', !!csrfToken);
+            console.log('CSRF Token value:', csrfToken ? csrfToken.value : 'Not found');
+        }
+        
+        // Run debug on load
+        debugCSRF();
     </script>
 </body>
 </html>

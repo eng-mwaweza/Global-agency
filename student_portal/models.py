@@ -92,3 +92,19 @@ class Payment(models.Model):
 
     def __str__(self):
         return f"Payment {self.id} - {self.student.username}"
+
+# ADD THIS APPLICATION ASSIGNMENT MODEL
+class ApplicationAssignment(models.Model):
+    application = models.ForeignKey(Application, on_delete=models.CASCADE, related_name='assignments')
+    employee = models.ForeignKey(User, on_delete=models.CASCADE, related_name='assigned_applications')
+    assigned_date = models.DateTimeField(auto_now_add=True)
+    notes = models.TextField(blank=True)
+    
+    class Meta:
+        unique_together = ['application', 'employee']
+        verbose_name = 'Application Assignment'
+        verbose_name_plural = 'Application Assignments'
+        ordering = ['-assigned_date']
+    
+    def __str__(self):
+        return f"{self.employee.username} - Application #{self.application.id} ({self.application.student.username})"
