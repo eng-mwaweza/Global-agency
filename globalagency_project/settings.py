@@ -1,15 +1,25 @@
 from pathlib import Path
+from decouple import config
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'final'
-DEBUG = True
+SECRET_KEY = config('SECRET_KEY', default='final')
+DEBUG = config('DEBUG', default=True, cast=bool)
 ALLOWED_HOSTS = ["*"]
 
 # ADD THESE AUTHENTICATION SETTINGS
 LOGIN_URL = '/employee/login/'
 LOGIN_REDIRECT_URL = '/employee/dashboard/'
 LOGOUT_REDIRECT_URL = '/employee/login/'
+
+# ClickPesa API Configuration
+CLICKPESA_CLIENT_ID = config('CLICKPESA_CLIENT_ID', default='')
+CLICKPESA_API_KEY = config('CLICKPESA_API_KEY', default='')
+CLICKPESA_BASE_URL = config('CLICKPESA_BASE_URL', default='https://api.clickpesa.com/third-parties')
+
+# Payment Gateway Selection
+PAYMENT_GATEWAY = config('PAYMENT_GATEWAY', default='clickpesa')  # 'clickpesa' or 'azampay'
+CURRENCY = config('CURRENCY', default='TZS')
 
 INSTALLED_APPS = [
     'django.contrib.admin',

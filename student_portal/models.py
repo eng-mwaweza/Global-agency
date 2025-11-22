@@ -80,18 +80,80 @@ class Message(models.Model):
     def __str__(self):
         return f"{self.subject} - {self.student.username}"
 
-# ADD THIS PAYMENT MODEL
+# Payment Model with ClickPesa Integration
 class Payment(models.Model):
+    PAYMENT_STATUS = [
+        ('pending', 'Pending'),
+        ('processing', 'Processing'),
+        ('success', 'Success'),
+        ('failed', 'Failed'),
+        ('settled', 'Settled'),
+    ]
+    
+    PAYMENT_METHODS = [
+        ('mobile_money', 'Mobile Money'),
+        ('card', 'Card Payment'),
+        ('bank_transfer', 'Bank Transfer'),
+    ]
+    
+    PAYMENT_GATEWAYS = [
+        ('clickpesa', 'ClickPesa'),
+        ('azampay', 'AzamPay'),
+        ('manual', 'Manual Payment'),
+    ]
+    
+    # Core fields
     student = models.ForeignKey(User, on_delete=models.CASCADE)
     application = models.ForeignKey(Application, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
+    currency = models.CharField(max_length=3, default='TZS')
     payment_date = models.DateTimeField(auto_now_add=True)
-    payment_method = models.CharField(max_length=50, default='mobile_money')
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    # Payment method and gateway
+    payment_method = models.CharField(max_length=50, choices=PAYMENT_METHODS, default='mobile_money')
+    payment_gateway = models.CharField(max_length=20, choices=PAYMENT_GATEWAYS, default='clickpesa')
+    
+    # Transaction tracking
+    order_reference = models.CharField(max_length=100, unique=True, null=True, blank=True)
     transaction_id = models.CharField(max_length=100, blank=True)
+    payment_reference = models.CharField(max_length=100, blank=True)
+    
+    # Status
+    status = models.CharField(max_length=20, choices=PAYMENT_STATUS, default='pending')
     is_successful = models.BooleanField(default=False)
-
+    
+    # Customer details
+    phone_number = models.CharField(max_length=20, blank=True)
+    mobile_provider = models.CharField(max_length=50, blank=True)  # For mobile money
+    card_last_four = models.CharField(max_length=4, blank=True)  # For card payments
+    
+    # Bank transfer details
+    bank_name = models.CharField(max_length=100, blank=True)
+    account_number = models.CharField(max_length=50, blank=True)
+    account_name = models.CharField(max_length=100, blank=True)
+    
+    # Additional info
+    channel = models.CharField(max_length=100, blank=True)  # e.g., "TIGO-PESA", "M-PESA"
+    message = models.TextField(blank=True)
+    error_message = models.TextField(blank=True)
+    
+    # ClickPesa specific response data (stored as JSON string if needed)
+    clickpesa_response = models.JSONField(null=True, blank=True)
+    
+    class Meta:
+        ordering = ['-payment_date']
+        verbose_name = 'Payment'
+        verbose_name_plural = 'Payments'
+    
     def __str__(self):
-        return f"Payment {self.id} - {self.student.username}"
+        return f"Payment {self.order_reference} - {self.student.username} - {self.status}"
+    
+    def is_pending(self):
+        return self.status in ['pending', 'processing']
+    
+    def is_completed(self):
+        return self.status in ['success', 'settled']
 
 # ADD THIS APPLICATION ASSIGNMENT MODEL
 class ApplicationAssignment(models.Model):

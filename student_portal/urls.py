@@ -17,6 +17,12 @@ urlpatterns = [
     path('applications/create/', views.create_application, name='create_application'),
     path('applications/<int:application_id>/payment/', views.payment_page, name='payment'),
     
+    # Payment verification and webhooks
+    path('payment/<int:payment_id>/verify/', views.payment_verification, name='payment_verification'),
+    path('payment/<int:payment_id>/status/', views.check_payment_status_ajax, name='check_payment_status'),
+    path('webhook/clickpesa/', views.clickpesa_webhook, name='clickpesa_webhook'),
+    path('webhook/<str:provider>/', views.payment_webhook, name='payment_webhook'),
+    
     # Documents
     path('documents/', views.documents, name='documents'),
     path('documents/services/', views.document_services, name='document_services'),

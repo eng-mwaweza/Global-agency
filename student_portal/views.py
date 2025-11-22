@@ -5,10 +5,12 @@ from django.contrib import messages
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.csrf import csrf_protect
+from django.conf import settings
 import json
 from datetime import datetime
 from .models import StudentProfile, Application, Document, Message, Payment
 from .forms import StudentProfileForm, DocumentForm, ApplicationForm
+from .clickpesa_service import clickpesa_service
 
 # ADD THIS IMPORT
 from employee.models import UserProfile
@@ -179,6 +181,12 @@ def payment_page(request, application_id):
         messages.info(request, 'This application has already been paid for.')
         return redirect('student_portal:application_detail', application_id=application.id)
     
+    # Check if there's already a pending payment
+    pending_payment = Payment.objects.filter(
+        application=application, 
+        status__in=['pending', 'processing']
+    ).first()
+    
     if request.method == 'POST':
         payment_method = request.POST.get('payment_method')
         
@@ -186,52 +194,40 @@ def payment_page(request, application_id):
             messages.error(request, 'Please select a payment method.')
             return render(request, 'student_portal/payment.html', {
                 'application': application,
-                'payment_amount': application.payment_amount
+                'payment_amount': application.payment_amount,
+                'pending_payment': pending_payment,
+                'payment_gateway': settings.PAYMENT_GATEWAY,
+                'currency': settings.CURRENCY
             })
         
         try:
             if payment_method == 'mobile_money':
                 phone_number = request.POST.get('phone_number')
-                mobile_provider = request.POST.get('mobile_provider')
                 
-                if not phone_number or not mobile_provider:
-                    messages.error(request, 'Please provide phone number and mobile provider.')
+                if not phone_number:
+                    messages.error(request, 'Please provide phone number.')
                     return render(request, 'student_portal/payment.html', {
                         'application': application,
-                        'payment_amount': application.payment_amount
+                        'payment_amount': application.payment_amount,
+                        'pending_payment': pending_payment,
+                        'payment_gateway': settings.PAYMENT_GATEWAY,
+                        'currency': settings.CURRENCY
                     })
                 
-                return process_mobile_money_payment(request, application, phone_number, mobile_provider)
-                
-            elif payment_method == 'bank_transfer':
-                bank_name = request.POST.get('bank_name')
-                account_number = request.POST.get('account_number')
-                account_name = request.POST.get('account_name')
-                
-                if not all([bank_name, account_number, account_name]):
-                    messages.error(request, 'Please provide all bank transfer details.')
-                    return render(request, 'student_portal/payment.html', {
-                        'application': application,
-                        'payment_amount': application.payment_amount
-                    })
-                
-                return process_bank_transfer(request, application, bank_name, account_number, account_name)
+                # Use ClickPesa for mobile money payment
+                if settings.PAYMENT_GATEWAY == 'clickpesa':
+                    return process_clickpesa_mobile_payment(request, application, phone_number)
+                else:
+                    # Fallback to dummy payment
+                    return process_mobile_money_payment(request, application, phone_number, 'mpesa')
                 
             elif payment_method == 'card':
-                card_number = request.POST.get('card_number')
-                card_holder = request.POST.get('card_holder')
-                expiry_date = request.POST.get('expiry_date')
-                cvv = request.POST.get('cvv')
-                
-                if not all([card_number, card_holder, expiry_date, cvv]):
-                    messages.error(request, 'Please provide all card details.')
-                    return render(request, 'student_portal/payment.html', {
-                        'application': application,
-                        'payment_amount': application.payment_amount
-                    })
-                
-                return process_card_payment(request, application, card_number, card_holder, expiry_date, cvv)
-                
+                # Use ClickPesa for card payment
+                if settings.PAYMENT_GATEWAY == 'clickpesa':
+                    return process_clickpesa_card_payment(request, application)
+                else:
+                    messages.error(request, 'Card payment is only available through ClickPesa.')
+                    
             else:
                 messages.error(request, 'Invalid payment method selected.')
                 
@@ -240,11 +236,164 @@ def payment_page(request, application_id):
     
     return render(request, 'student_portal/payment.html', {
         'application': application,
-        'payment_amount': application.payment_amount
+        'payment_amount': application.payment_amount,
+        'pending_payment': pending_payment,
+        'payment_gateway': settings.PAYMENT_GATEWAY,
+        'currency': settings.CURRENCY
     })
 
+def process_clickpesa_mobile_payment(request, application, phone_number):
+    """Process mobile money payment through ClickPesa"""
+    try:
+        # Normalize phone number (ensure it starts with country code without +)
+        phone_number = phone_number.strip().replace('+', '').replace(' ', '')
+        if phone_number.startswith('0'):
+            phone_number = '255' + phone_number[1:]  # Tanzania country code
+        
+        # Generate unique order reference
+        order_reference = f"APP{application.id}_{int(datetime.now().timestamp())}"
+        
+        # Step 1: Preview the payment
+        success, preview_data, error_msg = clickpesa_service.preview_ussd_push(
+            amount=float(application.payment_amount),
+            phone_number=phone_number,
+            order_reference=order_reference,
+            currency=settings.CURRENCY
+        )
+        
+        if not success:
+            messages.error(request, f'Payment preview failed: {error_msg}')
+            return redirect('student_portal:payment', application_id=application.id)
+        
+        # Check if payment channels are available
+        active_methods = preview_data.get('activeMethods', [])
+        if not active_methods or not any(m.get('status') == 'AVAILABLE' for m in active_methods):
+            messages.error(request, 'No payment channels available at the moment. Please try again later.')
+            return redirect('student_portal:payment', application_id=application.id)
+        
+        # Create payment record
+        payment = Payment.objects.create(
+            student=request.user,
+            application=application,
+            amount=application.payment_amount,
+            currency=settings.CURRENCY,
+            payment_method='mobile_money',
+            payment_gateway='clickpesa',
+            phone_number=phone_number,
+            order_reference=order_reference,
+            status='pending'
+        )
+        
+        # Step 2: Initiate USSD push
+        success, init_data, error_msg = clickpesa_service.initiate_ussd_push(
+            amount=float(application.payment_amount),
+            phone_number=phone_number,
+            order_reference=order_reference,
+            currency=settings.CURRENCY
+        )
+        
+        if not success:
+            payment.status = 'failed'
+            payment.error_message = error_msg
+            payment.save()
+            messages.error(request, f'Payment initiation failed: {error_msg}')
+            return redirect('student_portal:payment', application_id=application.id)
+        
+        # Update payment with ClickPesa response
+        payment.transaction_id = init_data.get('id', '')
+        payment.channel = init_data.get('channel', '')
+        payment.status = init_data.get('status', 'processing').lower()
+        payment.clickpesa_response = init_data
+        payment.save()
+        
+        messages.success(
+            request, 
+            f'Payment request sent! Please check your phone ({phone_number}) and enter your PIN to complete the payment.'
+        )
+        
+        # Redirect to payment verification page
+        return redirect('student_portal:payment_verification', payment_id=payment.id)
+        
+    except Exception as e:
+        messages.error(request, f'Mobile money payment failed: {str(e)}')
+        return redirect('student_portal:payment', application_id=application.id)
+
+def process_clickpesa_card_payment(request, application):
+    """Process card payment through ClickPesa"""
+    try:
+        # Generate unique order reference
+        order_reference = f"APP{application.id}_{int(datetime.now().timestamp())}"
+        
+        # Get customer details
+        student_profile = StudentProfile.objects.get(user=request.user)
+        customer_email = request.user.email or f"{request.user.username}@example.com"
+        customer_name = f"{request.user.first_name} {request.user.last_name}".strip() or request.user.username
+        customer_phone = student_profile.phone_number if hasattr(student_profile, 'phone_number') else ""
+        
+        # Step 1: Preview card payment
+        success, preview_data, error_msg = clickpesa_service.preview_card_payment(
+            amount=float(application.payment_amount),
+            order_reference=order_reference,
+            currency="USD"  # Card payments use USD
+        )
+        
+        if not success:
+            messages.error(request, f'Card payment preview failed: {error_msg}')
+            return redirect('student_portal:payment', application_id=application.id)
+        
+        # Create payment record
+        payment = Payment.objects.create(
+            student=request.user,
+            application=application,
+            amount=application.payment_amount,
+            currency="USD",
+            payment_method='card',
+            payment_gateway='clickpesa',
+            order_reference=order_reference,
+            status='pending'
+        )
+        
+        # Step 2: Initiate card payment
+        success, init_data, error_msg = clickpesa_service.initiate_card_payment(
+            amount=float(application.payment_amount),
+            order_reference=order_reference,
+            customer_email=customer_email,
+            customer_name=customer_name,
+            customer_phone=customer_phone,
+            currency="USD"
+        )
+        
+        if not success:
+            payment.status = 'failed'
+            payment.error_message = error_msg
+            payment.save()
+            messages.error(request, f'Card payment initiation failed: {error_msg}')
+            return redirect('student_portal:payment', application_id=application.id)
+        
+        # Get payment link
+        card_payment_link = init_data.get('cardPaymentLink', '')
+        if not card_payment_link:
+            payment.status = 'failed'
+            payment.error_message = 'No payment link received'
+            payment.save()
+            messages.error(request, 'Failed to generate card payment link')
+            return redirect('student_portal:payment', application_id=application.id)
+        
+        # Update payment with ClickPesa response
+        payment.clickpesa_response = init_data
+        payment.status = 'processing'
+        payment.save()
+        
+        # Redirect to ClickPesa hosted payment page
+        messages.info(request, 'Redirecting to secure card payment page...')
+        return redirect(card_payment_link)
+        
+    except Exception as e:
+        messages.error(request, f'Card payment failed: {str(e)}')
+        return redirect('student_portal:payment', application_id=application.id)
+
 def process_mobile_money_payment(request, application, phone_number, provider):
-    """Process mobile money payment"""
+    """Process mobile money payment (Legacy/Dummy - for fallback)"""
     try:
         # Generate unique transaction ID
         transaction_id = f"MM{application.id}{int(datetime.now().timestamp())}"
@@ -376,22 +525,83 @@ def payment_verification(request, payment_id):
     
     payment = get_object_or_404(Payment, id=payment_id, student=request.user)
     
+    # Auto-check status if payment is pending and using ClickPesa
+    if payment.is_pending() and payment.payment_gateway == 'clickpesa':
+        success, status_data, error_msg = clickpesa_service.check_payment_status(payment.order_reference)
+        
+        if success and status_data:
+            # Update payment status from ClickPesa response
+            # status_data is a list, get the first item
+            if isinstance(status_data, list) and len(status_data) > 0:
+                payment_info = status_data[0]
+                
+                clickpesa_status = payment_info.get('status', '').lower()
+                payment.status = clickpesa_status
+                payment.transaction_id = payment_info.get('id', payment.transaction_id)
+                payment.payment_reference = payment_info.get('paymentReference', '')
+                payment.message = payment_info.get('message', '')
+                payment.clickpesa_response = payment_info
+                
+                if clickpesa_status in ['success', 'settled']:
+                    payment.is_successful = True
+                    payment.application.is_paid = True
+                    payment.application.status = 'submitted'
+                    payment.application.save()
+                    messages.success(request, 'Payment verified successfully!')
+                elif clickpesa_status == 'failed':
+                    payment.is_successful = False
+                    messages.error(request, f'Payment failed: {payment.message}')
+                else:
+                    messages.info(request, 'Payment is still being processed. Please wait...')
+                
+                payment.save()
+    
     if request.method == 'POST':
-        # Check payment status
-        if not payment.is_successful:
-            # Simulate payment verification
-            payment.is_successful = True
-            payment.status = 'completed'
-            payment.save()
+        # Manual check payment status
+        if payment.payment_gateway == 'clickpesa':
+            success, status_data, error_msg = clickpesa_service.check_payment_status(payment.order_reference)
             
-            payment.application.is_paid = True
-            payment.application.status = 'submitted'
-            payment.application.save()
-            
-            messages.success(request, 'Payment verified successfully!')
-            return redirect('student_portal:applications')
+            if success and status_data:
+                if isinstance(status_data, list) and len(status_data) > 0:
+                    payment_info = status_data[0]
+                    clickpesa_status = payment_info.get('status', '').lower()
+                    
+                    payment.status = clickpesa_status
+                    payment.transaction_id = payment_info.get('id', payment.transaction_id)
+                    payment.payment_reference = payment_info.get('paymentReference', '')
+                    payment.message = payment_info.get('message', '')
+                    payment.clickpesa_response = payment_info
+                    
+                    if clickpesa_status in ['success', 'settled']:
+                        payment.is_successful = True
+                        payment.application.is_paid = True
+                        payment.application.status = 'submitted'
+                        payment.application.save()
+                        payment.save()
+                        messages.success(request, 'Payment verified successfully!')
+                        return redirect('student_portal:applications')
+                    elif clickpesa_status == 'failed':
+                        payment.is_successful = False
+                        payment.save()
+                        messages.error(request, f'Payment failed: {payment.message}')
+                    else:
+                        payment.save()
+                        messages.info(request, 'Payment is still being processed. Please wait...')
+            else:
+                messages.error(request, f'Failed to check payment status: {error_msg}')
         else:
-            messages.info(request, 'Payment is still being processed. Please wait...')
+            # Legacy payment verification
+            if not payment.is_successful:
+                payment.is_successful = True
+                payment.status = 'success'
+                payment.save()
+                
+                payment.application.is_paid = True
+                payment.application.status = 'submitted'
+                payment.application.save()
+                
+                messages.success(request, 'Payment verified successfully!')
+                return redirect('student_portal:applications')
     
     return render(request, 'student_portal/payment_verification.html', {
         'payment': payment,
@@ -400,7 +610,7 @@ def payment_verification(request, payment_id):
 
 @csrf_exempt
 def payment_webhook(request, provider):
-    """Webhook endpoint for payment providers"""
+    """Webhook endpoint for payment providers (Legacy)"""
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
@@ -431,7 +641,7 @@ def payment_webhook(request, provider):
                 
                 if status in ['0', 'success', 'completed']:
                     payment.is_successful = True
-                    payment.status = 'completed'
+                    payment.status = 'success'
                     payment.save()
                     
                     payment.application.is_paid = True
@@ -453,6 +663,138 @@ def payment_webhook(request, provider):
             return JsonResponse({'status': 'error', 'message': str(e)})
     
     return JsonResponse({'status': 'error', 'message': 'Method not allowed'})
+
+@csrf_exempt
+def clickpesa_webhook(request):
+    """
+    Webhook endpoint for ClickPesa payment notifications
+    This should be registered in your ClickPesa dashboard
+    """
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            
+            # Log the webhook data
+            import logging
+            logger = logging.getLogger(__name__)
+            logger.info(f"ClickPesa webhook received: {data}")
+            
+            # Extract order reference from webhook data
+            order_reference = data.get('orderReference') or data.get('order_reference')
+            
+            if not order_reference:
+                return JsonResponse({
+                    'status': 'error', 
+                    'message': 'No order reference provided'
+                }, status=400)
+            
+            # Find payment by order reference
+            try:
+                payment = Payment.objects.get(order_reference=order_reference)
+                
+                # Extract payment status
+                clickpesa_status = data.get('status', '').lower()
+                payment.status = clickpesa_status
+                payment.transaction_id = data.get('id', payment.transaction_id)
+                payment.payment_reference = data.get('paymentReference', '')
+                payment.message = data.get('message', '')
+                payment.clickpesa_response = data
+                
+                # Update based on status
+                if clickpesa_status in ['success', 'settled']:
+                    payment.is_successful = True
+                    payment.application.is_paid = True
+                    payment.application.status = 'submitted'
+                    payment.application.save()
+                elif clickpesa_status == 'failed':
+                    payment.is_successful = False
+                
+                payment.save()
+                
+                return JsonResponse({
+                    'status': 'success',
+                    'message': 'Webhook processed successfully'
+                })
+                
+            except Payment.DoesNotExist:
+                logger.error(f"Payment not found for order reference: {order_reference}")
+                return JsonResponse({
+                    'status': 'error', 
+                    'message': 'Payment not found'
+                }, status=404)
+            
+        except json.JSONDecodeError:
+            return JsonResponse({
+                'status': 'error', 
+                'message': 'Invalid JSON'
+            }, status=400)
+        except Exception as e:
+            import logging
+            logger = logging.getLogger(__name__)
+            logger.error(f"ClickPesa webhook error: {str(e)}")
+            return JsonResponse({
+                'status': 'error', 
+                'message': str(e)
+            }, status=500)
+    
+    return JsonResponse({
+        'status': 'error', 
+        'message': 'Method not allowed'
+    }, status=405)
+
+@login_required
+def check_payment_status_ajax(request, payment_id):
+    """AJAX endpoint to check payment status"""
+    try:
+        payment = Payment.objects.get(id=payment_id, student=request.user)
+        
+        if payment.payment_gateway == 'clickpesa' and payment.is_pending():
+            success, status_data, error_msg = clickpesa_service.check_payment_status(payment.order_reference)
+            
+            if success and status_data:
+                if isinstance(status_data, list) and len(status_data) > 0:
+                    payment_info = status_data[0]
+                    clickpesa_status = payment_info.get('status', '').lower()
+                    
+                    payment.status = clickpesa_status
+                    payment.transaction_id = payment_info.get('id', payment.transaction_id)
+                    payment.payment_reference = payment_info.get('paymentReference', '')
+                    payment.message = payment_info.get('message', '')
+                    
+                    if clickpesa_status in ['success', 'settled']:
+                        payment.is_successful = True
+                        payment.application.is_paid = True
+                        payment.application.status = 'submitted'
+                        payment.application.save()
+                    elif clickpesa_status == 'failed':
+                        payment.is_successful = False
+                    
+                    payment.save()
+                    
+                    return JsonResponse({
+                        'status': 'success',
+                        'payment_status': payment.status,
+                        'is_successful': payment.is_successful,
+                        'message': payment.message
+                    })
+        
+        return JsonResponse({
+            'status': 'success',
+            'payment_status': payment.status,
+            'is_successful': payment.is_successful,
+            'message': payment.message
+        })
+        
+    except Payment.DoesNotExist:
+        return JsonResponse({
+            'status': 'error',
+            'message': 'Payment not found'
+        }, status=404)
+    except Exception as e:
+        return JsonResponse({
+            'status': 'error',
+            'message': str(e)
+        }, status=500)
 
 @login_required
 def documents(request):

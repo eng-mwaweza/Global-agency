@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment - Student Portal</title>
+    <title>ClickPesa Payment - Student Portal</title>
     <style>
         * {
             margin: 0;
@@ -11,752 +11,709 @@
             box-sizing: border-box;
         }
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f8f9fa;
-            line-height: 1.6;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
         }
         .header {
-            background: linear-gradient(135deg, #007bff, #0056b3);
-            color: white;
-            padding: 1rem;
+            background: white;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             flex-wrap: wrap;
         }
         .header h1 {
             font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-        }
-        .nav-menu {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            margin: 0.5rem 0;
-        }
-        .nav-menu a {
-            color: white;
-            text-decoration: none;
-            padding: 0.5rem;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-            font-size: 0.9rem;
-        }
-        .nav-menu a:hover {
-            background-color: rgba(255,255,255,0.2);
-        }
-        .user-info {
+            color: #667eea;
             display: flex;
             align-items: center;
+            gap: 0.5rem;
+        }
+        .nav-links {
+            display: flex;
             gap: 1rem;
             flex-wrap: wrap;
-            margin: 0.5rem 0;
-            font-size: 0.9rem;
+        }
+        .nav-links a {
+            color: #667eea;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        .nav-links a:hover {
+            background: #667eea;
+            color: white;
         }
         .container {
-            max-width: 600px;
-            margin: 2rem auto;
-            padding: 0 1rem;
+            max-width: 800px;
+            margin: 0 auto;
         }
-        .payment-card {
+        .payment-container {
             background: white;
-            padding: 1.5rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
         }
         .payment-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
             text-align: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid #e9ecef;
         }
         .payment-header h2 {
-            font-size: 1.5rem;
-            color: #333;
+            font-size: 1.75rem;
             margin-bottom: 0.5rem;
         }
-        .payment-amount {
-            font-size: 2rem;
+        .payment-header .amount {
+            font-size: 3rem;
             font-weight: bold;
-            color: #28a745;
             margin: 1rem 0;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
-        .payment-details {
+        .payment-header .currency {
+            font-size: 1.5rem;
+            opacity: 0.9;
+        }
+        .gateway-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+        .payment-body {
+            padding: 2rem;
+        }
+        .application-info {
             background: #f8f9fa;
-            padding: 1.25rem;
-            border-radius: 8px;
+            border-radius: 12px;
+            padding: 1.5rem;
             margin-bottom: 2rem;
         }
-        .payment-details h4 {
-            margin-bottom: 0.75rem;
-            color: #333;
+        .application-info h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
         }
-        .payment-details p {
-            margin-bottom: 0.5rem;
-            font-size: 0.95rem;
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        .info-label {
+            font-weight: 600;
+            color: #6c757d;
+        }
+        .info-value {
+            color: #212529;
+            text-align: right;
         }
         .payment-methods {
             margin-bottom: 2rem;
         }
-        .payment-methods h4 {
-            margin-bottom: 1rem;
-            color: #333;
-            font-size: 1.1rem;
+        .payment-methods h3 {
+            color: #212529;
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
         }
-        .payment-method {
-            display: flex;
-            align-items: center;
-            padding: 1rem;
-            border: 2px solid #e9ecef;
-            border-radius: 8px;
+        .method-card {
+            border: 3px solid #e9ecef;
+            border-radius: 12px;
+            padding: 1.5rem;
             margin-bottom: 1rem;
             cursor: pointer;
             transition: all 0.3s ease;
+            position: relative;
         }
-        .payment-method:hover {
-            border-color: #007bff;
+        .method-card:hover {
+            border-color: #667eea;
             transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.15);
         }
-        .payment-method.selected {
-            border-color: #007bff;
-            background: #f0f8ff;
-            box-shadow: 0 4px 12px rgba(0,123,255,0.15);
+        .method-card.selected {
+            border-color: #667eea;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
         }
-        .payment-method input {
-            margin-right: 1rem;
-            transform: scale(1.2);
-        }
-        .payment-icon {
-            font-size: 1.75rem;
-            margin-right: 1rem;
-        }
-        .payment-method-content {
-            flex: 1;
-        }
-        .payment-method-content strong {
-            display: block;
-            margin-bottom: 0.25rem;
-            font-size: 1rem;
-        }
-        .payment-method-content p {
-            color: #666;
-            font-size: 0.9rem;
-            margin: 0;
-        }
-        .payment-fields {
-            margin-top: 1rem;
-            padding: 1rem;
-            background: #f8f9fa;
-            border-radius: 8px;
+        .method-card input[type="radio"] {
             display: none;
         }
-        .payment-fields.active {
+        .method-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .method-icon {
+            font-size: 2.5rem;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            color: white;
+        }
+        .method-info {
+            flex: 1;
+        }
+        .method-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #212529;
+            margin-bottom: 0.25rem;
+        }
+        .method-description {
+            color: #6c757d;
+            font-size: 0.95rem;
+        }
+        .method-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #667eea;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: none;
+        }
+        .method-card.selected .method-badge {
             display: block;
-            animation: fadeIn 0.3s ease-in;
+        }
+        .method-details {
+            margin-top: 1.5rem;
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+        .method-card.selected .method-details {
+            display: block;
+        }
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         .form-group {
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
         }
         .form-group label {
             display: block;
+            font-weight: 600;
+            color: #495057;
             margin-bottom: 0.5rem;
-            font-weight: bold;
-            color: #333;
             font-size: 0.95rem;
         }
-        .form-group input, .form-group select {
+        .form-group input {
             width: 100%;
-            padding: 0.75rem;
-            border: 1px solid #ddd;
-            border-radius: 6px;
+            padding: 0.875rem 1rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
             font-size: 1rem;
             transition: all 0.3s;
         }
-        .form-group input:focus, .form-group select:focus {
+        .form-group input:focus {
             outline: none;
-            border-color: #007bff;
-            box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+        .phone-input {
+            position: relative;
+        }
+        .phone-prefix {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+            font-weight: 600;
+        }
+        .phone-input input {
+            padding-left: 3.5rem;
+        }
+        .providers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        .provider-badge {
+            padding: 0.75rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #495057;
+            background: white;
+        }
+        .info-box {
+            background: #e7f3ff;
+            border-left: 4px solid #667eea;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+        .info-box h4 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+        .info-box ol {
+            margin-left: 1.5rem;
+            color: #495057;
+        }
+        .info-box li {
+            margin-bottom: 0.5rem;
+        }
+        .btn-container {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        .btn {
+            flex: 1;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
         }
         .btn-primary {
-            background: linear-gradient(135deg, #28a745, #218838);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1.1rem;
-            font-weight: bold;
-            width: 100%;
-            transition: all 0.3s ease;
-            margin-top: 1rem;
-            box-shadow: 0 4px 15px rgba(40,167,69,0.3);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
         }
         .btn-primary:hover {
-            background: linear-gradient(135deg, #218838, #1e7e34);
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(40,167,69,0.4);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
         }
-        .btn-primary:active {
-            transform: translateY(0);
+        .btn-primary:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
         }
         .btn-secondary {
-            background: #6c757d;
-            color: white;
-            padding: 0.75rem 1.5rem;
-            text-decoration: none;
-            border-radius: 6px;
-            border: none;
-            cursor: pointer;
-            display: inline-block;
-            margin-top: 1rem;
-            width: 100%;
-            text-align: center;
-            font-size: 0.9rem;
-            transition: background-color 0.3s;
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
         }
         .btn-secondary:hover {
-            background: #545b62;
-        }
-        .btn-dashboard {
-            background: linear-gradient(135deg, #007bff, #0056b3);
+            background: #667eea;
             color: white;
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1.1rem;
-            font-weight: bold;
-            width: 100%;
-            transition: all 0.3s ease;
-            margin-top: 1rem;
-            box-shadow: 0 4px 15px rgba(0,123,255,0.3);
-            text-decoration: none;
-            display: inline-block;
-            text-align: center;
         }
-        .btn-dashboard:hover {
-            background: linear-gradient(135deg, #0056b3, #004085);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0,123,255,0.4);
-        }
-        .provider-options {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 0.5rem;
-            margin-top: 0.5rem;
-        }
-        .provider-option {
-            padding: 0.75rem;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 0.9rem;
-        }
-        .provider-option:hover {
-            border-color: #007bff;
-            background: #f0f8ff;
-        }
-        .provider-option.selected {
-            background: #007bff;
-            color: white;
-            border-color: #007bff;
-            transform: scale(1.02);
-        }
-        .payment-instructions {
-            background: #e7f3ff;
-            padding: 1rem;
-            border-radius: 6px;
-            border-left: 4px solid #007bff;
-            margin-top: 1rem;
-            font-size: 0.9rem;
-        }
-        .important-notice {
-            margin-top: 2rem;
-            padding: 1rem;
+        .pending-payment {
             background: #fff3cd;
-            border-radius: 6px;
-            border-left: 4px solid #ffc107;
-            font-size: 0.9rem;
+            border: 2px solid #ffc107;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
         }
-        .important-notice h4 {
+        .pending-payment h3 {
+            color: #856404;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .pending-payment p {
             color: #856404;
             margin-bottom: 0.5rem;
         }
-        .important-notice p {
-            color: #856404;
-            margin-bottom: 0.5rem;
+        .pending-payment .btn {
+            margin-top: 1rem;
         }
-        .btn-logout {
-            background: #dc3545;
-            color: white;
-            padding: 0.5rem 1rem;
-            text-decoration: none;
-            border-radius: 4px;
-            display: inline-block;
-            font-size: 0.9rem;
-        }
-        
-        /* Success message styles */
-        .success-message {
+        .security-badge {
             text-align: center;
-            padding: 2rem;
-            background: #d4edda;
-            border-radius: 8px;
-            border-left: 4px solid #28a745;
-            margin: 1rem 0;
-            display: none;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 0 0 16px 16px;
+            border-top: 1px solid #e9ecef;
         }
-        
-        .success-message h3 {
-            color: #155724;
-            margin-bottom: 1rem;
+        .security-icons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
         }
-        
-        .success-message p {
-            color: #155724;
-            margin-bottom: 1rem;
+        .security-icon {
+            font-size: 0.85rem;
+            color: #6c757d;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
-        
-        .success-icon {
-            font-size: 3rem;
-            color: #28a745;
-            margin-bottom: 1rem;
-        }
-        
-        /* Mobile-specific styles */
         @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
             .header {
                 flex-direction: column;
-                align-items: flex-start;
-            }
-            .header h1 {
-                font-size: 1.25rem;
-            }
-            .nav-menu {
-                width: 100%;
-                justify-content: space-between;
-                margin: 0.5rem 0;
-            }
-            .nav-menu a {
-                padding: 0.5rem;
-                font-size: 0.9rem;
-            }
-            .user-info {
-                width: 100%;
-                justify-content: space-between;
-            }
-            .container {
-                margin: 1rem auto;
-                padding: 0 0.5rem;
-            }
-            .payment-card {
-                padding: 1.25rem;
-            }
-            .payment-header h2 {
-                font-size: 1.25rem;
-            }
-            .payment-amount {
-                font-size: 1.75rem;
-            }
-            .payment-details {
-                padding: 1rem;
-            }
-            .payment-method {
-                padding: 0.875rem;
-            }
-            .payment-icon {
-                font-size: 1.5rem;
-            }
-            .btn-primary:hover, .btn-dashboard:hover {
-                transform: none;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .nav-menu {
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-            .nav-menu a {
-                width: 100%;
-                text-align: center;
-            }
-            .user-info {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.5rem;
-            }
-            .btn-logout {
-                width: 100%;
-                text-align: center;
-                margin-left: 0 !important;
-                margin-top: 0.5rem;
-            }
-            .payment-method {
-                flex-direction: column;
-                text-align: center;
-                padding: 1rem;
-            }
-            .payment-method input {
-                margin-right: 0;
-                margin-bottom: 0.5rem;
-            }
-            .payment-icon {
-                margin-right: 0;
-                margin-bottom: 0.5rem;
-            }
-            .provider-options {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        @media (min-width: 768px) {
-            .provider-options {
-                grid-template-columns: repeat(3, 1fr);
-            }
-            .btn-secondary {
-                width: auto;
-            }
-        }
-        
-        /* Animation for payment fields */
-        @keyframes fadeIn {
-            from { 
-                opacity: 0; 
-                transform: translateY(-10px); 
-            }
-            to { 
-                opacity: 1; 
-                transform: translateY(0); 
-            }
-        }
-        
-        /* Card form grid for larger screens */
-        @media (min-width: 480px) {
-            .card-form-grid {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
                 gap: 1rem;
+                padding: 1rem;
             }
-        }
-        
-        /* Form validation styles */
-        .form-group input:invalid:not(:focus):not(:placeholder-shown) {
-            border-color: #dc3545;
-            background-color: #f8d7da;
-        }
-        
-        .form-group input:valid:not(:focus):not(:placeholder-shown) {
-            border-color: #28a745;
-            background-color: #d4edda;
+            .nav-links {
+                width: 100%;
+                flex-direction: column;
+            }
+            .nav-links a {
+                width: 100%;
+                text-align: center;
+            }
+            .payment-header .amount {
+                font-size: 2.5rem;
+            }
+            .payment-body {
+                padding: 1.5rem;
+            }
+            .btn-container {
+                flex-direction: column;
+            }
+            .method-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 2rem;
+            }
+            .providers-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>Student Portal</h1>
-        <nav class="nav-menu">
-            <a href="{% url 'student_portal:dashboard' %}">Dashboard</a>
-            <a href="{% url 'student_portal:profile' %}">My Profile</a>
+        <h1>
+            <span style="font-size: 1.75rem;">💳</span>
+            Student Portal Payment
+        </h1>
+        <div class="nav-links">
+            <a href="{% url 'student_portal:dashboard' %}">← Dashboard</a>
             <a href="{% url 'student_portal:applications' %}">Applications</a>
-            <a href="{% url 'student_portal:documents' %}">Documents</a>
-            <a href="{% url 'student_portal:messages' %}">Messages</a>
-        </nav>
-        <div class="user-info">
-            Welcome, {{ user.get_full_name|default:user.username }}!
-            <a href="{% url 'student_portal:logout' %}" class="btn-logout">Logout</a>
+            <a href="{% url 'student_portal:logout' %}">Logout</a>
         </div>
     </div>
 
     <div class="container">
-        <div class="payment-card">
+        <div class="payment-container">
             <div class="payment-header">
                 <h2>Complete Your Payment</h2>
-                <p>Service charge for {{ application.get_application_type_display }}</p>
-                <div class="payment-amount">TZS {{ payment_amount }}</div>
+                <div class="amount">
+                    <span class="currency">{{ currency }}</span>
+                    {{ payment_amount|floatformat:2 }}
+                </div>
+                <p style="opacity: 0.9;">{{ application.get_application_type_display }}</p>
+                <div class="gateway-badge">
+                    🔒 Powered by ClickPesa
+                </div>
             </div>
 
-            <div class="payment-details">
-                <h4>Application Details:</h4>
-                <p><strong>Type:</strong> {{ application.get_application_type_display }}</p>
-                {% if application.university_name %}
-                <p><strong>University:</strong> {{ application.university_name }}</p>
+            <div class="payment-body">
+                <!-- Pending Payment Alert -->
+                {% if pending_payment %}
+                <div class="pending-payment">
+                    <h3>
+                        <span style="font-size: 1.5rem;">⏳</span>
+                        Payment In Progress
+                    </h3>
+                    <p><strong>Status:</strong> {{ pending_payment.get_status_display|upper }}</p>
+                    <p><strong>Order Reference:</strong> {{ pending_payment.order_reference }}</p>
+                    <p><strong>Payment Method:</strong> {{ pending_payment.get_payment_method_display }}</p>
+                    {% if pending_payment.phone_number %}
+                    <p><strong>Phone Number:</strong> {{ pending_payment.phone_number }}</p>
+                    {% endif %}
+                    <p style="margin-top: 1rem;">
+                        You have a pending payment. Please complete it or check its status before making a new payment.
+                    </p>
+                    <a href="{% url 'student_portal:payment_verification' pending_payment.id %}" class="btn btn-primary" style="max-width: 300px;">
+                        Check Payment Status
+                    </a>
+                </div>
                 {% endif %}
-                {% if application.course %}
-                <p><strong>Course:</strong> {{ application.course }}</p>
-                {% endif %}
-                {% if application.country %}
-                <p><strong>Country:</strong> {{ application.country }}</p>
-                {% endif %}
-                <p><strong>Application ID:</strong> {{ application.id }}</p>
-            </div>
 
-            <!-- Success Message (Hidden by default) -->
-            <div id="successMessage" class="success-message">
-                <div class="success-icon">✓</div>
-                <h3>Payment Successful!</h3>
-                <p>Your payment of TZS {{ payment_amount }} has been processed successfully.</p>
-                <p>Your application has been submitted for review.</p>
-                <a href="{% url 'student_portal:dashboard' %}" class="btn-dashboard">
-                    Go to Dashboard
-                </a>
-            </div>
-
-            <form method="post" id="paymentForm">
-                {% csrf_token %}
-                <input type="hidden" name="payment_amount" value="{{ payment_amount }}">
-                <input type="hidden" name="application_id" value="{{ application.id }}">
-                
-                <div class="payment-methods">
-                    <h4>Select Payment Method:</h4>
-                    
-                    <!-- Mobile Money -->
-                    <div class="payment-method" onclick="selectPaymentMethod('mobile_money')">
-                        <input type="radio" name="payment_method" value="mobile_money" id="mobile_money" checked>
-                        <div class="payment-icon">📱</div>
-                        <div class="payment-method-content">
-                            <strong>Mobile Money</strong>
-                            <p>Halo Pesa, Tigo Pesa, Airtel Money</p>
-                        </div>
+                <!-- Application Information -->
+                <div class="application-info">
+                    <h3>📋 Application Details</h3>
+                    <div class="info-row">
+                        <span class="info-label">Application Type</span>
+                        <span class="info-value">{{ application.get_application_type_display }}</span>
                     </div>
-                    
-                    <div id="mobileMoneyFields" class="payment-fields">
-                        <div class="form-group">
-                            <label>Select Mobile Money Provider:</label>
-                            <div class="provider-options">
-                                <div class="provider-option selected" onclick="selectProvider('halo_pesa')">Halo Pesa</div>
-                                <div class="provider-option" onclick="selectProvider('tigo_pesa')">Tigo Pesa</div>
-                                <div class="provider-option" onclick="selectProvider('airtel_money')">Airtel Money</div>
-                            </div>
-                            <input type="hidden" name="mobile_provider" id="mobileProvider" value="halo_pesa">
-                        </div>
-                        <div class="form-group">
-                            <label for="phone_number">Phone Number:</label>
-                            <input type="tel" id="phone_number" name="phone_number" placeholder="e.g., 255712345678" required pattern="255[0-9]{9}">
-                            <small style="color: #666; font-size: 0.8rem;">Format: 255712345678 (12 digits starting with 255)</small>
-                        </div>
-                        
-                        <!-- Payment Instructions -->
-                        <div class="payment-instructions">
-                            <strong>📱 Payment Instructions:</strong>
-                            <p>Click "Pay TZS {{ payment_amount }}" below to complete your payment.</p>
-                        </div>
+                    {% if application.university_name %}
+                    <div class="info-row">
+                        <span class="info-label">University</span>
+                        <span class="info-value">{{ application.university_name }}</span>
                     </div>
-                    
-                    <!-- Bank Transfer -->
-                    <div class="payment-method" onclick="selectPaymentMethod('bank_transfer')">
-                        <input type="radio" name="payment_method" value="bank_transfer" id="bank_transfer">
-                        <div class="payment-icon">🏦</div>
-                        <div class="payment-method-content">
-                            <strong>Bank Transfer</strong>
-                            <p>Direct bank transfer</p>
-                        </div>
+                    {% endif %}
+                    {% if application.course %}
+                    <div class="info-row">
+                        <span class="info-label">Course</span>
+                        <span class="info-value">{{ application.course }}</span>
                     </div>
-                    
-                    <div id="bankTransferFields" class="payment-fields">
-                        <div class="form-group">
-                            <label for="bank_name">Bank Name:</label>
-                            <select id="bank_name" name="bank_name" required>
-                                <option value="">Select your bank</option>
-                                <option value="crdb">CRDB Bank</option>
-                                <option value="nmb">NMB Bank</option>
-                                <option value="nbc">NBC Bank</option>
-                                <option value="stanbic">Stanbic Bank</option>
-                                <option value="equity">Equity Bank</option>
-                                <option value="other">Other Bank</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="account_number">Account Number:</label>
-                            <input type="text" id="account_number" name="account_number" placeholder="Enter your account number" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="account_name">Account Holder Name:</label>
-                            <input type="text" id="account_name" name="account_name" placeholder="As it appears on your bank account" required>
-                        </div>
+                    {% endif %}
+                    {% if application.country %}
+                    <div class="info-row">
+                        <span class="info-label">Country</span>
+                        <span class="info-value">{{ application.country }}</span>
                     </div>
-                    
-                    <!-- Credit/Debit Card -->
-                    <div class="payment-method" onclick="selectPaymentMethod('card')">
-                        <input type="radio" name="payment_method" value="card" id="card">
-                        <div class="payment-icon">💳</div>
-                        <div class="payment-method-content">
-                            <strong>Credit/Debit Card</strong>
-                            <p>Visa, MasterCard</p>
-                        </div>
+                    {% endif %}
+                    <div class="info-row">
+                        <span class="info-label">Application ID</span>
+                        <span class="info-value">#{{ application.id }}</span>
                     </div>
-                    
-                    <div id="cardFields" class="payment-fields">
-                        <div class="form-group">
-                            <label for="card_number">Card Number:</label>
-                            <input type="text" id="card_number" name="card_number" placeholder="1234 5678 9012 3456" required pattern="[0-9\s]{13,19}">
-                        </div>
-                        <div class="card-form-grid">
-                            <div class="form-group">
-                                <label for="expiry_date">Expiry Date:</label>
-                                <input type="text" id="expiry_date" name="expiry_date" placeholder="MM/YY" required pattern="(0[1-9]|1[0-2])\/[0-9]{2}">
-                            </div>
-                            <div class="form-group">
-                                <label for="cvv">CVV:</label>
-                                <input type="text" id="cvv" name="cvv" placeholder="123" required pattern="[0-9]{3,4}">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="card_holder">Card Holder Name:</label>
-                            <input type="text" id="card_holder" name="card_holder" placeholder="As shown on card" required>
-                        </div>
+                    <div class="info-row">
+                        <span class="info-label">Payment Gateway</span>
+                        <span class="info-value">{{ payment_gateway|upper }}</span>
                     </div>
                 </div>
 
-                <!-- MAIN PAYMENT BUTTON -->
-                <button type="button" class="btn-primary" id="submitBtn" onclick="processPayment()">
-                    Pay TZS {{ payment_amount }}
-                </button>
-            </form>
+                <!-- Payment Methods -->
+                <form method="post" id="paymentForm">
+                    {% csrf_token %}
+                    
+                    <div class="payment-methods">
+                        <h3>💰 Select Payment Method</h3>
 
-            <div style="text-align: center; margin-top: 1rem;">
-                <a href="{% url 'student_portal:applications' %}" class="btn-secondary">Cancel Payment</a>
+                        <!-- Mobile Money Option -->
+                        <div class="method-card selected" id="mobileMoneyCard">
+                            <span class="method-badge">✓ SELECTED</span>
+                            <input type="radio" name="payment_method" value="mobile_money" id="mobileMoney" checked>
+                            <label for="mobileMoney" style="cursor: pointer; width: 100%;">
+                                <div class="method-header">
+                                    <div class="method-icon">📱</div>
+                                    <div class="method-info">
+                                        <div class="method-title">Mobile Money (USSD)</div>
+                                        <div class="method-description">Pay using M-Pesa, Tigo Pesa, Airtel Money, or HaloPesa</div>
+                                    </div>
+                                </div>
+                            </label>
+                            
+                            <div class="method-details">
+                                <div class="providers-grid">
+                                    <div class="provider-badge">M-PESA</div>
+                                    <div class="provider-badge">Tigo Pesa</div>
+                                    <div class="provider-badge">Airtel Money</div>
+                                    <div class="provider-badge">HaloPesa</div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="phone_number">Phone Number *</label>
+                                    <div class="phone-input">
+                                        <span class="phone-prefix">+255</span>
+                                        <input 
+                                            type="tel" 
+                                            id="phone_number" 
+                                            name="phone_number" 
+                                            placeholder="712345678"
+                                            pattern="[0-9]{9}"
+                                            required
+                                        >
+                                    </div>
+                                </div>
+
+                                <div class="info-box">
+                                    <h4>📱 How Mobile Money Payment Works:</h4>
+                                    <ol>
+                                        <li>Enter your mobile money phone number above</li>
+                                        <li>Click "Pay Now" to initiate payment</li>
+                                        <li>You'll receive a USSD prompt on your phone</li>
+                                        <li>Enter your mobile money PIN to complete</li>
+                                        <li>Payment will be verified automatically</li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card Payment Option -->
+                        <div class="method-card" id="cardCard">
+                            <span class="method-badge">✓ SELECTED</span>
+                            <input type="radio" name="payment_method" value="card" id="cardPayment">
+                            <label for="cardPayment" style="cursor: pointer; width: 100%;">
+                                <div class="method-header">
+                                    <div class="method-icon">💳</div>
+                                    <div class="method-info">
+                                        <div class="method-title">Credit/Debit Card</div>
+                                        <div class="method-description">Pay with Visa or Mastercard (International)</div>
+                                    </div>
+                                </div>
+                            </label>
+                            
+                            <div class="method-details">
+                                <div class="providers-grid">
+                                    <div class="provider-badge">VISA</div>
+                                    <div class="provider-badge">Mastercard</div>
+                                </div>
+
+                                <div class="info-box">
+                                    <h4>💳 How Card Payment Works:</h4>
+                                    <ol>
+                                        <li>Click "Pay Now" to continue</li>
+                                        <li>You'll be redirected to ClickPesa secure payment page</li>
+                                        <li>Enter your card details (3D Secure protected)</li>
+                                        <li>Complete the payment authorization</li>
+                                        <li>You'll be redirected back automatically</li>
+                                    </ol>
+                                </div>
+
+                                <p style="color: #6c757d; font-size: 0.9rem; margin-top: 1rem;">
+                                    <strong>Note:</strong> Card payments are processed in USD. Exchange rate will be applied automatically.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="btn-container">
+                        <a href="{% url 'student_portal:applications' %}" class="btn btn-secondary">
+                            Cancel
+                        </a>
+                        <button type="submit" class="btn btn-primary" id="payButton">
+                            <span id="buttonText">Pay Now - {{ currency }} {{ payment_amount|floatformat:2 }}</span>
+                            <span id="buttonLoader" style="display: none;">Processing...</span>
+                        </button>
+                    </div>
+                </form>
             </div>
 
-            <div class="important-notice">
-                <h4>📝 Important Notice:</h4>
-                <p>Your application will only be processed after successful payment of the service charge.</p>
-                <p><strong>No payment = No application submission</strong></p>
+            <!-- Security Footer -->
+            <div class="security-badge">
+                <p style="color: #6c757d; font-weight: 600; margin-bottom: 0.5rem;">
+                    🔒 Your payment is secure and encrypted
+                </p>
+                <div class="security-icons">
+                    <span class="security-icon">
+                        <span style="font-size: 1.2rem;">🛡️</span>
+                        SSL Encrypted
+                    </span>
+                    <span class="security-icon">
+                        <span style="font-size: 1.2rem;">✓</span>
+                        PCI Compliant
+                    </span>
+                    <span class="security-icon">
+                        <span style="font-size: 1.2rem;">🏦</span>
+                        Bank Level Security
+                    </span>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        let selectedMethod = 'mobile_money';
-        let selectedProvider = 'halo_pesa';
+        // Payment method selection
+        const mobileMoneyCard = document.getElementById('mobileMoneyCard');
+        const cardCard = document.getElementById('cardCard');
+        const mobileMoneyRadio = document.getElementById('mobileMoney');
+        const cardRadio = document.getElementById('cardPayment');
+        const phoneInput = document.getElementById('phone_number');
+        const payButton = document.getElementById('payButton');
+        const paymentForm = document.getElementById('paymentForm');
 
-        function selectPaymentMethod(method) {
-            selectedMethod = method;
-            
-            // Remove selected class from all methods
-            document.querySelectorAll('.payment-method').forEach(m => {
-                m.classList.remove('selected');
-            });
-            
-            // Add selected class to clicked method
-            document.querySelector(`.payment-method input[value="${method}"]`).parentElement.classList.add('selected');
-            
-            // Check the radio button
-            document.getElementById(method).checked = true;
-            
-            // Hide all payment fields
-            document.querySelectorAll('.payment-fields').forEach(field => {
-                field.classList.remove('active');
-            });
-            
-            // Show relevant payment fields
-            if (method === 'mobile_money') {
-                document.getElementById('mobileMoneyFields').classList.add('active');
-            } else if (method === 'bank_transfer') {
-                document.getElementById('bankTransferFields').classList.add('active');
-            } else if (method === 'card') {
-                document.getElementById('cardFields').classList.add('active');
-            }
-        }
+        function selectMethod(card, radio) {
+            document.querySelectorAll('.method-card').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            radio.checked = true;
 
-        function selectProvider(provider) {
-            selectedProvider = provider;
-            
-            // Remove selected class from all providers
-            document.querySelectorAll('.provider-option').forEach(opt => {
-                opt.classList.remove('selected');
-            });
-            
-            // Add selected class to clicked provider
-            event.target.classList.add('selected');
-            
-            // Update hidden input
-            document.getElementById('mobileProvider').value = provider;
-        }
-
-        function processPayment() {
-            if (selectedMethod === 'mobile_money') {
-                initiateMobilePayment();
+            // Update phone number requirement
+            if (radio.value === 'mobile_money') {
+                phoneInput.required = true;
             } else {
-                // For bank transfer and card, simulate payment processing
-                simulatePaymentProcessing();
+                phoneInput.required = false;
             }
         }
 
-        function initiateMobilePayment() {
-            const phoneNumber = document.getElementById('phone_number').value;
-            const amount = {{ payment_amount }};
-            
-            // Basic validation
-            if (!phoneNumber || phoneNumber.length !== 12) {
-                alert('Please enter a valid phone number with 12 digits (255XXXXXXXXX)');
-                return;
+        mobileMoneyCard.addEventListener('click', (e) => {
+            if (e.target.tagName !== 'INPUT') {
+                selectMethod(mobileMoneyCard, mobileMoneyRadio);
             }
-
-            // Show payment confirmation without opening external app
-            const providerNames = {
-                'halo_pesa': 'Halo Pesa',
-                'tigo_pesa': 'Tigo Pesa',
-                'airtel_money': 'Airtel Money'
-            };
-            
-            if (confirm(`Complete payment of TZS ${amount} using ${providerNames[selectedProvider]}?\n\nPhone: ${phoneNumber}\n\nClick OK to proceed with payment.`)) {
-                // Simulate payment processing without opening external app
-                simulatePaymentProcessing();
-            }
-        }
-
-        function simulatePaymentProcessing() {
-            // Show processing state
-            const submitBtn = document.getElementById('submitBtn');
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = 'Processing Payment...';
-            
-            // Simulate payment processing delay
-            setTimeout(() => {
-                // Show success message with dashboard button
-                showSuccessMessage();
-            }, 2000);
-        }
-
-        function showSuccessMessage() {
-            // Hide the payment form
-            document.getElementById('paymentForm').style.display = 'none';
-            
-            // Hide cancel button
-            document.querySelector('.btn-secondary').style.display = 'none';
-            
-            // Hide important notice
-            document.querySelector('.important-notice').style.display = 'none';
-            
-            // Show success message with dashboard button
-            document.getElementById('successMessage').style.display = 'block';
-        }
-
-        // Initialize with mobile money selected
-        document.addEventListener('DOMContentLoaded', function() {
-            selectPaymentMethod('mobile_money');
-            
-            // Add input formatting for better UX
-            document.getElementById('phone_number').addEventListener('input', function(e) {
-                this.value = this.value.replace(/[^0-9]/g, '');
-            });
-            
-            document.getElementById('card_number').addEventListener('input', function(e) {
-                this.value = this.value.replace(/[^0-9\s]/g, '').replace(/(\d{4})(?=\d)/g, '$1 ');
-            });
-            
-            document.getElementById('expiry_date').addEventListener('input', function(e) {
-                this.value = this.value.replace(/[^0-9\/]/g, '').replace(/(\d{2})(?=\d)/g, '$1/');
-            });
-            
-            document.getElementById('cvv').addEventListener('input', function(e) {
-                this.value = this.value.replace(/[^0-9]/g, '').substring(0, 4);
-            });
         });
+
+        cardCard.addEventListener('click', (e) => {
+            if (e.target.tagName !== 'INPUT') {
+                selectMethod(cardCard, cardRadio);
+            }
+        });
+
+        mobileMoneyRadio.addEventListener('change', () => {
+            selectMethod(mobileMoneyCard, mobileMoneyRadio);
+        });
+
+        cardRadio.addEventListener('change', () => {
+            selectMethod(cardCard, cardRadio);
+        });
+
+        // Phone number formatting
+        phoneInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            
+            // Remove leading zero if present
+            if (value.startsWith('0')) {
+                value = value.substring(1);
+            }
+            
+            // Limit to 9 digits
+            if (value.length > 9) {
+                value = value.substring(0, 9);
+            }
+            
+            e.target.value = value;
+        });
+
+        // Form submission
+        paymentForm.addEventListener('submit', function(e) {
+            const selectedMethod = document.querySelector('input[name="payment_method"]:checked').value;
+            
+            if (selectedMethod === 'mobile_money') {
+                const phone = phoneInput.value;
+                if (!phone || phone.length !== 9) {
+                    e.preventDefault();
+                    alert('Please enter a valid 9-digit phone number (without country code)');
+                    phoneInput.focus();
+                    return false;
+                }
+            }
+
+            // Show loading state
+            const buttonText = document.getElementById('buttonText');
+            const buttonLoader = document.getElementById('buttonLoader');
+            buttonText.style.display = 'none';
+            buttonLoader.style.display = 'inline';
+            payButton.disabled = true;
+        });
+
+        // Auto-focus phone number if mobile money is selected
+        if (mobileMoneyRadio.checked) {
+            phoneInput.focus();
+        }
     </script>
+
+    <!-- Django Messages -->
+    {% if messages %}
+    <script>
+        {% for message in messages %}
+        alert("{{ message|escapejs }}");
+        {% endfor %}
+    </script>
+    {% endif %}
 </body>
 </html>
