@@ -15,6 +15,22 @@ class StudentProfile(models.Model):
 
     def __str__(self):
         return f"{self.user.first_name} {self.user.last_name}"
+    
+    def is_complete(self):
+        """Check if student profile has basic required information"""
+        return bool(self.phone_number and self.address)
+    
+    def save(self, *args, **kwargs):
+        # Ensure we have empty strings for required fields if they're None
+        if self.phone_number is None:
+            self.phone_number = ''
+        if self.address is None:
+            self.address = ''
+        if self.nationality is None:
+            self.nationality = ''
+        if self.emergency_contact is None:
+            self.emergency_contact = ''
+        super().save(*args, **kwargs)
 
 class Application(models.Model):
     APPLICATION_STATUS = [

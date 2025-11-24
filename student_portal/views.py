@@ -17,63 +17,63 @@ from employee.models import UserProfile
 
 @csrf_protect
 def student_login(request):
-    # ADDED: Role-based access control
+    # If user is already authenticated, redirect to dashboard
     if request.user.is_authenticated:
-        try:
-            profile = UserProfile.objects.get(user=request.user)
-            if profile.can_access_student_portal():
-                return redirect('student_portal:dashboard')
-            else:
-                # Logout if user cannot access student portal
-                logout(request)
-                messages.error(request, "Access denied. Please use the employee portal.")
-                return redirect('student_portal:login')
-        except UserProfile.DoesNotExist:
-            # Check if user has student profile, if not create one
-            try:
-                StudentProfile.objects.get(user=request.user)
-                return redirect('student_portal:dashboard')
-            except StudentProfile.DoesNotExist:
-                # Auto-create student profile for existing authenticated user
-                StudentProfile.objects.create(user=request.user)
-                return redirect('student_portal:dashboard')
+        return redirect('student_portal:dashboard')
+    
+    # Add cache control to prevent back button issues
+    response = render(request, 'student_portal/login.html')
+    response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    response['Pragma'] = 'no-cache'
+    response['Expires'] = '0'
     
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
+        
+        print(f"Login attempt: {username}")
+        
         user = authenticate(request, username=username, password=password)
         
         if user is not None:
-            # ADDED: Check if user can access student portal
+            # Block admin users from student portal
+            if user.is_staff or user.is_superuser:
+                messages.error(request, 'Admin users cannot login to student portal. Please use the admin site.')
+                return render(request, 'student_portal/login.html')
+            
+            print(f"Authentication successful: {user.username}")
+            
+            # Login the user
+            login(request, user)
+            
+            # Ensure student profile exists
             try:
-                profile = UserProfile.objects.get(user=user)
-                if profile.can_access_student_portal():
-                    login(request, user)
-                    messages.success(request, 'Login successful!')
-                    return redirect('student_portal:dashboard')
-                else:
-                    messages.error(request, 'Access denied. This portal is for self-registered students only.')
-            except UserProfile.DoesNotExist:
-                # User doesn't have employee profile - check/create student profile
+                StudentProfile.objects.get(user=user)
+            except StudentProfile.DoesNotExist:
                 try:
-                    StudentProfile.objects.get(user=user)
-                    login(request, user)
-                    messages.success(request, 'Login successful!')
-                    return redirect('student_portal:dashboard')
-                except StudentProfile.DoesNotExist:
-                    # Auto-create student profile for student users
-                    StudentProfile.objects.create(user=user)
-                    login(request, user)
-                    messages.success(request, 'Login successful! Please complete your profile.')
-                    return redirect('student_portal:profile')
+                    StudentProfile.objects.create(
+                        user=user,
+                        phone_number='',
+                        address='',
+                        nationality='',
+                        emergency_contact=''
+                    )
+                    print("Student profile created")
+                except Exception as e:
+                    print(f"Profile creation error: {e}")
+            
+            messages.success(request, 'Login successful!')
+            return redirect('student_portal:dashboard')
         else:
-            messages.error(request, 'Invalid login credentials')
+            print("Authentication failed")
+            messages.error(request, 'Invalid username or password')
     
     return render(request, 'student_portal/login.html')
 
-# ALL OTHER VIEWS REMAIN EXACTLY THE SAME
+# ALL OTHER VIEWS
 @login_required(login_url='student_portal:login')
 def student_dashboard(request):
+    """Student dashboard view"""
     # Ensure student profile exists
     StudentProfile.objects.get_or_create(user=request.user)
     
@@ -87,10 +87,17 @@ def student_dashboard(request):
         'documents_count': documents.count(),
         'unread_messages_count': unread_messages.count(),
     }
-    return render(request, 'student_portal/dashboard.html', context)
+    
+    # Add cache control to prevent back button after logout
+    response = render(request, 'student_portal/dashboard.html', context)
+    response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    response['Pragma'] = 'no-cache'
+    response['Expires'] = '0'
+    return response
 
 @login_required
 def student_profile(request):
+    """Student profile view"""
     # This will automatically create profile if it doesn't exist
     profile, created = StudentProfile.objects.get_or_create(user=request.user)
     
@@ -108,27 +115,47 @@ def student_profile(request):
     else:
         form = StudentProfileForm(instance=profile)
     
-    return render(request, 'student_portal/profile.html', {'form': form, 'profile': profile})
+    # Add cache control
+    response = render(request, 'student_portal/profile.html', {'form': form, 'profile': profile})
+    response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    response['Pragma'] = 'no-cache'
+    response['Expires'] = '0'
+    return response
 
 @login_required
 def applications(request):
+    """Applications list view"""
     # Ensure student profile exists
     StudentProfile.objects.get_or_create(user=request.user)
     
     applications_list = Application.objects.filter(student=request.user).order_by('-created_at')
-    return render(request, 'student_portal/applications.html', {'applications': applications_list})
+    
+    # Add cache control
+    response = render(request, 'student_portal/applications.html', {'applications': applications_list})
+    response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    response['Pragma'] = 'no-cache'
+    response['Expires'] = '0'
+    return response
 
 @login_required
 def application_detail(request, application_id):
+    """Application detail view"""
     # Ensure student profile exists
     StudentProfile.objects.get_or_create(user=request.user)
     
     application = get_object_or_404(Application, id=application_id, student=request.user)
-    return render(request, 'student_portal/application_detail.html', {'application': application})
+    
+    # Add cache control
+    response = render(request, 'student_portal/application_detail.html', {'application': application})
+    response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    response['Pragma'] = 'no-cache'
+    response['Expires'] = '0'
+    return response
 
 @login_required
 @csrf_protect
 def create_application(request):
+    """Create application view"""
     # Ensure student profile exists
     StudentProfile.objects.get_or_create(user=request.user)
     
@@ -166,11 +193,17 @@ def create_application(request):
     else:
         form = ApplicationForm()
     
-    return render(request, 'student_portal/create_application.html', {'form': form})
+    # Add cache control
+    response = render(request, 'student_portal/create_application.html', {'form': form})
+    response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    response['Pragma'] = 'no-cache'
+    response['Expires'] = '0'
+    return response
 
 @login_required
 @csrf_protect
 def payment_page(request, application_id):
+    """Payment page view"""
     # Ensure student profile exists
     StudentProfile.objects.get_or_create(user=request.user)
     
@@ -234,14 +267,20 @@ def payment_page(request, application_id):
         except Exception as e:
             messages.error(request, f'Payment processing failed: {str(e)}')
     
-    return render(request, 'student_portal/payment.html', {
+    # Add cache control
+    response = render(request, 'student_portal/payment.html', {
         'application': application,
         'payment_amount': application.payment_amount,
         'pending_payment': pending_payment,
         'payment_gateway': settings.PAYMENT_GATEWAY,
         'currency': settings.CURRENCY
     })
+    response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    response['Pragma'] = 'no-cache'
+    response['Expires'] = '0'
+    return response
 
+# ALL PAYMENT PROCESSING FUNCTIONS REMAIN THE SAME AS BEFORE
 def process_clickpesa_mobile_payment(request, application, phone_number):
     """Process mobile money payment through ClickPesa"""
     try:
@@ -416,11 +455,6 @@ def process_mobile_money_payment(request, application, phone_number, provider):
         time.sleep(2)  # Simulate API call
         
         # For demo purposes, we'll simulate a successful payment
-        # In production, you would integrate with actual mobile money APIs like:
-        # - M-Pesa API
-        # - Tigo Pesa API
-        # - Airtel Money API
-        
         payment.is_successful = True
         payment.status = 'completed'
         payment.save()
@@ -603,11 +637,302 @@ def payment_verification(request, payment_id):
                 messages.success(request, 'Payment verified successfully!')
                 return redirect('student_portal:applications')
     
-    return render(request, 'student_portal/payment_verification.html', {
+    # Add cache control
+    response = render(request, 'student_portal/payment_verification.html', {
         'payment': payment,
         'application': payment.application
     })
+    response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    response['Pragma'] = 'no-cache'
+    response['Expires'] = '0'
+    return response
 
+@login_required
+def check_payment_status_ajax(request, payment_id):
+    """AJAX endpoint to check payment status"""
+    try:
+        payment = Payment.objects.get(id=payment_id, student=request.user)
+        
+        if payment.payment_gateway == 'clickpesa' and payment.is_pending():
+            success, status_data, error_msg = clickpesa_service.check_payment_status(payment.order_reference)
+            
+            if success and status_data:
+                if isinstance(status_data, list) and len(status_data) > 0:
+                    payment_info = status_data[0]
+                    clickpesa_status = payment_info.get('status', '').lower()
+                    
+                    payment.status = clickpesa_status
+                    payment.transaction_id = payment_info.get('id', payment.transaction_id)
+                    payment.payment_reference = payment_info.get('paymentReference', '')
+                    payment.message = payment_info.get('message', '')
+                    
+                    if clickpesa_status in ['success', 'settled']:
+                        payment.is_successful = True
+                        payment.application.is_paid = True
+                        payment.application.status = 'submitted'
+                        payment.application.save()
+                    elif clickpesa_status == 'failed':
+                        payment.is_successful = False
+                    
+                    payment.save()
+                    
+                    return JsonResponse({
+                        'status': 'success',
+                        'payment_status': payment.status,
+                        'is_successful': payment.is_successful,
+                        'message': payment.message
+                    })
+        
+        return JsonResponse({
+            'status': 'success',
+            'payment_status': payment.status,
+            'is_successful': payment.is_successful,
+            'message': payment.message
+        })
+        
+    except Payment.DoesNotExist:
+        return JsonResponse({
+            'status': 'error',
+            'message': 'Payment not found'
+        }, status=404)
+    except Exception as e:
+        return JsonResponse({
+            'status': 'error',
+            'message': str(e)
+        }, status=500)
+
+@login_required
+def check_payment_status(request, payment_id):
+    """Utility function to check payment status"""
+    # Ensure student profile exists
+    StudentProfile.objects.get_or_create(user=request.user)
+    
+    payment = get_object_or_404(Payment, id=payment_id, student=request.user)
+    return JsonResponse({
+        'is_successful': payment.is_successful,
+        'status': payment.status,
+        'transaction_id': payment.transaction_id,
+        'amount': payment.amount
+    })
+
+@login_required
+def documents(request):
+    """Documents view"""
+    # Ensure student profile exists
+    StudentProfile.objects.get_or_create(user=request.user)
+    
+    if request.method == 'POST':
+        form = DocumentForm(request.POST, request.FILES)
+        if form.is_valid():
+            try:
+                document = form.save(commit=False)
+                document.student = request.user
+                document.save()
+                messages.success(request, 'Document uploaded successfully!')
+                return redirect('student_portal:documents')
+            except Exception as e:
+                messages.error(request, f'Error uploading document: {str(e)}')
+        else:
+            messages.error(request, 'Please correct the errors below.')
+    else:
+        form = DocumentForm()
+    
+    documents_list = Document.objects.filter(student=request.user).order_by('-uploaded_at')
+    
+    # Add cache control
+    response = render(request, 'student_portal/documents.html', {
+        'form': form, 
+        'documents': documents_list
+    })
+    response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    response['Pragma'] = 'no-cache'
+    response['Expires'] = '0'
+    return response
+
+@login_required
+def document_services(request):
+    """Document services view"""
+    # Ensure student profile exists
+    StudentProfile.objects.get_or_create(user=request.user)
+    
+    services = [
+        {'type': 'university', 'name': 'University Application', 'description': 'Assistance with university applications'},
+        {'type': 'visa', 'name': 'Visa Support', 'description': 'Visa application and processing support'},
+        {'type': 'passport', 'name': 'Passport Application', 'description': 'Passport application and renewal'},
+        {'type': 'loan', 'name': 'Student Loan Services', 'description': 'Student loan application assistance'},
+        {'type': 'tcu', 'name': 'TCU Services', 'description': 'Tanzania Commission for Universities services'},
+        {'type': 'flight', 'name': 'Flight Ticket Booking', 'description': 'International flight ticket booking'},
+    ]
+    
+    # Add cache control
+    response = render(request, 'student_portal/document_services.html', {'services': services})
+    response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    response['Pragma'] = 'no-cache'
+    response['Expires'] = '0'
+    return response
+
+@login_required
+def service_form(request, service_type):
+    """Service form view"""
+    # Ensure student profile exists
+    StudentProfile.objects.get_or_create(user=request.user)
+    
+    service_names = {
+        'university': 'University Application',
+        'visa': 'Visa Support',
+        'passport': 'Passport Application',
+        'loan': 'Student Loan Services',
+        'tcu': 'TCU Services',
+        'flight': 'Flight Ticket Booking',
+    }
+    
+    if service_type not in service_names:
+        messages.error(request, 'Invalid service type')
+        return redirect('student_portal:document_services')
+    
+    if request.method == 'POST':
+        # Process service request
+        try:
+            # Extract form data based on service type
+            service_data = {
+                'student': request.user,
+                'service_type': service_type,
+                'details': json.dumps(request.POST.dict()),
+                'status': 'pending'
+            }
+            
+            # Here you would typically save to a ServiceRequest model
+            # ServiceRequest.objects.create(**service_data)
+            
+            messages.success(request, f'{service_names[service_type]} request submitted successfully!')
+            return redirect('student_portal:document_services')
+            
+        except Exception as e:
+            messages.error(request, f'Error submitting service request: {str(e)}')
+    
+    # Add cache control
+    response = render(request, 'student_portal/service_form.html', {
+        'service_type': service_type,
+        'service_name': service_names[service_type]
+    })
+    response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    response['Pragma'] = 'no-cache'
+    response['Expires'] = '0'
+    return response
+
+@login_required
+def messages_list(request):
+    """Messages list view"""
+    # Ensure student profile exists
+    StudentProfile.objects.get_or_create(user=request.user)
+    
+    messages_list = Message.objects.filter(student=request.user).order_by('-created_at')
+    
+    # Mark all as read when user visits messages page
+    unread_messages = messages_list.filter(is_read=False)
+    if unread_messages.exists():
+        unread_messages.update(is_read=True)
+    
+    # Add cache control
+    response = render(request, 'student_portal/messages.html', {'messages_list': messages_list})
+    response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    response['Pragma'] = 'no-cache'
+    response['Expires'] = '0'
+    return response
+
+@login_required
+def mark_message_read(request, message_id):
+    """Mark message as read"""
+    if request.method == 'POST':
+        try:
+            message = get_object_or_404(Message, id=message_id, student=request.user)
+            message.is_read = True
+            message.save()
+            return JsonResponse({'success': True})
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)})
+    
+    return JsonResponse({'success': False, 'error': 'Invalid method'})
+
+@login_required
+def student_logout(request):
+    """Student logout view"""
+    logout(request)
+    messages.success(request, 'You have been logged out successfully.')
+    # Redirect to login page after logout
+    return redirect('student_portal:login')
+
+@login_required
+def delete_application(request, application_id):
+    """Delete an application"""
+    # Ensure student profile exists
+    StudentProfile.objects.get_or_create(user=request.user)
+    
+    if request.method == 'POST':
+        try:
+            application = get_object_or_404(Application, id=application_id, student=request.user)
+            
+            # Only allow deletion if not paid
+            if not application.is_paid:
+                application.delete()
+                messages.success(request, 'Application deleted successfully.')
+            else:
+                messages.error(request, 'Cannot delete paid applications.')
+                
+        except Exception as e:
+            messages.error(request, f'Error deleting application: {str(e)}')
+    
+    return redirect('student_portal:applications')
+
+@login_required
+def delete_document(request, document_id):
+    """Delete a document"""
+    # Ensure student profile exists
+    StudentProfile.objects.get_or_create(user=request.user)
+    
+    if request.method == 'POST':
+        try:
+            document = get_object_or_404(Document, id=document_id, student=request.user)
+            document.delete()
+            messages.success(request, 'Document deleted successfully.')
+        except Exception as e:
+            messages.error(request, f'Error deleting document: {str(e)}')
+    
+    return redirect('student_portal:documents')
+
+@login_required
+def application_statistics(request):
+    """Get application statistics for dashboard"""
+    # Ensure student profile exists
+    StudentProfile.objects.get_or_create(user=request.user)
+    
+    applications = Application.objects.filter(student=request.user)
+    
+    stats = {
+        'total': applications.count(),
+        'submitted': applications.filter(status='submitted').count(),
+        'pending_payment': applications.filter(status='pending_payment').count(),
+        'under_review': applications.filter(status='under_review').count(),
+        'approved': applications.filter(status='approved').count(),
+        'rejected': applications.filter(status='rejected').count(),
+    }
+    
+    return JsonResponse(stats)
+
+# Error handling views
+def handler404(request, exception):
+    return render(request, 'student_portal/404.html', status=404)
+
+def handler500(request):
+    return render(request, 'student_portal/500.html', status=500)
+
+def handler403(request, exception):
+    return render(request, 'student_portal/403.html', status=403)
+
+def handler400(request, exception):
+    return render(request, 'student_portal/400.html', status=400)
+
+# KEEP ALL CSRF EXEMPT WEBHOOK FUNCTIONS EXACTLY THE SAME
 @csrf_exempt
 def payment_webhook(request, provider):
     """Webhook endpoint for payment providers (Legacy)"""
@@ -741,259 +1066,3 @@ def clickpesa_webhook(request):
         'status': 'error', 
         'message': 'Method not allowed'
     }, status=405)
-
-@login_required
-def check_payment_status_ajax(request, payment_id):
-    """AJAX endpoint to check payment status"""
-    try:
-        payment = Payment.objects.get(id=payment_id, student=request.user)
-        
-        if payment.payment_gateway == 'clickpesa' and payment.is_pending():
-            success, status_data, error_msg = clickpesa_service.check_payment_status(payment.order_reference)
-            
-            if success and status_data:
-                if isinstance(status_data, list) and len(status_data) > 0:
-                    payment_info = status_data[0]
-                    clickpesa_status = payment_info.get('status', '').lower()
-                    
-                    payment.status = clickpesa_status
-                    payment.transaction_id = payment_info.get('id', payment.transaction_id)
-                    payment.payment_reference = payment_info.get('paymentReference', '')
-                    payment.message = payment_info.get('message', '')
-                    
-                    if clickpesa_status in ['success', 'settled']:
-                        payment.is_successful = True
-                        payment.application.is_paid = True
-                        payment.application.status = 'submitted'
-                        payment.application.save()
-                    elif clickpesa_status == 'failed':
-                        payment.is_successful = False
-                    
-                    payment.save()
-                    
-                    return JsonResponse({
-                        'status': 'success',
-                        'payment_status': payment.status,
-                        'is_successful': payment.is_successful,
-                        'message': payment.message
-                    })
-        
-        return JsonResponse({
-            'status': 'success',
-            'payment_status': payment.status,
-            'is_successful': payment.is_successful,
-            'message': payment.message
-        })
-        
-    except Payment.DoesNotExist:
-        return JsonResponse({
-            'status': 'error',
-            'message': 'Payment not found'
-        }, status=404)
-    except Exception as e:
-        return JsonResponse({
-            'status': 'error',
-            'message': str(e)
-        }, status=500)
-
-@login_required
-def documents(request):
-    # Ensure student profile exists
-    StudentProfile.objects.get_or_create(user=request.user)
-    
-    if request.method == 'POST':
-        form = DocumentForm(request.POST, request.FILES)
-        if form.is_valid():
-            try:
-                document = form.save(commit=False)
-                document.student = request.user
-                document.save()
-                messages.success(request, 'Document uploaded successfully!')
-                return redirect('student_portal:documents')
-            except Exception as e:
-                messages.error(request, f'Error uploading document: {str(e)}')
-        else:
-            messages.error(request, 'Please correct the errors below.')
-    else:
-        form = DocumentForm()
-    
-    documents_list = Document.objects.filter(student=request.user).order_by('-uploaded_at')
-    return render(request, 'student_portal/documents.html', {
-        'form': form, 
-        'documents': documents_list
-    })
-
-@login_required
-def document_services(request):
-    # Ensure student profile exists
-    StudentProfile.objects.get_or_create(user=request.user)
-    
-    services = [
-        {'type': 'university', 'name': 'University Application', 'description': 'Assistance with university applications'},
-        {'type': 'visa', 'name': 'Visa Support', 'description': 'Visa application and processing support'},
-        {'type': 'passport', 'name': 'Passport Application', 'description': 'Passport application and renewal'},
-        {'type': 'loan', 'name': 'Student Loan Services', 'description': 'Student loan application assistance'},
-        {'type': 'tcu', 'name': 'TCU Services', 'description': 'Tanzania Commission for Universities services'},
-        {'type': 'flight', 'name': 'Flight Ticket Booking', 'description': 'International flight ticket booking'},
-    ]
-    return render(request, 'student_portal/document_services.html', {'services': services})
-
-@login_required
-def service_form(request, service_type):
-    # Ensure student profile exists
-    StudentProfile.objects.get_or_create(user=request.user)
-    
-    service_names = {
-        'university': 'University Application',
-        'visa': 'Visa Support',
-        'passport': 'Passport Application',
-        'loan': 'Student Loan Services',
-        'tcu': 'TCU Services',
-        'flight': 'Flight Ticket Booking',
-    }
-    
-    if service_type not in service_names:
-        messages.error(request, 'Invalid service type')
-        return redirect('student_portal:document_services')
-    
-    if request.method == 'POST':
-        # Process service request
-        try:
-            # Extract form data based on service type
-            service_data = {
-                'student': request.user,
-                'service_type': service_type,
-                'details': json.dumps(request.POST.dict()),
-                'status': 'pending'
-            }
-            
-            # Here you would typically save to a ServiceRequest model
-            # ServiceRequest.objects.create(**service_data)
-            
-            messages.success(request, f'{service_names[service_type]} request submitted successfully!')
-            return redirect('student_portal:document_services')
-            
-        except Exception as e:
-            messages.error(request, f'Error submitting service request: {str(e)}')
-    
-    return render(request, 'student_portal/service_form.html', {
-        'service_type': service_type,
-        'service_name': service_names[service_type]
-    })
-
-@login_required
-def messages_list(request):
-    # Ensure student profile exists
-    StudentProfile.objects.get_or_create(user=request.user)
-    
-    messages_list = Message.objects.filter(student=request.user).order_by('-created_at')
-    
-    # Mark all as read when user visits messages page
-    unread_messages = messages_list.filter(is_read=False)
-    if unread_messages.exists():
-        unread_messages.update(is_read=True)
-    
-    return render(request, 'student_portal/messages.html', {'messages_list': messages_list})
-
-@login_required
-def mark_message_read(request, message_id):
-    if request.method == 'POST':
-        try:
-            message = get_object_or_404(Message, id=message_id, student=request.user)
-            message.is_read = True
-            message.save()
-            return JsonResponse({'success': True})
-        except Exception as e:
-            return JsonResponse({'success': False, 'error': str(e)})
-    
-    return JsonResponse({'success': False, 'error': 'Invalid method'})
-
-@login_required
-def student_logout(request):
-    logout(request)
-    messages.success(request, 'You have been logged out successfully.')
-    return redirect('student_portal:login')
-
-# Utility function to check payment status
-@login_required
-def check_payment_status(request, payment_id):
-    # Ensure student profile exists
-    StudentProfile.objects.get_or_create(user=request.user)
-    
-    payment = get_object_or_404(Payment, id=payment_id, student=request.user)
-    return JsonResponse({
-        'is_successful': payment.is_successful,
-        'status': payment.status,
-        'transaction_id': payment.transaction_id,
-        'amount': payment.amount
-    })
-
-@login_required
-def delete_application(request, application_id):
-    """Delete an application"""
-    # Ensure student profile exists
-    StudentProfile.objects.get_or_create(user=request.user)
-    
-    if request.method == 'POST':
-        try:
-            application = get_object_or_404(Application, id=application_id, student=request.user)
-            
-            # Only allow deletion if not paid
-            if not application.is_paid:
-                application.delete()
-                messages.success(request, 'Application deleted successfully.')
-            else:
-                messages.error(request, 'Cannot delete paid applications.')
-                
-        except Exception as e:
-            messages.error(request, f'Error deleting application: {str(e)}')
-    
-    return redirect('student_portal:applications')
-
-@login_required
-def delete_document(request, document_id):
-    """Delete a document"""
-    # Ensure student profile exists
-    StudentProfile.objects.get_or_create(user=request.user)
-    
-    if request.method == 'POST':
-        try:
-            document = get_object_or_404(Document, id=document_id, student=request.user)
-            document.delete()
-            messages.success(request, 'Document deleted successfully.')
-        except Exception as e:
-            messages.error(request, f'Error deleting document: {str(e)}')
-    
-    return redirect('student_portal:documents')
-
-@login_required
-def application_statistics(request):
-    """Get application statistics for dashboard"""
-    # Ensure student profile exists
-    StudentProfile.objects.get_or_create(user=request.user)
-    
-    applications = Application.objects.filter(student=request.user)
-    
-    stats = {
-        'total': applications.count(),
-        'submitted': applications.filter(status='submitted').count(),
-        'pending_payment': applications.filter(status='pending_payment').count(),
-        'under_review': applications.filter(status='under_review').count(),
-        'approved': applications.filter(status='approved').count(),
-        'rejected': applications.filter(status='rejected').count(),
-    }
-    
-    return JsonResponse(stats)
-
-# Error handling views
-def handler404(request, exception):
-    return render(request, 'student_portal/404.html', status=404)
-
-def handler500(request):
-    return render(request, 'student_portal/500.html', status=500)
-
-def handler403(request, exception):
-    return render(request, 'student_portal/403.html', status=403)
-
-def handler400(request, exception):
-    return render(request, 'student_portal/400.html', status=400)

@@ -10,20 +10,32 @@
     body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:#f9fafb; color:#111; margin: 0; padding: 0; }
     .container { max-width:1100px; margin:2rem auto; padding:1.5rem; background:#fff; border-radius:10px; box-shadow:0 6px 20px rgba(0,0,0,0.06); }
     h2 { color:#1a56db; text-align:center; }
+    h3 { color: #374151; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid #e5e7eb; }
     .step { display:none; }
     .step.active { display:block; }
     label { display:block; margin:0.5rem 0 0.25rem; font-weight:600; }
-    input, select, textarea { width:100%; padding:0.6rem; border:1px solid #ddd; border-radius:8px; }
+    input, select, textarea { width:100%; padding:0.6rem; border:1px solid #ddd; border-radius:8px; transition: border-color 0.2s; }
+    input:focus, select:focus, textarea:focus { outline: none; border-color: #1a56db; box-shadow: 0 0 0 3px rgba(29, 86, 219, 0.1); }
     .nav { display:flex; justify-content:space-between; margin-top:1.25rem; }
-    .btn { background:#1a56db; color:white; border:none; padding:0.6rem 1rem; border-radius:8px; cursor:pointer; }
+    .btn { background:#1a56db; color:white; border:none; padding:0.6rem 1rem; border-radius:8px; cursor:pointer; transition: background 0.2s; }
+    .btn:hover { background:#1e4bb8; }
+    .btn:disabled { background:#9ca3af; cursor:not-allowed; }
     .btn.secondary { background:#6b7280; }
+    .btn.secondary:hover { background:#4b5563; }
     .progress { display:flex; justify-content:center; gap:8px; margin-bottom:1rem; }
-    .dot { width:10px; height:10px; border-radius:50%; background:#ddd; }
+    .dot { width:10px; height:10px; border-radius:50%; background:#ddd; transition: background 0.3s; }
     .dot.active { background:#1a56db; }
     .errorlist { color: #b91c1c; margin-bottom: 0.5rem; }
     .messages { margin: 0.5rem 0; }
     .messages .success { color: green; }
     .messages .error { color: red; }
+    .field-error { color: #b91c1c; font-size: 0.875rem; margin-top: 0.25rem; display: none; }
+    .field-valid { color: #10b981; font-size: 0.875rem; margin-top: 0.25rem; display: none; }
+    .input-error { border-color: #b91c1c; }
+    .input-valid { border-color: #10b981; }
+    .required::after { content: " *"; color: #b91c1c; }
+    .field-hint { color: #6b7280; font-size: 0.75rem; margin-top: 0.25rem; }
+    .occupation-select { width: 100%; padding: 0.6rem; border: 1px solid #ddd; border-radius: 8px; }
   </style>
 </head>
 <body class="bg-gray-50">
@@ -98,95 +110,410 @@
       <!-- Step 1: Personal -->
       <div class="step active" id="step-1">
         <h3>Personal Information</h3>
-        {{ form.full_name.errors }}
-        <label for="{{ form.full_name.id_for_label }}">Full name</label>
-        {{ form.full_name }}
+        
+        <div class="field-group">
+          {{ form.full_name.errors }}
+          <label for="{{ form.full_name.id_for_label }}" class="required">Full name</label>
+          {{ form.full_name }}
+          <div class="field-error" id="full_name_error">Please enter a valid full name (letters and spaces only)</div>
+          <div class="field-valid" id="full_name_valid">Full name is valid</div>
+        </div>
 
-        {{ form.gender.errors }}
-        <label for="{{ form.gender.id_for_label }}">Gender</label>
-        {{ form.gender }}
+        <div class="field-group">
+          {{ form.gender.errors }}
+          <label for="{{ form.gender.id_for_label }}" class="required">Gender</label>
+          {{ form.gender }}
+          <div class="field-error" id="gender_error">Please select a gender</div>
+        </div>
 
-        {{ form.nationality.errors }}
-        <label for="{{ form.nationality.id_for_label }}">Nationality</label>
-        {{ form.nationality }}
+        <div class="field-group">
+          {{ form.nationality.errors }}
+          <label for="{{ form.nationality.id_for_label }}" class="required">Nationality</label>
+          {{ form.nationality }}
+          <div class="field-error" id="nationality_error">Please select a nationality</div>
+        </div>
 
-        {{ form.email.errors }}
-        <label for="{{ form.email.id_for_label }}">Email</label>
-        {{ form.email }}
+        <div class="field-group">
+          {{ form.email.errors }}
+          <label for="{{ form.email.id_for_label }}" class="required">Email</label>
+          {{ form.email }}
+          <div class="field-hint">Example: student@example.com</div>
+          <div class="field-error" id="email_error">Please enter a valid email address</div>
+          <div class="field-valid" id="email_valid">Email is valid</div>
+        </div>
 
-        {{ form.phone.errors }}
-        <label for="{{ form.phone.id_for_label }}">Phone</label>
-        {{ form.phone }}
+        <div class="field-group">
+          {{ form.phone.errors }}
+          <label for="{{ form.phone.id_for_label }}" class="required">Phone</label>
+          {{ form.phone }}
+          <div class="field-hint">Format: 10-15 digits only (e.g., 255712345678)</div>
+          <div class="field-error" id="phone_error">Please enter a valid phone number (digits only, 10-15 digits)</div>
+          <div class="field-valid" id="phone_valid">Phone number is valid</div>
+        </div>
 
-        {{ form.address.errors }}
-        <label for="{{ form.address.id_for_label }}">Address</label>
-        {{ form.address }}
+        <div class="field-group">
+          {{ form.address.errors }}
+          <label for="{{ form.address.id_for_label }}" class="required">Address</label>
+          {{ form.address }}
+          <div class="field-error" id="address_error">Please enter your address</div>
+          <div class="field-valid" id="address_valid">Address is valid</div>
+        </div>
       </div>
 
       <!-- Step 2: Parents -->
       <div class="step" id="step-2">
         <h3>Parents Details</h3>
-        <label>Father's Name</label>{{ form.father_name }}
-        <label>Father's Phone</label>{{ form.father_phone }}
-        <label>Father's Email</label>{{ form.father_email }}
-        <label>Father's Occupation</label>{{ form.father_occupation }}
+        
+        <div class="field-group">
+          <label for="{{ form.father_name.id_for_label }}">Father's Name</label>
+          {{ form.father_name }}
+          <div class="field-error" id="father_name_error">Please enter a valid name (letters and spaces only)</div>
+          <div class="field-valid" id="father_name_valid">Name is valid</div>
+        </div>
 
-        <label>Mother's Name</label>{{ form.mother_name }}
-        <label>Mother's Phone</label>{{ form.mother_phone }}
-        <label>Mother's Email</label>{{ form.mother_email }}
-        <label>Mother's Occupation</label>{{ form.mother_occupation }}
+        <div class="field-group">
+          <label for="{{ form.father_phone.id_for_label }}">Father's Phone</label>
+          {{ form.father_phone }}
+          <div class="field-hint">Format: 10-15 digits only (e.g., 255712345678)</div>
+          <div class="field-error" id="father_phone_error">Please enter a valid phone number (digits only, 10-15 digits)</div>
+          <div class="field-valid" id="father_phone_valid">Phone number is valid</div>
+        </div>
+
+        <div class="field-group">
+          <label for="{{ form.father_email.id_for_label }}">Father's Email</label>
+          {{ form.father_email }}
+          <div class="field-hint">Example: father@example.com</div>
+          <div class="field-error" id="father_email_error">Please enter a valid email address</div>
+          <div class="field-valid" id="father_email_valid">Email is valid</div>
+        </div>
+
+        <div class="field-group">
+          <label for="{{ form.father_occupation.id_for_label }}">Father's Occupation</label>
+          <select id="{{ form.father_occupation.id_for_label }}" name="{{ form.father_occupation.name }}" class="occupation-select">
+            <option value="">Select Occupation</option>
+            <option value="Accountant">Accountant</option>
+            <option value="Architect">Architect</option>
+            <option value="Business Owner">Business Owner</option>
+            <option value="Civil Servant">Civil Servant</option>
+            <option value="Doctor">Doctor</option>
+            <option value="Engineer">Engineer</option>
+            <option value="Farmer">Farmer</option>
+            <option value="Lawyer">Lawyer</option>
+            <option value="Lecturer">Lecturer</option>
+            <option value="Manager">Manager</option>
+            <option value="Nurse">Nurse</option>
+            <option value="Police Officer">Police Officer</option>
+            <option value="Salesperson">Salesperson</option>
+            <option value="Teacher">Teacher</option>
+            <option value="Technician">Technician</option>
+            <option value="Unemployed">Unemployed</option>
+            <option value="Other">Other (Please specify)</option>
+          </select>
+          <div class="field-error" id="father_occupation_error">Please select an occupation</div>
+        </div>
+
+        <div id="father_occupation_other_container" style="display: none;">
+          <label for="father_occupation_other">Specify Other Occupation</label>
+          <input type="text" id="father_occupation_other" name="father_occupation_other">
+        </div>
+
+        <div class="field-group">
+          <label for="{{ form.mother_name.id_for_label }}">Mother's Name</label>
+          {{ form.mother_name }}
+          <div class="field-error" id="mother_name_error">Please enter a valid name (letters and spaces only)</div>
+          <div class="field-valid" id="mother_name_valid">Name is valid</div>
+        </div>
+
+        <div class="field-group">
+          <label for="{{ form.mother_phone.id_for_label }}">Mother's Phone</label>
+          {{ form.mother_phone }}
+          <div class="field-hint">Format: 10-15 digits only (e.g., 255712345678)</div>
+          <div class="field-error" id="mother_phone_error">Please enter a valid phone number (digits only, 10-15 digits)</div>
+          <div class="field-valid" id="mother_phone_valid">Phone number is valid</div>
+        </div>
+
+        <div class="field-group">
+          <label for="{{ form.mother_email.id_for_label }}">Mother's Email</label>
+          {{ form.mother_email }}
+          <div class="field-hint">Example: mother@example.com</div>
+          <div class="field-error" id="mother_email_error">Please enter a valid email address</div>
+          <div class="field-valid" id="mother_email_valid">Email is valid</div>
+        </div>
+
+        <div class="field-group">
+          <label for="{{ form.mother_occupation.id_for_label }}">Mother's Occupation</label>
+          <select id="{{ form.mother_occupation.id_for_label }}" name="{{ form.mother_occupation.name }}" class="occupation-select">
+            <option value="">Select Occupation</option>
+            <option value="Accountant">Accountant</option>
+            <option value="Architect">Architect</option>
+            <option value="Business Owner">Business Owner</option>
+            <option value="Civil Servant">Civil Servant</option>
+            <option value="Doctor">Doctor</option>
+            <option value="Engineer">Engineer</option>
+            <option value="Farmer">Farmer</option>
+            <option value="Homemaker">Homemaker</option>
+            <option value="Lawyer">Lawyer</option>
+            <option value="Lecturer">Lecturer</option>
+            <option value="Manager">Manager</option>
+            <option value="Nurse">Nurse</option>
+            <option value="Police Officer">Police Officer</option>
+            <option value="Salesperson">Salesperson</option>
+            <option value="Teacher">Teacher</option>
+            <option value="Technician">Technician</option>
+            <option value="Unemployed">Unemployed</option>
+            <option value="Other">Other (Please specify)</option>
+          </select>
+          <div class="field-error" id="mother_occupation_error">Please select an occupation</div>
+        </div>
+
+        <div id="mother_occupation_other_container" style="display: none;">
+          <label for="mother_occupation_other">Specify Other Occupation</label>
+          <input type="text" id="mother_occupation_other" name="mother_occupation_other">
+        </div>
       </div>
 
       <!-- Step 3: O-Level -->
       <div class="step" id="step-3">
         <h3>O-Level Education</h3>
-        <label>School</label>{{ form.olevel_school }}
-        <label>Country</label>{{ form.olevel_country }}
-        <label>Address</label>{{ form.olevel_address }}
-        <label>Region</label>{{ form.olevel_region }}
-        <label>Completed Year</label>{{ form.olevel_year }}
-        <label>Candidate Number</label>{{ form.olevel_candidate_no }}
-        <label>GPA/Division</label>{{ form.olevel_gpa }}
+        
+        <div class="field-group">
+          <label for="{{ form.olevel_school.id_for_label }}" class="required">School</label>
+          {{ form.olevel_school }}
+          <div class="field-error" id="olevel_school_error">Please enter your school name</div>
+          <div class="field-valid" id="olevel_school_valid">School name is valid</div>
+        </div>
+
+        <div class="field-group">
+          <label for="{{ form.olevel_country.id_for_label }}" class="required">Country</label>
+          {{ form.olevel_country }}
+          <div class="field-error" id="olevel_country_error">Please select a country</div>
+        </div>
+
+        <div class="field-group">
+          <label for="{{ form.olevel_address.id_for_label }}" class="required">Address</label>
+          {{ form.olevel_address }}
+          <div class="field-error" id="olevel_address_error">Please enter the school address</div>
+          <div class="field-valid" id="olevel_address_valid">Address is valid</div>
+        </div>
+
+        <div class="field-group">
+          <label for="{{ form.olevel_region.id_for_label }}">Region</label>
+          {{ form.olevel_region }}
+          <div class="field-error" id="olevel_region_error">Please enter a valid region name</div>
+          <div class="field-valid" id="olevel_region_valid">Region is valid</div>
+        </div>
+
+        <div class="field-group">
+          <label for="{{ form.olevel_year.id_for_label }}" class="required">Completed Year</label>
+          {{ form.olevel_year }}
+          <div class="field-hint">Format: YYYY (e.g., 2020)</div>
+          <div class="field-error" id="olevel_year_error">Please enter a valid year (e.g., 2020)</div>
+          <div class="field-valid" id="olevel_year_valid">Year is valid</div>
+        </div>
+
+        <div class="field-group">
+          <label for="{{ form.olevel_candidate_no.id_for_label }}" class="required">Candidate Number</label>
+          {{ form.olevel_candidate_no }}
+          <div class="field-hint">Format: SXXXX/YYYY/NNNN (e.g., S1234/2020/0001)</div>
+          <div class="field-error" id="olevel_candidate_no_error">Please enter a valid candidate number in format SXXXX/YYYY/NNNN</div>
+          <div class="field-valid" id="olevel_candidate_no_valid">Candidate number is valid</div>
+        </div>
+
+        <div class="field-group">
+          <label for="{{ form.olevel_gpa.id_for_label }}" class="required">GPA/Division</label>
+          {{ form.olevel_gpa }}
+          <div class="field-hint">Examples: 3.5, First Class, Division I</div>
+          <div class="field-error" id="olevel_gpa_error">Please enter a valid GPA/Division (e.g., 3.5, First Class)</div>
+          <div class="field-valid" id="olevel_gpa_valid">GPA/Division is valid</div>
+        </div>
       </div>
 
       <!-- Step 4: A-Level -->
       <div class="step" id="step-4">
         <h3>A-Level Education</h3>
-        <label>School</label>{{ form.alevel_school }}
-        <label>Country</label>{{ form.alevel_country }}
-        <label>Address</label>{{ form.alevel_address }}
-        <label>Region</label>{{ form.alevel_region }}
-        <label>Completed Year</label>{{ form.alevel_year }}
-        <label>Candidate Number</label>{{ form.alevel_candidate_no }}
-        <label>GPA/Division</label>{{ form.alevel_gpa }}
+        
+        <div class="field-group">
+          <label for="{{ form.alevel_school.id_for_label }}">School</label>
+          {{ form.alevel_school }}
+          <div class="field-error" id="alevel_school_error">Please enter a valid school name</div>
+          <div class="field-valid" id="alevel_school_valid">School name is valid</div>
+        </div>
+
+        <div class="field-group">
+          <label for="{{ form.alevel_country.id_for_label }}">Country</label>
+          {{ form.alevel_country }}
+          <div class="field-error" id="alevel_country_error">Please select a country</div>
+        </div>
+
+        <div class="field-group">
+          <label for="{{ form.alevel_address.id_for_label }}">Address</label>
+          {{ form.alevel_address }}
+          <div class="field-error" id="alevel_address_error">Please enter a valid address</div>
+          <div class="field-valid" id="alevel_address_valid">Address is valid</div>
+        </div>
+
+        <div class="field-group">
+          <label for="{{ form.alevel_region.id_for_label }}">Region</label>
+          {{ form.alevel_region }}
+          <div class="field-error" id="alevel_region_error">Please enter a valid region name</div>
+          <div class="field-valid" id="alevel_region_valid">Region is valid</div>
+        </div>
+
+        <div class="field-group">
+          <label for="{{ form.alevel_year.id_for_label }}">Completed Year</label>
+          {{ form.alevel_year }}
+          <div class="field-hint">Format: YYYY (e.g., 2022)</div>
+          <div class="field-error" id="alevel_year_error">Please enter a valid year (e.g., 2022)</div>
+          <div class="field-valid" id="alevel_year_valid">Year is valid</div>
+        </div>
+
+        <div class="field-group">
+          <label for="{{ form.alevel_candidate_no.id_for_label }}">Candidate Number</label>
+          {{ form.alevel_candidate_no }}
+          <div class="field-hint">Format: SXXXX/YYYY/NNNN (e.g., S1234/2022/0001)</div>
+          <div class="field-error" id="alevel_candidate_no_error">Please enter a valid candidate number in format SXXXX/YYYY/NNNN</div>
+          <div class="field-valid" id="alevel_candidate_no_valid">Candidate number is valid</div>
+        </div>
+
+        <div class="field-group">
+          <label for="{{ form.alevel_gpa.id_for_label }}">GPA/Division</label>
+          {{ form.alevel_gpa }}
+          <div class="field-hint">Examples: 3.5, First Class, Division I</div>
+          <div class="field-error" id="alevel_gpa_error">Please enter a valid GPA/Division (e.g., 3.5, First Class)</div>
+          <div class="field-valid" id="alevel_gpa_valid">GPA/Division is valid</div>
+        </div>
       </div>
 
       <!-- Step 5: Preferences -->
       <div class="step" id="step-5">
         <h3>Study Preferences</h3>
-        <label>Preferred Country 1</label>{{ form.preferred_country_1 }}
-        <label>Preferred Country 2</label>{{ form.preferred_country_2 }}
-        <label>Preferred Country 3</label>{{ form.preferred_country_3 }}
-        <label>Preferred Country 4</label>{{ form.preferred_country_4 }}
+        
+        <div class="field-group">
+          <label for="{{ form.preferred_country_1.id_for_label }}" class="required">Preferred Country 1</label>
+          {{ form.preferred_country_1 }}
+          <div class="field-error" id="preferred_country_1_error">Please select a country</div>
+        </div>
 
-        <label>Preferred Program 1</label>{{ form.preferred_program_1 }}
-        <label>Preferred Program 2</label>{{ form.preferred_program_2 }}
-        <label>Preferred Program 3</label>{{ form.preferred_program_3 }}
-        <label>Preferred Program 4</label>{{ form.preferred_program_4 }}
+        <div class="field-group">
+          <label for="{{ form.preferred_country_2.id_for_label }}">Preferred Country 2</label>
+          {{ form.preferred_country_2 }}
+          <div class="field-error" id="preferred_country_2_error">Please select a country</div>
+        </div>
+
+        <div class="field-group">
+          <label for="{{ form.preferred_country_3.id_for_label }}">Preferred Country 3</label>
+          {{ form.preferred_country_3 }}
+          <div class="field-error" id="preferred_country_3_error">Please select a country</div>
+        </div>
+
+        <div class="field-group">
+          <label for="{{ form.preferred_country_4.id_for_label }}">Preferred Country 4</label>
+          {{ form.preferred_country_4 }}
+          <div class="field-error" id="preferred_country_4_error">Please select a country</div>
+        </div>
+
+        <div class="field-group">
+          <label for="{{ form.preferred_program_1.id_for_label }}" class="required">Preferred Program 1</label>
+          {{ form.preferred_program_1 }}
+          <div class="field-error" id="preferred_program_1_error">Please enter your preferred program</div>
+          <div class="field-valid" id="preferred_program_1_valid">Program is valid</div>
+        </div>
+
+        <div class="field-group">
+          <label for="{{ form.preferred_program_2.id_for_label }}">Preferred Program 2</label>
+          {{ form.preferred_program_2 }}
+          <div class="field-error" id="preferred_program_2_error">Please enter a valid program name</div>
+          <div class="field-valid" id="preferred_program_2_valid">Program is valid</div>
+        </div>
+
+        <div class="field-group">
+          <label for="{{ form.preferred_program_3.id_for_label }}">Preferred Program 3</label>
+          {{ form.preferred_program_3 }}
+          <div class="field-error" id="preferred_program_3_error">Please enter a valid program name</div>
+          <div class="field-valid" id="preferred_program_3_valid">Program is valid</div>
+        </div>
+
+        <div class="field-group">
+          <label for="{{ form.preferred_program_4.id_for_label }}">Preferred Program 4</label>
+          {{ form.preferred_program_4 }}
+          <div class="field-error" id="preferred_program_4_error">Please enter a valid program name</div>
+          <div class="field-valid" id="preferred_program_4_valid">Program is valid</div>
+        </div>
       </div>
 
       <!-- Step 6: Emergency & Submit -->
       <div class="step" id="step-6">
         <h3>Emergency Contact & Submit</h3>
-        <label>Emergency Name</label>{{ form.emergency_name }}
-        <label>Emergency Address</label>{{ form.emergency_address }}
-        <label>Emergency Occupation</label>{{ form.emergency_occupation }}
-        <label>Emergency Gender</label>{{ form.emergency_gender }}
-        <label>Emergency Relation</label>{{ form.emergency_relation }}
+        
+        <div class="field-group">
+          <label for="{{ form.emergency_name.id_for_label }}" class="required">Emergency Name</label>
+          {{ form.emergency_name }}
+          <div class="field-error" id="emergency_name_error">Please enter a valid name (letters and spaces only)</div>
+          <div class="field-valid" id="emergency_name_valid">Name is valid</div>
+        </div>
 
-        <label>How did you hear about us?</label>
-        {{ form.heard_about_us }}
-        <label>If other, specify</label>{{ form.heard_about_other }}
+        <div class="field-group">
+          <label for="{{ form.emergency_address.id_for_label }}" class="required">Emergency Address</label>
+          {{ form.emergency_address }}
+          <div class="field-error" id="emergency_address_error">Please enter the emergency contact address</div>
+          <div class="field-valid" id="emergency_address_valid">Address is valid</div>
+        </div>
+
+        <div class="field-group">
+          <label for="{{ form.emergency_occupation.id_for_label }}" class="required">Emergency Occupation</label>
+          <select id="{{ form.emergency_occupation.id_for_label }}" name="{{ form.emergency_occupation.name }}" class="occupation-select">
+            <option value="">Select Occupation</option>
+            <option value="Accountant">Accountant</option>
+            <option value="Architect">Architect</option>
+            <option value="Business Owner">Business Owner</option>
+            <option value="Civil Servant">Civil Servant</option>
+            <option value="Doctor">Doctor</option>
+            <option value="Engineer">Engineer</option>
+            <option value="Farmer">Farmer</option>
+            <option value="Lawyer">Lawyer</option>
+            <option value="Lecturer">Lecturer</option>
+            <option value="Manager">Manager</option>
+            <option value="Nurse">Nurse</option>
+            <option value="Police Officer">Police Officer</option>
+            <option value="Salesperson">Salesperson</option>
+            <option value="Teacher">Teacher</option>
+            <option value="Technician">Technician</option>
+            <option value="Unemployed">Unemployed</option>
+            <option value="Other">Other (Please specify)</option>
+          </select>
+          <div class="field-error" id="emergency_occupation_error">Please select an occupation</div>
+        </div>
+
+        <div id="emergency_occupation_other_container" style="display: none;">
+          <label for="emergency_occupation_other">Specify Other Occupation</label>
+          <input type="text" id="emergency_occupation_other" name="emergency_occupation_other">
+        </div>
+
+        <div class="field-group">
+          <label for="{{ form.emergency_gender.id_for_label }}" class="required">Emergency Gender</label>
+          {{ form.emergency_gender }}
+          <div class="field-error" id="emergency_gender_error">Please select a gender</div>
+        </div>
+
+        <div class="field-group">
+          <label for="{{ form.emergency_relation.id_for_label }}" class="required">Emergency Relation</label>
+          {{ form.emergency_relation }}
+          <div class="field-error" id="emergency_relation_error">Please enter your relationship to the emergency contact</div>
+          <div class="field-valid" id="emergency_relation_valid">Relationship is valid</div>
+        </div>
+
+        <div class="field-group">
+          <label for="{{ form.heard_about_us.id_for_label }}" class="required">How did you hear about us?</label>
+          {{ form.heard_about_us }}
+          <div class="field-error" id="heard_about_us_error">Please select how you heard about us</div>
+        </div>
+
+        <div class="field-group">
+          <label for="{{ form.heard_about_other.id_for_label }}">If other, specify</label>
+          {{ form.heard_about_other }}
+          <div class="field-error" id="heard_about_other_error">Please specify how you heard about us</div>
+          <div class="field-valid" id="heard_about_other_valid">Specification is valid</div>
+        </div>
 
         <div style="margin-top:1rem;">
           <label><input type="checkbox" id="declaration_check"> I confirm the information is correct</label>
@@ -214,6 +541,145 @@
   const declaration = document.getElementById('declaration_check');
   let current = 0;
 
+  // Common occupations list
+  const commonOccupations = [
+    "Accountant", "Architect", "Business Owner", "Civil Servant", "Doctor", 
+    "Engineer", "Farmer", "Homemaker", "Lawyer", "Lecturer", "Manager", 
+    "Nurse", "Police Officer", "Salesperson", "Teacher", "Technician", 
+    "Unemployed", "Other"
+  ];
+
+  // Validation functions
+  function validateName(name) {
+    return /^[A-Za-z\s\-']+$/.test(name) && name.length >= 2;
+  }
+
+  function validateEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+
+  function validatePhone(phone) {
+    return /^\d{10,15}$/.test(phone.replace(/\s/g, ''));
+  }
+
+  function validateYear(year) {
+    const currentYear = new Date().getFullYear();
+    return /^\d{4}$/.test(year) && year >= 1950 && year <= currentYear;
+  }
+
+  function validateGPA(gpa) {
+    return /^[A-Za-z0-9\s\.\-]+$/.test(gpa) && gpa.length >= 1;
+  }
+
+  function validateCandidateNumber(number) {
+    return /^S\d{4}\/\d{4}\/\d{4}$/.test(number);
+  }
+
+  function validateRequired(value) {
+    return value && value.trim().length > 0;
+  }
+
+  function validateSelect(value) {
+    return value && value !== '';
+  }
+
+  // Field validation functions
+  function validateField(field, type) {
+    const value = field.value.trim();
+    const errorElement = document.getElementById(`${field.id}_error`);
+    const validElement = document.getElementById(`${field.id}_valid`);
+    let isValid = false;
+
+    // Clear previous states
+    field.classList.remove('input-error', 'input-valid');
+    if (errorElement) errorElement.style.display = 'none';
+    if (validElement) validElement.style.display = 'none';
+
+    // Skip validation for empty optional fields
+    if (!field.hasAttribute('required') && value === '') {
+      return true;
+    }
+
+    // Validate based on field type
+    switch(type) {
+      case 'name':
+        isValid = validateName(value);
+        break;
+      case 'email':
+        isValid = validateEmail(value);
+        break;
+      case 'phone':
+        isValid = validatePhone(value);
+        break;
+      case 'year':
+        isValid = validateYear(value);
+        break;
+      case 'gpa':
+        isValid = validateGPA(value);
+        break;
+      case 'candidate':
+        isValid = validateCandidateNumber(value);
+        break;
+      case 'required':
+        isValid = validateRequired(value);
+        break;
+      case 'select':
+        isValid = validateSelect(value);
+        break;
+      default:
+        isValid = validateRequired(value);
+    }
+
+    // Update UI based on validation result
+    if (!isValid && value !== '') {
+      field.classList.add('input-error');
+      if (errorElement) errorElement.style.display = 'block';
+    } else if (isValid && value !== '') {
+      field.classList.add('input-valid');
+      if (validElement) validElement.style.display = 'block';
+    }
+
+    return isValid;
+  }
+
+  // Validate current step before proceeding
+  function validateStep(stepIndex) {
+    const step = steps[stepIndex];
+    const fields = step.querySelectorAll('input, select, textarea');
+    let isValid = true;
+
+    fields.forEach(field => {
+      if (field.hasAttribute('required') || field.value.trim() !== '') {
+        let validationType = 'required';
+        
+        // Determine validation type based on field ID or type
+        if (field.type === 'email' || field.id.includes('email')) {
+          validationType = 'email';
+        } else if (field.type === 'tel' || field.id.includes('phone')) {
+          validationType = 'phone';
+        } else if (field.tagName === 'SELECT') {
+          validationType = 'select';
+        } else if (field.id.includes('year')) {
+          validationType = 'year';
+        } else if (field.id.includes('gpa')) {
+          validationType = 'gpa';
+        } else if (field.id.includes('candidate_no')) {
+          validationType = 'candidate';
+        } else if (field.id.includes('name') || field.id.includes('school') || 
+                   field.id.includes('address') || field.id.includes('occupation') ||
+                   field.id.includes('program') || field.id.includes('relation')) {
+          validationType = field.id.includes('name') ? 'name' : 'required';
+        }
+        
+        if (!validateField(field, validationType)) {
+          isValid = false;
+        }
+      }
+    });
+
+    return isValid;
+  }
+
   function show(i){
     steps.forEach((s, idx)=> s.classList.toggle('active', idx===i));
     dots.forEach((d, idx)=> d.classList.toggle('active', idx===i));
@@ -221,10 +687,100 @@
     nextBtn.style.display = i === steps.length-1 ? 'none' : 'inline-block';
   }
 
-  prevBtn.addEventListener('click', ()=> { if(current>0) current--; show(current); });
-  nextBtn.addEventListener('click', ()=> { if(current<steps.length-1) current++; show(current); });
+  prevBtn.addEventListener('click', ()=> { 
+    if(current>0) {
+      current--; 
+      show(current); 
+    }
+  });
 
-  declaration.addEventListener('change', function(){ submitBtn.disabled = !this.checked; });
+  nextBtn.addEventListener('click', ()=> { 
+    if(validateStep(current)) {
+      if(current<steps.length-1) {
+        current++; 
+        show(current); 
+      }
+    } else {
+      alert('Please correct the errors before proceeding.');
+    }
+  });
+
+  // Add validation on input for real-time feedback
+  document.querySelectorAll('input, select, textarea').forEach(field => {
+    field.addEventListener('blur', function() {
+      let validationType = 'required';
+      
+      if (this.type === 'email' || this.id.includes('email')) {
+        validationType = 'email';
+      } else if (this.type === 'tel' || this.id.includes('phone')) {
+        validationType = 'phone';
+      } else if (this.tagName === 'SELECT') {
+        validationType = 'select';
+      } else if (this.id.includes('year')) {
+        validationType = 'year';
+      } else if (this.id.includes('gpa')) {
+        validationType = 'gpa';
+      } else if (this.id.includes('candidate_no')) {
+        validationType = 'candidate';
+      } else if (this.id.includes('name') || this.id.includes('school') || 
+                 this.id.includes('address') || this.id.includes('occupation') ||
+                 this.id.includes('program') || this.id.includes('relation')) {
+        validationType = this.id.includes('name') ? 'name' : 'required';
+      }
+      
+      validateField(this, validationType);
+    });
+  });
+
+  // Handle occupation "Other" option
+  function setupOccupationSelect(selectId, otherContainerId) {
+    const select = document.getElementById(selectId);
+    const otherContainer = document.getElementById(otherContainerId);
+    
+    if (select && otherContainer) {
+      select.addEventListener('change', function() {
+        if (this.value === 'Other') {
+          otherContainer.style.display = 'block';
+        } else {
+          otherContainer.style.display = 'none';
+        }
+      });
+    }
+  }
+
+  // Initialize occupation selects
+  setupOccupationSelect('{{ form.father_occupation.id_for_label }}', 'father_occupation_other_container');
+  setupOccupationSelect('{{ form.mother_occupation.id_for_label }}', 'mother_occupation_other_container');
+  setupOccupationSelect('{{ form.emergency_occupation.id_for_label }}', 'emergency_occupation_other_container');
+
+  declaration.addEventListener('change', function(){ 
+    submitBtn.disabled = !this.checked; 
+  });
+
+  // Form submission validation
+  document.getElementById('applicationForm').addEventListener('submit', function(e) {
+    let allValid = true;
+    
+    // Validate all steps
+    for (let i = 0; i < steps.length; i++) {
+      if (!validateStep(i)) {
+        allValid = false;
+      }
+    }
+    
+    if (!allValid) {
+      e.preventDefault();
+      alert('Please correct all errors before submitting the form.');
+      // Go to the first step with errors
+      for (let i = 0; i < steps.length; i++) {
+        if (!validateStep(i)) {
+          current = i;
+          show(current);
+          break;
+        }
+      }
+    }
+  });
 
   // Show first step
   show(current);
