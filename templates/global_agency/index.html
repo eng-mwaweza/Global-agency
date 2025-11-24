@@ -3,312 +3,98 @@
 {% block content %}
 {% include 'global_agency/includes/hero.html' %}
 
-<!-- Floating Action Buttons Container -->
-<div id="floatingButtons" class="fixed bottom-4 z-50 w-full px-4 pointer-events-none">
-    <div class="flex justify-between items-center max-w-7xl mx-auto">
-        <!-- Student Portal Button - Left Side -->
-        <a href="{% url 'student_portal:login' %}" 
-           id="studentPortalBtn"
-           class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 md:py-3 md:px-6 rounded-full shadow-lg pointer-events-auto transition-all duration-300 transform flex items-center gap-2 text-sm md:text-base min-h-[44px] min-w-[44px]">
-           <svg class="w-4 h-4 md:w-5 md:h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-           </svg>
-           <span class="hidden xs:inline">Student Portal</span>
-           <span class="xs:hidden">Portal</span>
-        </a>
+<!-- Responsive CSS for Floating Buttons -->
+<style>
+/* Default button responsiveness */
+#studentPortalBtn,
+#startApplicationBtn {
+    max-width: 90%;
+    font-size: 0.9rem;
+    padding: 10px 16px;
+}
 
-        <!-- Start Application Button - Right Side -->
-        <a href="{% url 'global_agency:start_application' %}" 
-           id="startApplicationBtn"
-           class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-4 md:py-3 md:px-6 rounded-full shadow-lg pointer-events-auto transition-all duration-300 transform flex items-center gap-2 text-sm md:text-base min-h-[44px] min-w-[44px]">
-           <svg class="w-4 h-4 md:w-5 md:h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-           </svg>
-           <span class="hidden xs:inline">Start Application</span>
-           <span class="xs:hidden">Apply</span>
-        </a>
-    </div>
-</div>
+/* Mobile Optimization */
+@media (max-width: 480px) {
+    #studentPortalBtn,
+    #startApplicationBtn {
+        bottom: 1rem !important;
+        width: calc(100% - 2rem);
+        left: 1rem !important;
+        right: 1rem !important;
+        justify-content: center;
+        border-radius: 50px;
+        gap: 6px;
+    }
 
-<!-- Alternative: Stacked Layout for Very Small Screens -->
-<div id="floatingButtonsStacked" class="fixed bottom-4 right-4 z-50 hidden pointer-events-none">
-    <div class="flex flex-col gap-2 items-end">
-        <!-- Student Portal Button -->
-        <a href="{% url 'student_portal:login' %}" 
-           class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-3 rounded-full shadow-lg pointer-events-auto transition-all duration-300 transform flex items-center gap-1 text-xs min-h-[44px] min-w-[44px]">
-           <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-           </svg>
-           Portal
-        </a>
+    #studentPortalBtn {
+        margin-bottom: 60px;
+    }
+}
+</style>
 
-        <!-- Start Application Button -->
-        <a href="{% url 'global_agency:start_application' %}" 
-           class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-3 rounded-full shadow-lg pointer-events-auto transition-all duration-300 transform flex items-center gap-1 text-xs min-h-[44px] min-w-[44px]">
-           <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-           </svg>
-           Apply
-        </a>
-    </div>
-</div>
+
+<!-- Floating Student Portal Button - Bottom Left -->
+<a href="{% url 'student_portal:login' %}" 
+   id="studentPortalBtn"
+   class="fixed bottom-6 left-6 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-full shadow-lg z-50 transition-all duration-300 transform flex items-center gap-2">
+   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+   </svg>
+   Student Portal
+</a>
+
+<!-- Floating Start Application Button - Bottom Right -->
+<a href="{% url 'global_agency:start_application' %}" 
+   id="startApplicationBtn"
+   class="fixed bottom-6 right-6 bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-full shadow-lg z-50 transition-all duration-300 transform flex items-center gap-2">
+   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+   </svg>
+   Start Application Now
+</a>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
+  // Handle scroll behavior for both buttons
+  document.addEventListener('DOMContentLoaded', function() {
     const studentBtn = document.getElementById('studentPortalBtn');
     const applicationBtn = document.getElementById('startApplicationBtn');
-    const floatingButtons = document.getElementById('floatingButtons');
-    const stackedButtons = document.getElementById('floatingButtonsStacked');
     
     let lastScrollTop = 0;
     let buttonsVisible = true;
-    let scrollThrottleTimer = null;
 
-    // Enhanced responsive layout handler
-    function handleResponsiveLayout() {
-        const width = window.innerWidth;
-        const height = window.innerHeight;
-        
-        // Ultra-small screens (phones in portrait < 400px)
-        if (width < 400) {
-            floatingButtons.classList.add('hidden');
-            stackedButtons.classList.remove('hidden');
-            
-            // Adjust position for very small screens
-            stackedButtons.style.bottom = '1rem';
-            stackedButtons.style.right = '1rem';
-        } 
-        // Small screens (phones 400px - 640px)
-        else if (width < 640) {
-            floatingButtons.classList.add('hidden');
-            stackedButtons.classList.remove('hidden');
-            stackedButtons.style.bottom = '1.5rem';
-            stackedButtons.style.right = '1.5rem';
-        }
-        // Medium and large screens
-        else {
-            floatingButtons.classList.remove('hidden');
-            stackedButtons.classList.add('hidden');
-        }
-        
-        // Adjust for landscape mobile with limited height
-        if (height < 500) {
-            floatingButtons.style.bottom = '0.5rem';
-            stackedButtons.style.bottom = '0.5rem';
-        } else {
-            floatingButtons.style.bottom = '1rem';
-            stackedButtons.style.bottom = '1rem';
-        }
-    }
+    window.addEventListener('scroll', function() {
+      const st = window.pageYOffset || document.documentElement.scrollTop;
 
-    // Optimized scroll behavior with throttle
-    function handleScroll() {
-        if (scrollThrottleTimer) return;
-        
-        scrollThrottleTimer = setTimeout(() => {
-            const st = window.pageYOffset || document.documentElement.scrollTop;
-            const scrollThreshold = 50; // Reduced for better mobile UX
+      if (st > lastScrollTop && st > 100) {
+        // Scrolling down → hide buttons
+        if (buttonsVisible) {
+          studentBtn.style.transform = 'translateY(100px)';
+          applicationBtn.style.transform = 'translateY(100px)';
+          buttonsVisible = false;
+        }
+      } else if (st < lastScrollTop) {
+        // Scrolling up → show buttons
+        if (!buttonsVisible) {
+          studentBtn.style.transform = 'translateY(0) scale(1)';
+          applicationBtn.style.transform = 'translateY(0) scale(1)';
+          buttonsVisible = true;
+        }
+      }
+      lastScrollTop = st <= 0 ? 0 : st;
+    });
 
-            if (st > lastScrollTop && st > scrollThreshold) {
-                // Scrolling down → hide buttons
-                if (buttonsVisible) {
-                    floatingButtons.style.transform = 'translateY(120px)';
-                    stackedButtons.style.transform = 'translateY(120px)';
-                    buttonsVisible = false;
-                }
-            } else if (st < lastScrollTop || st <= scrollThreshold) {
-                // Scrolling up or near top → show buttons
-                if (!buttonsVisible) {
-                    floatingButtons.style.transform = 'translateY(0)';
-                    stackedButtons.style.transform = 'translateY(0)';
-                    buttonsVisible = true;
-                }
-            }
-            lastScrollTop = st <= 0 ? 0 : st;
-            scrollThrottleTimer = null;
-        }, 50);
-    }
-
-    // Enhanced hover effects
-    function setupHoverEffects() {
-        const allButtons = [
-            studentBtn, 
-            applicationBtn,
-            ...stackedButtons.querySelectorAll('a')
-        ].filter(btn => btn);
-
-        allButtons.forEach(btn => {
-            btn.addEventListener('mouseenter', function() {
-                if (buttonsVisible && !isTouchDevice()) {
-                    this.style.transform = 'scale(1.08) translateY(-2px)';
-                }
-            });
-            btn.addEventListener('mouseleave', function() {
-                if (buttonsVisible && !isTouchDevice()) {
-                    this.style.transform = 'scale(1) translateY(0)';
-                }
-            });
-            
-            // Touch feedback for mobile
-            btn.addEventListener('touchstart', function() {
-                this.style.transform = 'scale(0.95)';
-            });
-            btn.addEventListener('touchend', function() {
-                setTimeout(() => {
-                    this.style.transform = 'scale(1)';
-                }, 150);
-            });
-        });
-    }
-
-    // Touch device detection
-    function isTouchDevice() {
-        return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-    }
-
-    // Enhanced touch optimizations
-    function setupTouchOptimizations() {
-        if (isTouchDevice()) {
-            // Increase tap target size and add touch feedback
-            const buttons = document.querySelectorAll('#floatingButtons a, #floatingButtonsStacked a');
-            buttons.forEach(btn => {
-                btn.classList.add('active:scale-95', 'transition-transform');
-            });
-            
-            // Reduce scroll sensitivity on touch devices
-            window.addEventListener('touchmove', handleScroll, { passive: true });
-        }
-    }
-
-    // Safe resize handler with debounce
-    let resizeTimer;
-    function handleResize() {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(handleResponsiveLayout, 100);
-    }
-
-    // Initialize everything
-    function init() {
-        handleResponsiveLayout();
-        setupHoverEffects();
-        setupTouchOptimizations();
-        
-        // Event listeners with proper options
-        window.addEventListener('scroll', handleScroll, { passive: true });
-        window.addEventListener('resize', handleResize);
-        window.addEventListener('orientationchange', handleResize);
-
-        // Smooth appearance animation
-        setTimeout(() => {
-            if (floatingButtons) floatingButtons.style.opacity = '1';
-            if (stackedButtons) stackedButtons.style.opacity = '1';
-        }, 100);
-    }
-
-    init();
-});
-
-// Enhanced CSS for better responsiveness
-const style = document.createElement('style');
-style.textContent = `
-    #floatingButtons, #floatingButtonsStacked {
-        opacity: 0;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    
-    /* Ultra-small mobile devices */
-    @media (max-width: 399px) {
-        #floatingButtons {
-            display: none !important;
-        }
-        #floatingButtonsStacked {
-            transform: scale(0.9);
-        }
-    }
-    
-    /* Small mobile devices */
-    @media (min-width: 400px) and (max-width: 639px) {
-        #floatingButtons {
-            display: none !important;
-        }
-    }
-    
-    /* Standard responsive breakpoints */
-    @media (min-width: 640px) {
-        #floatingButtonsStacked {
-            display: none !important;
-        }
-    }
-    
-    /* Mobile landscape optimization */
-    @media (max-height: 500px) and (orientation: landscape) {
-        #floatingButtons, #floatingButtonsStacked {
-            bottom: 0.5rem !important;
-            transform: scale(0.85);
-        }
-    }
-    
-    /* Very small height devices */
-    @media (max-height: 400px) {
-        #floatingButtons, #floatingButtonsStacked {
-            bottom: 0.25rem !important;
-            transform: scale(0.8);
-        }
-    }
-    
-    /* Large screens optimization */
-    @media (min-width: 1536px) {
-        #floatingButtons {
-            bottom: 2rem;
-        }
-    }
-    
-    /* High contrast mode support */
-    @media (prefers-contrast: high) {
-        #studentPortalBtn, #startApplicationBtn,
-        #floatingButtonsStacked a {
-            border: 2px solid white;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        }
-    }
-    
-    /* Reduced motion support */
-    @media (prefers-reduced-motion: reduce) {
-        #studentPortalBtn, #startApplicationBtn,
-        #floatingButtons, #floatingButtonsStacked,
-        #floatingButtonsStacked a {
-            transition: none;
-            animation: none;
-        }
-    }
-    
-    /* Dark mode support */
-    @media (prefers-color-scheme: dark) {
-        #studentPortalBtn, #startApplicationBtn,
-        #floatingButtonsStacked a {
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-        }
-    }
-    
-    /* Mobile browser bottom bar avoidance */
-    @media (max-height: 700px) and (orientation: portrait) {
-        #floatingButtons, #floatingButtonsStacked {
-            bottom: max(1rem, env(safe-area-inset-bottom));
-        }
-    }
-    
-    /* Safe area support for notched devices */
-    #floatingButtons {
-        padding-left: max(1rem, env(safe-area-inset-left));
-        padding-right: max(1rem, env(safe-area-inset-right));
-    }
-    
-    #floatingButtonsStacked {
-        right: max(1rem, env(safe-area-inset-right));
-    }
-`;
-document.head.appendChild(style);
+    // Hover scaling effect
+    [studentBtn, applicationBtn].forEach(btn => {
+      btn.addEventListener('mouseenter', function() {
+        if (buttonsVisible) this.style.transform = 'translateY(0) scale(1.05)';
+      });
+      btn.addEventListener('mouseleave', function() {
+        if (buttonsVisible) this.style.transform = 'translateY(0) scale(1)';
+      });
+    });
+  });
 </script>
+
 
 {% include 'global_agency/includes/about.html' %}
 {% include 'global_agency/includes/services.html' %}
