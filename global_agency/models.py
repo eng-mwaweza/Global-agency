@@ -88,7 +88,6 @@ class StudentApplication(models.Model):
     gender = models.CharField(max_length=20, choices=[
         ('male', 'Male'),
         ('female', 'Female'),
-        ('other', 'Other'),
     ])
     nationality = models.CharField(max_length=100, default="Tanzanian")
     email = models.EmailField()
@@ -141,7 +140,6 @@ class StudentApplication(models.Model):
     emergency_gender = models.CharField(max_length=20, choices=[
         ('male', 'Male'),
         ('female', 'Female'),
-        ('other', 'Other'),
     ])
     emergency_relation = models.CharField(max_length=100)
     heard_about_us = models.CharField(max_length=100, blank=True, null=True)

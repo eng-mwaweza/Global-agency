@@ -600,7 +600,7 @@
                 <div class="message-card contact-card">
                     <div class="message-header">
                         <div>
-                            <h4 style="margin: 0;">📧 {{ message.subject|default:"Contact Form Message" }}</h4>
+                            <h4 style="margin: 0;"><i class="fas fa-envelope"></i> {{ message.subject|default:"Contact Form Message" }}</h4>
                             <div class="message-meta">
                                 From: <strong>{{ message.name }}</strong> ({{ message.email }}) | 
                                 {{ message.created_at|date:"M d, Y H:i" }}
@@ -718,7 +718,7 @@
                 <div class="message-card contact-card">
                     <div class="message-header">
                         <div>
-                            <h4 style="margin: 0;">📧 {{ message.subject|default:"Contact Form Message" }}</h4>
+                            <h4 style="margin: 0;"><i class="fas fa-envelope"></i> {{ message.subject|default:"Contact Form Message" }}</h4>
                             <div class="message-meta">
                                 From: <strong>{{ message.name }}</strong> ({{ message.email }}) | 
                                 {{ message.created_at|date:"M d, Y H:i" }}

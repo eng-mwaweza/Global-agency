@@ -52,7 +52,7 @@
             color: white;
         }
         .container {
-            max-width: 800px;
+            max-width: 700px;
             margin: 0 auto;
         }
         .payment-container {
@@ -64,7 +64,7 @@
         .payment-header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 2rem;
+            padding: 1.5rem;
             text-align: center;
         }
         .payment-header h2 {
@@ -72,7 +72,7 @@
             margin-bottom: 0.5rem;
         }
         .payment-header .amount {
-            font-size: 3rem;
+            font-size: 2.5rem;
             font-weight: bold;
             margin: 1rem 0;
             text-shadow: 0 2px 4px rgba(0,0,0,0.2);
@@ -90,7 +90,7 @@
             margin-top: 0.5rem;
         }
         .payment-body {
-            padding: 2rem;
+            padding: 1.5rem;
         }
         .application-info {
             background: #f8f9fa;
@@ -402,11 +402,12 @@
             }
         }
     </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="header">
         <h1>
-            <span style="font-size: 1.75rem;">💳</span>
+            <span style="font-size: 1.75rem;"><i class="fas fa-credit-card"></i></span>
             Student Portal Payment
         </h1>
         <div class="nav-links">
@@ -435,7 +436,7 @@
                 {% if pending_payment %}
                 <div class="pending-payment">
                     <h3>
-                        <span style="font-size: 1.5rem;">⏳</span>
+                        <i class="fas fa-clock" style="color: #f59e0b;"></i>
                         Payment In Progress
                     </h3>
                     <p><strong>Status:</strong> {{ pending_payment.get_status_display|upper }}</p>
@@ -493,7 +494,7 @@
                     {% csrf_token %}
                     
                     <div class="payment-methods">
-                        <h3>💰 Select Payment Method</h3>
+                        <h3><i class="fas fa-money-bill-wave"></i> Select Payment Method</h3>
 
                         <!-- Mobile Money Option -->
                         <div class="method-card selected" id="mobileMoneyCard">
@@ -501,7 +502,7 @@
                             <input type="radio" name="payment_method" value="mobile_money" id="mobileMoney" checked>
                             <label for="mobileMoney" style="cursor: pointer; width: 100%;">
                                 <div class="method-header">
-                                    <div class="method-icon">📱</div>
+                                    <div class="method-icon"><i class="fas fa-mobile-alt"></i></div>
                                     <div class="method-info">
                                         <div class="method-title">Mobile Money (USSD)</div>
                                         <div class="method-description">Pay using M-Pesa, Tigo Pesa, Airtel Money, or HaloPesa</div>
@@ -533,7 +534,7 @@
                                 </div>
 
                                 <div class="info-box">
-                                    <h4>📱 How Mobile Money Payment Works:</h4>
+                                    <h4><i class="fas fa-mobile-alt"></i> How Mobile Money Payment Works:</h4>
                                     <ol>
                                         <li>Enter your mobile money phone number above</li>
                                         <li>Click "Pay Now" to initiate payment</li>
@@ -551,7 +552,7 @@
                             <input type="radio" name="payment_method" value="card" id="cardPayment">
                             <label for="cardPayment" style="cursor: pointer; width: 100%;">
                                 <div class="method-header">
-                                    <div class="method-icon">💳</div>
+                                    <div class="method-icon"><i class="fas fa-credit-card"></i></div>
                                     <div class="method-info">
                                         <div class="method-title">Credit/Debit Card</div>
                                         <div class="method-description">Pay with Visa or Mastercard (International)</div>
@@ -566,7 +567,7 @@
                                 </div>
 
                                 <div class="info-box">
-                                    <h4>💳 How Card Payment Works:</h4>
+                                    <h4><i class="fas fa-credit-card"></i> How Card Payment Works:</h4>
                                     <ol>
                                         <li>Click "Pay Now" to continue</li>
                                         <li>You'll be redirected to ClickPesa secure payment page</li>

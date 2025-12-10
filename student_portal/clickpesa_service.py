@@ -18,9 +18,18 @@ class ClickPesaService:
     """Service class for ClickPesa payment gateway integration"""
     
     def __init__(self):
+        # Import settings here to ensure latest values
+        from django.conf import settings
+        
         self.base_url = settings.CLICKPESA_BASE_URL
         self.client_id = settings.CLICKPESA_CLIENT_ID
         self.api_key = settings.CLICKPESA_API_KEY
+        
+        # Debug logging
+        logger.info(f"ClickPesa initialized with base_url: {self.base_url}")
+        logger.info(f"Client ID length: {len(self.client_id) if self.client_id else 0}")
+        logger.info(f"API Key length: {len(self.api_key) if self.api_key else 0}")
+        
         self._validate_credentials()
     
     def _validate_credentials(self):
@@ -40,11 +49,14 @@ class ClickPesaService:
     
     def _get_headers(self) -> Dict[str, str]:
         """Get authorization headers - try X-API-Key header"""
-        return {
+        headers = {
             'X-API-Key': self.api_key,
             'X-Client-Id': self.client_id,
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
         }
+        logger.debug(f"Request headers: X-Client-Id={self.client_id[:10]}..., X-API-Key={self.api_key[:10]}...")
+        return headers
     
     def _get_or_refresh_token(self) -> str:
         """ClickPesa uses direct API key authentication, no token needed"""

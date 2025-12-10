@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Portal Login</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -21,31 +20,6 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            position: relative;
-        }
-        
-        .home-link {
-            position: absolute;
-            top: 1.5rem;
-            left: 1.5rem;
-            background: white;
-            color: #007bff;
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .home-link:hover {
-            background: #007bff;
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
         }
         
         .login-container {
@@ -181,9 +155,10 @@
             margin-bottom: 1rem;
         }
         
-        .portal-logo i {
-            font-size: 3rem;
-            color: #007bff;
+        .portal-logo span {
+            font-size: 2.5rem;
+            display: inline-block;
+            margin-bottom: 0.5rem;
         }
         
         /* Mobile-specific styles */
@@ -191,13 +166,6 @@
             body {
                 padding: 0.5rem;
                 background: white;
-            }
-            
-            .home-link {
-                top: 0.75rem;
-                left: 0.75rem;
-                padding: 0.5rem 1rem;
-                font-size: 0.9rem;
             }
             
             .login-container {
@@ -214,13 +182,31 @@
                 font-size: 0.9rem;
             }
             
-            .portal-logo i {
-                font-size: 2.5rem;
+            .portal-logo span {
+                font-size: 2rem;
             }
             
             .btn-login:hover {
                 transform: none;
                 box-shadow: 0 4px 15px rgba(0,123,255,0.3);
+            }
+        }
+        
+        @media (max-width: 320px) {
+            .login-container {
+                padding: 1rem;
+            }
+            
+            .login-header h2 {
+                font-size: 1.25rem;
+            }
+            
+            .form-group input {
+                padding: 0.65rem 0.75rem;
+            }
+            
+            .btn-login {
+                padding: 0.75rem;
             }
         }
         
@@ -263,15 +249,9 @@
     </style>
 </head>
 <body>
-    <!-- Home Link -->
-    <a href="{% url 'global_agency:home' %}" class="home-link">
-        <i class="fas fa-home"></i>
-        <span>Back to Home</span>
-    </a>
-
     <div class="login-container">
         <div class="portal-logo">
-            <i class="fas fa-graduation-cap"></i>
+            <span>🎓</span>
         </div>
         
         <div class="login-header">
