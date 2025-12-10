@@ -1,26 +1,26 @@
 {% load static %}
 <nav class="bg-white shadow-md sticky top-0 z-50">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex justify-between items-center h-24">
+    <div class="flex justify-between items-center h-16">
 
       <!-- Logo -->
       <a href="{% url 'global_agency:home' %}">
         <img 
           src="{% static 'global_agency/img/logo.png' %}" 
           alt="Global Agency Logo" 
-          class="h-16 w-auto md:h-20 object-contain drop-shadow-lg"
+          class="h-12 w-auto md:h-16 object-contain drop-shadow-lg"
         />
       </a>
 
       <!-- Desktop Menu -->
-      <div class="hidden md:flex items-center space-x-6">
-        <ul class="flex items-center space-x-6">
-          <li><a href="{% url 'global_agency:home' %}" class="hover:text-primary-blue transition duration-150 font-semibold text-base md:text-lg">Home</a></li>
-          <li><a href="#about" class="hover:text-primary-blue transition duration-150 font-semibold text-base md:text-lg">About Us</a></li>
+      <div class="hidden md:flex items-center space-x-4">
+        <ul class="flex items-center space-x-4">
+          <li><a href="{% url 'global_agency:home' %}" class="hover:text-primary-blue transition duration-150 font-semibold text-xs md:text-base">Home</a></li>
+          <li><a href="#about" class="hover:text-primary-blue transition duration-150 font-semibold text-xs md:text-base">About Us</a></li>
           
           <!-- Services Dropdown -->
           <li class="relative group">
-            <button class="hover:text-primary-blue transition duration-150 font-semibold text-base md:text-lg flex items-center focus:outline-none">
+            <button class="hover:text-primary-blue transition duration-150 font-semibold text-xs md:text-base flex items-center focus:outline-none">
               Services
               <svg class="w-4 h-4 ml-1 transform group-hover:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
@@ -28,12 +28,12 @@
             </button>
             
             <!-- Services Dropdown Menu -->
-            <div class="absolute left-0 mt-2 w-80 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 border border-gray-200 z-50 transform origin-top">
-              <div class="p-4">
+            <div class="absolute left-0 mt-2 w-72 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 border border-gray-200 z-50 transform origin-top">
+              <div class="p-3">
                 <!-- Guidance & Selection -->
                 <a href="#services" class="flex items-center p-3 hover:bg-green-50 rounded-lg transition duration-150 group/service">
-                  <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
-                    <i class="fas fa-graduation-cap text-green-600 text-sm"></i>
+                  <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
+                    <i class="fas fa-graduation-cap text-green-600 text-xs"></i>
                   </div>
                   <div>
                     <h4 class="font-semibold text-gray-900 group-hover/service:text-primary-blue">Guidance & Selection</h4>
@@ -43,8 +43,8 @@
 
                 <!-- Visa & Passport -->
                 <a href="#services" class="flex items-center p-3 hover:bg-blue-50 rounded-lg transition duration-150 group/service mt-2">
-                  <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
-                    <i class="fas fa-passport text-blue-600 text-sm"></i>
+                  <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
+                    <i class="fas fa-passport text-blue-600 text-xs"></i>
                   </div>
                   <div>
                     <h4 class="font-semibold text-gray-900 group-hover/service:text-primary-blue">Visa & Passport</h4>
@@ -54,8 +54,8 @@
 
                 <!-- Study Loan Support -->
                 <a href="#services" class="flex items-center p-3 hover:bg-purple-50 rounded-lg transition duration-150 group/service mt-2">
-                  <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
-                    <i class="fas fa-hand-holding-usd text-purple-600 text-sm"></i>
+                  <div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
+                    <i class="fas fa-hand-holding-usd text-purple-600 text-xs"></i>
                   </div>
                   <div>
                     <h4 class="font-semibold text-gray-900 group-hover/service:text-primary-blue">Study Loan Support</h4>
@@ -65,8 +65,8 @@
 
                 <!-- University Selection -->
                 <a href="#services" class="flex items-center p-3 hover:bg-yellow-50 rounded-lg transition duration-150 group/service mt-2">
-                  <div class="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
-                    <i class="fas fa-university text-yellow-600 text-sm"></i>
+                  <div class="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
+                    <i class="fas fa-university text-yellow-600 text-xs"></i>
                   </div>
                   <div>
                     <h4 class="font-semibold text-gray-900 group-hover/service:text-primary-blue">University Selection</h4>
@@ -76,8 +76,8 @@
 
                 <!-- Travel Support -->
                 <a href="#services" class="flex items-center p-3 hover:bg-red-50 rounded-lg transition duration-150 group/service mt-2">
-                  <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
-                    <i class="fas fa-plane text-red-600 text-sm"></i>
+                  <div class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
+                    <i class="fas fa-plane text-red-600 text-xs"></i>
                   </div>
                   <div>
                     <h4 class="font-semibold text-gray-900 group-hover/service:text-primary-blue">Travel Support</h4>
@@ -87,8 +87,8 @@
 
                 <!-- Accommodation Support -->
                 <a href="#services" class="flex items-center p-3 hover:bg-indigo-50 rounded-lg transition duration-150 group/service mt-2">
-                  <div class="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
-                    <i class="fas fa-home text-indigo-600 text-sm"></i>
+                  <div class="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
+                    <i class="fas fa-home text-indigo-600 text-xs"></i>
                   </div>
                   <div>
                     <h4 class="font-semibold text-gray-900 group-hover/service:text-primary-blue">Accommodation Support</h4>
@@ -98,8 +98,8 @@
 
                 <!-- Language Support -->
                 <a href="#services" class="flex items-center p-3 hover:bg-pink-50 rounded-lg transition duration-150 group/service mt-2">
-                  <div class="w-10 h-10 bg-pink-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
-                    <i class="fas fa-language text-pink-600 text-sm"></i>
+                  <div class="w-8 h-8 bg-pink-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
+                    <i class="fas fa-language text-pink-600 text-xs"></i>
                   </div>
                   <div>
                     <h4 class="font-semibold text-gray-900 group-hover/service:text-primary-blue">Language Support</h4>
@@ -109,8 +109,8 @@
 
                 <!-- Direct Admission -->
                 <a href="#services" class="flex items-center p-3 hover:bg-teal-50 rounded-lg transition duration-150 group/service mt-2">
-                  <div class="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
-                    <i class="fas fa-user-graduate text-teal-600 text-sm"></i>
+                  <div class="w-8 h-8 bg-teal-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
+                    <i class="fas fa-user-graduate text-teal-600 text-xs"></i>
                   </div>
                   <div>
                     <h4 class="font-semibold text-gray-900 group-hover/service:text-primary-blue">Direct Admission</h4>
@@ -120,7 +120,7 @@
 
                 <!-- View All Services -->
                 <div class="mt-4 pt-3 border-t border-gray-200">
-                  <a href="#services" class="block text-center bg-primary-blue text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-700 transition duration-150 text-sm">
+                  <a href="#services" class="block text-center bg-primary-blue text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-700 transition duration-150 text-xs">
                     View All Services
                   </a>
                 </div>
@@ -130,7 +130,7 @@
           
           <!-- Universities Dropdown -->
           <li class="relative group">
-            <button class="hover:text-primary-blue transition duration-150 font-semibold text-base md:text-lg flex items-center focus:outline-none">
+            <button class="hover:text-primary-blue transition duration-150 font-semibold text-xs md:text-base flex items-center focus:outline-none">
               Universities
               <svg class="w-4 h-4 ml-1 transform group-hover:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
@@ -138,26 +138,26 @@
             </button>
             
             <!-- Universities Dropdown Menu -->
-            <div class="absolute left-0 mt-2 w-80 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 border border-gray-200 z-50 transform origin-top">
-              <div class="p-4">
+            <div class="absolute left-0 mt-2 w-72 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 border border-gray-200 z-50 transform origin-top">
+              <div class="p-3">
                 <!-- Local Universities Section -->
                 <div class="mb-4">
-                  <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wide mb-2">Vyuo Vya Ndani</h3>
-                  <a href="{% url 'global_agency:vyuo_ndani' %}" class="block py-2 px-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary-blue rounded transition duration-150">
+                  <h3 class="text-xs font-semibold text-gray-900 uppercase tracking-wide mb-2">Vyuo Vya Ndani</h3>
+                  <a href="{% url 'global_agency:vyuo_ndani' %}" class="block py-2 px-3 text-xs text-gray-700 hover:bg-blue-50 hover:text-primary-blue rounded transition duration-150">
                     All Local Universities
                   </a>
                 </div>
                 
                 <!-- Abroad Universities Section -->
                 <div class="mb-4">
-                  <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wide mb-2">Abroad Universities</h3>
-                  <a href="{% url 'global_agency:abroad_university_detail' 'harvard' %}" class="block py-2 px-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary-blue rounded transition duration-150">
+                  <h3 class="text-xs font-semibold text-gray-900 uppercase tracking-wide mb-2">Abroad Universities</h3>
+                  <a href="{% url 'global_agency:abroad_university_detail' 'harvard' %}" class="block py-2 px-3 text-xs text-gray-700 hover:bg-blue-50 hover:text-primary-blue rounded transition duration-150">
                     Harvard University
                   </a>
-                  <a href="{% url 'global_agency:abroad_university_detail' 'stanford' %}" class="block py-2 px-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary-blue rounded transition duration-150">
+                  <a href="{% url 'global_agency:abroad_university_detail' 'stanford' %}" class="block py-2 px-3 text-xs text-gray-700 hover:bg-blue-50 hover:text-primary-blue rounded transition duration-150">
                     Stanford University
                   </a>
-                  <a href="{% url 'global_agency:abroad_university_detail' 'mit' %}" class="block py-2 px-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary-blue rounded transition duration-150">
+                  <a href="{% url 'global_agency:abroad_university_detail' 'mit' %}" class="block py-2 px-3 text-xs text-gray-700 hover:bg-blue-50 hover:text-primary-blue rounded transition duration-150">
                     MIT
                   </a>
                 </div>
@@ -165,16 +165,16 @@
                 <!-- Countries Section -->
                 <div>
                   <h4 class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Browse Countries</h4>
-                  <a href="{% url 'global_agency:country_universities' 'usa' %}" class="block py-2 px-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary-blue rounded transition duration-150">
+                  <a href="{% url 'global_agency:country_universities' 'usa' %}" class="block py-2 px-3 text-xs text-gray-700 hover:bg-blue-50 hover:text-primary-blue rounded transition duration-150">
                     🇺🇸 USA Universities
                   </a>
-                  <a href="{% url 'global_agency:country_universities' 'uk' %}" class="block py-2 px-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary-blue rounded transition duration-150">
+                  <a href="{% url 'global_agency:country_universities' 'uk' %}" class="block py-2 px-3 text-xs text-gray-700 hover:bg-blue-50 hover:text-primary-blue rounded transition duration-150">
                     🇬🇧 UK Universities
                   </a>
-                  <a href="{% url 'global_agency:country_universities' 'canada' %}" class="block py-2 px-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary-blue rounded transition duration-150">
+                  <a href="{% url 'global_agency:country_universities' 'canada' %}" class="block py-2 px-3 text-xs text-gray-700 hover:bg-blue-50 hover:text-primary-blue rounded transition duration-150">
                     🇨🇦 Canada Universities
                   </a>
-                  <a href="{% url 'global_agency:all_countries' %}" class="block py-2 px-3 text-sm text-primary-blue font-semibold hover:bg-blue-50 rounded transition duration-150 mt-2">
+                  <a href="{% url 'global_agency:all_countries' %}" class="block py-2 px-3 text-xs text-primary-blue font-semibold hover:bg-blue-50 rounded transition duration-150 mt-2">
                     View All Countries →
                   </a>
                 </div>
@@ -184,16 +184,16 @@
 
           <li>
             <a href="{% url 'global_agency:tcu_services' %}" 
-               class="hover:text-primary-blue transition duration-150 font-semibold text-base md:text-lg">
+               class="hover:text-primary-blue transition duration-150 font-semibold text-xs md:text-base">
                TCU Services
             </a>
           </li>
 
-          <li><a href="#success" class="hover:text-primary-blue transition duration-150 font-semibold text-base md:text-lg">Success Stories</a></li>
+          <li><a href="#success" class="hover:text-primary-blue transition duration-150 font-semibold text-xs md:text-base">Success Stories</a></li>
         </ul>
 
         <a href="{% url 'global_agency:contact' %}"
-           class="bg-primary-blue text-white px-6 py-3 rounded-full text-sm md:text-base font-semibold shadow-lg hover:bg-blue-800 transition duration-300 transform hover:scale-105">
+           class="bg-primary-blue text-white px-6 py-3 rounded-full text-xs md:text-base font-semibold shadow-lg hover:bg-blue-800 transition duration-300 transform hover:scale-105">
            Book Free Consult
         </a>
       </div>
@@ -226,7 +226,7 @@
             
             <!-- Guidance & Selection -->
             <div class="px-6 py-3 border-b border-gray-200">
-              <a href="#services" class="flex items-center py-3 text-sm text-gray-700 hover:text-primary-blue transition duration-150">
+              <a href="#services" class="flex items-center py-3 text-xs text-gray-700 hover:text-primary-blue transition duration-150">
                 <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
                   <i class="fas fa-graduation-cap text-green-600 text-xs"></i>
                 </div>
@@ -239,7 +239,7 @@
             
             <!-- Visa & Passport -->
             <div class="px-6 py-3 border-b border-gray-200">
-              <a href="#services" class="flex items-center py-3 text-sm text-gray-700 hover:text-primary-blue transition duration-150">
+              <a href="#services" class="flex items-center py-3 text-xs text-gray-700 hover:text-primary-blue transition duration-150">
                 <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
                   <i class="fas fa-passport text-blue-600 text-xs"></i>
                 </div>
@@ -252,7 +252,7 @@
             
             <!-- Study Loan Support -->
             <div class="px-6 py-3 border-b border-gray-200">
-              <a href="#services" class="flex items-center py-3 text-sm text-gray-700 hover:text-primary-blue transition duration-150">
+              <a href="#services" class="flex items-center py-3 text-xs text-gray-700 hover:text-primary-blue transition duration-150">
                 <div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
                   <i class="fas fa-hand-holding-usd text-purple-600 text-xs"></i>
                 </div>
@@ -265,7 +265,7 @@
             
             <!-- University Selection -->
             <div class="px-6 py-3 border-b border-gray-200">
-              <a href="#services" class="flex items-center py-3 text-sm text-gray-700 hover:text-primary-blue transition duration-150">
+              <a href="#services" class="flex items-center py-3 text-xs text-gray-700 hover:text-primary-blue transition duration-150">
                 <div class="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
                   <i class="fas fa-university text-yellow-600 text-xs"></i>
                 </div>
@@ -278,7 +278,7 @@
             
             <!-- Travel Support -->
             <div class="px-6 py-3 border-b border-gray-200">
-              <a href="#services" class="flex items-center py-3 text-sm text-gray-700 hover:text-primary-blue transition duration-150">
+              <a href="#services" class="flex items-center py-3 text-xs text-gray-700 hover:text-primary-blue transition duration-150">
                 <div class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
                   <i class="fas fa-plane text-red-600 text-xs"></i>
                 </div>
@@ -291,7 +291,7 @@
             
             <!-- Accommodation Support -->
             <div class="px-6 py-3 border-b border-gray-200">
-              <a href="#services" class="flex items-center py-3 text-sm text-gray-700 hover:text-primary-blue transition duration-150">
+              <a href="#services" class="flex items-center py-3 text-xs text-gray-700 hover:text-primary-blue transition duration-150">
                 <div class="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
                   <i class="fas fa-home text-indigo-600 text-xs"></i>
                 </div>
@@ -304,7 +304,7 @@
             
             <!-- Language Support -->
             <div class="px-6 py-3 border-b border-gray-200">
-              <a href="#services" class="flex items-center py-3 text-sm text-gray-700 hover:text-primary-blue transition duration-150">
+              <a href="#services" class="flex items-center py-3 text-xs text-gray-700 hover:text-primary-blue transition duration-150">
                 <div class="w-8 h-8 bg-pink-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
                   <i class="fas fa-language text-pink-600 text-xs"></i>
                 </div>
@@ -317,7 +317,7 @@
             
             <!-- Direct Admission -->
             <div class="px-6 py-3">
-              <a href="#services" class="flex items-center py-3 text-sm text-gray-700 hover:text-primary-blue transition duration-150">
+              <a href="#services" class="flex items-center py-3 text-xs text-gray-700 hover:text-primary-blue transition duration-150">
                 <div class="w-8 h-8 bg-teal-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
                   <i class="fas fa-user-graduate text-teal-600 text-xs"></i>
                 </div>
@@ -330,7 +330,7 @@
             
             <!-- View All Services Button -->
             <div class="px-6 py-4 border-t border-gray-200">
-              <a href="#services" class="block text-center bg-primary-blue text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-700 transition duration-150 text-sm">
+              <a href="#services" class="block text-center bg-primary-blue text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-700 transition duration-150 text-xs">
                 View All Services
               </a>
             </div>
@@ -347,37 +347,37 @@
           </button>
           <div id="mobile-universities-menu" class="hidden bg-gray-50 transition-all duration-300 overflow-hidden">
             <div class="px-6 py-3 border-b border-gray-200">
-              <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wide mb-2">Vyuo Vya Ndani</h3>
-              <a href="{% url 'global_agency:vyuo_ndani' %}" class="block py-2 text-sm text-gray-700 hover:text-primary-blue transition duration-150">
+              <h3 class="text-xs font-semibold text-gray-900 uppercase tracking-wide mb-2">Vyuo Vya Ndani</h3>
+              <a href="{% url 'global_agency:vyuo_ndani' %}" class="block py-2 text-xs text-gray-700 hover:text-primary-blue transition duration-150">
                 All Local Universities
               </a>
             </div>
             
             <div class="px-6 py-3 border-b border-gray-200">
-              <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wide mb-2">Abroad Universities</h3>
-              <a href="{% url 'global_agency:abroad_university_detail' 'harvard' %}" class="block py-2 text-sm text-gray-700 hover:text-primary-blue transition duration-150">
+              <h3 class="text-xs font-semibold text-gray-900 uppercase tracking-wide mb-2">Abroad Universities</h3>
+              <a href="{% url 'global_agency:abroad_university_detail' 'harvard' %}" class="block py-2 text-xs text-gray-700 hover:text-primary-blue transition duration-150">
                 Harvard University
               </a>
-              <a href="{% url 'global_agency:abroad_university_detail' 'stanford' %}" class="block py-2 text-sm text-gray-700 hover:text-primary-blue transition duration-150">
+              <a href="{% url 'global_agency:abroad_university_detail' 'stanford' %}" class="block py-2 text-xs text-gray-700 hover:text-primary-blue transition duration-150">
                 Stanford University
               </a>
-              <a href="{% url 'global_agency:abroad_university_detail' 'mit' %}" class="block py-2 text-sm text-gray-700 hover:text-primary-blue transition duration-150">
+              <a href="{% url 'global_agency:abroad_university_detail' 'mit' %}" class="block py-2 text-xs text-gray-700 hover:text-primary-blue transition duration-150">
                 MIT
               </a>
             </div>
             
             <div class="px-6 py-3">
               <h4 class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Browse Countries</h4>
-              <a href="{% url 'global_agency:country_universities' 'usa' %}" class="block py-2 text-sm text-gray-700 hover:text-primary-blue transition duration-150">
+              <a href="{% url 'global_agency:country_universities' 'usa' %}" class="block py-2 text-xs text-gray-700 hover:text-primary-blue transition duration-150">
                 🇺🇸 USA Universities
               </a>
-              <a href="{% url 'global_agency:country_universities' 'uk' %}" class="block py-2 text-sm text-gray-700 hover:text-primary-blue transition duration-150">
+              <a href="{% url 'global_agency:country_universities' 'uk' %}" class="block py-2 text-xs text-gray-700 hover:text-primary-blue transition duration-150">
                 🇬🇧 UK Universities
               </a>
-              <a href="{% url 'global_agency:country_universities' 'canada' %}" class="block py-2 text-sm text-gray-700 hover:text-primary-blue transition duration-150">
+              <a href="{% url 'global_agency:country_universities' 'canada' %}" class="block py-2 text-xs text-gray-700 hover:text-primary-blue transition duration-150">
                 🇨🇦 Canada Universities
               </a>
-              <a href="{% url 'global_agency:all_countries' %}" class="block py-2 text-sm text-primary-blue font-semibold hover:text-blue-800 transition duration-150 mt-2">
+              <a href="{% url 'global_agency:all_countries' %}" class="block py-2 text-xs text-primary-blue font-semibold hover:text-blue-800 transition duration-150 mt-2">
                 View All Countries →
               </a>
             </div>
