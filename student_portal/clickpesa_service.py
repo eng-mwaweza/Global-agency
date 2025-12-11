@@ -205,10 +205,24 @@ class ClickPesaService:
                 else:
                     raise Exception(f"No token in response: {data}")
             else:
-                raise Exception(f"Token generation failed: {response.status_code} - {response.text}")
+                # If ClickPesa indicates an IP/whitelist issue, collect network diagnostics
+                resp_text = response.text or ''
+                logger.error(f"Token generation failed: {response.status_code} - {resp_text}")
+                if 'whitelist' in resp_text.lower() or 'ip address' in resp_text.lower() or 'ip' in resp_text.lower():
+                    logger.error("Detected possible IP whitelist issue during token generation. Gathering network diagnostics...")
+                    try:
+                        self._log_network_diagnostics()
+                    except Exception:
+                        logger.exception("Failed while collecting network diagnostics for token generation error")
+                raise Exception(f"Token generation failed: {response.status_code} - {resp_text}")
                 
         except Exception as e:
+            # Collect diagnostics for unexpected token generation errors as well
             logger.error(f"Token generation error: {e}")
+            try:
+                self._log_network_diagnostics()
+            except Exception:
+                logger.exception("Failed while collecting network diagnostics after token generation exception")
             raise e
     
     def _get_or_refresh_token(self) -> str:
@@ -334,11 +348,30 @@ class ClickPesaService:
             else:
                 error_msg = data.get('message') or data.get('error') or f"Preview failed with status {response.status_code}"
                 logger.error(f"USSD preview failed: {error_msg}")
+
+                # If the API response indicates an IP whitelist issue, collect network diagnostics
+                try:
+                    check_text = (error_msg + ' ' + response.text).lower()
+                except Exception:
+                    check_text = str(error_msg).lower()
+
+                if 'whitelist' in check_text or 'ip address' in check_text or 'ip' in check_text:
+                    logger.error("Detected possible IP whitelist issue in preview response. Gathering network diagnostics...")
+                    try:
+                        self._log_network_diagnostics()
+                    except Exception:
+                        logger.exception("Failed while collecting network diagnostics for preview error")
+
                 return False, data, error_msg
                 
         except requests.exceptions.RequestException as e:
             error_msg = f"Network error during preview: {str(e)}"
             logger.error(error_msg)
+            try:
+                logger.error("Network exception encountered during preview, gathering network diagnostics...")
+                self._log_network_diagnostics()
+            except Exception:
+                logger.exception("Failed while collecting network diagnostics after network exception")
             return False, {}, error_msg
         except Exception as e:
             error_msg = f"Preview request error: {str(e)}"
