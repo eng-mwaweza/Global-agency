@@ -156,6 +156,16 @@
         .status-approved { background: #28a745; color: white; }
         .status-rejected { background: #dc3545; color: white; }
         .status-selected { background: #6610f2; color: white; }
+        .status-pending_payment { background: #dc3545; color: white; }
+        
+        .payment-status-paid {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .payment-status-pending {
+            color: #dc3545;
+            font-weight: bold;
+        }
         
         .recent-applications {
             margin-top: 3rem;
@@ -339,11 +349,21 @@
                         <strong>{{ application.get_application_type_display }}</strong>
                         <br>
                         <small>{{ application.university_name }} - {{ application.course }}</small>
+                        <br>
+                        <small class="{% if application.is_paid %}payment-status-paid{% else %}payment-status-pending{% endif %}">
+                            Payment: {% if application.is_paid %}✓ PAID{% else %}✗ PENDING (TZS {{ application.payment_amount|floatformat:0 }}){% endif %}
+                        </small>
                     </div>
-                    <div>
+                    <div style="display: flex; flex-direction: column; gap: 0.5rem; align-items: flex-end;">
                         <span class="application-status status-{{ application.status }}">
                             {{ application.get_status_display }}
                         </span>
+                        {% if not application.is_paid %}
+                            <a href="{% url 'student_portal:make_payment' application.id %}" 
+                               style="background: #28a745; color: white; padding: 0.25rem 0.75rem; border-radius: 4px; text-decoration: none; font-size: 0.8rem;">
+                                Make Payment
+                            </a>
+                        {% endif %}
                     </div>
                 </div>
                 {% endfor %}

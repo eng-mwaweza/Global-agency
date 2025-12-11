@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.db import transaction
+from django.core.cache import cache
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -78,7 +80,7 @@ def student_dashboard(request):
     StudentProfile.objects.get_or_create(user=request.user)
     
     # Get student data
-    applications = Application.objects.filter(student=request.user)
+    applications = Application.objects.filter(student=request.user).select_related('student').prefetch_related('payment_set')
     documents = Document.objects.filter(student=request.user)
     unread_messages = Message.objects.filter(student=request.user, is_read=False)
     
@@ -280,6 +282,49 @@ def payment_page(request, application_id):
     response['Expires'] = '0'
     return response
 
+@login_required
+def make_payment(request, application_id):
+    """Enhanced payment retry functionality"""
+    application = get_object_or_404(Application, id=application_id, student=request.user)
+    
+    # Check if application is already paid
+    if application.is_paid:
+        messages.success(request, 'This application has already been paid for.')
+        return redirect('student_portal:application_detail', application_id=application.id)
+    
+    # Check for existing payments (failed or pending)
+    existing_payments = Payment.objects.filter(
+        application=application
+    ).order_by('-payment_date')
+    
+    pending_payment = existing_payments.filter(
+        status__in=['pending', 'processing']
+    ).first()
+    
+    failed_payments = existing_payments.filter(
+        status='failed'
+    )
+    
+    if request.method == 'POST':
+        # Cancel any pending payments before creating a new one
+        if pending_payment:
+            pending_payment.status = 'failed'
+            pending_payment.error_message = 'Cancelled by user for retry'
+            pending_payment.save()
+        
+        # Redirect to payment page to process the new payment
+        return redirect('student_portal:payment', application_id=application.id)
+    
+    context = {
+        'application': application,
+        'pending_payment': pending_payment,
+        'failed_payments': failed_payments,
+        'payment_amount': application.payment_amount,
+        'currency': settings.CURRENCY,
+    }
+    
+    return render(request, 'student_portal/make_payment.html', context)
+
 # ALL PAYMENT PROCESSING FUNCTIONS REMAIN THE SAME AS BEFORE
 def process_clickpesa_mobile_payment(request, application, phone_number):
     """Process mobile money payment through ClickPesa"""
@@ -289,8 +334,8 @@ def process_clickpesa_mobile_payment(request, application, phone_number):
         if phone_number.startswith('0'):
             phone_number = '255' + phone_number[1:]  # Tanzania country code
         
-        # Generate unique order reference
-        order_reference = f"APP{application.id}_{int(datetime.now().timestamp())}"
+        # Generate unique order reference (alphanumeric like Node.js script)
+        order_reference = clickpesa_service.generate_order_reference(application.id)
         
         # Step 1: Preview the payment
         success, preview_data, error_msg = clickpesa_service.preview_ussd_push(
@@ -906,7 +951,7 @@ def application_statistics(request):
     # Ensure student profile exists
     StudentProfile.objects.get_or_create(user=request.user)
     
-    applications = Application.objects.filter(student=request.user)
+    applications = Application.objects.filter(student=request.user).select_related('student').prefetch_related('payment_set')
     
     stats = {
         'total': applications.count(),

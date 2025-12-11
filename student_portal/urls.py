@@ -16,6 +16,7 @@ urlpatterns = [
     path('applications/<int:application_id>/', views.application_detail, name='application_detail'),
     path('applications/create/', views.create_application, name='create_application'),
     path('applications/<int:application_id>/payment/', views.payment_page, name='payment'),
+    path('applications/<int:application_id>/make-payment/', views.make_payment, name='make_payment'),
     
     # Payment verification and webhooks
     path('payment/<int:payment_id>/verify/', views.payment_verification, name='payment_verification'),

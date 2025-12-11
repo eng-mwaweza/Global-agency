@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Make Payment - Student Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 15px;
+        }
+        .header {
+            background: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .header h1 {
+            font-size: 1.25rem;
+            color: #667eea;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .nav-links a {
+            color: #667eea;
+            text-decoration: none;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        .nav-links a:hover {
+            background-color: rgba(102, 126, 234, 0.1);
+        }
+        .container {
+            max-width: 650px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            padding: 1.25rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        .payment-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        .payment-header h2 {
+            color: #333;
+            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+        }
+        .payment-header .subtitle {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        .application-info {
+            background: #f8f9ff;
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #667eea;
+        }
+        .application-info h3 {
+            color: #333;
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+        }
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+        .info-label {
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 0.25rem;
+            font-weight: 500;
+        }
+        .info-value {
+            font-size: 0.9rem;
+            color: #333;
+            font-weight: 600;
+        }
+        .amount-display {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 1rem;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .amount-display .currency {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        .amount-display .amount {
+            font-size: 1.75rem;
+            font-weight: bold;
+            margin: 0.25rem 0;
+        }
+        .payment-status {
+            margin-bottom: 1.5rem;
+        }
+        .status-section {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        .status-section h4 {
+            color: #333;
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .status-pending {
+            background: #fff3cd;
+            border-color: #ffc107;
+            color: #856404;
+        }
+        .status-failed {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+        .failed-payments {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .failed-payment-item {
+            background: #fff;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+        }
+        .payment-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-align: center;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        .btn-secondary:hover {
+            background: #5a6268;
+            transform: translateY(-1px);
+        }
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        .alert-info {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+        }
+        .alert-warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+        }
+        @media (max-width: 768px) {
+            .container {
+                margin: 0;
+                border-radius: 12px;
+                padding: 1rem;
+            }
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            .payment-actions {
+                flex-direction: column;
+            }
+            .nav-links {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>
+            <i class="fas fa-credit-card"></i>
+            Make Payment
+        </h1>
+        <nav class="nav-links">
+            <a href="{% url 'student_portal:dashboard' %}">Dashboard</a>
+            <a href="{% url 'student_portal:applications' %}">Applications</a>
+            <a href="{% url 'student_portal:logout' %}">Logout</a>
+        </nav>
+    </div>
+
+    <div class="container">
+        <div class="payment-header">
+            <h2>Complete Your Payment</h2>
+            <div class="subtitle">Secure payment processing for your application</div>
+        </div>
+
+        <div class="application-info">
+            <h3>Application Details</h3>
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="info-label">Application Type</div>
+                    <div class="info-value">{{ application.get_application_type_display }}</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Status</div>
+                    <div class="info-value">{{ application.get_status_display }}</div>
+                </div>
+                {% if application.university_name %}
+                <div class="info-item">
+                    <div class="info-label">University</div>
+                    <div class="info-value">{{ application.university_name }}</div>
+                </div>
+                {% endif %}
+                {% if application.course %}
+                <div class="info-item">
+                    <div class="info-label">Course</div>
+                    <div class="info-value">{{ application.course }}</div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="amount-display">
+            <div class="currency">Amount to Pay</div>
+            <div class="amount">{{ currency }} {{ payment_amount|floatformat:0 }}</div>
+            <div class="currency">Application Processing Fee</div>
+        </div>
+
+        {% if pending_payment %}
+        <div class="status-section status-pending">
+            <h4>
+                <i class="fas fa-clock"></i>
+                Pending Payment Found
+            </h4>
+            <div class="alert alert-warning">
+                <strong>You have a pending payment for this application.</strong><br>
+                Started: {{ pending_payment.payment_date|date:"M d, Y H:i" }}<br>
+                Status: {{ pending_payment.get_status_display }}<br>
+                <small>You can retry the payment which will cancel the pending one.</small>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if failed_payments %}
+        <div class="status-section status-failed">
+            <h4>
+                <i class="fas fa-times-circle"></i>
+                Previous Payment Attempts ({{ failed_payments.count }})
+            </h4>
+            <div class="failed-payments">
+                {% for payment in failed_payments|slice:":3" %}
+                <div class="failed-payment-item">
+                    <strong>Attempt {{ forloop.counter }}:</strong> {{ payment.payment_date|date:"M d, Y H:i" }}<br>
+                    <small>Method: {{ payment.get_payment_method_display }} | Error: {{ payment.error_message|default:"Payment failed" }}</small>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="alert alert-info">
+            <strong>Payment Instructions:</strong><br>
+            • Clicking "Retry Payment" will take you to the secure payment page<br>
+            • Any pending payments will be automatically cancelled<br>
+            • You can pay using Mobile Money (M-Pesa, Tigo Pesa, Airtel Money)<br>
+            • Payment confirmation is usually instant
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="payment-actions">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-redo"></i>
+                    {% if pending_payment %}Retry Payment{% else %}Make Payment{% endif %}
+                </button>
+                <a href="{% url 'student_portal:applications' %}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Applications
+                </a>
+            </div>
+        </form>
+    </div>
+
+    <!-- FontAwesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</body>
+</html>

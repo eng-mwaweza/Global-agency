@@ -16,6 +16,7 @@ LOGOUT_REDIRECT_URL = '/employee/login/'
 CLICKPESA_CLIENT_ID = config('CLICKPESA_CLIENT_ID', default='')
 CLICKPESA_API_KEY = config('CLICKPESA_API_KEY', default='')
 CLICKPESA_BASE_URL = config('CLICKPESA_BASE_URL', default='https://api.clickpesa.com/third-parties')
+CLICKPESA_CHECKSUM = config('CLICKPESA_CHECKSUM', default='')
 
 # Payment Gateway Selection
 PAYMENT_GATEWAY = config('PAYMENT_GATEWAY', default='clickpesa')  # 'clickpesa' or 'azampay'
@@ -205,3 +206,229 @@ LOGGING = {
         },
     },
 }
+
+# =============================================================================
+# SECURITY SETTINGS - Production Ready
+# =============================================================================
+
+# Security Headers
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
+X_FRAME_OPTIONS = 'DENY'
+
+# HTTPS Settings (Enable in production)
+# SECURE_SSL_REDIRECT = True
+# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+# SECURE_HSTS_SECONDS = 31536000  # 1 year
+# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+# SECURE_HSTS_PRELOAD = True
+
+# Session Security
+SESSION_COOKIE_SECURE = False  # Set to True in production with HTTPS
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SAMESITE = 'Strict'
+SESSION_COOKIE_AGE = 3600  # 1 hour
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_SAVE_EVERY_REQUEST = True
+
+# CSRF Protection
+CSRF_COOKIE_SECURE = False  # Set to True in production with HTTPS
+CSRF_COOKIE_HTTPONLY = True
+CSRF_COOKIE_SAMESITE = 'Strict'
+CSRF_FAILURE_VIEW = 'django.views.csrf.csrf_failure'
+CSRF_USE_SESSIONS = True
+
+# Password Validation (Enhanced)
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 8,
+        }
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+]
+
+# File Upload Security
+FILE_UPLOAD_MAX_MEMORY_SIZE = 5242880  # 5MB
+DATA_UPLOAD_MAX_MEMORY_SIZE = 5242880  # 5MB
+FILE_UPLOAD_PERMISSIONS = 0o644
+DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+
+# Allowed File Extensions
+ALLOWED_UPLOAD_EXTENSIONS = [
+    '.pdf', '.doc', '.docx', '.jpg', '.jpeg', '.png', '.gif', '.txt'
+]
+
+# Content Security Policy Headers (Add django-csp if needed)
+# CSP_DEFAULT_SRC = ("'self'",)
+# CSP_SCRIPT_SRC = ("'self'", "'unsafe-inline'", "cdn.tailwindcss.com", "cdnjs.cloudflare.com")
+# CSP_STYLE_SRC = ("'self'", "'unsafe-inline'", "fonts.googleapis.com", "cdnjs.cloudflare.com")
+# CSP_FONT_SRC = ("'self'", "fonts.gstatic.com", "cdnjs.cloudflare.com")
+# CSP_IMG_SRC = ("'self'", "data:")
+
+# Rate Limiting (Add django-ratelimit if needed)
+# RATELIMIT_ENABLE = True
+# RATELIMIT_VIEW = 'django_ratelimit.decorators.ratelimit'
+
+# Admin Security
+ADMIN_URL = 'secure-admin-panel/'  # Change default admin URL
+ADMIN_ENABLED = True
+
+# Database Security
+CONN_MAX_AGE = 600  # Connection pooling - 10 minutes
+CONN_HEALTH_CHECKS = True
+
+# =============================================================================
+# PERFORMANCE OPTIMIZATION SETTINGS
+# =============================================================================
+
+# Caching Configuration
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'global-agency-cache',
+        'TIMEOUT': 300,  # 5 minutes
+        'OPTIONS': {
+            'MAX_ENTRIES': 1000,
+            'CULL_FREQUENCY': 3,
+        }
+    }
+}
+
+# Template Caching
+# Only set the cached loader when not in DEBUG. When using custom loaders,
+# APP_DIRS must not be True. We keep APP_DIRS=True in DEBUG for easier dev,
+# and enable cached loader in production by setting APP_DIRS to False and
+# providing the cached loader. This avoids the "app_dirs must not be set when
+# loaders is defined" ImproperlyConfigured error.
+if not DEBUG:
+    # Disable APP_DIRS when providing explicit loaders
+    TEMPLATES[0]['APP_DIRS'] = False
+    TEMPLATES[0]['OPTIONS']['loaders'] = [
+        ('django.template.loaders.cached.Loader', [
+            'django.template.loaders.filesystem.Loader',
+            'django.template.loaders.app_directories.Loader',
+        ]),
+    ]
+
+# Static Files Optimization
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+]
+
+# Compression (Add django-compressor if needed)
+# COMPRESS_ENABLED = True
+# COMPRESS_CSS_FILTERS = ['compressor.filters.css_default.CssAbsoluteFilter']
+# COMPRESS_JS_FILTERS = ['compressor.filters.jsmin.JSMinFilter']
+
+# Database Optimization
+DATABASES['default'].update({
+    'CONN_MAX_AGE': CONN_MAX_AGE,
+    'CONN_HEALTH_CHECKS': CONN_HEALTH_CHECKS,
+    'OPTIONS': {
+        'timeout': 20,
+        'check_same_thread': False,
+    } if 'sqlite' in DATABASES['default']['ENGINE'] else {}
+})
+
+# =============================================================================
+# LOGGING CONFIGURATION
+# =============================================================================
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': 'logs/django.log',
+            'formatter': 'verbose',
+        },
+        'security_file': {
+            'level': 'WARNING',
+            'class': 'logging.FileHandler',
+            'filename': 'logs/security.log',
+            'formatter': 'verbose',
+        },
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file', 'console'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'django.security': {
+            'handlers': ['security_file'],
+            'level': 'WARNING',
+            'propagate': False,
+        },
+        'student_portal': {
+            'handlers': ['file', 'console'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'global_agency': {
+            'handlers': ['file', 'console'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+    },
+}
+
+# =============================================================================
+# CUSTOM SECURITY MIDDLEWARE
+# =============================================================================
+
+# Add custom middleware to MIDDLEWARE list
+SECURITY_MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # Add custom security middleware here if needed
+]
+
+# Update MIDDLEWARE if it exists
+if 'MIDDLEWARE' in locals() or 'MIDDLEWARE' in globals():
+    MIDDLEWARE = SECURITY_MIDDLEWARE
+
+# Performance Settings
+SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
+SESSION_CACHE_ALIAS = 'default'
+
+# Static files optimization
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
+
+# Email backend for development
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

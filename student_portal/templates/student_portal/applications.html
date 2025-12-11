@@ -128,6 +128,25 @@
         .status-approved { background: #28a745; color: white; }
         .status-rejected { background: #dc3545; color: white; }
         .status-selected { background: #6610f2; color: white; }
+        .status-pending_payment { background: #dc3545; color: white; }
+        
+        .payment-status-paid {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .payment-status-pending {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        
+        .btn-payment {
+            background: #28a745 !important;
+            color: white;
+            border: none;
+        }
+        .btn-payment:hover {
+            background: #218838 !important;
+        }
         .application-details {
             color: #666;
             margin-bottom: 1rem;
@@ -309,6 +328,17 @@
                     {% endif %}
                 </div>
 
+                <div class="application-details">
+                    <p><strong>Amount:</strong> TZS {{ application.payment_amount|floatformat:0 }}</p>
+                    <p><strong>Payment Status:</strong> 
+                        {% if application.is_paid %}
+                            <span style="color: #28a745; font-weight: bold;">✓ PAID</span>
+                        {% else %}
+                            <span style="color: #dc3545; font-weight: bold;">✗ PENDING PAYMENT</span>
+                        {% endif %}
+                    </p>
+                </div>
+
                 <div class="application-meta">
                     <span>Created: {{ application.created_at|date:"M d, Y" }}</span>
                     {% if application.submission_date %}
@@ -316,8 +346,11 @@
                     {% endif %}
                 </div>
 
-                <div style="margin-top: 1rem;">
+                <div style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
                     <a href="{% url 'student_portal:application_detail' application.id %}" class="btn-primary" style="padding: 0.5rem 1rem; font-size: 0.875rem;">View Details</a>
+                    {% if not application.is_paid %}
+                        <a href="{% url 'student_portal:make_payment' application.id %}" class="btn-primary" style="padding: 0.5rem 1rem; font-size: 0.875rem; background: #28a745;">Make Payment</a>
+                    {% endif %}
                 </div>
             </div>
             {% endfor %}
