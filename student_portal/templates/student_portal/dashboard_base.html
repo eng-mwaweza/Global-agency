@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Student Dashboard{% endblock %} - Global Agency Study Experts</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .sidebar-link.active {
+            background-color: #3b82f6;
+            color: white;
+        }
+        .sidebar-link:hover {
+            background-color: #eff6ff;
+        }
+        .sidebar-link.active:hover {
+            background-color: #2563eb;
+        }
+        .progress-bar {
+            transition: width 0.3s ease;
+        }
+        
+        /* Form Input Styling */
+        .form-input, input[type="text"], input[type="email"], input[type="date"], 
+        input[type="tel"], input[type="number"], input[type="file"], 
+        textarea, select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background-color: white;
+        }
+        
+        .form-input:focus, input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        .form-input:hover, input:hover, textarea:hover, select:hover {
+            border-color: #9ca3af;
+        }
+        
+        /* Select dropdown styling */
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+            padding-right: 2.5rem;
+        }
+        
+        /* File input special styling */
+        input[type="file"] {
+            padding: 0.5rem;
+        }
+        
+        /* Textarea */
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        /* Labels */
+        label {
+            display: block;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Error messages */
+        .errorlist {
+            list-style: none;
+            padding: 0;
+            margin: 0.5rem 0 0 0;
+        }
+        
+        .errorlist li {
+            color: #dc2626;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Top Navigation Bar -->
+    <nav class="bg-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <h1 class="text-xl font-bold text-blue-600">Global Agency Study Experts</h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="text-gray-700">Welcome, {{ user.first_name }}</span>
+                    <a href="{% url 'student_portal:profile' %}" class="text-blue-600 hover:text-blue-800">
+                        <i class="fas fa-user-circle text-2xl"></i>
+                    </a>
+                    <a href="{% url 'student_portal:logout' %}" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">
+                        <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="flex">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white min-h-screen shadow-lg">
+            <div class="p-6">
+                <!-- Profile Picture Section -->
+                <div class="text-center mb-6">
+                    {% if user.studentprofile.profile_picture %}
+                        <img src="{{ user.studentprofile.profile_picture.url }}" alt="Profile" class="w-24 h-24 rounded-full mx-auto mb-3 border-4 border-blue-500">
+                    {% else %}
+                        <div class="w-24 h-24 rounded-full mx-auto mb-3 bg-blue-500 flex items-center justify-center">
+                            <i class="fas fa-user text-white text-4xl"></i>
+                        </div>
+                    {% endif %}
+                    <h3 class="font-semibold text-gray-800">{{ user.first_name }} {{ user.last_name }}</h3>
+                    <p class="text-sm text-gray-500">{{ user.email }}</p>
+                </div>
+
+                <!-- Profile Completion -->
+                <div class="mb-6">
+                    <div class="flex justify-between text-sm mb-1">
+                        <span class="text-gray-600">Profile Completion</span>
+                        <span class="font-semibold text-blue-600">{{ profile_completion }}%</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="progress-bar bg-blue-600 h-2 rounded-full" style="width: {{ profile_completion }}%"></div>
+                    </div>
+                </div>
+
+                <!-- Navigation Menu -->
+                <nav class="space-y-1">
+                    <a href="{% url 'student_portal:dashboard' %}" class="sidebar-link flex items-center px-4 py-3 text-gray-700 rounded-lg {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+                        <i class="fas fa-home mr-3"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    
+                    <a href="{% url 'student_portal:personal_details' %}" class="sidebar-link flex items-center px-4 py-3 text-gray-700 rounded-lg {% if request.resolver_match.url_name == 'personal_details' %}active{% endif %}">
+                        <i class="fas fa-user mr-3"></i>
+                        <span>Personal Details</span>
+                        {% if user.studentprofile.personal_details_complete %}
+                            <i class="fas fa-check-circle text-green-500 ml-auto"></i>
+                        {% endif %}
+                    </a>
+                    
+                    <a href="{% url 'student_portal:parents_details' %}" class="sidebar-link flex items-center px-4 py-3 text-gray-700 rounded-lg {% if request.resolver_match.url_name == 'parents_details' %}active{% endif %}">
+                        <i class="fas fa-users mr-3"></i>
+                        <span>Parents Details</span>
+                        {% if user.studentprofile.parents_details_complete %}
+                            <i class="fas fa-check-circle text-green-500 ml-auto"></i>
+                        {% endif %}
+                    </a>
+                    
+                    <a href="{% url 'student_portal:academic_qualifications' %}" class="sidebar-link flex items-center px-4 py-3 text-gray-700 rounded-lg {% if request.resolver_match.url_name == 'academic_qualifications' %}active{% endif %}">
+                        <i class="fas fa-graduation-cap mr-3"></i>
+                        <span>Academic Qualifications</span>
+                        {% if user.studentprofile.academic_qualifications_complete %}
+                            <i class="fas fa-check-circle text-green-500 ml-auto"></i>
+                        {% endif %}
+                    </a>
+                    
+                    <a href="{% url 'student_portal:study_preferences' %}" class="sidebar-link flex items-center px-4 py-3 text-gray-700 rounded-lg {% if request.resolver_match.url_name == 'study_preferences' %}active{% endif %}">
+                        <i class="fas fa-globe mr-3"></i>
+                        <span>Study Preferences</span>
+                        {% if user.studentprofile.study_preferences_complete %}
+                            <i class="fas fa-check-circle text-green-500 ml-auto"></i>
+                        {% endif %}
+                    </a>
+                    
+                    <a href="{% url 'student_portal:emergency_contact' %}" class="sidebar-link flex items-center px-4 py-3 text-gray-700 rounded-lg {% if request.resolver_match.url_name == 'emergency_contact' %}active{% endif %}">
+                        <i class="fas fa-phone-alt mr-3"></i>
+                        <span>Emergency Contact</span>
+                        {% if user.studentprofile.emergency_contact_complete %}
+                            <i class="fas fa-check-circle text-green-500 ml-auto"></i>
+                        {% endif %}
+                    </a>
+                    
+                    <hr class="my-4">
+                    
+                    <a href="{% url 'student_portal:applications' %}" class="sidebar-link flex items-center px-4 py-3 text-gray-700 rounded-lg {% if request.resolver_match.url_name == 'applications' %}active{% endif %}">
+                        <i class="fas fa-file-alt mr-3"></i>
+                        <span>My Applications</span>
+                    </a>
+                    
+                    <a href="{% url 'student_portal:documents' %}" class="sidebar-link flex items-center px-4 py-3 text-gray-700 rounded-lg {% if request.resolver_match.url_name == 'documents' %}active{% endif %}">
+                        <i class="fas fa-folder mr-3"></i>
+                        <span>Documents</span>
+                    </a>
+                    
+                    <a href="{% url 'student_portal:messages' %}" class="sidebar-link flex items-center px-4 py-3 text-gray-700 rounded-lg {% if request.resolver_match.url_name == 'messages' %}active{% endif %}">
+                        <i class="fas fa-envelope mr-3"></i>
+                        <span>Messages</span>
+                    </a>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-8">
+            <!-- Messages -->
+            {% if messages %}
+                <div class="mb-6">
+                    {% for message in messages %}
+                        <div class="bg-{% if message.tags == 'error' %}red{% elif message.tags == 'success' %}green{% elif message.tags == 'warning' %}yellow{% else %}blue{% endif %}-100 border border-{% if message.tags == 'error' %}red{% elif message.tags == 'success' %}green{% elif message.tags == 'warning' %}yellow{% else %}blue{% endif %}-400 text-{% if message.tags == 'error' %}red{% elif message.tags == 'success' %}green{% elif message.tags == 'warning' %}yellow{% else %}blue{% endif %}-700 px-4 py-3 rounded mb-3">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+</body>
+</html>

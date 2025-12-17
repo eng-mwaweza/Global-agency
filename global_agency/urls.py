@@ -5,6 +5,7 @@ app_name = 'global_agency'
 
 urlpatterns = [
     path('', views.home, name='home'),
+    path('register/', views.register, name='register'),
     path('contact/', views.contact, name='contact'),
     path('start-application/', views.start_application, name='start_application'),
     path('application-success/', views.application_success, name='application_success'),  # ADD THIS LINE

@@ -1,0 +1,109 @@
+{% extends 'student_portal/dashboard_base.html' %}
+
+{% block title %}Personal Details{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl">
+    <div class="bg-white rounded-lg shadow-md p-8">
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="text-2xl font-bold text-gray-800">
+                <i class="fas fa-user text-blue-600 mr-2"></i>
+                Personal Details
+            </h2>
+            {% if user.studentprofile.personal_details_complete %}
+                <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold">
+                    <i class="fas fa-check-circle mr-1"></i>Completed
+                </span>
+            {% else %}
+                <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-semibold">
+                    <i class="fas fa-exclamation-circle mr-1"></i>Incomplete
+                </span>
+            {% endif %}
+        </div>
+
+        <p class="text-gray-600 mb-6">Please provide your basic personal information. All fields marked with <span class="text-red-500">*</span> are required.</p>
+
+        <form method="post" enctype="multipart/form-data" class="space-y-6">
+            {% csrf_token %}
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="{{ form.gender.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                        Gender <span class="text-red-500">*</span>
+                    </label>
+                    {{ form.gender }}
+                    {% if form.gender.errors %}
+                        <p class="text-red-500 text-sm mt-1">{{ form.gender.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
+                <div>
+                    <label for="{{ form.date_of_birth.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                        Date of Birth <span class="text-red-500">*</span>
+                    </label>
+                    {{ form.date_of_birth }}
+                    {% if form.date_of_birth.errors %}
+                        <p class="text-red-500 text-sm mt-1">{{ form.date_of_birth.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
+                <div>
+                    <label for="{{ form.nationality.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                        Nationality <span class="text-red-500">*</span>
+                    </label>
+                    {{ form.nationality }}
+                    {% if form.nationality.errors %}
+                        <p class="text-red-500 text-sm mt-1">{{ form.nationality.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
+                <div>
+                    <label for="{{ form.phone_number.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                        Phone Number <span class="text-red-500">*</span>
+                    </label>
+                    {{ form.phone_number }}
+                    {% if form.phone_number.errors %}
+                        <p class="text-red-500 text-sm mt-1">{{ form.phone_number.errors.0 }}</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div>
+                <label for="{{ form.address.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                    Address <span class="text-red-500">*</span>
+                </label>
+                {{ form.address }}
+                {% if form.address.errors %}
+                    <p class="text-red-500 text-sm mt-1">{{ form.address.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.profile_picture.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                    Profile Picture (Optional)
+                </label>
+                {% if user.studentprofile.profile_picture %}
+                    <div class="mb-3">
+                        <img src="{{ user.studentprofile.profile_picture.url }}" alt="Current Profile" class="w-32 h-32 rounded-lg object-cover border-2 border-gray-300">
+                        <p class="text-sm text-gray-600 mt-2">Current profile picture</p>
+                    </div>
+                {% endif %}
+                {{ form.profile_picture }}
+                {% if form.profile_picture.errors %}
+                    <p class="text-red-500 text-sm mt-1">{{ form.profile_picture.errors.0 }}</p>
+                {% endif %}
+                <p class="text-sm text-gray-500 mt-1">Upload a professional photo (JPG, PNG, max 5MB)</p>
+            </div>
+
+            <div class="flex justify-between pt-6 border-t">
+                <a href="{% url 'student_portal:dashboard' %}" class="bg-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-400 transition">
+                    <i class="fas fa-arrow-left mr-2"></i>Back to Dashboard
+                </a>
+                <button type="submit" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition">
+                    Save & Continue <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

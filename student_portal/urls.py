@@ -10,6 +10,11 @@ urlpatterns = [
     
     # Profile
     path('profile/', views.student_profile, name='profile'),
+    path('profile/personal-details/', views.personal_details, name='personal_details'),
+    path('profile/parents-details/', views.parents_details, name='parents_details'),
+    path('profile/academic-qualifications/', views.academic_qualifications, name='academic_qualifications'),
+    path('profile/study-preferences/', views.study_preferences, name='study_preferences'),
+    path('profile/emergency-contact/', views.emergency_contact, name='emergency_contact'),
     
     # Applications
     path('applications/', views.applications, name='applications'),

@@ -1,5 +1,46 @@
 from django import forms
+from django.contrib.auth.models import User
 from .models import ContactMessage, StudentApplication
+
+class SimpleRegistrationForm(forms.Form):
+    """Simple registration form - just email, password, and name"""
+    full_name = forms.CharField(
+        max_length=150,
+        required=True,
+        widget=forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Enter your full name'})
+    )
+    email = forms.EmailField(
+        required=True,
+        widget=forms.EmailInput(attrs={'class': 'form-input', 'placeholder': 'your.email@example.com'})
+    )
+    password = forms.CharField(
+        min_length=8,
+        required=True,
+        widget=forms.PasswordInput(attrs={'class': 'form-input', 'placeholder': 'Create a strong password'})
+    )
+    confirm_password = forms.CharField(
+        required=True,
+        widget=forms.PasswordInput(attrs={'class': 'form-input', 'placeholder': 'Confirm your password'})
+    )
+    
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError("This email is already registered. Please login or use a different email.")
+        if User.objects.filter(username=email).exists():
+            raise forms.ValidationError("This email is already registered. Please login or use a different email.")
+        return email
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get('password')
+        confirm_password = cleaned_data.get('confirm_password')
+        
+        if password and confirm_password:
+            if password != confirm_password:
+                raise forms.ValidationError("Passwords do not match. Please try again.")
+        
+        return cleaned_data
 
 class ContactMessageForm(forms.ModelForm):
     class Meta:

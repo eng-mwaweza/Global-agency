@@ -11,7 +11,9 @@ from django.conf import settings
 import json
 from datetime import datetime
 from .models import StudentProfile, Application, Document, Message, Payment
-from .forms import StudentProfileForm, DocumentForm, ApplicationForm
+from .forms import (StudentProfileForm, DocumentForm, ApplicationForm, 
+                    PersonalDetailsForm, ParentsDetailsForm, AcademicQualificationsForm,
+                    StudyPreferencesForm, EmergencyContactForm)
 from .clickpesa_service import clickpesa_service
 
 # ADD THIS IMPORT
@@ -77,7 +79,7 @@ def student_login(request):
 def student_dashboard(request):
     """Student dashboard view"""
     # Ensure student profile exists
-    StudentProfile.objects.get_or_create(user=request.user)
+    profile, created = StudentProfile.objects.get_or_create(user=request.user)
     
     # Get student data
     applications = Application.objects.filter(student=request.user).select_related('student').prefetch_related('payment_set')
@@ -88,6 +90,7 @@ def student_dashboard(request):
         'applications': applications,
         'documents_count': documents.count(),
         'unread_messages_count': unread_messages.count(),
+        'profile_completion': profile.get_completion_percentage(),
     }
     
     # Add cache control to prevent back button after logout
@@ -123,6 +126,117 @@ def student_profile(request):
     response['Pragma'] = 'no-cache'
     response['Expires'] = '0'
     return response
+
+# Profile Section Views
+@login_required
+def personal_details(request):
+    """Personal details form view"""
+    profile, created = StudentProfile.objects.get_or_create(user=request.user)
+    
+    if request.method == 'POST':
+        form = PersonalDetailsForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Personal details saved successfully!')
+            return redirect('student_portal:parents_details')
+        else:
+            messages.error(request, 'Please correct the errors below.')
+    else:
+        form = PersonalDetailsForm(instance=profile)
+    
+    context = {
+        'form': form,
+        'profile_completion': profile.get_completion_percentage(),
+    }
+    return render(request, 'student_portal/personal_details.html', context)
+
+@login_required
+def parents_details(request):
+    """Parents details form view"""
+    profile, created = StudentProfile.objects.get_or_create(user=request.user)
+    
+    if request.method == 'POST':
+        form = ParentsDetailsForm(request.POST, instance=profile)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Parents details saved successfully!')
+            return redirect('student_portal:academic_qualifications')
+        else:
+            messages.error(request, 'Please correct the errors below.')
+    else:
+        form = ParentsDetailsForm(instance=profile)
+    
+    context = {
+        'form': form,
+        'profile_completion': profile.get_completion_percentage(),
+    }
+    return render(request, 'student_portal/parents_details.html', context)
+
+@login_required
+def academic_qualifications(request):
+    """Academic qualifications form view"""
+    profile, created = StudentProfile.objects.get_or_create(user=request.user)
+    
+    if request.method == 'POST':
+        form = AcademicQualificationsForm(request.POST, instance=profile)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Academic qualifications saved successfully!')
+            return redirect('student_portal:study_preferences')
+        else:
+            messages.error(request, 'Please correct the errors below.')
+    else:
+        form = AcademicQualificationsForm(instance=profile)
+    
+    context = {
+        'form': form,
+        'profile_completion': profile.get_completion_percentage(),
+    }
+    return render(request, 'student_portal/academic_qualifications.html', context)
+
+@login_required
+def study_preferences(request):
+    """Study preferences form view"""
+    profile, created = StudentProfile.objects.get_or_create(user=request.user)
+    
+    if request.method == 'POST':
+        form = StudyPreferencesForm(request.POST, instance=profile)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Study preferences saved successfully!')
+            return redirect('student_portal:emergency_contact')
+        else:
+            messages.error(request, 'Please correct the errors below.')
+    else:
+        form = StudyPreferencesForm(instance=profile)
+    
+    context = {
+        'form': form,
+        'profile_completion': profile.get_completion_percentage(),
+    }
+    return render(request, 'student_portal/study_preferences.html', context)
+
+@login_required
+def emergency_contact(request):
+    """Emergency contact form view"""
+    profile, created = StudentProfile.objects.get_or_create(user=request.user)
+    
+    if request.method == 'POST':
+        form = EmergencyContactForm(request.POST, instance=profile)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Emergency contact information saved successfully! Your profile is now complete.')
+            return redirect('student_portal:dashboard')
+        else:
+            messages.error(request, 'Please correct the errors below.')
+    else:
+        form = EmergencyContactForm(instance=profile)
+    
+    context = {
+        'form': form,
+        'profile_completion': profile.get_completion_percentage(),
+    }
+    return render(request, 'student_portal/emergency_contact.html', context)
 
 @login_required
 def applications(request):

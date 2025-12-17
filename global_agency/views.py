@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.http import Http404
-from .forms import StudentApplicationForm, ContactMessageForm
+from .forms import StudentApplicationForm, ContactMessageForm, SimpleRegistrationForm
 import json
 import os
 from django.core.paginator import Paginator
@@ -9,6 +9,40 @@ from pathlib import Path
 
 def home(request):
     return render(request, 'global_agency/index.html')
+
+def register(request):
+    """Simple registration view - creates user account only"""
+    if request.user.is_authenticated:
+        return redirect('student_portal:dashboard')
+    
+    if request.method == 'POST':
+        form = SimpleRegistrationForm(request.POST)
+        if form.is_valid():
+            from django.contrib.auth.models import User
+            from student_portal.models import StudentProfile
+            
+            # Create user account
+            user = User.objects.create_user(
+                username=form.cleaned_data['email'],
+                email=form.cleaned_data['email'],
+                password=form.cleaned_data['password'],
+                first_name=form.cleaned_data['full_name'].split()[0] if form.cleaned_data['full_name'] else '',
+                last_name=' '.join(form.cleaned_data['full_name'].split()[1:]) if len(form.cleaned_data['full_name'].split()) > 1 else ''
+            )
+            
+            # Create student profile
+            StudentProfile.objects.create(user=user)
+            
+            messages.success(request, f"✅ Account created successfully! Please login with your email: {user.email}")
+            return redirect('student_portal:login')
+        else:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, error)
+    else:
+        form = SimpleRegistrationForm()
+    
+    return render(request, 'global_agency/register.html', {'form': form})
 
 def contact(request):
     if request.method == 'POST':

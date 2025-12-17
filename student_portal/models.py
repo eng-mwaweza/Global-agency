@@ -3,13 +3,77 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 
 class StudentProfile(models.Model):
+    GENDER_CHOICES = [
+        ('male', 'Male'),
+        ('female', 'Female'),
+    ]
+    
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    
+    # Basic Information
     phone_number = models.CharField(max_length=15, blank=True)
     address = models.TextField(blank=True)
     date_of_birth = models.DateField(null=True, blank=True)
-    nationality = models.CharField(max_length=100, blank=True)
-    emergency_contact = models.CharField(max_length=100, blank=True)
+    nationality = models.CharField(max_length=100, blank=True, default="Tanzanian")
+    gender = models.CharField(max_length=20, choices=GENDER_CHOICES, blank=True)
     profile_picture = models.ImageField(upload_to='profiles/', null=True, blank=True)
+    
+    # Parents Details
+    father_name = models.CharField(max_length=150, blank=True)
+    father_phone = models.CharField(max_length=50, blank=True)
+    father_email = models.EmailField(blank=True)
+    father_occupation = models.CharField(max_length=150, blank=True)
+    
+    mother_name = models.CharField(max_length=150, blank=True)
+    mother_phone = models.CharField(max_length=50, blank=True)
+    mother_email = models.EmailField(blank=True)
+    mother_occupation = models.CharField(max_length=150, blank=True)
+    
+    # O-Level Education
+    olevel_school = models.CharField(max_length=150, blank=True)
+    olevel_country = models.CharField(max_length=100, blank=True, default="Tanzania")
+    olevel_address = models.CharField(max_length=255, blank=True)
+    olevel_region = models.CharField(max_length=100, blank=True)
+    olevel_year = models.CharField(max_length=10, blank=True)
+    olevel_candidate_no = models.CharField(max_length=50, blank=True)
+    olevel_gpa = models.CharField(max_length=20, blank=True)
+    
+    # A-Level Education
+    alevel_school = models.CharField(max_length=150, blank=True)
+    alevel_country = models.CharField(max_length=100, blank=True, default="Tanzania")
+    alevel_address = models.CharField(max_length=255, blank=True)
+    alevel_region = models.CharField(max_length=100, blank=True)
+    alevel_year = models.CharField(max_length=10, blank=True)
+    alevel_candidate_no = models.CharField(max_length=50, blank=True)
+    alevel_gpa = models.CharField(max_length=20, blank=True)
+    
+    # Study Preferences
+    preferred_country_1 = models.CharField(max_length=100, blank=True)
+    preferred_country_2 = models.CharField(max_length=100, blank=True)
+    preferred_country_3 = models.CharField(max_length=100, blank=True)
+    preferred_country_4 = models.CharField(max_length=100, blank=True)
+    preferred_program_1 = models.CharField(max_length=100, blank=True)
+    preferred_program_2 = models.CharField(max_length=100, blank=True)
+    preferred_program_3 = models.CharField(max_length=100, blank=True)
+    preferred_program_4 = models.CharField(max_length=100, blank=True)
+    
+    # Emergency Contact
+    emergency_contact = models.CharField(max_length=150, blank=True)
+    emergency_address = models.TextField(blank=True)
+    emergency_occupation = models.CharField(max_length=100, blank=True)
+    emergency_gender = models.CharField(max_length=20, choices=GENDER_CHOICES, blank=True)
+    emergency_relation = models.CharField(max_length=100, blank=True)
+    heard_about_us = models.CharField(max_length=100, blank=True)
+    heard_about_other = models.CharField(max_length=255, blank=True)
+    
+    # Profile Completion Tracking
+    personal_details_complete = models.BooleanField(default=False)
+    parents_details_complete = models.BooleanField(default=False)
+    academic_qualifications_complete = models.BooleanField(default=False)
+    study_preferences_complete = models.BooleanField(default=False)
+    emergency_contact_complete = models.BooleanField(default=False)
+    
+    # Timestamps
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -17,19 +81,48 @@ class StudentProfile(models.Model):
         return f"{self.user.first_name} {self.user.last_name}"
     
     def is_complete(self):
-        """Check if student profile has basic required information"""
-        return bool(self.phone_number and self.address)
+        """Check if all required profile sections are complete"""
+        return all([
+            self.personal_details_complete,
+            self.academic_qualifications_complete,
+            self.emergency_contact_complete
+        ])
+    
+    def get_completion_percentage(self):
+        """Calculate profile completion percentage"""
+        sections = [
+            self.personal_details_complete,
+            self.parents_details_complete,
+            self.academic_qualifications_complete,
+            self.study_preferences_complete,
+            self.emergency_contact_complete,
+        ]
+        completed = sum(1 for section in sections if section)
+        return int((completed / len(sections)) * 100)
     
     def save(self, *args, **kwargs):
-        # Ensure we have empty strings for required fields if they're None
-        if self.phone_number is None:
-            self.phone_number = ''
-        if self.address is None:
-            self.address = ''
-        if self.nationality is None:
-            self.nationality = ''
-        if self.emergency_contact is None:
-            self.emergency_contact = ''
+        # Auto-check completion status for each section
+        
+        # Personal details: phone, address, date_of_birth, nationality, gender
+        if all([self.phone_number, self.address, self.date_of_birth, self.nationality, self.gender]):
+            self.personal_details_complete = True
+        
+        # Parents details: at least one parent's info
+        if self.father_name or self.mother_name:
+            self.parents_details_complete = True
+        
+        # Academic qualifications: at least O-Level completed
+        if all([self.olevel_school, self.olevel_year, self.olevel_gpa]):
+            self.academic_qualifications_complete = True
+        
+        # Study preferences: at least one preference
+        if self.preferred_country_1 and self.preferred_program_1:
+            self.study_preferences_complete = True
+        
+        # Emergency contact: name, address, relation
+        if all([self.emergency_contact, self.emergency_address, self.emergency_relation]):
+            self.emergency_contact_complete = True
+        
         super().save(*args, **kwargs)
 
 class Application(models.Model):
