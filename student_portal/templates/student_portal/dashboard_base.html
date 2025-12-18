@@ -88,18 +88,38 @@
 </head>
 <body class="bg-gray-50">
     <!-- Top Navigation Bar -->
-    <nav class="bg-white shadow-md">
+    <nav class="bg-white shadow-md sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
-                <div class="flex items-center">
+                <div class="flex items-center space-x-8">
                     <h1 class="text-xl font-bold text-blue-600">Global Agency Study Experts</h1>
+                    
+                    <!-- Quick Access Navigation -->
+                    <div class="hidden md:flex items-center space-x-1">
+                        <a href="{% url 'student_portal:dashboard' %}" class="px-4 py-2 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition flex items-center {% if request.resolver_match.url_name == 'dashboard' %}bg-blue-50 text-blue-600 font-semibold{% endif %}">
+                            <i class="fas fa-home mr-2"></i>Dashboard
+                        </a>
+                        <a href="{% url 'student_portal:applications' %}" class="px-4 py-2 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition flex items-center {% if request.resolver_match.url_name == 'applications' or request.resolver_match.url_name == 'application_detail' %}bg-blue-50 text-blue-600 font-semibold{% endif %}">
+                            <i class="fas fa-file-alt mr-2"></i>My Applications
+                        </a>
+                        <a href="{% url 'student_portal:documents' %}" class="px-4 py-2 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition flex items-center {% if request.resolver_match.url_name == 'documents' %}bg-blue-50 text-blue-600 font-semibold{% endif %}">
+                            <i class="fas fa-folder mr-2"></i>Documents
+                        </a>
+                        <a href="{% url 'student_portal:messages' %}" class="px-4 py-2 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition flex items-center {% if request.resolver_match.url_name == 'messages' %}bg-blue-50 text-blue-600 font-semibold{% endif %}">
+                            <i class="fas fa-envelope mr-2"></i>
+                            Messages
+                            {% if unread_messages_count > 0 %}
+                                <span class="ml-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">{{ unread_messages_count }}</span>
+                            {% endif %}
+                        </a>
+                    </div>
                 </div>
                 <div class="flex items-center space-x-4">
-                    <span class="text-gray-700">Welcome, {{ user.first_name }}</span>
-                    <a href="{% url 'student_portal:profile' %}" class="text-blue-600 hover:text-blue-800">
+                    <span class="text-gray-700 hidden sm:inline">Welcome, <span class="font-semibold">{{ user.first_name }}</span></span>
+                    <a href="{% url 'student_portal:profile' %}" class="text-blue-600 hover:text-blue-800 transition" title="Profile">
                         <i class="fas fa-user-circle text-2xl"></i>
                     </a>
-                    <a href="{% url 'student_portal:logout' %}" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">
+                    <a href="{% url 'student_portal:logout' %}" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition flex items-center">
                         <i class="fas fa-sign-out-alt mr-2"></i>Logout
                     </a>
                 </div>
