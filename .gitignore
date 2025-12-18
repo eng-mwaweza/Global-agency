@@ -63,3 +63,5 @@ test.cjs
 test_auth_methods.py
 test_checksum.py
 test_checksum_headers.py
+
+db.sqlite3
