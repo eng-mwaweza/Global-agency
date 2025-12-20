@@ -93,7 +93,7 @@
         <div class="border-t border-gray-800 pt-8">
             <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
                 <p class="text-sm text-gray-400">
-                    &copy; 2025 Africa Western Education Services (GASE). All rights reserved.
+                    &copy; 2025 Africa Western Education Services (AWEDUCOL). All rights reserved.
                 </p>
                 <div class="flex flex-wrap justify-center gap-4 text-sm">
                     <a href="#" class="text-gray-400 hover:text-white transition duration-200">Privacy Policy</a>
@@ -167,7 +167,7 @@
                 
                 // Update button text based on state
                 if (contactInfo.classList.contains('hidden')) {
-                    contactToggle.innerHTML = '<i class="fas fa-phone-alt mr-2"></i>Contact Africa Western Education (GASE)';
+                    contactToggle.innerHTML = '<i class="fas fa-phone-alt mr-2"></i>Contact Africa Western Education (AWEDUCOL)';
                 } else {
                     contactToggle.innerHTML = '<i class="fas fa-times mr-2"></i>Close Contact Info';
                 }
@@ -177,7 +177,7 @@
             document.addEventListener('click', function(event) {
                 if (!contactInfo.contains(event.target) && !contactToggle.contains(event.target)) {
                     contactInfo.classList.add('hidden');
-                    contactToggle.innerHTML = '<i class="fas fa-phone-alt mr-2"></i>Contact Africa Western Education (GASE)';
+                    contactToggle.innerHTML = '<i class="fas fa-phone-alt mr-2"></i>Contact Africa Western Education (AWEDUCOL)';
                 }
             });
         }

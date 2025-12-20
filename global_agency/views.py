@@ -281,7 +281,7 @@ def all_countries(request):
 
 def tcu_services(request):
     """
-    Render TCU services page showing how GASE helps students with TCU processes
+    Render TCU services page showing how AWEDUCOL helps students with TCU processes
     """
     # Define the TCU services data
     tcu_services_data = {
