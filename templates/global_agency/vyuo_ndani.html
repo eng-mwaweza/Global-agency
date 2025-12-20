@@ -245,7 +245,7 @@
                     <span class="text-xs font-medium text-blue-600 break-words">
                       Min: {{ program.minimum_points }} points
                     </span>
-                    <a href="{% url 'global_agency:start_application' %}?university={{ university.name|urlencode }}&program={{ program.name|urlencode }}"
+                    <a href="{% url 'global_agency:register' %}?university={{ university.name|urlencode }}&program={{ program.name|urlencode }}"
                       class="text-xs bg-yellow-500 text-white px-3 py-1.5 rounded-lg hover:bg-yellow-600 transition font-medium shadow-sm hover:shadow break-words">
                       Apply
                     </a>

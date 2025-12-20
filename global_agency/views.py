@@ -56,7 +56,7 @@ def contact(request):
     else:
         form = ContactMessageForm()
 
-    return render(request, 'global_agency/includes/contact.html', {'form': form})
+    return render(request, 'global_agency/contact_page.html', {'form': form})
 
 def start_application(request):
     if request.method == 'POST':

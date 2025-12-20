@@ -5,6 +5,7 @@
 {% load static %}
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="format-detection" content="telephone=yes">
     <title>Africa Western Education Services | Study Abroad Experts</title>
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -44,6 +45,24 @@
         }
         [dir="rtl"] .flex-row-reverse-on-rtl {
             flex-direction: row-reverse;
+        }
+
+        /* Mobile-friendly tel: links */
+        a[href^="tel:"] {
+            text-decoration: none;
+            color: inherit;
+            cursor: pointer;
+        }
+        a[href^="tel:"]:hover {
+            text-decoration: underline;
+        }
+
+        /* Ensure tel: links work on touch devices */
+        @media (max-width: 768px) {
+            a[href^="tel:"] {
+                -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+                tap-highlight-color: rgba(0, 0, 0, 0.1);
+            }
         }
     </style>
 </head>

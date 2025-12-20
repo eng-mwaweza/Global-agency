@@ -5,21 +5,21 @@
             
             <!-- Company Info -->
             <div>
-                <h3 class="text-white font-bold text-xs mb-3">Africa Western Education Services</h3>
+                <h3 class="text-white font-bold text-xs mb-3">AFRICA WESTERN EDUCATION COMPANY LTD</h3>
                 <p class="text-xs mb-3 leading-relaxed">
-                    Your trusted education partner since 2015. We help students achieve their dreams of studying abroad and locally.
+                    Empowering African students and professionals through reliable, transparent, and high-quality educational consultancy services.
                 </p>
                 <div class="flex space-x-3">
-                    <a href="#" class="text-gray-400 hover:text-white transition duration-200" aria-label="Facebook">
+                    <a href="https://facebook.com/AFRICA WESTERN EDUCATION COMPANY LTD" class="text-gray-400 hover:text-white transition duration-200" aria-label="Facebook">
                         <i class="fab fa-facebook-f text-sm"></i>
                     </a>
-                    <a href="#" class="text-gray-400 hover:text-white transition duration-200" aria-label="Twitter">
+                    <a href="https://x.com/AfricaWesternEdu" class="text-gray-400 hover:text-white transition duration-200" aria-label="Twitter">
                         <i class="fab fa-twitter text-sm"></i>
                     </a>
-                    <a href="#" class="text-gray-400 hover:text-white transition duration-200" aria-label="Instagram">
+                    <a href="https://instagram.com/africawesterneducation" class="text-gray-400 hover:text-white transition duration-200" aria-label="Instagram">
                         <i class="fab fa-instagram text-sm"></i>
                     </a>
-                    <a href="#" class="text-gray-400 hover:text-white transition duration-200" aria-label="LinkedIn">
+                    <a href="https://linkedin.com/company/AFRICA WESTERN EDUCATION COMPANY LTD" class="text-gray-400 hover:text-white transition duration-200" aria-label="LinkedIn">
                         <i class="fab fa-linkedin-in text-sm"></i>
                     </a>
                 </div>
@@ -33,7 +33,7 @@
                     <li><a href="{% url 'global_agency:all_countries' %}" class="hover:text-white transition duration-200">Study Abroad</a></li>
                     <li><a href="{% url 'global_agency:vyuo_ndani' %}" class="hover:text-white transition duration-200">Local Universities</a></li>
                     <li><a href="{% url 'global_agency:tcu_services' %}" class="hover:text-white transition duration-200">TCU Services</a></li>
-                    <li><a href="{% url 'global_agency:start_application' %}" class="hover:text-white transition duration-200">Apply Now</a></li>
+                    <li><a href="{% url 'global_agency:register' %}" class="hover:text-white transition duration-200">Apply Now</a></li>
                     <li><a href="{% url 'global_agency:contact' %}" class="hover:text-white transition duration-200">Contact Us</a></li>
                 </ul>
             </div>
@@ -71,15 +71,19 @@
                 <ul class="space-y-3 text-sm">
                     <li class="flex items-start">
                         <i class="fas fa-map-marker-alt text-accent-gold mr-3 mt-1"></i>
-                        <span>Kigamboni, Dar es Salaam<br>P.O. Box 36098, Tanzania</span>
+                        <span>Dar es Salaam, Tanzania</span>
                     </li>
                     <li class="flex items-center">
                         <i class="fas fa-phone text-accent-gold mr-3"></i>
-                        <a href="tel:+255746177230" class="hover:text-white transition duration-200">+255 746 177 230</a>
+                        <a href="tel:+255757095160" class="hover:text-white transition duration-200">+255 767 688 766</a>
                     </li>
                     <li class="flex items-center">
                         <i class="fas fa-envelope text-accent-gold mr-3"></i>
                         <a href="mailto:info@africawesterneducation.com" class="hover:text-white transition duration-200">info@africawesterneducation.com</a>
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fas fa-globe text-accent-gold mr-3"></i>
+                        <a href="https://www.africawesterneducation.com" class="hover:text-white transition duration-200" target="_blank">www.africawesterneducation.com</a>
                     </li>
                     <li class="flex items-start">
                         <i class="fas fa-clock text-accent-gold mr-3 mt-1"></i>
@@ -93,7 +97,7 @@
         <div class="border-t border-gray-800 pt-8">
             <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
                 <p class="text-sm text-gray-400">
-                    &copy; 2025 Africa Western Education Services (AWEDUCOL). All rights reserved.
+                    &copy; 2025 AFRICA WESTERN EDUCATION COMPANY LTD. All rights reserved.
                 </p>
                 <div class="flex flex-wrap justify-center gap-4 text-sm">
                     <a href="#" class="text-gray-400 hover:text-white transition duration-200">Privacy Policy</a>
@@ -195,9 +199,9 @@
         const telLinks = document.querySelectorAll('a[href^="tel:"]');
         telLinks.forEach(link => {
             link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const phone = this.getAttribute('href').replace('tel:', '');
-                window.location.href = `tel:${phone}`;
+                // Allow default tel: behavior on mobile devices
+                // Only prevent default if we want to do something custom
+                // For now, let the browser handle tel: links naturally
             });
         });
 

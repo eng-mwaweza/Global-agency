@@ -103,7 +103,7 @@
                                     <div class="text-gray-800 font-semibold">{{ program.minimum_points }}</div>
                                 </div>
                                 <div class="text-center">
-                                    <a href="{% url 'global_agency:start_application' %}?university={{ university.name|urlencode }}&program={{ program.name|urlencode }}"
+                                    <a href="{% url 'global_agency:register' %}?university={{ university.name|urlencode }}&program={{ program.name|urlencode }}"
                                        class="inline-block bg-yellow-500 text-white px-3 py-2 rounded-lg hover:bg-yellow-600 transition font-medium text-xs whitespace-nowrap">
                                         Apply Now
                                     </a>
