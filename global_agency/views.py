@@ -334,6 +334,6 @@ def tcu_services(request):
     
     context = {
         'tcu_data': tcu_services_data,
-        'page_title': 'TCU Services - Global Agency Services'
+        'page_title': 'TCU Services - Africa Western Education Services'
     }
     return render(request, 'global_agency/tcu_services.html', context)

@@ -246,7 +246,7 @@ def create_security_middleware():
     
     # Create security middleware
     middleware_content = '''"""
-Custom Security Middleware for Global Agency Application
+Custom Security Middleware for Africa Western Education Application
 """
 import logging
 import time
@@ -495,10 +495,10 @@ def sanitize_dict(data):
 
 def create_security_checklist():
     """Create security checklist documentation"""
-    checklist_content = f'''# Security Checklist - Global Agency System
+    checklist_content = f'''# Security Checklist - Africa Western Education System
 
 ## Overview
-This document outlines the security measures implemented in the Global Agency system.
+This document outlines the security measures implemented in the Africa Western Education system.
 
 **Last Updated:** {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 

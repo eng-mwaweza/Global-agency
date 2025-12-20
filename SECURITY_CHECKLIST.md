@@ -1,7 +1,7 @@
-# Security Checklist - Global Agency System
+# Security Checklist - Africa Western Education System
 
 ## Overview
-This document outlines the security measures implemented in the Global Agency system.
+This document outlines the security measures implemented in the Africa Western Education system.
 
 **Last Updated:** 2025-12-11 09:44:43
 

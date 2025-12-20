@@ -1,4 +1,4 @@
-# Global Agency - Student Application Portal
+# Africa Western Education - Student Application Portal
 
 A Django-based web application for managing student applications for universities abroad.
 
@@ -145,4 +145,4 @@ See [CLICKPESA_INTEGRATION.md](CLICKPESA_INTEGRATION.md) for complete production
 
 ## License
 
-© 2025 Global Agency. All rights reserved.
+© 2025 Africa Western Education. All rights reserved.

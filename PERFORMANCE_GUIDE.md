@@ -1,4 +1,4 @@
-# Performance Optimization - Global Agency
+# Performance Optimization - Africa Western Education
 
 ## Implemented Optimizations
 

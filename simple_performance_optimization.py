@@ -139,7 +139,7 @@ class Command(BaseCommand):
 
 def create_performance_doc():
     """Create performance documentation"""
-    doc_content = f'''# Performance Optimization - Global Agency
+    doc_content = f'''# Performance Optimization - Africa Western Education
 
 ## Implemented Optimizations
 

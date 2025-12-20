@@ -1,5 +1,5 @@
 """
-Custom Security Middleware for Global Agency Application
+Custom Security Middleware for Africa Western Education Application
 """
 import logging
 import time

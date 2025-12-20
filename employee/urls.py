@@ -8,7 +8,7 @@ urlpatterns = [
     path('dashboard/', views.employee_dashboard, name='employee_dashboard'),
     path('logout/', views.employee_logout, name='employee_logout'),
     
-    # Global agency applications
+    # Africa Western Education applications
     path('applications/<int:pk>/', views.application_detail, name='application_detail'),
     
     # Student portal applications

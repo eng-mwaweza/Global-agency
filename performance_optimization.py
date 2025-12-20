@@ -542,10 +542,10 @@ class Command(BaseCommand):
 
 def create_performance_checklist():
     """Create performance optimization checklist"""
-    checklist_content = f'''# Performance Optimization Checklist - Global Agency System
+    checklist_content = f'''# Performance Optimization Checklist - Africa Western Education System
 
 ## Overview
-This document outlines the performance optimizations implemented in the Global Agency system.
+This document outlines the performance optimizations implemented in the Africa Western Education system.
 
 **Last Updated:** {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 
