@@ -1,3 +1,4 @@
+{% load i18n %}
 <footer class="bg-gray-900 text-gray-300">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <!-- Main Footer Content -->
@@ -5,9 +6,9 @@
             
             <!-- Company Info -->
             <div>
-                <h3 class="text-white font-bold text-xs mb-3">AFRICA WESTERN EDUCATION COMPANY LTD</h3>
+                <h3 class="text-white font-bold text-xs mb-3">{% trans "AFRICA WESTERN EDUCATION COMPANY LTD" %}</h3>
                 <p class="text-xs mb-3 leading-relaxed">
-                    Empowering African students and professionals through reliable, transparent, and high-quality educational consultancy services.
+                    {% trans "Empowering African students and professionals through reliable, transparent, and high-quality educational consultancy services." %}
                 </p>
                 <div class="flex space-x-3">
                     <a href="https://facebook.com/AFRICA WESTERN EDUCATION COMPANY LTD" class="text-gray-400 hover:text-white transition duration-200" aria-label="Facebook">
@@ -27,51 +28,51 @@
 
             <!-- Quick Links -->
             <div>
-                <h3 class="text-white font-bold text-xs mb-3">Quick Links</h3>
+                <h3 class="text-white font-bold text-xs mb-3">{% trans "Quick Links" %}</h3>
                 <ul class="space-y-0.5 text-xs">
-                    <li><a href="{% url 'global_agency:home' %}" class="hover:text-white transition duration-200">Home</a></li>
-                    <li><a href="{% url 'global_agency:all_countries' %}" class="hover:text-white transition duration-200">Study Abroad</a></li>
-                    <li><a href="{% url 'global_agency:vyuo_ndani' %}" class="hover:text-white transition duration-200">Local Universities</a></li>
-                    <li><a href="{% url 'global_agency:tcu_services' %}" class="hover:text-white transition duration-200">TCU Services</a></li>
-                    <li><a href="{% url 'global_agency:register' %}" class="hover:text-white transition duration-200">Apply Now</a></li>
-                    <li><a href="{% url 'global_agency:contact' %}" class="hover:text-white transition duration-200">Contact Us</a></li>
+                    <li><a href="{% url 'global_agency:home' %}" class="hover:text-white transition duration-200">{% trans "Home" %}</a></li>
+                    <li><a href="{% url 'global_agency:all_countries' %}" class="hover:text-white transition duration-200">{% trans "Study Abroad" %}</a></li>
+                    <li><a href="{% url 'global_agency:vyuo_ndani' %}" class="hover:text-white transition duration-200">{% trans "Local Universities" %}</a></li>
+                    <li><a href="{% url 'global_agency:tcu_services' %}" class="hover:text-white transition duration-200">{% trans "TCU Services" %}</a></li>
+                    <li><a href="{% url 'global_agency:register' %}" class="hover:text-white transition duration-200">{% trans "Apply Now" %}</a></li>
+                    <li><a href="{% url 'global_agency:contact' %}" class="hover:text-white transition duration-200">{% trans "Contact Us" %}</a></li>
                 </ul>
             </div>
 
             <!-- Services -->
             <div>
-                <h3 class="text-white font-bold text-xs mb-3">Our Services</h3>
+                <h3 class="text-white font-bold text-xs mb-3">{% trans "Our Services" %}</h3>
                 <ul class="space-y-0.5 text-xs">
                     <li class="flex items-start">
                         <i class="fas fa-check text-accent-gold mr-2 mt-1 text-xs"></i>
-                        <span>University Application Assistance</span>
+                        <span>{% trans "University Application Assistance" %}</span>
                     </li>
                     <li class="flex items-start">
                         <i class="fas fa-check text-accent-gold mr-2 mt-1 text-xs"></i>
-                        <span>Visa Processing Support</span>
+                        <span>{% trans "Visa Processing Support" %}</span>
                     </li>
                     <li class="flex items-start">
                         <i class="fas fa-check text-accent-gold mr-2 mt-1 text-xs"></i>
-                        <span>TCU Application Services</span>
+                        <span>{% trans "TCU Application Services" %}</span>
                     </li>
                     <li class="flex items-start">
                         <i class="fas fa-check text-accent-gold mr-2 mt-1 text-xs"></i>
-                        <span>Pre-Departure Guidance</span>
+                        <span>{% trans "Pre-Departure Guidance" %}</span>
                     </li>
                     <li class="flex items-start">
                         <i class="fas fa-check text-accent-gold mr-2 mt-1 text-xs"></i>
-                        <span>Scholarship Assistance</span>
+                        <span>{% trans "Scholarship Assistance" %}</span>
                     </li>
                 </ul>
             </div>
 
             <!-- Contact Info -->
             <div>
-                <h3 class="text-white font-bold text-xs mb-3">Contact Us</h3>
+                <h3 class="text-white font-bold text-xs mb-3">{% trans "Contact Us" %}</h3>
                 <ul class="space-y-3 text-sm">
                     <li class="flex items-start">
                         <i class="fas fa-map-marker-alt text-accent-gold mr-3 mt-1"></i>
-                        <span>Dar es Salaam, Tanzania</span>
+                        <span>{% trans "Dar es Salaam, Tanzania" %}</span>
                     </li>
                     <li class="flex items-center">
                         <i class="fas fa-phone text-accent-gold mr-3"></i>
@@ -87,7 +88,7 @@
                     </li>
                     <li class="flex items-start">
                         <i class="fas fa-clock text-accent-gold mr-3 mt-1"></i>
-                        <span>Mon-Fri: 8:00 AM - 6:00 PM<br>Sat: 9:00 AM - 2:00 PM</span>
+                        <span>{% trans "Mon-Fri: 8:00 AM - 6:00 PM" %}<br>{% trans "Sat: 9:00 AM - 2:00 PM" %}</span>
                     </li>
                 </ul>
             </div>
@@ -97,14 +98,14 @@
         <div class="border-t border-gray-800 pt-8">
             <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
                 <p class="text-sm text-gray-400">
-                    &copy; 2025 AFRICA WESTERN EDUCATION COMPANY LTD. All rights reserved.
+                    {% trans "&copy; 2025 AFRICA WESTERN EDUCATION COMPANY LTD. All rights reserved." %}
                 </p>
                 <div class="flex flex-wrap justify-center gap-4 text-sm">
-                    <a href="#" class="text-gray-400 hover:text-white transition duration-200">Privacy Policy</a>
+                    <a href="#" class="text-gray-400 hover:text-white transition duration-200">{% trans "Privacy Policy" %}</a>
                     <span class="text-gray-600">|</span>
-                    <a href="#" class="text-gray-400 hover:text-white transition duration-200">Terms of Service</a>
+                    <a href="#" class="text-gray-400 hover:text-white transition duration-200">{% trans "Terms of Service" %}</a>
                     <span class="text-gray-600">|</span>
-                    <a href="{% url 'employee:employee_login' %}" class="text-gray-400 hover:text-white transition duration-200">Employee Login</a>
+                    <a href="{% url 'employee:employee_login' %}" class="text-gray-400 hover:text-white transition duration-200">{% trans "Employee Login" %}</a>
                 </div>
             </div>
         </div>

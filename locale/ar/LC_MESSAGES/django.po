@@ -1,0 +1,379 @@
+# Arabic translations
+# Copyright (C) 2026 Africa Western Education
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Africa Western Education\n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Home"
+msgstr "الصفحة الرئيسية"
+
+msgid "About Us"
+msgstr "من نحن"
+
+msgid "Services"
+msgstr "الخدمات"
+
+msgid "Universities"
+msgstr "الجامعات"
+
+msgid "TCU Services"
+msgstr "خدمات TCU"
+
+msgid "Success Stories"
+msgstr "قصص النجاح"
+
+msgid "Book Free Consult"
+msgstr "احجز استشارة مجانية"
+
+msgid "Education for a Bright Tomorrow — Explore • Dream • Discover"
+msgstr "التعليم لغد مشرق — استكشف • احلم • اكتشف"
+
+msgid "Africa Western Education Company Ltd"
+msgstr "شركة التعليم الغربية الأفريقية المحدودة"
+
+msgid "Your Gateway"
+msgstr "بوابتك"
+
+msgid "to Global Education"
+msgstr "إلى التعليم العالمي"
+
+msgid ""
+"We provide end-to-end expert guidance — from application processing and "
+"scholarship hunting to visa preparation and pre-departure support."
+msgstr ""
+"نحن نقدم إرشادات خبيرة شاملة — من معالجة الطلبات والبحث عن المنح الدراسية "
+"إلى تحضير التأشيرات والدعم قبل المغادرة."
+
+msgid "Start Your Free Consultation"
+msgstr "ابدأ استشارتك المجانية"
+
+msgid "Explore Our Services"
+msgstr "استكشف خدماتنا"
+
+msgid "Students Placed Abroad"
+msgstr "الطلاب الموضوعون بالخارج"
+
+msgid "Partner Universities"
+msgstr "الجامعات الشريكة"
+
+msgid "Visas Assisted"
+msgstr "التأشيرات المساعدة"
+
+msgid "Local Students Served"
+msgstr "الطلاب المحليين الذين تم خدمتهم"
+
+msgid "Trusted Worldwide"
+msgstr "موثوق عالميًا"
+
+msgid "Recommended By"
+msgstr "الموصى به من"
+
+msgid "Leading Organizations"
+msgstr "المنظمات الرائدة"
+
+msgid "Verified & Licensed"
+msgstr "تحقق من صحته ورخص"
+
+msgid "5-Star Rated"
+msgstr "التصنيف 5 نجوم"
+
+msgid "Award Winning"
+msgstr "الحائز على جوائز"
+
+msgid "Guidance & Selection"
+msgstr "التوجيه والاختيار"
+
+msgid "Visa & Passport"
+msgstr "التأشيرة والجواز"
+
+msgid "Scholarship Assistance"
+msgstr "مساعدة المنح الدراسية"
+
+msgid "View All Services"
+msgstr "عرض جميع الخدمات"
+
+msgid "Local Universities"
+msgstr "الجامعات المحلية"
+
+msgid "International Universities"
+msgstr "الجامعات الدولية"
+
+msgid "USA Universities"
+msgstr "جامعات الولايات المتحدة"
+
+msgid "UK Universities"
+msgstr "جامعات المملكة المتحدة"
+
+msgid "Canada Universities"
+msgstr "جامعات كندا"
+
+msgid "View All Countries"
+msgstr "عرض جميع الدول"
+
+msgid "Study at World-Class Universities Abroad"
+msgstr "الدراسة في جامعات عالمية الطراز بالخارج"
+
+msgid "United States"
+msgstr "الولايات المتحدة"
+
+msgid "United Kingdom"
+msgstr "المملكة المتحدة"
+
+msgid "Canada"
+msgstr "كندا"
+
+msgid "Australia"
+msgstr "أستراليا"
+
+msgid "Germany"
+msgstr "ألمانيا"
+
+msgid "More"
+msgstr "أكثر"
+
+msgid "Top Universities"
+msgstr "أفضل الجامعات"
+
+msgid "Worldwide"
+msgstr "في جميع أنحاء العالم"
+
+msgid "Countries"
+msgstr "الدول"
+
+msgid "Most In-Demand Programs"
+msgstr "البرامج الأكثر طلبًا"
+
+msgid "Top"
+msgstr "أعلى"
+
+msgid "Courses"
+msgstr "الدورات"
+
+msgid "in High Demand"
+msgstr "في طلب مرتفع"
+
+msgid "Computer Science / IT"
+msgstr "علوم الحاسوب / تكنولوجيا المعلومات"
+
+msgid "Business & Management"
+msgstr "الأعمال والإدارة"
+
+msgid "Healthcare & Medicine"
+msgstr "الرعاية الصحية والطب"
+
+msgid "Engineering"
+msgstr "الهندسة"
+
+msgid "Data Science & AI"
+msgstr "علوم البيانات والذكاء الاصطناعي"
+
+msgid "Law & Legal Studies"
+msgstr "القانون والدراسات القانونية"
+
+msgid "Learn More"
+msgstr "تعرف على المزيد"
+
+msgid "Get Free Course Consultation"
+msgstr "احصل على استشارة دورة مجانية"
+
+msgid "Contact Us"
+msgstr "اتصل بنا"
+
+msgid "Student Portal"
+msgstr "بوابة الطالب"
+
+msgid "Create Account Now"
+msgstr "إنشاء حساب الآن"
+
+msgid "Who We Are"
+msgstr "من نحن"
+
+msgid "Leading the Way in International Education Counseling."
+msgstr "الرائدة في مجال الاستشارات التعليمية الدولية."
+
+msgid ""
+"Founded in 2020 and launched in 2024, Africa Western Education Company Ltd "
+"is a professional educational consultancy empowering African students and "
+"professionals with reliable, transparent, and high-quality advisory "
+"services. We connect you to global learning opportunities while simplifying "
+"admissions, scholarship applications, and visa processes."
+msgstr ""
+"تأسست عام 2020 وأطلقت في عام 2024، شركة Africa Western Education Company Ltd"
+" هي شركة استشارات تعليمية احترافية تمكن الطلاب والمحترفين الأفارقة من خلال "
+"خدمات استشارية موثوقة وشفافة وعالية الجودة. نحن نربطك بفرص التعلم العالمية "
+"مع تبسيط عمليات القبول وطلبات المنح الدراسية ومعالجات التأشيرات."
+
+msgid "Our Mission"
+msgstr "مهمتنا"
+
+msgid ""
+"To empower African students and professionals by providing reliable, "
+"transparent, and high-quality educational consultancy services that connect "
+"them to global learning opportunities."
+msgstr ""
+"تمكين الطلاب والمحترفين الأفارقة من خلال تقديم خدمات استشارية تعليمية موثوقة"
+" وشفافة وعالية الجودة تربطهم بفرص التعلم العالمية."
+
+msgid "Our Vision"
+msgstr "رؤيتنا"
+
+msgid ""
+"To become Africa's leading and most trusted educational consultancy, shaping"
+" futures through global academic access and excellence."
+msgstr ""
+"أن تصبح شركة الاستشارات التعليمية الرائدة والأكثر ثقة في أفريقيا، تشكل "
+"المستقبل من خلال الوصول الأكاديمي العالمي والتميز."
+
+msgid "The Pillars of Our Success"
+msgstr "أعمدة نجاحنا"
+
+msgid "Integrity"
+msgstr "النزاهة"
+
+msgid ""
+"We uphold honesty, transparency, and ethical standards in all our services "
+"and interactions."
+msgstr ""
+"نحن نتمسك بالصدق والشفافية والمعايير الأخلاقية في جميع خدماتنا والتفاعلات."
+
+msgid "Innovation"
+msgstr "الابتكار"
+
+msgid ""
+"We embrace creativity and continuously improve our services with new methods"
+" and technologies."
+msgstr "نحن نتبنى الإبداع ونحسن خدماتنا باستمرار بطرق وتقنيات جديدة."
+
+msgid "Excellence"
+msgstr "التميز"
+
+msgid ""
+"We are committed to delivering the highest quality of service and achieving "
+"outstanding results for our clients."
+msgstr ""
+"نحن ملتزمون بتقديم أعلى جودة من الخدمة وتحقيق نتائج استثنائية لعملائنا."
+
+msgid "Customer Focus"
+msgstr "التركيز على العميل"
+
+msgid ""
+"Our clients are at the center of everything we do; we prioritize their needs"
+" and ensure satisfaction."
+msgstr "عملاؤنا في مركز كل ما نفعله؛ نعطي الأولوية لاحتياجاتهم ونضمن الرضا."
+
+msgid "Accountability"
+msgstr "المساءلة"
+
+msgid ""
+"We take full responsibility for our actions and outcomes, ensuring "
+"reliability and trustworthiness."
+msgstr ""
+"نحن نتحمل المسؤولية الكاملة عن أفعالنا ونتائجنا، مما يضمن الموثوقية والجدارة"
+" بالثقة."
+
+msgid "Teamwork"
+msgstr "العمل الجماعي"
+
+msgid ""
+"We foster collaboration and cooperation within our team and with partners to"
+" achieve common goals."
+msgstr ""
+"نحن نعزز التعاون والعمل الجماعي داخل فريقنا وشركائنا لتحقيق أهداف مشتركة."
+
+msgid "Our Comprehensive Services"
+msgstr "خدماتنا الشاملة"
+
+msgid "End-to-End Study Abroad Support"
+msgstr "دعم الدراسة بالخارج من النهاية إلى النهاية"
+
+msgid ""
+"From initial guidance to post-arrival support, we handle every aspect of "
+"your study abroad journey with expert care."
+msgstr ""
+"من التوجيه الأولي إلى الدعم بعد الوصول، نتعامل مع كل جوانب رحلة الدراسة "
+"بالخارج بعناية متخصصة."
+
+msgid "How We Help:"
+msgstr "كيف نساعد:"
+
+msgid "Personalized Profile Analysis:"
+msgstr "تحليل الملف الشخصي المخصص:"
+
+msgid ""
+"Comprehensive assessment of academic background, interests, and career goals"
+msgstr "تقييم شامل للخلفية الأكاديمية والاهتمامات والأهداف الوظيفية"
+
+msgid "University Shortlisting:"
+msgstr "قائمة جامعات مختصرة:"
+
+msgid "Curated list of universities matching your profile and budget"
+msgstr "قائمة منسقة من الجامعات التي تطابق ملفك الشخصي وميزانيتك"
+
+msgid "Course Selection:"
+msgstr "اختيار الدورة:"
+
+msgid "Expert guidance on program choices with best career prospects"
+msgstr "التوجيه الخبير بشأن اختيار البرنامج مع أفضل آفاق مهنية"
+
+msgid "Career Pathway Planning:"
+msgstr "تخطيط المسار الوظيفي:"
+
+msgid "Long-term career strategy aligned with your chosen course"
+msgstr "استراتيجية وظيفية طويلة الأجل متوافقة مع الدورة التي اخترتها"
+
+msgid "AFRICA WESTERN EDUCATION COMPANY LTD"
+msgstr "شركة التعليم الغربية الأفريقية المحدودة"
+
+msgid ""
+"Empowering African students and professionals through reliable, transparent,"
+" and high-quality educational consultancy services."
+msgstr ""
+"تمكين الطلاب والمحترفين الأفارقة من خلال خدمات الاستشارات التعليمية الموثوقة"
+" والشفافة والعالية الجودة."
+
+msgid "Quick Links"
+msgstr "روابط سريعة"
+
+msgid "Study Abroad"
+msgstr "الدراسة بالخارج"
+
+msgid "Apply Now"
+msgstr "تقدم الآن"
+
+msgid "Our Services"
+msgstr "خدماتنا"
+
+msgid "University Application Assistance"
+msgstr "مساعدة في تطبيق الجامعة"
+
+msgid "Visa Processing Support"
+msgstr "دعم معالجة التأشيرة"
+
+msgid "TCU Application Services"
+msgstr "خدمات تطبيق TCU"
+
+msgid "Pre-Departure Guidance"
+msgstr "التوجيه قبل المغادرة"
+
+msgid "Dar es Salaam, Tanzania"
+msgstr "دار السلام، تنزانيا"
+
+msgid "Mon-Fri: 8:00 AM - 6:00 PM"
+msgstr "الاثنين-الجمعة: 8:00 صباحًا - 6:00 مساءً"
+
+msgid "Sat: 9:00 AM - 2:00 PM"
+msgstr "السبت: 9:00 صباحًا - 2:00 مساءً"
+
+msgid "Privacy Policy"
+msgstr "سياسة الخصوصية"
+
+msgid "Terms of Service"
+msgstr "شروط الخدمة"
+
+msgid "Employee Login"
+msgstr "دخول الموظف"

@@ -1,0 +1,80 @@
+# robots.txt - SEO Optimization
+# Africa Western Education Company Ltd
+# Last updated: January 2026
+
+# Default rules for all bots
+User-agent: *
+Allow: /
+Allow: /en/
+Allow: /sw/
+Allow: /ar/
+Allow: /fr/
+
+# Disallow sensitive and administrative paths
+Disallow: /admin/
+Disallow: /employee/
+Disallow: /student-portal/login/
+Disallow: /student-portal/register/
+Disallow: /student-portal/dashboard/
+Disallow: /student-portal/payment/
+Disallow: /api/
+Disallow: /media/private/
+Disallow: /logs/
+Disallow: /static/admin/
+Disallow: /*.json$
+Disallow: /*?*sort=
+Disallow: /*?*filter=
+Disallow: /search/
+Disallow: /accounts/
+Disallow: /*?page=
+Disallow: /*?ref=
+Disallow: /*utm_*
+Disallow: /checkout/
+Disallow: /cart/
+
+# Crawl delay for all bots (be nice to servers)
+Crawl-delay: 1
+Request-rate: 1/10s
+
+# Specific rules for Google Bot (can crawl faster)
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0.5
+Request-rate: 30/1m
+
+# Specific rules for Bing Bot
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+Request-rate: 30/1m
+
+# Specific rules for Yahoo Slurp
+User-agent: Slurp
+Allow: /
+Crawl-delay: 1
+
+# Disallow bad/aggressive bots
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: Linguee
+Disallow: /
+
+# Sitemaps - all language versions
+Sitemap: https://africawesterneducation.com/sitemap.xml
+Sitemap: https://africawesterneducation.com/en/sitemap.xml
+Sitemap: https://africawesterneducation.com/sw/sitemap.xml
+Sitemap: https://africawesterneducation.com/ar/sitemap.xml
+Sitemap: https://africawesterneducation.com/fr/sitemap.xml
+
+# Clean parameters for better crawl efficiency
+Clean-param: utm_source&utm_medium&utm_campaign&utm_content&utm_term

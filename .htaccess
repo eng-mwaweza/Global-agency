@@ -1,0 +1,187 @@
+# Apache Configuration for Africa Western Education
+# SEO, Performance, and Security Optimization
+
+# Enable mod_rewrite for URL rewrites
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+    
+    # Remove .html extension from URLs (if applicable)
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^([^\.]+)$ $1.html [NC,L]
+    
+    # Redirect HTTP to HTTPS (enable in production)
+    # RewriteCond %{HTTPS} off
+    # RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+    
+    # Redirect www to non-www (or reverse as needed)
+    # RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+    # RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+    
+    # Add trailing slash to directories
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*[^/])$ /$1/ [L,R=301]
+</IfModule>
+
+# Enable GZIP Compression
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/xml
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE text/javascript
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/x-javascript
+    AddOutputFilterByType DEFLATE application/x-httpd-php
+    AddOutputFilterByType DEFLATE image/svg+xml
+    
+    # Exclude certain file types
+    SetEnvIfNoCase Request_URI \.(?:gif|jpg|jpeg|png|ico|zip|gz|rar|7z|pdf|woff|woff2)$ no-gzip dont-vary
+</IfModule>
+
+# Browser Caching
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresDefault "access plus 2 days"
+    
+    # Images
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType image/x-icon "access plus 1 year"
+    
+    # CSS and JavaScript
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType text/javascript "access plus 1 year"
+    
+    # Fonts
+    ExpiresByType font/ttf "access plus 1 year"
+    ExpiresByType font/otf "access plus 1 year"
+    ExpiresByType font/woff "access plus 1 year"
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType application/font-woff "access plus 1 year"
+    
+    # HTML
+    ExpiresByType text/html "access plus 2 days"
+    ExpiresByType application/xhtml+xml "access plus 2 days"
+    
+    # API and dynamic content
+    ExpiresByType application/json "access plus 0 seconds"
+    ExpiresByType application/ld+json "access plus 0 seconds"
+    ExpiresByType text/xml "access plus 0 seconds"
+    ExpiresByType application/xml "access plus 0 seconds"
+</IfModule>
+
+# ETag Control
+<IfModule mod_headers.c>
+    Header unset ETag
+    FileETag None
+</IfModule>
+
+# Cache Control Headers
+<IfModule mod_headers.c>
+    # Cache for 1 year (31536000 seconds)
+    <FilesMatch "\.(gif|jpg|jpeg|png|ico|svg|woff|woff2|ttf|otf)$">
+        Header set Cache-Control "max-age=31536000, public"
+    </FilesMatch>
+    
+    # Cache for 1 month
+    <FilesMatch "\.(css|js)$">
+        Header set Cache-Control "max-age=2592000, public"
+    </FilesMatch>
+    
+    # Cache for 2 days (HTML)
+    <FilesMatch "\.(html|htm|xhtml)$">
+        Header set Cache-Control "max-age=172800, public, must-revalidate"
+    </FilesMatch>
+    
+    # Don't cache dynamic content
+    <FilesMatch "\.(php|json)$">
+        Header set Cache-Control "no-cache, no-store, must-revalidate"
+    </FilesMatch>
+</IfModule>
+
+# Security Headers
+<IfModule mod_headers.c>
+    # X-Frame-Options - Prevent clickjacking
+    Header always set X-Frame-Options "SAMEORIGIN"
+    
+    # X-Content-Type-Options - Prevent MIME sniffing
+    Header always set X-Content-Type-Options "nosniff"
+    
+    # X-XSS-Protection - Enable XSS filter in browsers
+    Header always set X-XSS-Protection "1; mode=block"
+    
+    # Referrer-Policy - Control referrer information
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    
+    # Permissions-Policy (formerly Feature-Policy)
+    Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+    
+    # HSTS (HTTP Strict Transport Security) - Enable only with HTTPS
+    # Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+</IfModule>
+
+# Disable directory browsing
+Options -Indexes
+
+# Set default character encoding
+AddDefaultCharset utf-8
+
+# Block access to sensitive files
+<FilesMatch "\.(env|config|yml|yaml|json|lock)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Block access to version control directories
+<DirectoryMatch "^\.|\.git">
+    Order allow,deny
+    Deny from all
+</DirectoryMatch>
+
+# Set proper MIME types
+<IfModule mod_mime.c>
+    AddType application/javascript js
+    AddType text/css css
+    AddType image/webp webp
+    AddType font/woff woff
+    AddType font/woff2 woff2
+    AddCharset utf-8 .css
+    AddCharset utf-8 .js
+    AddCharset utf-8 .json
+</IfModule>
+
+# Error handling
+ErrorDocument 404 /404.html
+ErrorDocument 403 /403.html
+ErrorDocument 500 /500.html
+
+# Set correct default language
+DefaultLanguage en-US
+
+# Add Support for HTTP 1.1 Keep-Alive connection
+<IfModule mod_headers.c>
+    Header set Connection "keep-alive"
+</IfModule>
+
+# Block common dangerous bots and scanners
+SetEnvIf User-Agent "Baidu" bad_bot
+SetEnvIf User-Agent "Majestic" bad_bot
+SetEnvIf User-Agent "Megaindex" bad_bot
+SetEnvIf User-Agent "MJ12bot" bad_bot
+SetEnvIf User-Agent "AhrefsBot" bad_bot
+SetEnvIf User-Agent "SemrushBot" bad_bot
+
+<IfModule mod_authz_core.c>
+    Require all granted
+    Require not env bad_bot
+</IfModule>

@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sitemaps',  # Added for SEO sitemap generation
     'crispy_forms',
     'global_agency',
     'employee',
@@ -40,11 +41,13 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',  # Added Whitenoise
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',  # Added for i18n
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'globalagency_project.middleware.i18n.LanguageSwitcherMiddleware',  # Custom language switcher
 ]
 
 ROOT_URLCONF = 'globalagency_project.urls'
@@ -60,6 +63,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'globalagency_project.context_processors.language_context',  # Add language variables to templates
             ],
         },
     },
@@ -95,8 +99,27 @@ DATABASES = {
 }
 
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en'
 TIME_ZONE = 'Africa/Dar_es_Salaam'
+
+# Internationalization settings
+USE_I18N = True
+USE_L10N = True
+
+# Supported languages
+from django.utils.translation import gettext_lazy as _
+
+LANGUAGES = [
+    ('en', _('English')),
+    ('sw', _('Swahili')),
+    ('ar', _('Arabic')),
+    ('fr', _('French')),
+]
+
+# Locale paths for translation files
+LOCALE_PATHS = [
+    BASE_DIR / 'locale',
+]
 
 # Static files configuration
 STATIC_URL = '/static/'
@@ -429,22 +452,9 @@ LOGGING = {
 # CUSTOM SECURITY MIDDLEWARE
 # =============================================================================
 
-# Add custom middleware to MIDDLEWARE list
-SECURITY_MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # Added for static file serving
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # Add custom security middleware here if needed
-]
-
-# Update MIDDLEWARE if it exists
-if 'MIDDLEWARE' in locals() or 'MIDDLEWARE' in globals():
-    MIDDLEWARE = SECURITY_MIDDLEWARE
+# Note: The main MIDDLEWARE list is defined earlier in this file with all necessary middleware
+# including LocaleMiddleware for i18n. Do not override it here.
+# The MIDDLEWARE variable is already properly configured with all required middleware.
 
 # Performance Settings
 SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
@@ -455,3 +465,221 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Email backend for development
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# =============================================================================
+# PERFORMANCE OPTIMIZATION SETTINGS
+# =============================================================================
+
+# Database query optimization
+DATABASES['default']['CONN_MAX_AGE'] = 600  # Connection pooling
+
+# Only add MySQL-specific options if using MySQL
+if DATABASES['default']['ENGINE'] == 'django.db.backends.mysql':
+    DATABASES['default']['OPTIONS']['init_command'] = "SET sql_mode='STRICT_TRANS_TABLES', innodb_strict_mode=1, NAMES utf8mb4"
+
+# Query optimization
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Template optimization
+if not DEBUG:
+    TEMPLATES[0]['APP_DIRS'] = False
+    TEMPLATES[0]['OPTIONS']['loaders'] = [
+        ('django.template.loaders.cached.Loader', [
+            'django.template.loaders.filesystem.Loader',
+            'django.template.loaders.app_directories.Loader',
+        ]),
+    ]
+
+# Cache Framework Configuration - For production use Redis
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'africa-western-education',
+        'OPTIONS': {
+            'MAX_ENTRIES': 10000,
+            'CULL_FREQUENCY': 4,
+        },
+        'TIMEOUT': 300,  # 5 minutes
+        'KEY_PREFIX': 'aweducol',
+        'VERSION': 1,
+    }
+}
+
+# Session cache settings
+SESSION_CACHE_ALIAS = 'default'
+
+# Middleware optimization
+MIDDLEWARE.insert(3, 'django.middleware.gzip.GZipMiddleware')
+MIDDLEWARE.insert(4, 'django.middleware.http.ConditionalGetMiddleware')
+
+# Static files gzip compression
+WHITENOISE_COMPRESS = True
+WHITENOISE_AUTOREFRESH = DEBUG
+WHITENOISE_ADD_HEADERS_BEFORE = True
+
+# Image optimization
+WHITENOISE_MANIFEST_STRICT = False
+
+# =============================================================================
+# SEO & ACCESSIBILITY OPTIMIZATION
+# =============================================================================
+
+# Enable gzip compression
+GZIP_LEVEL = 9
+
+# HTTP caching headers
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+
+# HSTS settings (Enable in production)
+if not DEBUG:
+    SECURE_HSTS_SECONDS = 31536000  # 1 year
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+
+# CSP Headers
+CSP_DEFAULT_SRC = ("'self'", "https:", "data:", "blob:")
+CSP_SCRIPT_SRC = ("'self'", "'unsafe-inline'", "'unsafe-eval'", "https:", "cdn.tailwindcss.com", "unpkg.com")
+CSP_STYLE_SRC = ("'self'", "'unsafe-inline'", "https:", "fonts.googleapis.com", "cdn.tailwindcss.com")
+CSP_IMG_SRC = ("'self'", "https:", "data:", "blob:")
+CSP_FONT_SRC = ("'self'", "https:", "fonts.gstatic.com", "cdnjs.cloudflare.com")
+
+# SEO Meta Settings
+ROBOTS_USE_HOST = False
+ROBOTS_USE_HTTPS = not DEBUG
+ROBOTS_RULES = [
+    {'useragent': '*', 'allow': '/'},
+    {'useragent': '*', 'disallow': '/admin'},
+    {'useragent': '*', 'disallow': '/employee'},
+]
+
+# =============================================================================
+# INTERNATIONALIZATION & LOCALIZATION
+# =============================================================================
+
+# Use i18n
+USE_I18N = True
+USE_L10N = True
+USE_TZ = True
+
+# Internationalization middleware is already in place
+# Locale paths already configured above
+
+# =============================================================================
+# PRODUCTION-READY SETTINGS
+# =============================================================================
+
+# Allowed hosts - configure for production
+if not DEBUG:
+    ALLOWED_HOSTS = [
+        'africawesterneducation.com',
+        'www.africawesterneducation.com',
+        'api.africawesterneducation.com',
+    ]
+
+# CSRF and Security
+CSRF_TRUSTED_ORIGINS = []
+if not DEBUG:
+    CSRF_TRUSTED_ORIGINS = [
+        'https://africawesterneducation.com',
+        'https://www.africawesterneducation.com',
+    ]
+
+# Secure cookies
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SECURE = not DEBUG
+SESSION_COOKIE_SAMESITE = 'Lax'
+SESSION_COOKIE_AGE = 86400  # 24 hours
+SESSION_SAVE_EVERY_REQUEST = False
+
+CSRF_COOKIE_HTTPONLY = True
+CSRF_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SAMESITE = 'Lax'
+
+# Password validation with stricter requirements
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 12,
+        }
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+]
+
+# File upload security
+FILE_UPLOAD_MAX_MEMORY_SIZE = 10485760  # 10MB
+DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760  # 10MB
+FILE_UPLOAD_PERMISSIONS = 0o644
+
+# Logging optimization
+LOGGING_CONFIG = None
+
+# =============================================================================
+# ADVANCED CACHING & CDN SETTINGS
+# =============================================================================
+
+# Cache individual views
+CACHE_MIDDLEWARE_ALIAS = 'default'
+CACHE_MIDDLEWARE_SECONDS = 600  # 10 minutes
+CACHE_MIDDLEWARE_KEY_PREFIX = 'aweducol'
+
+# API Response caching
+DEFAULT_CACHE_TIMEOUT = 300
+
+# =============================================================================
+# PERFORMANCE MONITORING
+# =============================================================================
+
+# Enable SQL logging in development only
+if DEBUG:
+    LOGGING['loggers']['django.db.backends'] = {
+        'handlers': ['console'],
+        'level': 'DEBUG',
+        'propagate': False,
+    }
+
+# =============================================================================
+# SITEMAP & ROBOTS CONFIGURATION
+# =============================================================================
+
+# Sitemap settings
+SITEMAP_CHANGEFREQ_DEFAULT = 'weekly'
+SITEMAP_PRIORITY_DEFAULT = 0.5
+
+# Google Search Console verification
+GOOGLE_SITE_VERIFICATION = config('GOOGLE_SITE_VERIFICATION', default='')
+BING_SITE_VERIFICATION = config('BING_SITE_VERIFICATION', default='')
+
+# =============================================================================
+# ANALYTICS & MONITORING
+# =============================================================================
+
+# Google Analytics
+GA4_MEASUREMENT_ID = config('GA4_MEASUREMENT_ID', default='')
+
+# Sentry error tracking (optional)
+SENTRY_DSN = config('SENTRY_DSN', default='')
+
+if SENTRY_DSN:
+    import sentry_sdk
+    from sentry_sdk.integrations.django import DjangoIntegration
+    
+    sentry_sdk.init(
+        dsn=SENTRY_DSN,
+        integrations=[DjangoIntegration()],
+        traces_sample_rate=0.1,
+        send_default_pii=False
+    )

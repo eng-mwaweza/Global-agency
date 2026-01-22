@@ -1,127 +1,83 @@
 {% load static %}
-<nav class="bg-white shadow-md sticky top-0 z-50">
+{% load i18n %}
+<nav class="bg-white/95 backdrop-blur-lg shadow-md sticky top-0 z-50 border-b border-gray-100">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center h-16">
 
       <!-- Logo -->
-      <a href="{% url 'global_agency:home' %}">
+      <a href="{% url 'global_agency:home' %}" class="flex-shrink-0">
         <img 
           src="{% static 'global_agency/img/logo.png' %}" 
-            alt="AFRICA WESTERN EDUCATION COMPANY LTD Logo" 
-          class="h-12 w-auto md:h-16 object-contain drop-shadow-lg"
+          alt="{% trans 'AFRICA WESTERN EDUCATION COMPANY LTD Logo' %}" 
+          class="h-12 w-auto md:h-16 object-contain drop-shadow-lg transition-transform duration-300 hover:scale-105"
         />
       </a>
 
       <!-- Desktop Menu -->
       <div class="hidden md:flex items-center space-x-4">
         <ul class="flex items-center space-x-4">
-          <li><a href="{% url 'global_agency:home' %}" class="hover:text-primary-blue transition duration-150 font-semibold text-xs md:text-base">Home</a></li>
-          <li><a href="#about" class="hover:text-primary-blue transition duration-150 font-semibold text-xs md:text-base">About Us</a></li>
+          <li>
+            <a href="{% url 'global_agency:home' %}" class="hover:text-primary-blue transition duration-150 font-semibold text-xs md:text-base relative group">
+              {% trans "Home" %}
+              <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-blue transition-all duration-300 group-hover:w-full"></span>
+            </a>
+          </li>
+          <li>
+            <a href="#about" class="hover:text-primary-blue transition duration-150 font-semibold text-xs md:text-base relative group">
+              {% trans "About Us" %}
+              <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-blue transition-all duration-300 group-hover:w-full"></span>
+            </a>
+          </li>
           
           <!-- Services Dropdown -->
           <li class="relative group">
             <button class="hover:text-primary-blue transition duration-150 font-semibold text-xs md:text-base flex items-center focus:outline-none">
-              Services
+              {% trans "Services" %}
               <svg class="w-4 h-4 ml-1 transform group-hover:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
               </svg>
             </button>
             
             <!-- Services Dropdown Menu -->
-            <div class="absolute left-0 mt-2 w-72 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 border border-gray-200 z-50 transform origin-top">
+            <div class="absolute {% if LANGUAGE_CODE == 'ar' %}right-auto left-0{% else %}left-0{% endif %} mt-2 w-72 bg-white rounded-xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 border border-gray-100 z-50 transform origin-top">
               <div class="p-3">
                 <!-- Guidance & Selection -->
-                <a href="#services" class="flex items-center p-3 hover:bg-green-50 rounded-lg transition duration-150 group/service">
-                  <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
-                    <i class="fas fa-graduation-cap text-green-600 text-xs"></i>
+                <a href="#services" class="flex items-center p-3 hover:bg-gradient-to-r hover:from-green-50 hover:to-transparent rounded-lg transition duration-150 group/service">
+                  <div class="w-10 h-10 bg-gradient-to-br from-green-100 to-green-200 rounded-xl flex items-center justify-center {% if LANGUAGE_CODE == 'ar' %}ml-3{% else %}mr-3{% endif %} flex-shrink-0 shadow-sm">
+                    <i class="fas fa-graduation-cap text-green-600 text-sm"></i>
                   </div>
                   <div>
-                    <h4 class="font-semibold text-gray-900 group-hover/service:text-primary-blue">Guidance & Selection</h4>
-                    <p class="text-xs text-gray-600 mt-1">Strategic university and course selection</p>
+                    <h4 class="font-semibold text-gray-900 group-hover/service:text-primary-blue">{% trans "Guidance & Selection" %}</h4>
+                    <p class="text-xs text-gray-500 mt-0.5">{% trans "Strategic university and course selection" %}</p>
                   </div>
                 </a>
 
                 <!-- Visa & Passport -->
-                <a href="#services" class="flex items-center p-3 hover:bg-blue-50 rounded-lg transition duration-150 group/service mt-2">
-                  <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
-                    <i class="fas fa-passport text-blue-600 text-xs"></i>
+                <a href="#services" class="flex items-center p-3 hover:bg-gradient-to-r hover:from-blue-50 hover:to-transparent rounded-lg transition duration-150 group/service mt-1">
+                  <div class="w-10 h-10 bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl flex items-center justify-center {% if LANGUAGE_CODE == 'ar' %}ml-3{% else %}mr-3{% endif %} flex-shrink-0 shadow-sm">
+                    <i class="fas fa-passport text-blue-600 text-sm"></i>
                   </div>
                   <div>
-                    <h4 class="font-semibold text-gray-900 group-hover/service:text-primary-blue">Visa & Passport</h4>
-                    <p class="text-xs text-gray-600 mt-1">Complete visa processing support</p>
+                    <h4 class="font-semibold text-gray-900 group-hover/service:text-primary-blue">{% trans "Visa & Passport" %}</h4>
+                    <p class="text-xs text-gray-500 mt-0.5">{% trans "Complete visa processing support" %}</p>
                   </div>
                 </a>
 
-                <!-- Study Loan Support -->
-                <a href="#services" class="flex items-center p-3 hover:bg-purple-50 rounded-lg transition duration-150 group/service mt-2">
-                  <div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
-                    <i class="fas fa-hand-holding-usd text-purple-600 text-xs"></i>
+                <!-- Scholarship Assistance -->
+                <a href="#services" class="flex items-center p-3 hover:bg-gradient-to-r hover:from-purple-50 hover:to-transparent rounded-lg transition duration-150 group/service mt-1">
+                  <div class="w-10 h-10 bg-gradient-to-br from-purple-100 to-purple-200 rounded-xl flex items-center justify-center {% if LANGUAGE_CODE == 'ar' %}ml-3{% else %}mr-3{% endif %} flex-shrink-0 shadow-sm">
+                    <i class="fas fa-hand-holding-usd text-purple-600 text-sm"></i>
                   </div>
                   <div>
-                    <h4 class="font-semibold text-gray-900 group-hover/service:text-primary-blue">Study Loan Support</h4>
-                    <p class="text-xs text-gray-600 mt-1">Financial assistance guidance</p>
-                  </div>
-                </a>
-
-                <!-- University Selection -->
-                <a href="#services" class="flex items-center p-3 hover:bg-yellow-50 rounded-lg transition duration-150 group/service mt-2">
-                  <div class="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
-                    <i class="fas fa-university text-yellow-600 text-xs"></i>
-                  </div>
-                  <div>
-                    <h4 class="font-semibold text-gray-900 group-hover/service:text-primary-blue">University Selection</h4>
-                    <p class="text-xs text-gray-600 mt-1">Strategic institution matching</p>
-                  </div>
-                </a>
-
-                <!-- Travel Support -->
-                <a href="#services" class="flex items-center p-3 hover:bg-red-50 rounded-lg transition duration-150 group/service mt-2">
-                  <div class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
-                    <i class="fas fa-plane text-red-600 text-xs"></i>
-                  </div>
-                  <div>
-                    <h4 class="font-semibold text-gray-900 group-hover/service:text-primary-blue">Travel Support</h4>
-                    <p class="text-xs text-gray-600 mt-1">Complete travel arrangements</p>
-                  </div>
-                </a>
-
-                <!-- Accommodation Support -->
-                <a href="#services" class="flex items-center p-3 hover:bg-indigo-50 rounded-lg transition duration-150 group/service mt-2">
-                  <div class="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
-                    <i class="fas fa-home text-indigo-600 text-xs"></i>
-                  </div>
-                  <div>
-                    <h4 class="font-semibold text-gray-900 group-hover/service:text-primary-blue">Accommodation Support</h4>
-                    <p class="text-xs text-gray-600 mt-1">Safe housing solutions abroad</p>
-                  </div>
-                </a>
-
-                <!-- Language Support -->
-                <a href="#services" class="flex items-center p-3 hover:bg-pink-50 rounded-lg transition duration-150 group/service mt-2">
-                  <div class="w-8 h-8 bg-pink-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
-                    <i class="fas fa-language text-pink-600 text-xs"></i>
-                  </div>
-                  <div>
-                    <h4 class="font-semibold text-gray-900 group-hover/service:text-primary-blue">Language Support</h4>
-                    <p class="text-xs text-gray-600 mt-1">Language proficiency development</p>
-                  </div>
-                </a>
-
-                <!-- Direct Admission -->
-                <a href="#services" class="flex items-center p-3 hover:bg-teal-50 rounded-lg transition duration-150 group/service mt-2">
-                  <div class="w-8 h-8 bg-teal-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
-                    <i class="fas fa-user-graduate text-teal-600 text-xs"></i>
-                  </div>
-                  <div>
-                    <h4 class="font-semibold text-gray-900 group-hover/service:text-primary-blue">Direct Admission</h4>
-                    <p class="text-xs text-gray-600 mt-1">Expedited admission processing</p>
+                    <h4 class="font-semibold text-gray-900 group-hover/service:text-primary-blue">{% trans "Scholarship Assistance" %}</h4>
+                    <p class="text-xs text-gray-500 mt-0.5">{% trans "Financial aid and scholarship guidance" %}</p>
                   </div>
                 </a>
 
                 <!-- View All Services -->
-                <div class="mt-4 pt-3 border-t border-gray-200">
-                  <a href="#services" class="block text-center bg-primary-blue text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-700 transition duration-150 text-xs">
-                    View All Services
+                <div class="mt-3 pt-3 border-t border-gray-100">
+                  <a href="#services" class="block text-center bg-gradient-to-r from-primary-blue to-blue-600 text-white py-2.5 px-4 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transition duration-150 text-xs shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                    {% trans "View All Services" %}
                   </a>
                 </div>
               </div>
@@ -131,51 +87,51 @@
           <!-- Universities Dropdown -->
           <li class="relative group">
             <button class="hover:text-primary-blue transition duration-150 font-semibold text-xs md:text-base flex items-center focus:outline-none">
-              Universities
+              {% trans "Universities" %}
               <svg class="w-4 h-4 ml-1 transform group-hover:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
               </svg>
             </button>
             
             <!-- Universities Dropdown Menu -->
-            <div class="absolute left-0 mt-2 w-72 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 border border-gray-200 z-50 transform origin-top">
+            <div class="absolute {% if LANGUAGE_CODE == 'ar' %}right-auto left-0{% else %}left-0{% endif %} mt-2 w-72 bg-white rounded-xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 border border-gray-100 z-50 transform origin-top">
               <div class="p-3">
                 <!-- Local Universities Section -->
-                <div class="mb-4">
-                  <h3 class="text-xs font-semibold text-gray-900 uppercase tracking-wide mb-2">Vyuo Vya Ndani</h3>
-                  <a href="{% url 'global_agency:vyuo_ndani' %}" class="block py-2 px-3 text-xs text-gray-700 hover:bg-blue-50 hover:text-primary-blue rounded transition duration-150">
-                    All Local Universities
+                <div class="mb-3">
+                  <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 px-2">{% trans "Local Universities" %}</h3>
+                  <a href="{% url 'global_agency:vyuo_ndani' %}" class="block py-2 px-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary-blue rounded-lg transition duration-150 font-medium">
+                    {% trans "All Local Universities" %}
                   </a>
                 </div>
                 
                 <!-- Abroad Universities Section -->
-                <div class="mb-4">
-                  <h3 class="text-xs font-semibold text-gray-900 uppercase tracking-wide mb-2">Abroad Universities</h3>
-                  <a href="{% url 'global_agency:abroad_university_detail' 'harvard' %}" class="block py-2 px-3 text-xs text-gray-700 hover:bg-blue-50 hover:text-primary-blue rounded transition duration-150">
+                <div class="mb-3 pt-2 border-t border-gray-100">
+                  <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 px-2">{% trans "International Universities" %}</h3>
+                  <a href="{% url 'global_agency:abroad_university_detail' 'harvard' %}" class="block py-2 px-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary-blue rounded-lg transition duration-150">
                     Harvard University
                   </a>
-                  <a href="{% url 'global_agency:abroad_university_detail' 'stanford' %}" class="block py-2 px-3 text-xs text-gray-700 hover:bg-blue-50 hover:text-primary-blue rounded transition duration-150">
+                  <a href="{% url 'global_agency:abroad_university_detail' 'stanford' %}" class="block py-2 px-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary-blue rounded-lg transition duration-150">
                     Stanford University
                   </a>
-                  <a href="{% url 'global_agency:abroad_university_detail' 'mit' %}" class="block py-2 px-3 text-xs text-gray-700 hover:bg-blue-50 hover:text-primary-blue rounded transition duration-150">
+                  <a href="{% url 'global_agency:abroad_university_detail' 'mit' %}" class="block py-2 px-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary-blue rounded-lg transition duration-150">
                     MIT
                   </a>
                 </div>
                 
                 <!-- Countries Section -->
-                <div>
-                  <h4 class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Browse Countries</h4>
-                  <a href="{% url 'global_agency:country_universities' 'usa' %}" class="block py-2 px-3 text-xs text-gray-700 hover:bg-blue-50 hover:text-primary-blue rounded transition duration-150">
-                    🇺🇸 USA Universities
+                <div class="pt-2 border-t border-gray-100">
+                  <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 px-2">{% trans "Browse by Country" %}</h4>
+                  <a href="{% url 'global_agency:country_universities' 'usa' %}" class="block py-2 px-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary-blue rounded-lg transition duration-150">
+                    🇺🇸 {% trans "USA Universities" %}
                   </a>
-                  <a href="{% url 'global_agency:country_universities' 'uk' %}" class="block py-2 px-3 text-xs text-gray-700 hover:bg-blue-50 hover:text-primary-blue rounded transition duration-150">
-                    🇬🇧 UK Universities
+                  <a href="{% url 'global_agency:country_universities' 'uk' %}" class="block py-2 px-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary-blue rounded-lg transition duration-150">
+                    🇬🇧 {% trans "UK Universities" %}
                   </a>
-                  <a href="{% url 'global_agency:country_universities' 'canada' %}" class="block py-2 px-3 text-xs text-gray-700 hover:bg-blue-50 hover:text-primary-blue rounded transition duration-150">
-                    🇨🇦 Canada Universities
+                  <a href="{% url 'global_agency:country_universities' 'canada' %}" class="block py-2 px-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary-blue rounded-lg transition duration-150">
+                    🇨🇦 {% trans "Canada Universities" %}
                   </a>
-                  <a href="{% url 'global_agency:all_countries' %}" class="block py-2 px-3 text-xs text-primary-blue font-semibold hover:bg-blue-50 rounded transition duration-150 mt-2">
-                    View All Countries →
+                  <a href="{% url 'global_agency:all_countries' %}" class="block py-2 px-3 text-sm text-primary-blue font-semibold hover:bg-blue-50 rounded-lg transition duration-150 mt-1">
+                    {% trans "View All Countries" %} →
                   </a>
                 </div>
               </div>
@@ -184,23 +140,127 @@
 
           <li>
             <a href="{% url 'global_agency:tcu_services' %}" 
-               class="hover:text-primary-blue transition duration-150 font-semibold text-xs md:text-base">
-               TCU Services
+               class="hover:text-primary-blue transition duration-150 font-semibold text-xs md:text-base relative group">
+               {% trans "TCU Services" %}
+               <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-blue transition-all duration-300 group-hover:w-full"></span>
             </a>
           </li>
 
-          <li><a href="#success" class="hover:text-primary-blue transition duration-150 font-semibold text-xs md:text-base">Success Stories</a></li>
+          <li>
+            <a href="#success" class="hover:text-primary-blue transition duration-150 font-semibold text-xs md:text-base relative group">
+              {% trans "Success Stories" %}
+              <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-blue transition-all duration-300 group-hover:w-full"></span>
+            </a>
+          </li>
         </ul>
 
+        <!-- Language Switcher -->
+        <div class="lang-dropdown">
+          <button class="flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-gray-100 transition duration-200 focus:outline-none focus:ring-2 focus:ring-primary-blue focus:ring-opacity-50">
+            {% if LANGUAGE_CODE == 'en' %}
+              <span class="text-lg">🇬🇧</span>
+              <span class="text-sm font-medium text-gray-700">EN</span>
+            {% elif LANGUAGE_CODE == 'sw' %}
+              <span class="text-lg">🇹🇿</span>
+              <span class="text-sm font-medium text-gray-700">SW</span>
+            {% elif LANGUAGE_CODE == 'ar' %}
+              <span class="text-lg">🇸🇦</span>
+              <span class="text-sm font-medium text-gray-700">AR</span>
+            {% elif LANGUAGE_CODE == 'fr' %}
+              <span class="text-lg">🇫🇷</span>
+              <span class="text-sm font-medium text-gray-700">FR</span>
+            {% else %}
+              <span class="text-lg">🌍</span>
+              <span class="text-sm font-medium text-gray-700">{{ LANGUAGE_CODE|upper }}</span>
+            {% endif %}
+            <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
+          
+          <div class="lang-dropdown-content" id="lang-dropdown-desktop">
+            <form id="language-form-desktop" method="post" style="display: none;">
+              {% csrf_token %}
+              <input type="hidden" name="language" value="" id="lang-value-desktop">
+              <input type="hidden" name="next" value="{{ request.path }}">
+            </form>
+            
+            <button type="button" class="lang-option {% if LANGUAGE_CODE == 'en' %}active{% endif %}" onclick="changeLanguage('en', 'desktop')">
+              <span class="text-xl {% if LANGUAGE_CODE == 'ar' %}ml-3{% else %}mr-3{% endif %}">🇬🇧</span>
+              <span>English</span>
+            </button>
+            
+            <button type="button" class="lang-option {% if LANGUAGE_CODE == 'sw' %}active{% endif %}" onclick="changeLanguage('sw', 'desktop')">
+              <span class="text-xl {% if LANGUAGE_CODE == 'ar' %}ml-3{% else %}mr-3{% endif %}">🇹🇿</span>
+              <span>Kiswahili</span>
+            </button>
+            
+            <button type="button" class="lang-option {% if LANGUAGE_CODE == 'ar' %}active{% endif %}" onclick="changeLanguage('ar', 'desktop')">
+              <span class="text-xl {% if LANGUAGE_CODE == 'ar' %}ml-3{% else %}mr-3{% endif %}">🇸🇦</span>
+              <span>العربية</span>
+            </button>
+            
+            <button type="button" class="lang-option {% if LANGUAGE_CODE == 'fr' %}active{% endif %}" onclick="changeLanguage('fr', 'desktop')">
+              <span class="text-xl {% if LANGUAGE_CODE == 'ar' %}ml-3{% else %}mr-3{% endif %}">🇫🇷</span>
+              <span>Français</span>
+            </button>
+          </div>
+        </div>
+
         <a href="{% url 'global_agency:contact' %}"
-           class="bg-primary-blue text-white px-6 py-3 rounded-full text-xs md:text-base font-semibold shadow-lg hover:bg-blue-800 transition duration-300 transform hover:scale-105">
-           Book Free Consult
+           class="btn-modern bg-gradient-to-r from-primary-blue to-blue-600 text-white px-6 py-3 rounded-full text-xs md:text-sm font-semibold shadow-lg hover:shadow-xl transition duration-300 transform hover:scale-105 hover:from-blue-700 hover:to-blue-800">
+           {% trans "Book Free Consult" %}
         </a>
       </div>
 
       <!-- Mobile Menu Button -->
-      <div class="md:hidden flex items-center">
-        <button id="mobile-menu-button" class="text-primary-blue hover:text-blue-800 focus:outline-none p-2">
+      <div class="md:hidden flex items-center space-x-2">
+        <!-- Mobile Language Switcher -->
+        <div class="lang-dropdown">
+          <button class="flex items-center p-2 rounded-lg hover:bg-gray-100 transition duration-200">
+            {% if LANGUAGE_CODE == 'en' %}
+              <span class="text-lg">🇬🇧</span>
+            {% elif LANGUAGE_CODE == 'sw' %}
+              <span class="text-lg">🇹🇿</span>
+            {% elif LANGUAGE_CODE == 'ar' %}
+              <span class="text-lg">🇸🇦</span>
+            {% elif LANGUAGE_CODE == 'fr' %}
+              <span class="text-lg">🇫🇷</span>
+            {% else %}
+              <span class="text-lg">🌍</span>
+            {% endif %}
+          </button>
+          
+          <div class="lang-dropdown-content" id="lang-dropdown-mobile">
+            <form id="language-form-mobile" method="post" style="display: none;">
+              {% csrf_token %}
+              <input type="hidden" name="language" value="" id="lang-value-mobile">
+              <input type="hidden" name="next" value="{{ request.path }}">
+            </form>
+            
+            <button type="button" class="lang-option {% if LANGUAGE_CODE == 'en' %}active{% endif %}" onclick="changeLanguage('en', 'mobile')">
+              <span class="text-xl {% if LANGUAGE_CODE == 'ar' %}ml-3{% else %}mr-3{% endif %}">🇬🇧</span>
+              <span>English</span>
+            </button>
+            
+            <button type="button" class="lang-option {% if LANGUAGE_CODE == 'sw' %}active{% endif %}" onclick="changeLanguage('sw', 'mobile')">
+              <span class="text-xl {% if LANGUAGE_CODE == 'ar' %}ml-3{% else %}mr-3{% endif %}">🇹🇿</span>
+              <span>Kiswahili</span>
+            </button>
+            
+            <button type="button" class="lang-option {% if LANGUAGE_CODE == 'ar' %}active{% endif %}" onclick="changeLanguage('ar', 'mobile')">
+              <span class="text-xl {% if LANGUAGE_CODE == 'ar' %}ml-3{% else %}mr-3{% endif %}">🇸🇦</span>
+              <span>العربية</span>
+            </button>
+            
+            <button type="button" class="lang-option {% if LANGUAGE_CODE == 'fr' %}active{% endif %}" onclick="changeLanguage('fr', 'mobile')">
+              <span class="text-xl {% if LANGUAGE_CODE == 'ar' %}ml-3{% else %}mr-3{% endif %}">🇫🇷</span>
+              <span>Français</span>
+            </button>
+          </div>
+        </div>
+        
+        <button id="mobile-menu-button" class="text-primary-blue hover:text-blue-800 focus:outline-none p-2 rounded-lg hover:bg-gray-100 transition duration-200">
           <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
           </svg>
@@ -209,129 +269,45 @@
     </div>
 
     <!-- Mobile Menu -->
-    <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200 shadow-lg absolute left-0 right-0 top-full z-50">
+    <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200 shadow-xl absolute left-0 right-0 top-full z-50 rounded-b-2xl">
       <div class="py-2 space-y-0">
-        <a href="{% url 'global_agency:home' %}" class="block px-4 py-3 text-gray-700 font-medium hover:bg-gray-50 border-b border-gray-100 transition duration-150">Home</a>
-        <a href="#about" class="block px-4 py-3 text-gray-700 font-medium hover:bg-gray-50 border-b border-gray-100 transition duration-150">About Us</a>
+        <a href="{% url 'global_agency:home' %}" class="block px-4 py-3 text-gray-700 font-medium hover:bg-gradient-to-r hover:from-blue-50 hover:to-transparent border-b border-gray-100 transition duration-150">
+          {% trans "Home" %}
+        </a>
+        <a href="#about" class="block px-4 py-3 text-gray-700 font-medium hover:bg-gradient-to-r hover:from-blue-50 hover:to-transparent border-b border-gray-100 transition duration-150">
+          {% trans "About Us" %}
+        </a>
         
         <!-- Mobile Services Dropdown -->
         <div class="border-b border-gray-100">
-          <button id="mobile-services-toggle" class="w-full text-left px-4 py-3 text-gray-700 font-medium hover:bg-gray-50 flex justify-between items-center transition duration-150">
-            <span>Services</span>
+          <button id="mobile-services-toggle" class="w-full text-left px-4 py-3 text-gray-700 font-medium hover:bg-gradient-to-r hover:from-blue-50 hover:to-transparent flex justify-between items-center transition duration-150">
+            <span>{% trans "Services" %}</span>
             <svg id="mobile-services-arrow" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
             </svg>
           </button>
           <div id="mobile-services-menu" class="hidden bg-gray-50 transition-all duration-300 overflow-hidden">
-            
-            <!-- Guidance & Selection -->
-            <div class="px-6 py-3 border-b border-gray-200">
-              <a href="#services" class="flex items-center py-3 text-xs text-gray-700 hover:text-primary-blue transition duration-150">
-                <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
-                  <i class="fas fa-graduation-cap text-green-600 text-xs"></i>
-                </div>
-                <div>
-                  <h4 class="font-semibold">Guidance & Selection</h4>
-                  <p class="text-xs text-gray-600 mt-1">University and course selection</p>
-                </div>
-              </a>
-            </div>
-            
-            <!-- Visa & Passport -->
-            <div class="px-6 py-3 border-b border-gray-200">
-              <a href="#services" class="flex items-center py-3 text-xs text-gray-700 hover:text-primary-blue transition duration-150">
-                <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
-                  <i class="fas fa-passport text-blue-600 text-xs"></i>
-                </div>
-                <div>
-                  <h4 class="font-semibold">Visa & Passport</h4>
-                  <p class="text-xs text-gray-600 mt-1">Complete visa processing</p>
-                </div>
-              </a>
-            </div>
-            
-            <!-- Study Loan Support -->
-            <div class="px-6 py-3 border-b border-gray-200">
-              <a href="#services" class="flex items-center py-3 text-xs text-gray-700 hover:text-primary-blue transition duration-150">
-                <div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
-                  <i class="fas fa-hand-holding-usd text-purple-600 text-xs"></i>
-                </div>
-                <div>
-                  <h4 class="font-semibold">Study Loan Support</h4>
-                  <p class="text-xs text-gray-600 mt-1">Financial assistance</p>
-                </div>
-              </a>
-            </div>
-            
-            <!-- University Selection -->
-            <div class="px-6 py-3 border-b border-gray-200">
-              <a href="#services" class="flex items-center py-3 text-xs text-gray-700 hover:text-primary-blue transition duration-150">
-                <div class="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
-                  <i class="fas fa-university text-yellow-600 text-xs"></i>
-                </div>
-                <div>
-                  <h4 class="font-semibold">University Selection</h4>
-                  <p class="text-xs text-gray-600 mt-1">Institution matching</p>
-                </div>
-              </a>
-            </div>
-            
-            <!-- Travel Support -->
-            <div class="px-6 py-3 border-b border-gray-200">
-              <a href="#services" class="flex items-center py-3 text-xs text-gray-700 hover:text-primary-blue transition duration-150">
-                <div class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
-                  <i class="fas fa-plane text-red-600 text-xs"></i>
-                </div>
-                <div>
-                  <h4 class="font-semibold">Travel Support</h4>
-                  <p class="text-xs text-gray-600 mt-1">Travel arrangements</p>
-                </div>
-              </a>
-            </div>
-            
-            <!-- Accommodation Support -->
-            <div class="px-6 py-3 border-b border-gray-200">
-              <a href="#services" class="flex items-center py-3 text-xs text-gray-700 hover:text-primary-blue transition duration-150">
-                <div class="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
-                  <i class="fas fa-home text-indigo-600 text-xs"></i>
-                </div>
-                <div>
-                  <h4 class="font-semibold">Accommodation Support</h4>
-                  <p class="text-xs text-gray-600 mt-1">Housing solutions</p>
-                </div>
-              </a>
-            </div>
-            
-            <!-- Language Support -->
-            <div class="px-6 py-3 border-b border-gray-200">
-              <a href="#services" class="flex items-center py-3 text-xs text-gray-700 hover:text-primary-blue transition duration-150">
-                <div class="w-8 h-8 bg-pink-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
-                  <i class="fas fa-language text-pink-600 text-xs"></i>
-                </div>
-                <div>
-                  <h4 class="font-semibold">Language Support</h4>
-                  <p class="text-xs text-gray-600 mt-1">Language proficiency</p>
-                </div>
-              </a>
-            </div>
-            
-            <!-- Direct Admission -->
-            <div class="px-6 py-3">
-              <a href="#services" class="flex items-center py-3 text-xs text-gray-700 hover:text-primary-blue transition duration-150">
-                <div class="w-8 h-8 bg-teal-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
-                  <i class="fas fa-user-graduate text-teal-600 text-xs"></i>
-                </div>
-                <div>
-                  <h4 class="font-semibold">Direct Admission</h4>
-                  <p class="text-xs text-gray-600 mt-1">Expedited admission</p>
-                </div>
-              </a>
-            </div>
-            
-            <!-- View All Services Button -->
-            <div class="px-6 py-4 border-t border-gray-200">
-              <a href="#services" class="block text-center bg-primary-blue text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-700 transition duration-150 text-xs">
-                View All Services
+            <a href="#services" class="flex items-center p-4 text-sm text-gray-700 hover:bg-white transition duration-150 border-b border-gray-100">
+              <div class="w-10 h-10 bg-gradient-to-br from-green-100 to-green-200 rounded-xl flex items-center justify-center {% if LANGUAGE_CODE == 'ar' %}ml-3{% else %}mr-3{% endif %} shadow-sm">
+                <i class="fas fa-graduation-cap text-green-600"></i>
+              </div>
+              <div>
+                <h4 class="font-semibold">{% trans "Guidance & Selection" %}</h4>
+                <p class="text-xs text-gray-500">{% trans "University and course selection" %}</p>
+              </div>
+            </a>
+            <a href="#services" class="flex items-center p-4 text-sm text-gray-700 hover:bg-white transition duration-150 border-b border-gray-100">
+              <div class="w-10 h-10 bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl flex items-center justify-center {% if LANGUAGE_CODE == 'ar' %}ml-3{% else %}mr-3{% endif %} shadow-sm">
+                <i class="fas fa-passport text-blue-600"></i>
+              </div>
+              <div>
+                <h4 class="font-semibold">{% trans "Visa & Passport" %}</h4>
+                <p class="text-xs text-gray-500">{% trans "Complete visa processing" %}</p>
+              </div>
+            </a>
+            <div class="p-4">
+              <a href="#services" class="block text-center bg-gradient-to-r from-primary-blue to-blue-600 text-white py-2.5 px-4 rounded-lg font-semibold text-sm shadow-md">
+                {% trans "View All Services" %}
               </a>
             </div>
           </div>
@@ -339,58 +315,56 @@
         
         <!-- Mobile Universities Dropdown -->
         <div class="border-b border-gray-100">
-          <button id="mobile-universities-toggle" class="w-full text-left px-4 py-3 text-gray-700 font-medium hover:bg-gray-50 flex justify-between items-center transition duration-150">
-            <span>Universities</span>
+          <button id="mobile-universities-toggle" class="w-full text-left px-4 py-3 text-gray-700 font-medium hover:bg-gradient-to-r hover:from-blue-50 hover:to-transparent flex justify-between items-center transition duration-150">
+            <span>{% trans "Universities" %}</span>
             <svg id="mobile-arrow" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
             </svg>
           </button>
           <div id="mobile-universities-menu" class="hidden bg-gray-50 transition-all duration-300 overflow-hidden">
-            <div class="px-6 py-3 border-b border-gray-200">
-              <h3 class="text-xs font-semibold text-gray-900 uppercase tracking-wide mb-2">Vyuo Vya Ndani</h3>
-              <a href="{% url 'global_agency:vyuo_ndani' %}" class="block py-2 text-xs text-gray-700 hover:text-primary-blue transition duration-150">
-                All Local Universities
+            <div class="p-4 border-b border-gray-100">
+              <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">{% trans "Local Universities" %}</h3>
+              <a href="{% url 'global_agency:vyuo_ndani' %}" class="block py-2 text-sm text-gray-700 hover:text-primary-blue transition duration-150">
+                {% trans "All Local Universities" %}
               </a>
             </div>
             
-            <div class="px-6 py-3 border-b border-gray-200">
-              <h3 class="text-xs font-semibold text-gray-900 uppercase tracking-wide mb-2">Abroad Universities</h3>
-              <a href="{% url 'global_agency:abroad_university_detail' 'harvard' %}" class="block py-2 text-xs text-gray-700 hover:text-primary-blue transition duration-150">
+            <div class="p-4 border-b border-gray-100">
+              <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">{% trans "International Universities" %}</h3>
+              <a href="{% url 'global_agency:abroad_university_detail' 'harvard' %}" class="block py-2 text-sm text-gray-700 hover:text-primary-blue transition duration-150">
                 Harvard University
               </a>
-              <a href="{% url 'global_agency:abroad_university_detail' 'stanford' %}" class="block py-2 text-xs text-gray-700 hover:text-primary-blue transition duration-150">
+              <a href="{% url 'global_agency:abroad_university_detail' 'stanford' %}" class="block py-2 text-sm text-gray-700 hover:text-primary-blue transition duration-150">
                 Stanford University
-              </a>
-              <a href="{% url 'global_agency:abroad_university_detail' 'mit' %}" class="block py-2 text-xs text-gray-700 hover:text-primary-blue transition duration-150">
-                MIT
               </a>
             </div>
             
-            <div class="px-6 py-3">
-              <h4 class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Browse Countries</h4>
-              <a href="{% url 'global_agency:country_universities' 'usa' %}" class="block py-2 text-xs text-gray-700 hover:text-primary-blue transition duration-150">
-                🇺🇸 USA Universities
+            <div class="p-4">
+              <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">{% trans "Browse by Country" %}</h4>
+              <a href="{% url 'global_agency:country_universities' 'usa' %}" class="block py-2 text-sm text-gray-700 hover:text-primary-blue transition duration-150">
+                🇺🇸 {% trans "USA Universities" %}
               </a>
-              <a href="{% url 'global_agency:country_universities' 'uk' %}" class="block py-2 text-xs text-gray-700 hover:text-primary-blue transition duration-150">
-                🇬🇧 UK Universities
+              <a href="{% url 'global_agency:country_universities' 'uk' %}" class="block py-2 text-sm text-gray-700 hover:text-primary-blue transition duration-150">
+                🇬🇧 {% trans "UK Universities" %}
               </a>
-              <a href="{% url 'global_agency:country_universities' 'canada' %}" class="block py-2 text-xs text-gray-700 hover:text-primary-blue transition duration-150">
-                🇨🇦 Canada Universities
-              </a>
-              <a href="{% url 'global_agency:all_countries' %}" class="block py-2 text-xs text-primary-blue font-semibold hover:text-blue-800 transition duration-150 mt-2">
-                View All Countries →
+              <a href="{% url 'global_agency:all_countries' %}" class="block py-2 text-sm text-primary-blue font-semibold hover:text-blue-800 transition duration-150 mt-1">
+                {% trans "View All Countries" %} →
               </a>
             </div>
           </div>
         </div>
 
-        <a href="{% url 'global_agency:tcu_services' %}" class="block px-4 py-3 text-gray-700 font-medium hover:bg-gray-50 border-b border-gray-100 transition duration-150">
-          TCU Services
+        <a href="{% url 'global_agency:tcu_services' %}" class="block px-4 py-3 text-gray-700 font-medium hover:bg-gradient-to-r hover:from-blue-50 hover:to-transparent border-b border-gray-100 transition duration-150">
+          {% trans "TCU Services" %}
         </a>
-        <a href="#success" class="block px-4 py-3 text-gray-700 font-medium hover:bg-gray-50 border-b border-gray-100 transition duration-150">Success Stories</a>
-        <a href="{% url 'global_agency:contact' %}" class="block px-4 py-3 text-white bg-primary-blue font-medium hover:bg-blue-800 mx-4 my-2 rounded text-center transition duration-150">
-          Book Free Consult
+        <a href="#success" class="block px-4 py-3 text-gray-700 font-medium hover:bg-gradient-to-r hover:from-blue-50 hover:to-transparent border-b border-gray-100 transition duration-150">
+          {% trans "Success Stories" %}
         </a>
+        <div class="p-4">
+          <a href="{% url 'global_agency:contact' %}" class="block text-white bg-gradient-to-r from-primary-blue to-blue-600 font-semibold hover:from-blue-700 hover:to-blue-800 py-3 rounded-xl text-center transition duration-150 shadow-lg">
+            {% trans "Book Free Consult" %}
+          </a>
+        </div>
       </div>
     </div>
   </div>
@@ -441,65 +415,42 @@
       if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
         if (!mobileMenu.contains(event.target) && !mobileMenuButton.contains(event.target)) {
           mobileMenu.classList.add('hidden');
-          // Also close submenus if open
           if (universitiesMenu && !universitiesMenu.classList.contains('hidden')) {
             universitiesMenu.classList.add('hidden');
-            if (mobileArrow) {
-              mobileArrow.classList.remove('rotate-180');
-            }
+            if (mobileArrow) mobileArrow.classList.remove('rotate-180');
           }
           if (servicesMenu && !servicesMenu.classList.contains('hidden')) {
             servicesMenu.classList.add('hidden');
-            if (servicesArrow) {
-              servicesArrow.classList.remove('rotate-180');
-            }
+            if (servicesArrow) servicesArrow.classList.remove('rotate-180');
           }
         }
       }
     });
 
     // Close mobile menu when clicking on a link
-    const mobileLinks = mobileMenu.querySelectorAll('a');
+    const mobileLinks = mobileMenu?.querySelectorAll('a') || [];
     mobileLinks.forEach(link => {
       link.addEventListener('click', function() {
         mobileMenu.classList.add('hidden');
-        // Reset menu states
         if (universitiesMenu && !universitiesMenu.classList.contains('hidden')) {
           universitiesMenu.classList.add('hidden');
-          if (mobileArrow) {
-            mobileArrow.classList.remove('rotate-180');
-          }
+          if (mobileArrow) mobileArrow.classList.remove('rotate-180');
         }
         if (servicesMenu && !servicesMenu.classList.contains('hidden')) {
           servicesMenu.classList.add('hidden');
-          if (servicesArrow) {
-            servicesArrow.classList.remove('rotate-180');
-          }
+          if (servicesArrow) servicesArrow.classList.remove('rotate-180');
         }
       });
     });
-
-    // Prevent dropdown from closing when clicking inside them
-    if (universitiesMenu) {
-      universitiesMenu.addEventListener('click', function(e) {
-        e.stopPropagation();
-      });
-    }
-    if (servicesMenu) {
-      servicesMenu.addEventListener('click', function(e) {
-        e.stopPropagation();
-      });
-    }
   });
 </script>
 
 <style>
-  /* Ensure proper z-index and positioning */
+  /* Smooth transitions for dropdown */
   .group:hover .absolute {
     z-index: 1000;
   }
 
-  /* Smooth transitions for dropdown */
   .absolute {
     transition: all 0.3s ease-in-out;
     transform: translateY(-10px);
@@ -521,7 +472,6 @@
     max-height: 800px;
   }
 
-  /* Ensure mobile menu appears above other content */
   @media (max-width: 767px) {
     #mobile-menu {
       position: absolute;
@@ -529,26 +479,69 @@
       right: 0;
       top: 100%;
       z-index: 1000;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     }
   }
-
-  /* Custom scrollbar for services dropdown */
-  #mobile-services-menu {
-    max-height: 70vh;
-    overflow-y: auto;
-  }
-
-  #mobile-services-menu::-webkit-scrollbar {
-    width: 4px;
-  }
-
-  #mobile-services-menu::-webkit-scrollbar-track {
-    background: #f1f1f1;
-  }
-
-  #mobile-services-menu::-webkit-scrollbar-thumb {
-    background: #c1c1c1;
-    border-radius: 2px;
-  }
 </style>
+
+<script>
+// Language switching function - changes URL prefix
+function changeLanguage(lang, device) {
+  const currentPath = window.location.pathname;
+  const languages = ['en', 'sw', 'ar', 'fr'];
+  
+  // Remove existing language prefix from path
+  let newPath = currentPath;
+  for (let langCode of languages) {
+    if (currentPath.startsWith('/' + langCode + '/')) {
+      newPath = currentPath.substring(('/' + langCode).length);
+      break;
+    }
+    if (currentPath === '/' + langCode) {
+      newPath = '/';
+      break;
+    }
+  }
+  
+  // Add new language prefix
+  if (newPath === '') {
+    newPath = '/' + lang + '/';
+  } else if (newPath === '/') {
+    newPath = '/' + lang + '/';
+  } else {
+    newPath = '/' + lang + newPath;
+  }
+  
+  // Navigate to new language URL
+  window.location.href = newPath;
+}
+
+// Handle mobile menu toggle
+document.addEventListener('DOMContentLoaded', function() {
+  const mobileMenuButton = document.getElementById('mobile-menu-button');
+  const mobileMenu = document.getElementById('mobile-menu');
+  
+  if (mobileMenuButton && mobileMenu) {
+    mobileMenuButton.addEventListener('click', function() {
+      mobileMenu.classList.toggle('hidden');
+    });
+  }
+
+  // Mobile services dropdown
+  const servicesToggle = document.getElementById('mobile-services-toggle');
+  const servicesMenu = document.getElementById('mobile-services-menu');
+  if (servicesToggle && servicesMenu) {
+    servicesToggle.addEventListener('click', function() {
+      servicesMenu.classList.toggle('hidden');
+    });
+  }
+
+  // Mobile universities dropdown
+  const universitiesToggle = document.getElementById('mobile-universities-toggle');
+  const universitiesMenu = document.getElementById('mobile-universities-menu');
+  if (universitiesToggle && universitiesMenu) {
+    universitiesToggle.addEventListener('click', function() {
+      universitiesMenu.classList.toggle('hidden');
+    });
+  }
+});
+</script>

@@ -1,14 +1,15 @@
- {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
 {% load static %}
-<meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="format-detection" content="telephone=yes">
-    <title>Africa Western Education Services | Study Abroad Experts</title>
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}" {% if LANGUAGE_CODE == 'ar' %}dir="rtl"{% endif %}>
+<head>
+    <!-- SEO Meta Tags Include -->
+    {% include "global_agency/includes/seo_meta.html" %}
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <!-- Configure Tailwind for custom font -->
     <script>
         tailwind.config = {
@@ -16,11 +17,44 @@
                 extend: {
                     colors: {
                         'primary-blue': '#1D4ED8',
+                        'primary-blue-dark': '#1E40AF',
                         'accent-gold': '#FBBF24',
+                        'accent-gold-dark': '#F59E0B',
                         'dark-text': '#1F2937',
+                        'glass-white': 'rgba(255, 255, 255, 0.95)',
+                        'glass-dark': 'rgba(31, 41, 55, 0.95)',
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'gradient': 'gradient 8s ease infinite',
+                        'slide-up': 'slideUp 0.5s ease-out',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        gradient: {
+                            '0%, 100%': { backgroundPosition: '0% 50%' },
+                            '50%': { backgroundPosition: '100% 50%' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                    },
+                    boxShadow: {
+                        'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.15)',
+                        'glass-lg': '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+                        'neon-blue': '0 0 20px rgba(29, 78, 216, 0.3)',
+                        'neon-gold': '0 0 20px rgba(251, 191, 36, 0.3)',
+                    },
+                    backdropBlur: {
+                        'glass': '16px',
                     }
                 }
             }
@@ -28,6 +62,70 @@
     </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        
+        /* Glass morphism styles */
+        .glass {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .glass-dark {
+            background: rgba(31, 41, 55, 0.95);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Modern gradient text */
+        .gradient-text {
+            background: linear-gradient(135deg, #1D4ED8 0%, #3B82F6 50%, #60A5FA 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Animated gradient background */
+        .animated-gradient {
+            background: linear-gradient(-45deg, #1D4ED8, #3B82F6, #FBBF24, #F59E0B);
+            background-size: 400% 400%;
+            animation: gradient 8s ease infinite;
+        }
+        
+        /* Modern button styles */
+        .btn-modern {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-modern::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .btn-modern:hover::before {
+            left: 100%;
+        }
+        
+        /* Card hover effects */
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Icon styles */
         .icon-svg {
             stroke: currentColor;
             stroke-width: 2;
@@ -35,16 +133,25 @@
             stroke-linejoin: round;
             fill: none;
         }
+        
         /* Smooth scrolling for internal links */
         html {
             scroll-behavior: smooth;
         }
+        
         /* RTL specific adjustments */
         [dir="rtl"] .ltr-only {
             text-align: right;
         }
         [dir="rtl"] .flex-row-reverse-on-rtl {
             flex-direction: row-reverse;
+        }
+        [dir="rtl"] .rtl-mr-auto {
+            margin-left: auto;
+            margin-right: 0;
+        }
+        [dir="rtl"] .space-x-4 > :not([hidden]) ~ :not([hidden]) {
+            --tw-space-x-reverse: 1;
         }
 
         /* Mobile-friendly tel: links */
@@ -64,9 +171,109 @@
                 tap-highlight-color: rgba(0, 0, 0, 0.1);
             }
         }
+        
+        /* Language switcher dropdown */
+        .lang-dropdown {
+            position: relative;
+        }
+        
+        .lang-dropdown-content {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            min-width: 160px;
+            z-index: 100;
+            overflow: hidden;
+        }
+        
+        [dir="rtl"] .lang-dropdown-content {
+            right: auto;
+            left: 0;
+        }
+        
+        .lang-dropdown:hover .lang-dropdown-content,
+        .lang-dropdown:focus-within .lang-dropdown-content {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .lang-option {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            color: #374151;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .lang-option:hover {
+            background: #F3F4F6;
+            color: #1D4ED8;
+        }
+        
+        .lang-option.active {
+            background: #EFF6FF;
+            color: #1D4ED8;
+            font-weight: 600;
+        }
+        
+        .lang-flag {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            margin-right: 12px;
+            object-fit: cover;
+        }
+        
+        [dir="rtl"] .lang-flag {
+            margin-right: 0;
+            margin-left: 12px;
+        }
+        
+        /* Smooth page transitions */
+        .page-transition {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Modern scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #F3F4F6;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #1D4ED8, #3B82F6);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #1E40AF, #2563EB);
+        }
     </style>
 </head>
-<body>
+<body class="page-transition">
 
   {% if messages %}
     <div class="max-w-7xl mx-auto px-4 py-4">
@@ -82,5 +289,14 @@
 
   {% include 'global_agency/includes/footer.html' %}
 
+  <!-- Initialize AOS -->
+  <script>
+    AOS.init({
+      duration: 800,
+      easing: 'ease-out-cubic',
+      once: true,
+      offset: 50,
+    });
+  </script>
 </body>
 </html>

@@ -1,0 +1,182 @@
+{% load static %}
+{% load i18n %}
+
+<!-- SEO Meta Tags -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="format-detection" content="telephone=yes">
+
+<!-- Primary Meta Tags -->
+<title>{% block seo_title %}{% trans "Africa Western Education Services | Study Abroad Experts" %}{% endblock %}</title>
+<meta name="title" content="{% block seo_title_meta %}{% trans "Africa Western Education Services | Study Abroad Experts" %}{% endblock %}">
+<meta name="description" content="{% block seo_description %}{% trans "Africa Western Education Company Ltd provides end-to-end expert guidance for studying abroad, from university selection to visa processing and pre-departure support." %}{% endblock %}">
+<meta name="keywords" content="{% block seo_keywords %}study abroad, education consultant, university admission, visa assistance, scholarship, international education, Tanzania{% endblock %}">
+<meta name="author" content="Africa Western Education Company Ltd">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+
+<!-- Canonical URL -->
+<link rel="canonical" href="{% block seo_canonical %}{{ request.build_absolute_uri }}{% endblock %}">
+
+<!-- Language Alternates for Multilingual SEO -->
+<link rel="alternate" hreflang="en" href="{{ request.build_absolute_uri|add:'?lang=en' }}">
+<link rel="alternate" hreflang="sw" href="{{ request.build_absolute_uri|add:'?lang=sw' }}">
+<link rel="alternate" hreflang="ar" href="{{ request.build_absolute_uri|add:'?lang=ar' }}">
+<link rel="alternate" hreflang="fr" href="{{ request.build_absolute_uri|add:'?lang=fr' }}">
+<link rel="alternate" hreflang="x-default" href="{{ request.build_absolute_uri }}">
+
+<!-- Open Graph Meta Tags (Social Media) -->
+<meta property="og:type" content="{% block og_type %}website{% endblock %}">
+<meta property="og:url" content="{{ request.build_absolute_uri }}">
+<meta property="og:title" content="{% block og_title %}{% trans "Africa Western Education Services | Study Abroad Experts" %}{% endblock %}">
+<meta property="og:description" content="{% block og_description %}{% trans "Expert guidance for studying abroad - from university selection to visa processing." %}{% endblock %}">
+<meta property="og:image" content="{% block og_image %}{% static 'global_agency/img/og-image.png' %}{% endblock %}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="Africa Western Education">
+<meta property="og:locale" content="{{ LANGUAGE_CODE }}">
+
+<!-- Twitter Card Meta Tags -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="{{ request.build_absolute_uri }}">
+<meta name="twitter:title" content="{% trans "Africa Western Education Services" %}">
+<meta name="twitter:description" content="{% trans "Expert guidance for studying abroad" %}">
+<meta name="twitter:image" content="{% static 'global_agency/img/twitter-card.png' %}">
+<meta name="twitter:creator" content="@AfricaWesternEdu">
+
+<!-- Structured Data (Schema.org) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Africa Western Education Company Ltd",
+  "url": "https://africawesterneducation.com",
+  "logo": "{% static 'global_agency/img/logo.png' %}",
+  "description": "{% trans "Professional educational consultancy for international education" %}",
+  "sameAs": [
+    "https://facebook.com/africawesterneducation",
+    "https://instagram.com/africawesterneducation",
+    "https://twitter.com/AfricaWesternEdu"
+  ],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "Customer Service",
+    "telephone": "+255767688766",
+    "email": "info@africawesterneducation.com"
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Dar es Salaam",
+    "addressRegion": "Dar es Salaam",
+    "postalCode": "",
+    "addressCountry": "TZ"
+  }
+}
+</script>
+
+<!-- Local Business Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Africa Western Education Company Ltd",
+  "image": "{% static 'global_agency/img/logo.png' %}",
+  "description": "{% trans "Educational consultancy for international education and university admissions" %}",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Dar es Salaam",
+    "addressCountry": "TZ"
+  },
+  "telephone": "+255767688766",
+  "email": "info@africawesterneducation.com",
+  "priceRange": "$$",
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "opens": "08:00",
+      "closes": "18:00"
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": "Saturday",
+      "opens": "09:00",
+      "closes": "14:00"
+    }
+  ]
+}
+</script>
+
+<!-- Education Service Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "EducationalOrganization",
+  "name": "Africa Western Education Company Ltd",
+  "url": "https://africawesterneducation.com",
+  "logo": "{% static 'global_agency/img/logo.png' %}",
+  "description": "{% trans "International educational consultancy and university admission services" %}",
+  "educationalCredentialAwarded": "University Admissions, Visa Assistance, Scholarship Guidance",
+  "areaServed": ["TZ", "KE", "UG", "RW", "BW"],
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.8",
+    "ratingCount": "500",
+    "bestRating": "5",
+    "worstRating": "1"
+  }
+}
+</script>
+
+<!-- Breadcrumb Schema (if applicable) -->
+{% block breadcrumb_schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "{% trans "Home" %}",
+      "item": "https://africawesterneducation.com"
+    }
+  ]
+}
+</script>
+{% endblock %}
+
+<!-- Mobile App Meta Tags -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Africa Western Education">
+<meta name="theme-color" content="#1D4ED8">
+
+<!-- Security and Verification -->
+{% if GOOGLE_SITE_VERIFICATION %}
+<meta name="google-site-verification" content="{{ GOOGLE_SITE_VERIFICATION }}">
+{% endif %}
+
+{% if BING_SITE_VERIFICATION %}
+<meta name="msvalidate.01" content="{{ BING_SITE_VERIFICATION }}">
+{% endif %}
+
+<!-- Link Tags for SEO -->
+<link rel="icon" type="image/x-icon" href="{% static 'global_agency/img/favicon.ico' %}">
+<link rel="apple-touch-icon" href="{% static 'global_agency/img/apple-touch-icon.png' %}">
+<link rel="manifest" href="{% static 'global_agency/manifest.json' %}">
+
+<!-- Prefetch and DNS Optimization -->
+<link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+<link rel="dns-prefetch" href="https://cdn.tailwindcss.com">
+<link rel="dns-prefetch" href="https://fonts.googleapis.com">
+<link rel="dns-prefetch" href="https://unpkg.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<!-- Preload Critical Resources -->
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" as="style">
+<link rel="preload" href="{% static 'global_agency/img/logo.png' %}" as="image">
+
+<!-- Performance Optimization -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Cache-Control" content="public, max-age=3600">

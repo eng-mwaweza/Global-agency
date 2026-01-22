@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.http import Http404
+from django.utils.translation import activate
+from django.conf import settings
 from .forms import StudentApplicationForm, ContactMessageForm, SimpleRegistrationForm
 import json
 import os
@@ -9,6 +11,37 @@ from pathlib import Path
 
 def home(request):
     return render(request, 'global_agency/index.html')
+
+def set_language_view(request, language):
+    """Switch to a different language and redirect to the same page"""
+    # Verify the language is in LANGUAGES
+    valid_languages = [code for code, name in settings.LANGUAGES]
+    
+    if language in valid_languages:
+        activate(language)
+        request.session[settings.LANGUAGE_SESSION_KEY] = language
+    
+    # Get the referrer or current path and replace the language prefix
+    referrer = request.META.get('HTTP_REFERER', '')
+    
+    if referrer:
+        # Extract path from full URL
+        from urllib.parse import urlparse
+        parsed = urlparse(referrer)
+        path = parsed.path
+        
+        # Remove any existing language prefix
+        for lang_code, _ in settings.LANGUAGES:
+            if path.startswith(f'/{lang_code}/'):
+                path = path[len(f'/{lang_code}'):]
+                break
+        
+        # Add new language prefix
+        new_path = f'/{language}{path}'
+        return redirect(new_path)
+    
+    # Fallback: redirect to home in the new language
+    return redirect(f'/{language}/')
 
 def register(request):
     """Simple registration view - creates user account only"""

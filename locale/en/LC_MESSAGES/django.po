@@ -1,0 +1,368 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Africa Western Education\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-01 00:00+0000\n"
+"PO-Revision-Date: 2026-01-01 00:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: English\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+# Navigation
+msgid "Home"
+msgstr "Home"
+
+msgid "About Us"
+msgstr "About Us"
+
+msgid "Services"
+msgstr "Services"
+
+msgid "Universities"
+msgstr "Universities"
+
+msgid "TCU Services"
+msgstr "TCU Services"
+
+msgid "Success Stories"
+msgstr "Success Stories"
+
+msgid "Book Free Consult"
+msgstr "Book Free Consult"
+
+# Hero Section
+msgid "Africa Western Education Services | Study Abroad Experts"
+msgstr "Africa Western Education Services | Study Abroad Experts"
+
+msgid "AFRICA WESTERN EDUCATION COMPANY LTD Logo"
+msgstr "Africa Western Education Company Ltd Logo"
+
+msgid "Education for a Bright Tomorrow — Explore • Dream • Discover"
+msgstr "Education for a Bright Tomorrow — Explore • Dream • Discover"
+
+msgid "Africa Western Education Company Ltd"
+msgstr "Africa Western Education Company Ltd"
+
+msgid "Your Gateway"
+msgstr "Your Gateway"
+
+msgid "to Global Education"
+msgstr "to Global Education"
+
+msgid "We provide end-to-end expert guidance — from application processing and scholarship hunting to visa preparation and pre-departure support."
+msgstr "We provide end-to-end expert guidance — from application processing and scholarship hunting to visa preparation and pre-departure support."
+
+msgid "Start Your Free Consultation"
+msgstr "Start Your Free Consultation"
+
+msgid "Explore Our Services"
+msgstr "Explore Our Services"
+
+msgid "Diverse students on a global university campus"
+msgstr "Diverse students on a global university campus"
+
+msgid "Trusted Agency"
+msgstr "Trusted Agency"
+
+msgid "Since 2020"
+msgstr "Since 2020"
+
+# Stats
+msgid "Students Placed Abroad"
+msgstr "Students Placed Abroad"
+
+msgid "Partner Universities"
+msgstr "Partner Universities"
+
+msgid "Visas Assisted"
+msgstr "Visas Assisted"
+
+msgid "Local Students Served"
+msgstr "Local Students Served"
+
+# Recommended By Section
+msgid "Trusted Worldwide"
+msgstr "Trusted Worldwide"
+
+msgid "Recommended By"
+msgstr "Recommended By"
+
+msgid "Leading Organizations"
+msgstr "Leading Organizations"
+
+msgid "We're trusted and recommended by top educational institutions, government bodies, and international organizations worldwide."
+msgstr "We're trusted and recommended by top educational institutions, government bodies, and international organizations worldwide."
+
+msgid "Verified & Licensed"
+msgstr "Verified & Licensed"
+
+msgid "5-Star Rated"
+msgstr "5-Star Rated"
+
+msgid "Award Winning"
+msgstr "Award Winning"
+
+# Services
+msgid "Guidance & Selection"
+msgstr "Guidance & Selection"
+
+msgid "Strategic university and course selection"
+msgstr "Strategic university and course selection"
+
+msgid "University and course selection"
+msgstr "University and course selection"
+
+msgid "Visa & Passport"
+msgstr "Visa & Passport"
+
+msgid "Complete visa processing support"
+msgstr "Complete visa processing support"
+
+msgid "Complete visa processing"
+msgstr "Complete visa processing"
+
+msgid "Scholarship Assistance"
+msgstr "Scholarship Assistance"
+
+msgid "Financial aid and scholarship guidance"
+msgstr "Financial aid and scholarship guidance"
+
+msgid "View All Services"
+msgstr "View All Services"
+
+# Universities
+msgid "Local Universities"
+msgstr "Local Universities"
+
+msgid "All Local Universities"
+msgstr "All Local Universities"
+
+msgid "International Universities"
+msgstr "International Universities"
+
+msgid "Browse by Country"
+msgstr "Browse by Country"
+
+msgid "USA Universities"
+msgstr "USA Universities"
+
+msgid "UK Universities"
+msgstr "UK Universities"
+
+msgid "Canada Universities"
+msgstr "Canada Universities"
+
+msgid "View All Countries"
+msgstr "View All Countries"
+
+# Banner Section
+msgid "Students studying at international universities around the world"
+msgstr "Students studying at international universities around the world"
+
+msgid "Study at World-Class Universities Abroad"
+msgstr "Study at World-Class Universities Abroad"
+
+msgid "Join thousands of successful students who have achieved their dreams through our guidance at prestigious institutions worldwide."
+msgstr "Join thousands of successful students who have achieved their dreams through our guidance at prestigious institutions worldwide."
+
+msgid "United States"
+msgstr "United States"
+
+msgid "United Kingdom"
+msgstr "United Kingdom"
+
+msgid "Canada"
+msgstr "Canada"
+
+msgid "Australia"
+msgstr "Australia"
+
+msgid "Germany"
+msgstr "Germany"
+
+msgid "More"
+msgstr "More"
+
+msgid "Top Universities"
+msgstr "Top Universities"
+
+msgid "Worldwide"
+msgstr "Worldwide"
+
+msgid "Countries"
+msgstr "Countries"
+
+# Courses Section
+msgid "Most In-Demand Programs"
+msgstr "Most In-Demand Programs"
+
+msgid "Top"
+msgstr "Top"
+
+msgid "Courses"
+msgstr "Courses"
+
+msgid "in High Demand"
+msgstr "in High Demand"
+
+msgid "These programs offer excellent career prospects and align with global market needs"
+msgstr "These programs offer excellent career prospects and align with global market needs"
+
+msgid "Computer Science / IT"
+msgstr "Computer Science / IT"
+
+msgid "Software, Data, Cybersecurity"
+msgstr "Software, Data, Cybersecurity"
+
+msgid "Strong demand for software developers, data scientists, IT support, and cybersecurity analysts across all industries."
+msgstr "Strong demand for software developers, data scientists, IT support, and cybersecurity analysts across all industries."
+
+msgid "Business & Management"
+msgstr "Business & Management"
+
+msgid "MBA, Finance, Marketing"
+msgstr "MBA, Finance, Marketing"
+
+msgid "Leadership roles in companies, entrepreneurship opportunities, and strategic planning positions in global organizations."
+msgstr "Leadership roles in companies, entrepreneurship opportunities, and strategic planning positions in global organizations."
+
+msgid "Healthcare & Medicine"
+msgstr "Healthcare & Medicine"
+
+msgid "Nursing, Pharmacy, Public Health"
+msgstr "Nursing, Pharmacy, Public Health"
+
+msgid "Growing demand for healthcare professionals worldwide with excellent job security and rewarding career paths."
+msgstr "Growing demand for healthcare professionals worldwide with excellent job security and rewarding career paths."
+
+msgid "Engineering"
+msgstr "Engineering"
+
+msgid "Civil, Mechanical, Electrical"
+msgstr "Civil, Mechanical, Electrical"
+
+msgid "Critical for infrastructure development, manufacturing innovation, and technological advancement globally."
+msgstr "Critical for infrastructure development, manufacturing innovation, and technological advancement globally."
+
+msgid "Data Science & AI"
+msgstr "Data Science & AI"
+
+msgid "Machine Learning, Analytics"
+msgstr "Machine Learning, Analytics"
+
+msgid "Fastest growing field with lucrative salaries and transformative impact across every industry sector."
+msgstr "Fastest growing field with lucrative salaries and transformative impact across every industry sector."
+
+msgid "Law & Legal Studies"
+msgstr "Law & Legal Studies"
+
+msgid "International Law, Corporate"
+msgstr "International Law, Corporate"
+
+msgid "Prestigious career path with opportunities in corporate law, international relations, and public service."
+msgstr "Prestigious career path with opportunities in corporate law, international relations, and public service."
+
+msgid "Learn More"
+msgstr "Learn More"
+
+msgid "Get Free Course Consultation"
+msgstr "Get Free Course Consultation"
+
+# About Section
+msgid "Who We Are"
+msgstr "Who We Are"
+
+msgid "Leading the Way in International Education Counseling."
+msgstr "Leading the Way in International Education Counseling."
+
+msgid "Our Mission"
+msgstr "Our Mission"
+
+msgid "Our Vision"
+msgstr "Our Vision"
+
+msgid "The Pillars of Our Success"
+msgstr "The Pillars of Our Success"
+
+msgid "Integrity"
+msgstr "Integrity"
+
+msgid "Innovation"
+msgstr "Innovation"
+
+msgid "Excellence"
+msgstr "Excellence"
+
+msgid "Customer Focus"
+msgstr "Customer Focus"
+
+msgid "Accountability"
+msgstr "Accountability"
+
+msgid "Teamwork"
+msgstr "Teamwork"
+
+# Footer
+msgid "Quick Links"
+msgstr "Quick Links"
+
+msgid "Our Services"
+msgstr "Our Services"
+
+msgid "Contact Us"
+msgstr "Contact Us"
+
+msgid "Privacy Policy"
+msgstr "Privacy Policy"
+
+msgid "Terms of Service"
+msgstr "Terms of Service"
+
+msgid "Employee Login"
+msgstr "Employee Login"
+
+# Contact
+msgid "Get In Touch"
+msgstr "Get In Touch"
+
+msgid "Send Message"
+msgstr "Send Message"
+
+msgid "Full Name"
+msgstr "Full Name"
+
+msgid "Email Address"
+msgstr "Email Address"
+
+msgid "Phone Number"
+msgstr "Phone Number"
+
+msgid "Your Message"
+msgstr "Your Message"
+
+# Buttons
+msgid "Student Portal"
+msgstr "Student Portal"
+
+msgid "Create Account Now"
+msgstr "Create Account Now"
+
+msgid "Apply Now"
+msgstr "Apply Now"
+
+msgid "Register"
+msgstr "Register"
+
+msgid "Login"
+msgstr "Login"
+
+msgid "Submit"
+msgstr "Submit"

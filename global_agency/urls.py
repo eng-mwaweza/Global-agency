@@ -1,10 +1,13 @@
 from django.urls import path
 from . import views
+from . import test_views
 
 app_name = 'global_agency'
 
 urlpatterns = [
+    path('test-language/', test_views.test_language_view, name='test_language'),  # Debug view
     path('', views.home, name='home'),
+    path('set-language/<str:language>/', views.set_language_view, name='set_language'),  # Language switcher
     path('register/', views.register, name='register'),
     path('contact/', views.contact, name='contact'),
     path('start-application/', views.start_application, name='start_application'),
