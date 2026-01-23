@@ -36,6 +36,8 @@
 
 <!-- Floating Student Portal Button - Bottom Left -->
 <a href="{% url 'student_portal:login' %}" 
+   hreflang="en"
+   data-lang="en"
    id="studentPortalBtn"
    class="fixed bottom-6 left-6 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-full shadow-lg z-50 transition-all duration-300 transform flex items-center gap-2">
    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -93,6 +95,25 @@
         if (buttonsVisible) this.style.transform = 'translateY(0) scale(1)';
       });
     });
+
+    // CRITICAL: Force English language when clicking student portal button
+    if (studentBtn) {
+      studentBtn.addEventListener('click', function(e) {
+        // Set language cookie to English
+        document.cookie = "django_language=en; path=/; max-age=31536000; SameSite=Lax";
+        
+        // Get current URL and ensure it has /en/ prefix
+        let href = this.getAttribute('href');
+        if (href && !href.startsWith('/en/')) {
+          // Replace any language prefix with /en/
+          href = href.replace(/^\/[a-z]{2}\//, '/en/');
+          if (!href.startsWith('/')) {
+            href = '/en' + (href.startsWith('/') ? '' : '/') + href;
+          }
+          this.setAttribute('href', href);
+        }
+      });
+    }
   });
 </script>
 

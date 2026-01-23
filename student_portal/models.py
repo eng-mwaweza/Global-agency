@@ -142,6 +142,13 @@ class Application(models.Model):
         ('loan', 'Student Loan'),
     ]
     
+    PAYMENT_STATUS_CHOICES = [
+        ('not_paid', 'Not Paid'),
+        ('pending_verification', 'Pending Verification'),
+        ('paid', 'Paid'),
+        ('refunded', 'Refunded'),
+    ]
+    
     student = models.ForeignKey(User, on_delete=models.CASCADE)
     application_type = models.CharField(max_length=20, choices=APPLICATION_TYPES)
     university_name = models.CharField(max_length=255, blank=True)
@@ -153,6 +160,13 @@ class Application(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     is_paid = models.BooleanField(default=False)
     payment_amount = models.DecimalField(max_digits=10, decimal_places=2, default=5000.00)
+    
+    # M-PESA Payment Tracking
+    payment_status = models.CharField(max_length=30, choices=PAYMENT_STATUS_CHOICES, default='not_paid')
+    mpesa_account_name = models.CharField(max_length=150, blank=True, help_text="Name on M-PESA account used for payment")
+    payment_verified_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='verified_payments')
+    payment_verified_at = models.DateTimeField(null=True, blank=True)
+    payment_notes = models.TextField(blank=True, help_text="Employee notes about payment verification")
 
     def __str__(self):
         return f"{self.get_application_type_display()} - {self.student.username}"

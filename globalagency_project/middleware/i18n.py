@@ -13,33 +13,16 @@ class LanguageSwitcherMiddleware(MiddlewareMixin):
     """
     
     def process_request(self, request):
-        """Process language switching from URL prefix or GET parameters"""
-        # Get list of valid language codes
-        valid_languages = [code for code, name in settings.LANGUAGES]
+        """Process language switching - ALWAYS USE ENGLISH"""
+        # CRITICAL: Always use English as the default language
+        # Do not check URL prefixes, GET params, or browser language
+        language = settings.LANGUAGE_CODE  # Always 'en'
         
-        # First, try to extract language from URL path
-        path = request.path
-        language = None
+        # Set language in session
+        request.session['django_language'] = language
         
-        # Check if path starts with a language code (e.g., /en/, /sw/, /ar/, /fr/)
-        for lang_code in valid_languages:
-            if path.startswith(f'/{lang_code}/'):
-                language = lang_code
-                break
-        
-        # If no language in URL, check GET parameters
-        if not language:
-            language = request.GET.get('lang')
-        
-        # Validate and set language
-        if language and language in valid_languages:
-            # Set language in session using the correct session key
-            request.session['django_language'] = language
-            # Activate the language for this request
-            activate(language)
-        else:
-            # Fallback to default language
-            activate(settings.LANGUAGE_CODE)
+        # Activate English for this request
+        activate(language)
         
         return None
     

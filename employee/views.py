@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_protect
 from django.http import JsonResponse
+from django.utils import timezone
 from global_agency.models import ContactMessage, StudentApplication
 from student_portal.models import Application, Document, Payment
 from .models import UserProfile
@@ -478,3 +479,532 @@ def get_dashboard_stats(request):
     }
     
     return JsonResponse(stats)
+
+@login_required
+@employee_required
+@csrf_protect
+def verify_mpesa_payment(request, application_id):
+    """Employee verifies M-PESA payment for an application"""
+    application = get_object_or_404(Application, id=application_id)
+    
+    if request.method == 'POST':
+        mpesa_reference = request.POST.get('mpesa_reference', '').strip()
+        payment_notes = request.POST.get('payment_notes', '').strip()
+        payment_status = request.POST.get('payment_status')
+        
+        if payment_status == 'paid':
+            application.payment_status = 'paid'
+            application.is_paid = True
+            application.mpesa_reference = mpesa_reference
+            application.payment_notes = payment_notes
+            application.payment_verified_by = request.user
+            application.payment_verification_date = timezone.now()
+            
+            # Update application status
+            if application.status == 'pending_payment':
+                application.status = 'submitted'
+            
+            application.save()
+            messages.success(request, f'Payment verified successfully for {application.student.get_full_name()}')
+        elif payment_status == 'pending_verification':
+            application.payment_status = 'pending_verification'
+            application.mpesa_reference = mpesa_reference
+            application.payment_notes = payment_notes
+            application.save()
+            messages.info(request, 'Payment marked as pending verification')
+        else:
+            messages.error(request, 'Invalid payment status')
+    
+    return redirect('employee:student_application_detail', application_id=application_id)
+
+@login_required
+@employee_required
+def export_application_pdf(request, application_id):
+    """Export single student application to PDF"""
+    from reportlab.lib.pagesizes import letter, A4
+    from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+    from reportlab.lib.units import inch
+    from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
+    from reportlab.lib import colors
+    from reportlab.lib.enums import TA_LEFT, TA_CENTER
+    from django.http import HttpResponse
+    from io import BytesIO
+    
+    application = get_object_or_404(Application, id=application_id)
+    
+    # Create the HttpResponse object with PDF headers
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="application_{application.id}_{application.student.username}.pdf"'
+    
+    # Create PDF
+    buffer = BytesIO()
+    doc = SimpleDocTemplate(buffer, pagesize=A4, rightMargin=72, leftMargin=72, topMargin=72, bottomMargin=18)
+    
+    # Container for the 'Flowable' objects
+    elements = []
+    
+    # Define styles
+    styles = getSampleStyleSheet()
+    title_style = ParagraphStyle(
+        'CustomTitle',
+        parent=styles['Heading1'],
+        fontSize=24,
+        textColor=colors.HexColor('#1e40af'),
+        spaceAfter=30,
+        alignment=TA_CENTER
+    )
+    
+    heading_style = ParagraphStyle(
+        'CustomHeading',
+        parent=styles['Heading2'],
+        fontSize=14,
+        textColor=colors.HexColor('#1e40af'),
+        spaceAfter=12,
+        spaceBefore=12
+    )
+    
+    # Add title
+    title = Paragraph("AFRICA WESTERN EDUCATION COMPANY LTD", title_style)
+    elements.append(title)
+    elements.append(Paragraph("Student Application Report", styles['Heading2']))
+    elements.append(Spacer(1, 0.3*inch))
+    
+    # Application Information
+    elements.append(Paragraph("Application Information", heading_style))
+    
+    app_data = [
+        ['Application ID:', str(application.id)],
+        ['Application Type:', application.get_application_type_display()],
+        ['Status:', application.get_status_display()],
+        ['Submission Date:', application.submission_date.strftime('%Y-%m-%d %H:%M')],
+    ]
+    
+    if application.university_name:
+        app_data.append(['University:', application.university_name])
+    if application.course:
+        app_data.append(['Course:', application.course])
+    if application.country:
+        app_data.append(['Country:', application.country])
+    
+    app_table = Table(app_data, colWidths=[2*inch, 4*inch])
+    app_table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (0, -1), colors.HexColor('#e5e7eb')),
+        ('TEXTCOLOR', (0, 0), (-1, -1), colors.black),
+        ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+        ('FONTNAME', (0, 0), (0, -1), 'Helvetica-Bold'),
+        ('FONTSIZE', (0, 0), (-1, -1), 10),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 12),
+        ('GRID', (0, 0), (-1, -1), 0.5, colors.grey)
+    ]))
+    elements.append(app_table)
+    elements.append(Spacer(1, 0.3*inch))
+    
+    # Student Information
+    elements.append(Paragraph("Student Information", heading_style))
+    
+    student_data = [
+        ['Name:', application.student.get_full_name()],
+        ['Username:', application.student.username],
+        ['Email:', application.student.email],
+    ]
+    
+    student_table = Table(student_data, colWidths=[2*inch, 4*inch])
+    student_table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (0, -1), colors.HexColor('#e5e7eb')),
+        ('TEXTCOLOR', (0, 0), (-1, -1), colors.black),
+        ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+        ('FONTNAME', (0, 0), (0, -1), 'Helvetica-Bold'),
+        ('FONTSIZE', (0, 0), (-1, -1), 10),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 12),
+        ('GRID', (0, 0), (-1, -1), 0.5, colors.grey)
+    ]))
+    elements.append(student_table)
+    elements.append(Spacer(1, 0.3*inch))
+    
+    # Payment Information
+    elements.append(Paragraph("Payment Information", heading_style))
+    
+    payment_data = [
+        ['Payment Status:', application.get_payment_status_display()],
+        ['Amount:', f"TZS {application.payment_amount:,.2f}"],
+        ['Paid:', 'Yes' if application.is_paid else 'No'],
+    ]
+    
+    if application.mpesa_account_name:
+        payment_data.append(['M-PESA Account Name:', application.mpesa_account_name])
+    if application.payment_verified_by:
+        payment_data.append(['Verified By:', application.payment_verified_by.get_full_name()])
+    if application.payment_verified_at:
+        payment_data.append(['Verification Date:', application.payment_verified_at.strftime('%Y-%m-%d %H:%M')])
+    if application.payment_notes:
+        payment_data.append(['Notes:', application.payment_notes])
+    
+    payment_table = Table(payment_data, colWidths=[2*inch, 4*inch])
+    payment_table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (0, -1), colors.HexColor('#e5e7eb')),
+        ('TEXTCOLOR', (0, 0), (-1, -1), colors.black),
+        ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+        ('FONTNAME', (0, 0), (0, -1), 'Helvetica-Bold'),
+        ('FONTSIZE', (0, 0), (-1, -1), 10),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 12),
+        ('GRID', (0, 0), (-1, -1), 0.5, colors.grey)
+    ]))
+    elements.append(payment_table)
+    
+    # Build PDF
+    doc.build(elements)
+    
+    # Get the value of the BytesIO buffer and write it to the response
+    pdf = buffer.getvalue()
+    buffer.close()
+    response.write(pdf)
+    
+    return response
+
+@login_required
+@employee_required
+def export_all_applications_pdf(request):
+    """Export all student applications to a single PDF"""
+    from reportlab.lib.pagesizes import letter, A4
+    from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+    from reportlab.lib.units import inch
+    from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, PageBreak
+    from reportlab.lib import colors
+    from reportlab.lib.enums import TA_LEFT, TA_CENTER
+    from django.http import HttpResponse
+    from io import BytesIO
+    from django.utils import timezone as tz
+    
+    applications = Application.objects.all().order_by('-created_at')
+    
+    # Create the HttpResponse object with PDF headers
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="all_applications_{tz.now().strftime("%Y%m%d_%H%M%S")}.pdf"'
+    
+    # Create PDF
+    buffer = BytesIO()
+    doc = SimpleDocTemplate(buffer, pagesize=A4, rightMargin=72, leftMargin=72, topMargin=72, bottomMargin=18)
+    
+    # Container for the 'Flowable' objects
+    elements = []
+    
+    # Define styles
+    styles = getSampleStyleSheet()
+    title_style = ParagraphStyle(
+        'CustomTitle',
+        parent=styles['Heading1'],
+        fontSize=20,
+        textColor=colors.HexColor('#1e40af'),
+        spaceAfter=20,
+        alignment=TA_CENTER
+    )
+    
+    # Add title
+    title = Paragraph("AFRICA WESTERN EDUCATION COMPANY LTD", title_style)
+    elements.append(title)
+    elements.append(Paragraph("All Student Applications Report", styles['Heading2']))
+    elements.append(Paragraph(f"Generated: {tz.now().strftime('%Y-%m-%d %H:%M')}", styles['Normal']))
+    elements.append(Spacer(1, 0.3*inch))
+    
+    # Summary Table
+    summary_data = [
+        ['Total Applications:', str(applications.count())],
+        ['Paid Applications:', str(applications.filter(is_paid=True).count())],
+        ['Pending Payment:', str(applications.filter(payment_status='not_paid').count())],
+        ['Pending Verification:', str(applications.filter(payment_status='pending_verification').count())],
+    ]
+    
+    summary_table = Table(summary_data, colWidths=[2.5*inch, 1.5*inch])
+    summary_table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (0, -1), colors.HexColor('#e5e7eb')),
+        ('TEXTCOLOR', (0, 0), (-1, -1), colors.black),
+        ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+        ('FONTNAME', (0, 0), (0, -1), 'Helvetica-Bold'),
+        ('FONTSIZE', (0, 0), (-1, -1), 10),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 12),
+        ('GRID', (0, 0), (-1, -1), 0.5, colors.grey)
+    ]))
+    elements.append(summary_table)
+    elements.append(Spacer(1, 0.4*inch))
+    
+    # Applications List Table
+    elements.append(Paragraph("Applications List", styles['Heading3']))
+    elements.append(Spacer(1, 0.1*inch))
+    
+    # Create table data
+    table_data = [['ID', 'Student', 'Type', 'Status', 'Payment', 'Date']]
+    
+    for app in applications:
+        table_data.append([
+            str(app.id),
+            app.student.get_full_name()[:20],
+            app.get_application_type_display()[:15],
+            app.get_status_display()[:15],
+            app.get_payment_status_display()[:15],
+            app.created_at.strftime('%Y-%m-%d')
+        ])
+    
+    app_list_table = Table(table_data, colWidths=[0.5*inch, 1.5*inch, 1.2*inch, 1.2*inch, 1.2*inch, 0.9*inch])
+    app_list_table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#1e40af')),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+        ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('FONTSIZE', (0, 0), (-1, 0), 10),
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+        ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+        ('GRID', (0, 0), (-1, -1), 0.5, colors.grey),
+        ('FONTSIZE', (0, 1), (-1, -1), 8),
+    ]))
+    elements.append(app_list_table)
+    
+    # Build PDF
+    doc.build(elements)
+    
+    # Get the value of the BytesIO buffer and write it to the response
+    pdf = buffer.getvalue()
+    buffer.close()
+    response.write(pdf)
+    
+    return response
+
+
+@login_required
+@employee_required
+def verify_payment(request, application_id):
+    """Verify M-PESA payment for an application"""
+    application = get_object_or_404(Application, id=application_id)
+    
+    if request.method == 'POST':
+        action = request.POST.get('action')
+        
+        if action == 'verify':
+            # Verify payment
+            application.payment_status = 'paid'
+            application.is_paid = True
+            application.payment_verified_at = timezone.now()
+            application.payment_verified_by = request.user
+            application.save()
+            
+            messages.success(request, f'Payment verified successfully for {application.student.get_full_name()}')
+        
+        elif action == 'reject':
+            # Reject payment
+            rejection_reason = request.POST.get('rejection_reason', 'Payment verification failed')
+            application.payment_status = 'rejected'
+            application.is_paid = False
+            application.payment_verified_at = timezone.now()
+            application.payment_verified_by = request.user
+            application.payment_notes = rejection_reason
+            application.save()
+            
+            messages.warning(request, f'Payment rejected for {application.student.get_full_name()}. Reason: {rejection_reason}')
+        
+        return redirect('employee:student_application_detail', application_id=application_id)
+    
+    return redirect('employee:student_application_detail', application_id=application_id)
+
+
+@login_required
+@employee_required
+def export_single_application_pdf(request, application_id):
+    """Export a single application to PDF"""
+    from reportlab.lib import colors
+    from reportlab.lib.pagesizes import letter, A4
+    from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer, Image
+    from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+    from reportlab.lib.units import inch
+    from reportlab.lib.enums import TA_CENTER, TA_LEFT, TA_RIGHT
+    from io import BytesIO
+    from django.http import HttpResponse
+    
+    application = get_object_or_404(Application, id=application_id)
+    
+    # Create the HttpResponse object with PDF headers
+    response = HttpResponse(content_type='application/pdf')
+    filename = f'Application_{application.id}_{application.student.get_full_name().replace(" ", "_")}.pdf'
+    response['Content-Disposition'] = f'attachment; filename="{filename}"'
+    
+    # Create the PDF object
+    buffer = BytesIO()
+    doc = SimpleDocTemplate(buffer, pagesize=A4, rightMargin=72, leftMargin=72, topMargin=72, bottomMargin=18)
+    
+    # Container for PDF elements
+    elements = []
+    
+    # Styles
+    styles = getSampleStyleSheet()
+    title_style = ParagraphStyle(
+        'CustomTitle',
+        parent=styles['Heading1'],
+        fontSize=24,
+        textColor=colors.HexColor('#1e40af'),
+        spaceAfter=30,
+        alignment=TA_CENTER
+    )
+    
+    heading_style = ParagraphStyle(
+        'CustomHeading',
+        parent=styles['Heading2'],
+        fontSize=14,
+        textColor=colors.HexColor('#1e40af'),
+        spaceAfter=12,
+        spaceBefore=12
+    )
+    
+    # Title
+    elements.append(Paragraph("AFRICA WESTERN EDUCATION COMPANY LTD", title_style))
+    elements.append(Paragraph("Student Application Details", styles['Heading2']))
+    elements.append(Spacer(1, 0.3*inch))
+    
+    # Application Information
+    elements.append(Paragraph("Application Information", heading_style))
+    app_data = [
+        ['Application ID:', str(application.id)],
+        ['Application Type:', application.get_application_type_display()],
+        ['Status:', application.get_status_display()],
+        ['Submission Date:', application.created_at.strftime('%B %d, %Y at %I:%M %p')],
+        ['Last Updated:', application.updated_at.strftime('%B %d, %Y at %I:%M %p')],
+    ]
+    
+    app_table = Table(app_data, colWidths=[2*inch, 4*inch])
+    app_table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (0, -1), colors.HexColor('#e0e7ff')),
+        ('TEXTCOLOR', (0, 0), (-1, -1), colors.black),
+        ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+        ('FONTNAME', (0, 0), (0, -1), 'Helvetica-Bold'),
+        ('FONTSIZE', (0, 0), (-1, -1), 10),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 12),
+        ('GRID', (0, 0), (-1, -1), 0.5, colors.grey)
+    ]))
+    elements.append(app_table)
+    elements.append(Spacer(1, 0.3*inch))
+    
+    # Student Information
+    elements.append(Paragraph("Student Information", heading_style))
+    student_data = [
+        ['Full Name:', application.student.get_full_name()],
+        ['Email:', application.student.email],
+        ['Phone:', getattr(application.student_profile, 'phone_number', 'N/A')],
+        ['Date of Birth:', str(getattr(application.student_profile, 'date_of_birth', 'N/A'))],
+        ['Gender:', getattr(application.student_profile, 'gender', 'N/A')],
+        ['Nationality:', getattr(application.student_profile, 'nationality', 'N/A')],
+    ]
+    
+    student_table = Table(student_data, colWidths=[2*inch, 4*inch])
+    student_table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (0, -1), colors.HexColor('#e0e7ff')),
+        ('TEXTCOLOR', (0, 0), (-1, -1), colors.black),
+        ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+        ('FONTNAME', (0, 0), (0, -1), 'Helvetica-Bold'),
+        ('FONTSIZE', (0, 0), (-1, -1), 10),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 12),
+        ('GRID', (0, 0), (-1, -1), 0.5, colors.grey)
+    ]))
+    elements.append(student_table)
+    elements.append(Spacer(1, 0.3*inch))
+    
+    # Academic Information
+    if application.application_type == 'study_abroad':
+        elements.append(Paragraph("Study Abroad Details", heading_style))
+        academic_data = [
+            ['Preferred Country:', application.preferred_country or 'N/A'],
+            ['Preferred University:', application.preferred_university or 'N/A'],
+            ['Program of Interest:', application.program_of_interest or 'N/A'],
+            ['Education Level:', application.education_level or 'N/A'],
+        ]
+    else:
+        elements.append(Paragraph("Local University Details", heading_style))
+        academic_data = [
+            ['Preferred University:', application.preferred_university or 'N/A'],
+            ['Program of Interest:', application.program_of_interest or 'N/A'],
+            ['Education Level:', application.education_level or 'N/A'],
+        ]
+    
+    academic_table = Table(academic_data, colWidths=[2*inch, 4*inch])
+    academic_table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (0, -1), colors.HexColor('#e0e7ff')),
+        ('TEXTCOLOR', (0, 0), (-1, -1), colors.black),
+        ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+        ('FONTNAME', (0, 0), (0, -1), 'Helvetica-Bold'),
+        ('FONTSIZE', (0, 0), (-1, -1), 10),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 12),
+        ('GRID', (0, 0), (-1, -1), 0.5, colors.grey)
+    ]))
+    elements.append(academic_table)
+    elements.append(Spacer(1, 0.3*inch))
+    
+    # Payment Information
+    elements.append(Paragraph("Payment Information", heading_style))
+    payment_data = [
+        ['Payment Status:', application.get_payment_status_display()],
+        ['Payment Amount:', f'{application.payment_amount:,.0f} TZS' if application.payment_amount else 'N/A'],
+        ['Is Paid:', 'Yes' if application.is_paid else 'No'],
+    ]
+    
+    if application.mpesa_account_name:
+        payment_data.append(['M-PESA Account Name:', application.mpesa_account_name])
+    
+    if application.payment_verified_at:
+        payment_data.append(['Verified At:', application.payment_verified_at.strftime('%B %d, %Y at %I:%M %p')])
+        if application.payment_verified_by:
+            payment_data.append(['Verified By:', application.payment_verified_by.get_full_name()])
+    
+    payment_table = Table(payment_data, colWidths=[2*inch, 4*inch])
+    payment_table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (0, -1), colors.HexColor('#e0e7ff')),
+        ('TEXTCOLOR', (0, 0), (-1, -1), colors.black),
+        ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+        ('FONTNAME', (0, 0), (0, -1), 'Helvetica-Bold'),
+        ('FONTSIZE', (0, 0), (-1, -1), 10),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 12),
+        ('GRID', (0, 0), (-1, -1), 0.5, colors.grey)
+    ]))
+    elements.append(payment_table)
+    elements.append(Spacer(1, 0.3*inch))
+    
+    # Documents
+    documents = Document.objects.filter(application=application)
+    if documents.exists():
+        elements.append(Paragraph("Uploaded Documents", heading_style))
+        doc_data = [['Document Type', 'Uploaded Date']]
+        for doc in documents:
+            doc_data.append([
+                doc.get_document_type_display(),
+                doc.uploaded_at.strftime('%B %d, %Y')
+            ])
+        
+        doc_table = Table(doc_data, colWidths=[3*inch, 3*inch])
+        doc_table.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#1e40af')),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+            ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('FONTSIZE', (0, 0), (-1, 0), 10),
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+            ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+            ('GRID', (0, 0), (-1, -1), 0.5, colors.grey),
+        ]))
+        elements.append(doc_table)
+    
+    # Footer
+    elements.append(Spacer(1, 0.5*inch))
+    footer_style = ParagraphStyle(
+        'Footer',
+        parent=styles['Normal'],
+        fontSize=8,
+        textColor=colors.grey,
+        alignment=TA_CENTER
+    )
+    elements.append(Paragraph(f"Generated on {timezone.now().strftime('%B %d, %Y at %I:%M %p')}", footer_style))
+    elements.append(Paragraph("AFRICA WESTERN EDUCATION COMPANY LTD - Confidential", footer_style))
+    
+    # Build PDF
+    doc.build(elements)
+    
+    # Get the value of the BytesIO buffer and write it to the response
+    pdf = buffer.getvalue()
+    buffer.close()
+    response.write(pdf)
+    
+    return response

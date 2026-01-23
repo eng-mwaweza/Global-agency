@@ -334,6 +334,46 @@
                             </span>
                         </div>
                     </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Payment Status</span>
+                        <div class="detail-value">
+                            {% if application.payment_status == 'paid' %}
+                                <span class="application-status" style="background: #28a745; color: white; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem;">
+                                    ✓ Paid & Verified
+                                </span>
+                            {% elif application.payment_status == 'pending_verification' %}
+                                <span class="application-status" style="background: #ffc107; color: black; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem;">
+                                    ⏳ Pending Verification
+                                </span>
+                                <p style="margin-top: 0.5rem; color: #666; font-size: 0.85rem;">
+                                    Our team is verifying your payment. This usually takes 1-2 business days.
+                                </p>
+                            {% elif application.payment_status == 'rejected' %}
+                                <span class="application-status" style="background: #dc3545; color: white; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem;">
+                                    ✗ Payment Rejected
+                                </span>
+                                <p style="margin-top: 0.5rem; color: #dc3545; font-size: 0.85rem;">
+                                    Please contact support or resubmit payment details.
+                                </p>
+                            {% else %}
+                                <span class="application-status" style="background: #6c757d; color: white; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem;">
+                                    Unpaid
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% if application.mpesa_account_name %}
+                    <div class="detail-item">
+                        <span class="detail-label">M-PESA Account Name</span>
+                        <div class="detail-value">{{ application.mpesa_account_name }}</div>
+                    </div>
+                    {% endif %}
+                    {% if application.payment_verified_at %}
+                    <div class="detail-item">
+                        <span class="detail-label">Payment Verified</span>
+                        <div class="detail-value">{{ application.payment_verified_at|date:"F d, Y H:i" }}</div>
+                    </div>
+                    {% endif %}
                     {% if application.university_name %}
                     <div class="detail-item">
                         <span class="detail-label">University</span>

@@ -319,78 +319,45 @@ def create_application(request):
 @login_required
 @csrf_protect
 def payment_page(request, application_id):
-    """Payment page view"""
+    """M-PESA Manual Payment Instructions"""
     # Ensure student profile exists
     StudentProfile.objects.get_or_create(user=request.user)
     
     application = get_object_or_404(Application, id=application_id, student=request.user)
     
     # Check if application is already paid
-    if application.is_paid:
-        messages.info(request, 'This application has already been paid for.')
+    if application.is_paid and application.payment_status == 'paid':
+        messages.info(request, 'This application has already been paid and verified.')
         return redirect('student_portal:application_detail', application_id=application.id)
     
-    # Check if there's already a pending payment
-    pending_payment = Payment.objects.filter(
-        application=application, 
-        status__in=['pending', 'processing']
-    ).first()
-    
     if request.method == 'POST':
-        payment_method = request.POST.get('payment_method')
+        # Student provides the name on their M-PESA account
+        mpesa_account_name = request.POST.get('mpesa_account_name', '').strip()
         
-        if not payment_method:
-            messages.error(request, 'Please select a payment method.')
-            return render(request, 'student_portal/payment.html', {
-                'application': application,
-                'payment_amount': application.payment_amount,
-                'pending_payment': pending_payment,
-                'payment_gateway': settings.PAYMENT_GATEWAY,
-                'currency': settings.CURRENCY
-            })
-        
-        try:
-            if payment_method == 'mobile_money':
-                phone_number = request.POST.get('phone_number')
-                
-                if not phone_number:
-                    messages.error(request, 'Please provide phone number.')
-                    return render(request, 'student_portal/payment.html', {
-                        'application': application,
-                        'payment_amount': application.payment_amount,
-                        'pending_payment': pending_payment,
-                        'payment_gateway': settings.PAYMENT_GATEWAY,
-                        'currency': settings.CURRENCY
-                    })
-                
-                # Use ClickPesa for mobile money payment
-                if settings.PAYMENT_GATEWAY == 'clickpesa':
-                    return process_clickpesa_mobile_payment(request, application, phone_number)
-                else:
-                    # Fallback to dummy payment
-                    return process_mobile_money_payment(request, application, phone_number, 'mpesa')
-                
-            elif payment_method == 'card':
-                # Use ClickPesa for card payment
-                if settings.PAYMENT_GATEWAY == 'clickpesa':
-                    return process_clickpesa_card_payment(request, application)
-                else:
-                    messages.error(request, 'Card payment is only available through ClickPesa.')
-                    
-            else:
-                messages.error(request, 'Invalid payment method selected.')
-                
-        except Exception as e:
-            messages.error(request, f'Payment processing failed: {str(e)}')
+        if mpesa_account_name:
+            application.mpesa_account_name = mpesa_account_name
+            application.payment_status = 'pending_verification'
+            application.save()
+            messages.success(request, 'Payment details submitted successfully. Our team will verify your payment shortly.')
+            return redirect('student_portal:application_detail', application_id=application.id)
+        else:
+            messages.error(request, 'Please provide the name on your M-PESA account.')
     
-    # Add cache control
-    response = render(request, 'student_portal/payment.html', {
+    # M-PESA payment details
+    mpesa_number = "68067686"
+    mpesa_name = "AFRICA WESTERN EDUCATION"
+    
+    context = {
         'application': application,
         'payment_amount': application.payment_amount,
-        'pending_payment': pending_payment,
-        'payment_gateway': settings.PAYMENT_GATEWAY,
-        'currency': settings.CURRENCY
-    })
+        'mpesa_number': mpesa_number,
+        'mpesa_name': mpesa_name,
+        'payment_status': application.payment_status,
+        'currency': 'TZS'
+    }
+    
+    # Add cache control
+    response = render(request, 'student_portal/mpesa_payment.html', context)
     response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
     response['Pragma'] = 'no-cache'
     response['Expires'] = '0'

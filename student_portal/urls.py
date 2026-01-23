@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from .password_reset_views import student_forgot_password, student_password_reset_confirm
 
 app_name = 'student_portal'
 
@@ -7,6 +8,10 @@ urlpatterns = [
     path('', views.student_dashboard, name='dashboard'),
     path('login/', views.student_login, name='login'),
     path('logout/', views.student_logout, name='logout'),
+    
+    # Password Reset
+    path('forgot-password/', student_forgot_password, name='forgot_password'),
+    path('reset-password/<uidb64>/<token>/', student_password_reset_confirm, name='password_reset_confirm'),
     
     # Profile
     path('profile/', views.student_profile, name='profile'),

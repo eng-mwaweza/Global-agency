@@ -154,59 +154,6 @@
           </li>
         </ul>
 
-        <!-- Language Switcher -->
-        <div class="lang-dropdown">
-          <button class="flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-gray-100 transition duration-200 focus:outline-none focus:ring-2 focus:ring-primary-blue focus:ring-opacity-50">
-            {% if LANGUAGE_CODE == 'en' %}
-              <span class="text-lg">🇬🇧</span>
-              <span class="text-sm font-medium text-gray-700">EN</span>
-            {% elif LANGUAGE_CODE == 'sw' %}
-              <span class="text-lg">🇹🇿</span>
-              <span class="text-sm font-medium text-gray-700">SW</span>
-            {% elif LANGUAGE_CODE == 'ar' %}
-              <span class="text-lg">🇸🇦</span>
-              <span class="text-sm font-medium text-gray-700">AR</span>
-            {% elif LANGUAGE_CODE == 'fr' %}
-              <span class="text-lg">🇫🇷</span>
-              <span class="text-sm font-medium text-gray-700">FR</span>
-            {% else %}
-              <span class="text-lg">🌍</span>
-              <span class="text-sm font-medium text-gray-700">{{ LANGUAGE_CODE|upper }}</span>
-            {% endif %}
-            <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-            </svg>
-          </button>
-          
-          <div class="lang-dropdown-content" id="lang-dropdown-desktop">
-            <form id="language-form-desktop" method="post" style="display: none;">
-              {% csrf_token %}
-              <input type="hidden" name="language" value="" id="lang-value-desktop">
-              <input type="hidden" name="next" value="{{ request.path }}">
-            </form>
-            
-            <button type="button" class="lang-option {% if LANGUAGE_CODE == 'en' %}active{% endif %}" onclick="changeLanguage('en', 'desktop')">
-              <span class="text-xl {% if LANGUAGE_CODE == 'ar' %}ml-3{% else %}mr-3{% endif %}">🇬🇧</span>
-              <span>English</span>
-            </button>
-            
-            <button type="button" class="lang-option {% if LANGUAGE_CODE == 'sw' %}active{% endif %}" onclick="changeLanguage('sw', 'desktop')">
-              <span class="text-xl {% if LANGUAGE_CODE == 'ar' %}ml-3{% else %}mr-3{% endif %}">🇹🇿</span>
-              <span>Kiswahili</span>
-            </button>
-            
-            <button type="button" class="lang-option {% if LANGUAGE_CODE == 'ar' %}active{% endif %}" onclick="changeLanguage('ar', 'desktop')">
-              <span class="text-xl {% if LANGUAGE_CODE == 'ar' %}ml-3{% else %}mr-3{% endif %}">🇸🇦</span>
-              <span>العربية</span>
-            </button>
-            
-            <button type="button" class="lang-option {% if LANGUAGE_CODE == 'fr' %}active{% endif %}" onclick="changeLanguage('fr', 'desktop')">
-              <span class="text-xl {% if LANGUAGE_CODE == 'ar' %}ml-3{% else %}mr-3{% endif %}">🇫🇷</span>
-              <span>Français</span>
-            </button>
-          </div>
-        </div>
-
         <a href="{% url 'global_agency:contact' %}"
            class="btn-modern bg-gradient-to-r from-primary-blue to-blue-600 text-white px-6 py-3 rounded-full text-xs md:text-sm font-semibold shadow-lg hover:shadow-xl transition duration-300 transform hover:scale-105 hover:from-blue-700 hover:to-blue-800">
            {% trans "Book Free Consult" %}
@@ -215,51 +162,6 @@
 
       <!-- Mobile Menu Button -->
       <div class="md:hidden flex items-center space-x-2">
-        <!-- Mobile Language Switcher -->
-        <div class="lang-dropdown">
-          <button class="flex items-center p-2 rounded-lg hover:bg-gray-100 transition duration-200">
-            {% if LANGUAGE_CODE == 'en' %}
-              <span class="text-lg">🇬🇧</span>
-            {% elif LANGUAGE_CODE == 'sw' %}
-              <span class="text-lg">🇹🇿</span>
-            {% elif LANGUAGE_CODE == 'ar' %}
-              <span class="text-lg">🇸🇦</span>
-            {% elif LANGUAGE_CODE == 'fr' %}
-              <span class="text-lg">🇫🇷</span>
-            {% else %}
-              <span class="text-lg">🌍</span>
-            {% endif %}
-          </button>
-          
-          <div class="lang-dropdown-content" id="lang-dropdown-mobile">
-            <form id="language-form-mobile" method="post" style="display: none;">
-              {% csrf_token %}
-              <input type="hidden" name="language" value="" id="lang-value-mobile">
-              <input type="hidden" name="next" value="{{ request.path }}">
-            </form>
-            
-            <button type="button" class="lang-option {% if LANGUAGE_CODE == 'en' %}active{% endif %}" onclick="changeLanguage('en', 'mobile')">
-              <span class="text-xl {% if LANGUAGE_CODE == 'ar' %}ml-3{% else %}mr-3{% endif %}">🇬🇧</span>
-              <span>English</span>
-            </button>
-            
-            <button type="button" class="lang-option {% if LANGUAGE_CODE == 'sw' %}active{% endif %}" onclick="changeLanguage('sw', 'mobile')">
-              <span class="text-xl {% if LANGUAGE_CODE == 'ar' %}ml-3{% else %}mr-3{% endif %}">🇹🇿</span>
-              <span>Kiswahili</span>
-            </button>
-            
-            <button type="button" class="lang-option {% if LANGUAGE_CODE == 'ar' %}active{% endif %}" onclick="changeLanguage('ar', 'mobile')">
-              <span class="text-xl {% if LANGUAGE_CODE == 'ar' %}ml-3{% else %}mr-3{% endif %}">🇸🇦</span>
-              <span>العربية</span>
-            </button>
-            
-            <button type="button" class="lang-option {% if LANGUAGE_CODE == 'fr' %}active{% endif %}" onclick="changeLanguage('fr', 'mobile')">
-              <span class="text-xl {% if LANGUAGE_CODE == 'ar' %}ml-3{% else %}mr-3{% endif %}">🇫🇷</span>
-              <span>Français</span>
-            </button>
-          </div>
-        </div>
-        
         <button id="mobile-menu-button" class="text-primary-blue hover:text-blue-800 focus:outline-none p-2 rounded-lg hover:bg-gray-100 transition duration-200">
           <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -484,37 +386,6 @@
 </style>
 
 <script>
-// Language switching function - changes URL prefix
-function changeLanguage(lang, device) {
-  const currentPath = window.location.pathname;
-  const languages = ['en', 'sw', 'ar', 'fr'];
-  
-  // Remove existing language prefix from path
-  let newPath = currentPath;
-  for (let langCode of languages) {
-    if (currentPath.startsWith('/' + langCode + '/')) {
-      newPath = currentPath.substring(('/' + langCode).length);
-      break;
-    }
-    if (currentPath === '/' + langCode) {
-      newPath = '/';
-      break;
-    }
-  }
-  
-  // Add new language prefix
-  if (newPath === '') {
-    newPath = '/' + lang + '/';
-  } else if (newPath === '/') {
-    newPath = '/' + lang + '/';
-  } else {
-    newPath = '/' + lang + newPath;
-  }
-  
-  // Navigate to new language URL
-  window.location.href = newPath;
-}
-
 // Handle mobile menu toggle
 document.addEventListener('DOMContentLoaded', function() {
   const mobileMenuButton = document.getElementById('mobile-menu-button');

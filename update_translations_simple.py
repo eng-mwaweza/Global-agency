@@ -1,26 +1,13 @@
-#!/usr/bin/env python
 """
-Update translations in .po files with new strings extracted from templates
+Simple translation updater that directly modifies .po files without Django setup
 """
-
-import os
-import re
+import polib
 from pathlib import Path
-import django
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'globalagency_project.settings')
-django.setup()
+# Get the project root directory
+BASE_DIR = Path(__file__).resolve().parent
 
-# Import polib for working with .po files
-try:
-    import polib
-except ImportError:
-    print("Installing polib...")
-    import subprocess
-    subprocess.run(['pip', 'install', 'polib'], check=True)
-    import polib
-
-# New strings that need to be added to translations
+# Improved translations with better accuracy
 NEW_STRINGS = {
     "Student Portal": {"sw": "Kituo cha Wanafunzi", "ar": "بوابة الطالب", "fr": "Portail Étudiant"},
     "Create Account Now": {"sw": "Fungua Akaunti Sasa", "ar": "إنشاء حساب الآن", "fr": "Créer un compte maintenant"},
@@ -142,54 +129,73 @@ NEW_STRINGS = {
     "Employee Login": {"sw": "Kuingia kwa Wafanyakazi", "ar": "تسجيل دخول الموظفين", "fr": "Connexion employés"},
 }
 
-def update_po_file(po_file_path, language):
-    """Update a .po file with new translations"""
-    print(f"\nUpdating {language} .po file: {po_file_path}")
+def update_po_file(lang_code, translations):
+    """Update a single language's .po file"""
+    po_file_path = BASE_DIR / 'locale' / lang_code / 'LC_MESSAGES' / 'django.po'
     
-    # Check if file exists
-    if not os.path.exists(po_file_path):
-        print(f"File not found: {po_file_path}")
+    if not po_file_path.exists():
+        print(f"Warning: {po_file_path} does not exist!")
         return
     
     # Load the .po file
-    po = polib.pofile(po_file_path)
+    po = polib.pofile(str(po_file_path))
     
-    # Add new entries
-    added = 0
-    for english, translations_dict in NEW_STRINGS.items():
-        if language not in translations_dict:
-            continue
-        
+    added_count = 0
+    updated_count = 0
+    
+    # Process each string
+    for english_text, translated_text in translations.items():
         # Check if entry already exists
-        existing_entry = po.find(english)
+        existing_entry = po.find(english_text)
         
         if existing_entry:
             # Update existing entry
-            existing_entry.msgstr = translations_dict[language]
-            print(f"  Updated: {english[:50]}...")
+            if existing_entry.msgstr != translated_text:
+                existing_entry.msgstr = translated_text
+                updated_count += 1
         else:
             # Add new entry
             entry = polib.POEntry(
-                msgid=english,
-                msgstr=translations_dict[language],
+                msgid=english_text,
+                msgstr=translated_text,
             )
             po.append(entry)
-            added += 1
-            print(f"  Added: {english[:50]}...")
+            added_count += 1
     
-    # Save the updated .po file
-    po.save(po_file_path)
-    print(f"\nSaved {po_file_path} with {added} new entries")
+    # Save the .po file
+    po.save()
     
     # Compile to .mo file
-    mo_file_path = po_file_path.replace('.po', '.mo')
-    po.save_as_mofile(mo_file_path)
-    print(f"Compiled to: {mo_file_path}")
+    mo_file_path = po_file_path.parent / 'django.mo'
+    po.save_as_mofile(str(mo_file_path))
+    
+    print(f"{lang_code.upper()}: Added {added_count} new entries, Updated {updated_count} existing entries")
+    return added_count, updated_count
 
-# Update .po files for all languages
-locale_dir = 'locale'
-for language in ['sw', 'ar', 'fr']:
-    po_file = os.path.join(locale_dir, language, 'LC_MESSAGES', 'django.po')
-    update_po_file(po_file, language)
+def main():
+    """Main function to update all translation files"""
+    print("=" * 60)
+    print("UPDATING TRANSLATIONS WITH IMPROVED ACCURACY")
+    print("=" * 60)
+    
+    # Process each language
+    for lang_code in ['sw', 'ar', 'fr']:
+        print(f"\nProcessing {lang_code.upper()} translations...")
+        
+        # Extract translations for this language
+        lang_translations = {}
+        for english_text, translations in NEW_STRINGS.items():
+            if lang_code in translations:
+                lang_translations[english_text] = translations[lang_code]
+        
+        # Update the .po file
+        update_po_file(lang_code, lang_translations)
+    
+    print("\n" + "=" * 60)
+    print("ALL TRANSLATIONS UPDATED AND COMPILED SUCCESSFULLY!")
+    print("=" * 60)
+    print("\nPlease restart your Django server for changes to take effect:")
+    print("  python manage.py runserver")
 
-print("\n=== Translation update completed ===")
+if __name__ == "__main__":
+    main()
