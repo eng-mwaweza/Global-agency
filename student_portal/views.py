@@ -344,8 +344,8 @@ def payment_page(request, application_id):
             messages.error(request, 'Please provide the name on your M-PESA account.')
     
     # M-PESA payment details
-    mpesa_number = "68067686"
-    mpesa_name = "AFRICA WESTERN EDUCATION"
+    mpesa_number = "350361561"
+    mpesa_name = "AFRICA WEST EDUCATION COMPANY LIMITED"
     
     context = {
         'application': application,
