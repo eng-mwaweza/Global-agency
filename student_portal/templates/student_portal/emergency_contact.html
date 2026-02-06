@@ -1,0 +1,127 @@
+{% extends 'student_portal/dashboard_base.html' %}
+
+{% block title %}Emergency Contact{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl">
+    <div class="bg-white rounded-lg shadow-md p-8">
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="text-2xl font-bold text-gray-800">
+                <i class="fas fa-phone-alt text-blue-600 mr-2"></i>
+                Emergency Contact
+            </h2>
+            {% if user.studentprofile.emergency_contact_complete %}
+                <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold">
+                    <i class="fas fa-check-circle mr-1"></i>Completed
+                </span>
+            {% else %}
+                <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-semibold">
+                    <i class="fas fa-exclamation-circle mr-1"></i>Incomplete
+                </span>
+            {% endif %}
+        </div>
+
+        <p class="text-gray-600 mb-6">Please provide emergency contact information. This is important for your safety and security. All fields marked with <span class="text-red-500">*</span> are required.</p>
+
+        <form method="post" class="space-y-6">
+            {% csrf_token %}
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="{{ form.emergency_contact.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                        Emergency Contact Name <span class="text-red-500">*</span>
+                    </label>
+                    {{ form.emergency_contact }}
+                    {% if form.emergency_contact.errors %}
+                        <p class="text-red-500 text-sm mt-1">{{ form.emergency_contact.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
+                <div>
+                    <label for="{{ form.emergency_gender.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                        Gender <span class="text-red-500">*</span>
+                    </label>
+                    {{ form.emergency_gender }}
+                    {% if form.emergency_gender.errors %}
+                        <p class="text-red-500 text-sm mt-1">{{ form.emergency_gender.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
+                <div>
+                    <label for="{{ form.emergency_relation.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                        Relationship to You <span class="text-red-500">*</span>
+                    </label>
+                    {{ form.emergency_relation }}
+                    {% if form.emergency_relation.errors %}
+                        <p class="text-red-500 text-sm mt-1">{{ form.emergency_relation.errors.0 }}</p>
+                    {% endif %}
+                    <p class="text-sm text-gray-500 mt-1">e.g., Father, Mother, Guardian, Sibling</p>
+                </div>
+
+                <div>
+                    <label for="{{ form.emergency_occupation.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                        Occupation
+                    </label>
+                    {{ form.emergency_occupation }}
+                    {% if form.emergency_occupation.errors %}
+                        <p class="text-red-500 text-sm mt-1">{{ form.emergency_occupation.errors.0 }}</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div>
+                <label for="{{ form.emergency_address.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                    Emergency Contact Address <span class="text-red-500">*</span>
+                </label>
+                {{ form.emergency_address }}
+                {% if form.emergency_address.errors %}
+                    <p class="text-red-500 text-sm mt-1">{{ form.emergency_address.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <div class="border-t pt-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Additional Information</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="{{ form.heard_about_us.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                            How Did You Hear About Us?
+                        </label>
+                        {{ form.heard_about_us }}
+                        {% if form.heard_about_us.errors %}
+                            <p class="text-red-500 text-sm mt-1">{{ form.heard_about_us.errors.0 }}</p>
+                        {% endif %}
+                        <p class="text-sm text-gray-500 mt-1">e.g., Social Media, Friend Referral, Website, Advertisement</p>
+                    </div>
+
+                    <div>
+                        <label for="{{ form.heard_about_other.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                            Other (Please Specify)
+                        </label>
+                        {{ form.heard_about_other }}
+                        {% if form.heard_about_other.errors %}
+                            <p class="text-red-500 text-sm mt-1">{{ form.heard_about_other.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-blue-50 border-l-4 border-blue-600 p-4 rounded">
+                <p class="text-sm text-blue-800">
+                    <i class="fas fa-info-circle mr-2"></i>
+                    By completing this section, you'll finish setting up your profile. You can always come back to update this information later.
+                </p>
+            </div>
+
+            <div class="flex justify-between pt-6 border-t">
+                <a href="{% url 'student_portal:study_preferences' %}" class="bg-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-400 transition">
+                    <i class="fas fa-arrow-left mr-2"></i>Previous
+                </a>
+                <button type="submit" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition">
+                    Complete Profile <i class="fas fa-check ml-2"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

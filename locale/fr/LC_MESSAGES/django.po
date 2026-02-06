@@ -1,0 +1,394 @@
+# French translations
+# Copyright (C) 2026 Africa Western Education
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Africa Western Education\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Home"
+msgstr "Accueil"
+
+msgid "About Us"
+msgstr "À propos de nous"
+
+msgid "Services"
+msgstr "Services"
+
+msgid "Universities"
+msgstr "Universités"
+
+msgid "TCU Services"
+msgstr "Services TCU"
+
+msgid "Success Stories"
+msgstr "Histoires de réussite"
+
+msgid "Book Free Consult"
+msgstr "Réserver une consultation gratuite"
+
+msgid "Education for a Bright Tomorrow — Explore • Dream • Discover"
+msgstr "L'éducation pour un demain brillant — Explorez • Rêvez • Découvrez"
+
+msgid "Africa Western Education Company Ltd"
+msgstr "Société d'éducation occidentale africaine"
+
+msgid "Your Gateway"
+msgstr "Votre passerelle"
+
+msgid "to Global Education"
+msgstr "vers l'éducation mondiale"
+
+msgid ""
+"We provide end-to-end expert guidance — from application processing and "
+"scholarship hunting to visa preparation and pre-departure support."
+msgstr ""
+"Nous fournissons des conseils d'experts complets — du traitement des "
+"demandes à la préparation des visas et au soutien avant le départ."
+
+msgid "Start Your Free Consultation"
+msgstr "Commencez votre consultation gratuite"
+
+msgid "Explore Our Services"
+msgstr "Explorez nos services"
+
+msgid "Students Placed Abroad"
+msgstr "Étudiants placés à l'étranger"
+
+msgid "Partner Universities"
+msgstr "Universités partenaires"
+
+msgid "Visas Assisted"
+msgstr "Visas assistés"
+
+msgid "Local Students Served"
+msgstr "Étudiants locaux servis"
+
+msgid "Trusted Worldwide"
+msgstr "Approuvé mondialement"
+
+msgid "Recommended By"
+msgstr "Recommandé par"
+
+msgid "Leading Organizations"
+msgstr "Organisations de premier plan"
+
+msgid "Verified & Licensed"
+msgstr "Vérifié et autorisé"
+
+msgid "5-Star Rated"
+msgstr "Noté 5 étoiles"
+
+msgid "Award Winning"
+msgstr "Primé"
+
+msgid "Guidance & Selection"
+msgstr "Orientation et sélection"
+
+msgid "Visa & Passport"
+msgstr "Visa et passeport"
+
+msgid "Scholarship Assistance"
+msgstr "Assistance aux bourses d'études"
+
+msgid "View All Services"
+msgstr "Voir tous les services"
+
+msgid "Local Universities"
+msgstr "Universités locales"
+
+msgid "International Universities"
+msgstr "Universités internationales"
+
+msgid "USA Universities"
+msgstr "Universités américaines"
+
+msgid "UK Universities"
+msgstr "Universités britanniques"
+
+msgid "Canada Universities"
+msgstr "Universités canadiennes"
+
+msgid "View All Countries"
+msgstr "Voir tous les pays"
+
+msgid "Study at World-Class Universities Abroad"
+msgstr "Étudier dans des universités de classe mondiale à l'étranger"
+
+msgid "United States"
+msgstr "États-Unis"
+
+msgid "United Kingdom"
+msgstr "Royaume-Uni"
+
+msgid "Canada"
+msgstr "Canada"
+
+msgid "Australia"
+msgstr "Australie"
+
+msgid "Germany"
+msgstr "Allemagne"
+
+msgid "More"
+msgstr "Plus"
+
+msgid "Top Universities"
+msgstr "Meilleures universités"
+
+msgid "Worldwide"
+msgstr "Mondial"
+
+msgid "Countries"
+msgstr "Pays"
+
+msgid "Most In-Demand Programs"
+msgstr "Programmes les plus demandés"
+
+msgid "Top"
+msgstr "Meilleur"
+
+msgid "Courses"
+msgstr "Cours"
+
+msgid "in High Demand"
+msgstr "en forte demande"
+
+msgid "Computer Science / IT"
+msgstr "Informatique / TI"
+
+msgid "Business & Management"
+msgstr "Affaires et gestion"
+
+msgid "Healthcare & Medicine"
+msgstr "Santé et médecine"
+
+msgid "Engineering"
+msgstr "Ingénierie"
+
+msgid "Data Science & AI"
+msgstr "Science des données et IA"
+
+msgid "Law & Legal Studies"
+msgstr "Droit et études juridiques"
+
+msgid "Learn More"
+msgstr "En savoir plus"
+
+msgid "Get Free Course Consultation"
+msgstr "Obtenir une consultation de cours gratuite"
+
+msgid "Contact Us"
+msgstr "Contactez-nous"
+
+msgid "Student Portal"
+msgstr "Portail Étudiant"
+
+msgid "Create Account Now"
+msgstr "Créer un compte maintenant"
+
+msgid "Who We Are"
+msgstr "Qui nous sommes"
+
+msgid "Leading the Way in International Education Counseling."
+msgstr "Leaders dans le conseil en éducation internationale."
+
+msgid ""
+"Founded in 2020 and launched in 2024, Africa Western Education Company Ltd "
+"is a professional educational consultancy empowering African students and "
+"professionals with reliable, transparent, and high-quality advisory "
+"services. We connect you to global learning opportunities while simplifying "
+"admissions, scholarship applications, and visa processes."
+msgstr ""
+"Fondée en 2020 et opérationnelle depuis 2024, Africa Western Education "
+"Company Ltd est une société de conseil éducatif professionnelle qui "
+"accompagne les étudiants et professionnels africains grâce à des services "
+"consultatifs fiables, transparents et de haute qualité. Nous vous connectons"
+" aux opportunités d'études internationales tout en simplifiant les "
+"admissions, les demandes de bourses et les procédures de visa."
+
+msgid "Our Mission"
+msgstr "Notre Mission"
+
+msgid ""
+"To empower African students and professionals by providing reliable, "
+"transparent, and high-quality educational consultancy services that connect "
+"them to global learning opportunities."
+msgstr ""
+"Autonomiser les étudiants et professionnels africains en fournissant des "
+"services de conseil éducatif fiables, transparents et de haute qualité qui "
+"les connectent aux opportunités d'apprentissage mondiales."
+
+msgid "Our Vision"
+msgstr "Notre Vision"
+
+msgid ""
+"To become Africa's leading and most trusted educational consultancy, shaping"
+" futures through global academic access and excellence."
+msgstr ""
+"Devenir la société de conseil éducatif leader et la plus fiable d'Afrique, "
+"façonnant l'avenir grâce à l'accès académique mondial et l'excellence."
+
+msgid "The Pillars of Our Success"
+msgstr "Les piliers de notre succès"
+
+msgid "Integrity"
+msgstr "Intégrité"
+
+msgid ""
+"We uphold honesty, transparency, and ethical standards in all our services "
+"and interactions."
+msgstr ""
+"Nous maintenons l'honnêteté, la transparence et les normes éthiques dans "
+"tous nos services et interactions."
+
+msgid "Innovation"
+msgstr "Innovation"
+
+msgid ""
+"We embrace creativity and continuously improve our services with new methods"
+" and technologies."
+msgstr ""
+"Nous adoptons la créativité et améliorons continuellement nos services avec "
+"de nouvelles méthodes et technologies."
+
+msgid "Excellence"
+msgstr "Excellence"
+
+msgid ""
+"We are committed to delivering the highest quality of service and achieving "
+"outstanding results for our clients."
+msgstr ""
+"Nous nous engageons à fournir des services de la plus haute qualité et à "
+"obtenir des résultats exceptionnels pour nos clients."
+
+msgid "Customer Focus"
+msgstr "Orientation client"
+
+msgid ""
+"Our clients are at the center of everything we do; we prioritize their needs"
+" and ensure satisfaction."
+msgstr ""
+"Nos clients sont au cœur de tout ce que nous faisons; nous priorisons leurs "
+"besoins et assurons leur satisfaction."
+
+msgid "Accountability"
+msgstr "Responsabilité"
+
+msgid ""
+"We take full responsibility for our actions and outcomes, ensuring "
+"reliability and trustworthiness."
+msgstr ""
+"Nous assumons l'entière responsabilité de nos actions et résultats, "
+"garantissant fiabilité et confiance."
+
+msgid "Teamwork"
+msgstr "Travail d'équipe"
+
+msgid ""
+"We foster collaboration and cooperation within our team and with partners to"
+" achieve common goals."
+msgstr ""
+"Nous encourageons la collaboration et la coopération au sein de notre équipe"
+" et avec nos partenaires pour atteindre des objectifs communs."
+
+msgid "Our Comprehensive Services"
+msgstr "Nos services complets"
+
+msgid "End-to-End Study Abroad Support"
+msgstr "Accompagnement complet pour études à l'étranger"
+
+msgid ""
+"From initial guidance to post-arrival support, we handle every aspect of "
+"your study abroad journey with expert care."
+msgstr ""
+"Du conseil initial au soutien post-arrivée, nous gérons chaque aspect de "
+"votre parcours d'études à l'étranger avec expertise."
+
+msgid "How We Help:"
+msgstr "Comment nous aidons:"
+
+msgid "Personalized Profile Analysis:"
+msgstr "Analyse personnalisée du profil:"
+
+msgid ""
+"Comprehensive assessment of academic background, interests, and career goals"
+msgstr ""
+"Évaluation complète du parcours académique, des intérêts et des objectifs de"
+" carrière"
+
+msgid "University Shortlisting:"
+msgstr "Présélection universitaire:"
+
+msgid "Curated list of universities matching your profile and budget"
+msgstr ""
+"Liste sélectionnée d'universités correspondant à votre profil et budget"
+
+msgid "Course Selection:"
+msgstr "Sélection de programme:"
+
+msgid "Expert guidance on program choices with best career prospects"
+msgstr ""
+"Conseil d'experts sur les choix de programmes avec les meilleures "
+"perspectives professionnelles"
+
+msgid "Career Pathway Planning:"
+msgstr "Planification de parcours professionnel:"
+
+msgid "Long-term career strategy aligned with your chosen course"
+msgstr "Stratégie de carrière à long terme alignée sur votre programme choisi"
+
+msgid "AFRICA WESTERN EDUCATION COMPANY LTD"
+msgstr "AFRICA WESTERN EDUCATION COMPANY LTD"
+
+msgid ""
+"Empowering African students and professionals through reliable, transparent,"
+" and high-quality educational consultancy services."
+msgstr ""
+"Accompagner les étudiants et professionnels africains grâce à des services "
+"de conseil éducatif fiables, transparents et de haute qualité."
+
+msgid "Quick Links"
+msgstr "Liens rapides"
+
+msgid "Study Abroad"
+msgstr "Études à l'étranger"
+
+msgid "Apply Now"
+msgstr "Postulez maintenant"
+
+msgid "Our Services"
+msgstr "Nos services"
+
+msgid "University Application Assistance"
+msgstr "Assistance pour candidatures universitaires"
+
+msgid "Visa Processing Support"
+msgstr "Aide au traitement des visas"
+
+msgid "TCU Application Services"
+msgstr "Services de candidature TCU"
+
+msgid "Pre-Departure Guidance"
+msgstr "Orientation pré-départ"
+
+msgid "Dar es Salaam, Tanzania"
+msgstr "Dar es Salaam, Tanzanie"
+
+msgid "Mon-Fri: 8:00 AM - 6:00 PM"
+msgstr "Lun-Ven: 8h00 - 18h00"
+
+msgid "Sat: 9:00 AM - 2:00 PM"
+msgstr "Sam: 9h00 - 14h00"
+
+msgid "Privacy Policy"
+msgstr "Politique de confidentialité"
+
+msgid "Terms of Service"
+msgstr "Conditions d'utilisation"
+
+msgid "Employee Login"
+msgstr "Connexion employés"

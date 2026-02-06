@@ -1,12 +1,13 @@
+{% load i18n %}
 <section id="services" class="py-16 sm:py-24 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center">
-            <h2 class="text-base font-semibold text-green-600 tracking-wide uppercase" data-lang-key="services_subheading">Our Comprehensive Services</h2>
-            <p class="mt-2 text-3xl font-extrabold text-gray-900 sm:text-4xl" data-lang-key="services_heading">
-                End-to-End Study Abroad Support
+            <h2 class="text-base font-semibold text-green-600 tracking-wide uppercase">{% trans "Our Comprehensive Services" %}</h2>
+            <p class="mt-2 text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                {% trans "End-to-End Study Abroad Support" %}
             </p>
-            <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto" data-lang-key="services_body">
-                From initial guidance to post-arrival support, we handle every aspect of your study abroad journey with expert care.
+            <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">
+                {% trans "From initial guidance to post-arrival support, we handle every aspect of your study abroad journey with expert care." %}
             </p>
         </div>
 
@@ -20,29 +21,29 @@
                         <i class="fas fa-graduation-cap text-green-600 text-xl"></i>
                     </div>
                     <div>
-                        <h3 class="text-2xl font-bold text-gray-900">Guidance & Selection</h3>
-                        <p class="text-gray-700 mt-2">Strategic university and course selection based on your profile</p>
+                        <h3 class="text-2xl font-bold text-gray-900">{% trans "Guidance & Selection" %}</h3>
+                        <p class="text-gray-700 mt-2">{% trans "Strategic university and course selection based on your profile" %}</p>
                     </div>
                 </div>
                 
                 <div class="space-y-4">
-                    <h4 class="font-semibold text-gray-900 text-lg">How We Help:</h4>
+                    <h4 class="font-semibold text-gray-900 text-lg">{% trans "How We Help:" %}</h4>
                     <ul class="text-gray-600 space-y-3">
                         <li class="flex items-start">
                             <span class="text-green-500 mr-2 mt-1">•</span>
-                            <span><strong>Personalized Profile Analysis:</strong> Comprehensive assessment of academic background, interests, and career goals</span>
+                            <span><strong>{% trans "Personalized Profile Analysis:" %}</strong> {% trans "Comprehensive assessment of academic background, interests, and career goals" %}</span>
                         </li>
                         <li class="flex items-start">
                             <span class="text-green-500 mr-2 mt-1">•</span>
-                            <span><strong>University Shortlisting:</strong> Curated list of universities matching your profile and budget</span>
+                            <span><strong>{% trans "University Shortlisting:" %}</strong> {% trans "Curated list of universities matching your profile and budget" %}</span>
                         </li>
                         <li class="flex items-start">
                             <span class="text-green-500 mr-2 mt-1">•</span>
-                            <span><strong>Course Selection:</strong> Expert guidance on program choices with best career prospects</span>
+                            <span><strong>{% trans "Course Selection:" %}</strong> {% trans "Expert guidance on program choices with best career prospects" %}</span>
                         </li>
                         <li class="flex items-start">
                             <span class="text-green-500 mr-2 mt-1">•</span>
-                            <span><strong>Career Pathway Planning:</strong> Long-term career strategy aligned with your chosen course</span>
+                            <span><strong>{% trans "Career Pathway Planning:" %}</strong> {% trans "Long-term career strategy aligned with your chosen course" %}</span>
                         </li>
                     </ul>
                 </div>
@@ -55,29 +56,29 @@
                         <i class="fas fa-passport text-blue-600 text-xl"></i>
                     </div>
                     <div>
-                        <h3 class="text-2xl font-bold text-gray-900">Visa & Passport</h3>
-                        <p class="text-gray-700 mt-2">Complete visa processing and documentation support</p>
+                        <h3 class="text-2xl font-bold text-gray-900">{% trans "Visa & Passport" %}</h3>
+                        <p class="text-gray-700 mt-2">{% trans "Complete visa processing and documentation support" %}</p>
                     </div>
                 </div>
                 
                 <div class="space-y-4">
-                    <h4 class="font-semibold text-gray-900 text-lg">How We Help:</h4>
+                    <h4 class="font-semibold text-gray-900 text-lg">{% trans "How We Help:" %}</h4>
                     <ul class="text-gray-600 space-y-3">
                         <li class="flex items-start">
                             <span class="text-green-500 mr-2 mt-1">•</span>
-                            <span><strong>Document Preparation:</strong> Complete visa application package preparation</span>
+                            <span><strong>{% trans "Document Preparation:" %}</strong> {% trans "Complete visa application package preparation" %}</span>
                         </li>
                         <li class="flex items-start">
                             <span class="text-green-500 mr-2 mt-1">•</span>
-                            <span><strong>Financial Documentation:</strong> Guidance on fund proofs and financial statements</span>
+                            <span><strong>{% trans "Financial Documentation:" %}</strong> {% trans "Guidance on fund proofs and financial statements" %}</span>
                         </li>
                         <li class="flex items-start">
                             <span class="text-green-500 mr-2 mt-1">•</span>
-                            <span><strong>Interview Coaching:</strong> Mock visa interviews with detailed feedback</span>
+                            <span><strong>{% trans "Interview Coaching:" %}</strong> {% trans "Mock visa interviews with detailed feedback" %}</span>
                         </li>
                         <li class="flex items-start">
                             <span class="text-green-500 mr-2 mt-1">•</span>
-                            <span><strong>Application Tracking:</strong> Continuous monitoring of visa application status</span>
+                            <span><strong>{% trans "Application Tracking:" %}</strong> {% trans "Continuous monitoring of visa application status" %}</span>
                         </li>
                     </ul>
                 </div>
@@ -90,8 +91,8 @@
                         <i class="fas fa-hand-holding-usd text-purple-600 text-xl"></i>
                     </div>
                     <div>
-                        <h3 class="text-2xl font-bold text-gray-900">Study Loan Support</h3>
-                        <p class="text-gray-700 mt-2">Financial assistance and loan processing guidance</p>
+                        <h3 class="text-2xl font-bold text-gray-900">{% trans "Study Loan Support" %}</h3>
+                        <p class="text-gray-700 mt-2">{% trans "Financial assistance and loan processing guidance" %}</p>
                     </div>
                 </div>
                 
@@ -295,10 +296,10 @@
 
         </div>
 
-        <!-- How Global Agency Works Section -->
+        <!-- How Africa Western Education Works Section -->
         <div class="mt-20 bg-gradient-to-r from-green-50 to-blue-50 rounded-2xl p-8 md:p-12">
             <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-gray-900">How Global Agency Works</h2>
+                <h2 class="text-3xl font-bold text-gray-900">How Africa Western Education Works</h2>
                 <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">
                     Our proven 5-step process ensures your study abroad journey is smooth, successful, and stress-free
                 </p>
@@ -343,23 +344,23 @@
 
             <div class="mt-12 text-center">
                 <div class="bg-white rounded-lg p-6 shadow-lg inline-block">
-                    <h4 class="text-xl font-bold text-gray-900 mb-4">Our Success Metrics</h4>
+                    <h4 class="text-xl font-bold text-gray-900 mb-4">Our Impact</h4>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
                         <div class="text-center">
-                            <div class="text-3xl font-bold text-green-600">98%</div>
-                            <div class="text-gray-600 text-sm">Visa Success Rate</div>
+                            <div class="text-3xl font-bold text-purple-600">500+</div>
+                            <div class="text-gray-600 text-sm">Students Placed Abroad</div>
                         </div>
                         <div class="text-center">
-                            <div class="text-3xl font-bold text-blue-600">200+</div>
+                            <div class="text-3xl font-bold text-blue-600">600+</div>
                             <div class="text-gray-600 text-sm">Partner Universities</div>
                         </div>
                         <div class="text-center">
-                            <div class="text-3xl font-bold text-purple-600">5000+</div>
-                            <div class="text-gray-600 text-sm">Students Placed</div>
+                            <div class="text-3xl font-bold text-green-600">300+</div>
+                            <div class="text-gray-600 text-sm">Visas Assisted</div>
                         </div>
                         <div class="text-center">
-                            <div class="text-3xl font-bold text-yellow-600">15+</div>
-                            <div class="text-gray-600 text-sm">Countries Covered</div>
+                            <div class="text-3xl font-bold text-yellow-600">8+</div>
+                            <div class="text-gray-600 text-sm">Core Countries Covered</div>
                         </div>
                     </div>
                 </div>

@@ -1,0 +1,390 @@
+# Swahili translations
+# Copyright (C) 2026 Africa Western Education
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Africa Western Education\n"
+"Language: sw\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Home"
+msgstr "Nyumbani"
+
+msgid "About Us"
+msgstr "Kuhusu Sisi"
+
+msgid "Services"
+msgstr "Huduma"
+
+msgid "Universities"
+msgstr "Chuo Kikuu"
+
+msgid "TCU Services"
+msgstr "Huduma za TCU"
+
+msgid "Success Stories"
+msgstr "Hadithi za Mafanikio"
+
+msgid "Book Free Consult"
+msgstr "Kumkaribisha Bure"
+
+msgid "Education for a Bright Tomorrow — Explore • Dream • Discover"
+msgstr "Elimu kwa Kesho Angavu — Chunguza • Pangiania • Gundua"
+
+msgid "Africa Western Education Company Ltd"
+msgstr "Kampuni ya Elimu Magharibi Barani Afrika"
+
+msgid "Your Gateway"
+msgstr "Njia Yako"
+
+msgid "to Global Education"
+msgstr "kwa Elimu Duniani"
+
+msgid ""
+"We provide end-to-end expert guidance — from application processing and "
+"scholarship hunting to visa preparation and pre-departure support."
+msgstr ""
+"Tunatoa mwongozo wa kina — kutoka kwa kusindika maombi hadi kuandaa visa na "
+"usaidizi kabla ya kuondoka."
+
+msgid "Start Your Free Consultation"
+msgstr "Anza Ushauri Wako Bure"
+
+msgid "Explore Our Services"
+msgstr "Gundua Huduma Zetu"
+
+msgid "Students Placed Abroad"
+msgstr "Wanafunzi Walioingizwa Nje"
+
+msgid "Partner Universities"
+msgstr "Chuo Kikuu Shirikishi"
+
+msgid "Visas Assisted"
+msgstr "Visa Zilizosadikiwa"
+
+msgid "Local Students Served"
+msgstr "Wanafunzi wa Ndani Waliotumikiwa"
+
+msgid "Trusted Worldwide"
+msgstr "Kutegemewa Kote Duniani"
+
+msgid "Recommended By"
+msgstr "Ilipendekeza na"
+
+msgid "Leading Organizations"
+msgstr "Mashirika Yanayoongoza"
+
+msgid "Verified & Licensed"
+msgstr "Kuthibitishwa & Leseni"
+
+msgid "5-Star Rated"
+msgstr "Ukadiriaji wa Nyota 5"
+
+msgid "Award Winning"
+msgstr "Kushinda Tuzo"
+
+msgid "Guidance & Selection"
+msgstr "Mwongozo & Chaguo"
+
+msgid "Visa & Passport"
+msgstr "Visa & Pasipoti"
+
+msgid "Scholarship Assistance"
+msgstr "Msaada wa Kuzamia"
+
+msgid "View All Services"
+msgstr "Angalia Huduma Zote"
+
+msgid "Local Universities"
+msgstr "Vyuo Vikuu vya Ndani"
+
+msgid "International Universities"
+msgstr "Chuo Kikuu cha Kimataifa"
+
+msgid "USA Universities"
+msgstr "Chuo Kikuu cha USA"
+
+msgid "UK Universities"
+msgstr "Chuo Kikuu cha UK"
+
+msgid "Canada Universities"
+msgstr "Chuo Kikuu cha Canada"
+
+msgid "View All Countries"
+msgstr "Angalia Nchi Zote"
+
+msgid "Study at World-Class Universities Abroad"
+msgstr "Soma katika Chuo Kikuu cha Clasi ya Dunia Nje"
+
+msgid "United States"
+msgstr "Marekani"
+
+msgid "United Kingdom"
+msgstr "Uingereza"
+
+msgid "Canada"
+msgstr "Kanada"
+
+msgid "Australia"
+msgstr "Australia"
+
+msgid "Germany"
+msgstr "Ujerumani"
+
+msgid "More"
+msgstr "Zaidi"
+
+msgid "Top Universities"
+msgstr "Chuo Kikuu cha Juu"
+
+msgid "Worldwide"
+msgstr "Kote Duniani"
+
+msgid "Countries"
+msgstr "Nchi"
+
+msgid "Most In-Demand Programs"
+msgstr "Programu Zinazohitajika Zaidi"
+
+msgid "Top"
+msgstr "Juu"
+
+msgid "Courses"
+msgstr "Kozi"
+
+msgid "in High Demand"
+msgstr "katika Mahitaji Makubwa"
+
+msgid "Computer Science / IT"
+msgstr "Sayansi ya Kompyuta / IT"
+
+msgid "Business & Management"
+msgstr "Biashara & Usimamizi"
+
+msgid "Healthcare & Medicine"
+msgstr "Huduma za Afya & Dawa"
+
+msgid "Engineering"
+msgstr "Uhandisi"
+
+msgid "Data Science & AI"
+msgstr "Sayansi ya Data & AI"
+
+msgid "Law & Legal Studies"
+msgstr "Sheria & Masomo ya Kisheria"
+
+msgid "Learn More"
+msgstr "Jifunza Zaidi"
+
+msgid "Get Free Course Consultation"
+msgstr "Pata Ushauri wa Kozi Bure"
+
+msgid "Contact Us"
+msgstr "Wasiliana Nasi"
+
+msgid "Student Portal"
+msgstr "Kituo cha Wanafunzi"
+
+msgid "Create Account Now"
+msgstr "Fungua Akaunti Sasa"
+
+msgid "Who We Are"
+msgstr "Kuhusu Sisi"
+
+msgid "Leading the Way in International Education Counseling."
+msgstr "Tunaongoza katika Ushauri wa Elimu ya Kimataifa."
+
+msgid ""
+"Founded in 2020 and launched in 2024, Africa Western Education Company Ltd "
+"is a professional educational consultancy empowering African students and "
+"professionals with reliable, transparent, and high-quality advisory "
+"services. We connect you to global learning opportunities while simplifying "
+"admissions, scholarship applications, and visa processes."
+msgstr ""
+"Kampuni yetu ilianzishwa mwaka 2020 na kuanza rasmi utendaji mwaka 2024. "
+"Africa Western Education Company Ltd ni kampuni ya ushauri wa elimu ya "
+"kitaalam inayowasaidia wanafunzi na wataalamu wa Kiafrika kupata fursa za "
+"masomo kimataifa kwa njia ya ushauri wa kuaminika, wenye uwazi na ubora wa "
+"hali ya juu. Tunakuunganisha na fursa za masomo ulimwenguni kote huku "
+"tukiwezesha mchakato wa maombi ya vyuo, ufadhili na visa."
+
+msgid "Our Mission"
+msgstr "Dhamira Yetu"
+
+msgid ""
+"To empower African students and professionals by providing reliable, "
+"transparent, and high-quality educational consultancy services that connect "
+"them to global learning opportunities."
+msgstr ""
+"Kuwapa nguvu wanafunzi na wataalamu wa Kiafrika kwa kutoa huduma za ushauri "
+"wa elimu zinazotegemeka, zenye uwazi na ubora wa hali ya juu ambazo "
+"zinawaunganisha na fursa za masomo kimataifa."
+
+msgid "Our Vision"
+msgstr "Dira Yetu"
+
+msgid ""
+"To become Africa's leading and most trusted educational consultancy, shaping"
+" futures through global academic access and excellence."
+msgstr ""
+"Kuwa kampuni ya ushauri wa elimu inayoongoza na kuaminika zaidi Afrika, "
+"tukijenga mustakabali kupitia upatikanaji wa elimu ya kimataifa na ubora."
+
+msgid "The Pillars of Our Success"
+msgstr "Misingi ya Mafanikio Yetu"
+
+msgid "Integrity"
+msgstr "Uadilifu"
+
+msgid ""
+"We uphold honesty, transparency, and ethical standards in all our services "
+"and interactions."
+msgstr ""
+"Tunashikilia uaminifu, uwazi na viwango vya maadili katika huduma zetu zote "
+"na mwingiliano wetu."
+
+msgid "Innovation"
+msgstr "Ubunifu"
+
+msgid ""
+"We embrace creativity and continuously improve our services with new methods"
+" and technologies."
+msgstr ""
+"Tunakubali ubunifu na kuboresha huduma zetu mara kwa mara kwa mbinu na "
+"teknolojia mpya."
+
+msgid "Excellence"
+msgstr "Ubora"
+
+msgid ""
+"We are committed to delivering the highest quality of service and achieving "
+"outstanding results for our clients."
+msgstr ""
+"Tumejitolea kutoa huduma bora zaidi na kufikia matokeo bora kwa wateja wetu."
+
+msgid "Customer Focus"
+msgstr "Kuzingatia Wateja"
+
+msgid ""
+"Our clients are at the center of everything we do; we prioritize their needs"
+" and ensure satisfaction."
+msgstr ""
+"Wateja wetu ni kipaumbele chetu; tunaweka mahitaji yao mbele na kuhakikisha "
+"kuridhika kwao."
+
+msgid "Accountability"
+msgstr "Uwajibikaji"
+
+msgid ""
+"We take full responsibility for our actions and outcomes, ensuring "
+"reliability and trustworthiness."
+msgstr ""
+"Tunachukua jukumu kamili la vitendo vyetu na matokeo yake, tukihakikisha "
+"kutegemeka na kuaminika."
+
+msgid "Teamwork"
+msgstr "Ushirikiano"
+
+msgid ""
+"We foster collaboration and cooperation within our team and with partners to"
+" achieve common goals."
+msgstr ""
+"Tunaimarisha ushirikiano na kazi ya pamoja ndani ya timu yetu na na "
+"washirika wetu ili kufikia malengo yetu ya pamoja."
+
+msgid "Our Comprehensive Services"
+msgstr "Huduma Zetu Kamili"
+
+msgid "End-to-End Study Abroad Support"
+msgstr "Msaada Kamili wa Kusoma Nje ya Nchi"
+
+msgid ""
+"From initial guidance to post-arrival support, we handle every aspect of "
+"your study abroad journey with expert care."
+msgstr ""
+"Kutoka mwongozo wa awali hadi msaada baada ya kuwasili, tunashughulikia kila"
+" kipengele cha safari yako ya masomo nje ya nchi kwa utaalamu na uzoefu."
+
+msgid "How We Help:"
+msgstr "Jinsi Tunavyosaidia:"
+
+msgid "Personalized Profile Analysis:"
+msgstr "Uchambuzi wa Wasifu wa Kibinafsi:"
+
+msgid ""
+"Comprehensive assessment of academic background, interests, and career goals"
+msgstr "Tathmini kamili ya historia ya masomo, mapenzi na malengo ya kazi"
+
+msgid "University Shortlisting:"
+msgstr "Uchaguzi wa Vyuo Vikuu:"
+
+msgid "Curated list of universities matching your profile and budget"
+msgstr ""
+"Orodha iliyochaguliwa ya vyuo vikuu vinavyoendana na wasifu na bajeti yako"
+
+msgid "Course Selection:"
+msgstr "Kuchagua Kozi:"
+
+msgid "Expert guidance on program choices with best career prospects"
+msgstr ""
+"Ushauri wa kitaalamu juu ya uchaguzi wa programu zenye fursa bora za kazi"
+
+msgid "Career Pathway Planning:"
+msgstr "Kupanga Njia ya Kazi:"
+
+msgid "Long-term career strategy aligned with your chosen course"
+msgstr "Mkakati wa muda mrefu wa kazi unaofanana na kozi uliyochagua"
+
+msgid "AFRICA WESTERN EDUCATION COMPANY LTD"
+msgstr "KAMPUNI YA ELIMU YA MAGHARIBI YA AFRIKA"
+
+msgid ""
+"Empowering African students and professionals through reliable, transparent,"
+" and high-quality educational consultancy services."
+msgstr ""
+"Tunawasaidia wanafunzi na wataalamu wa Kiafrika kupitia huduma za ushauri wa"
+" elimu zinazotegemeka, zenye uwazi na ubora wa hali ya juu."
+
+msgid "Quick Links"
+msgstr "Viungo vya Haraka"
+
+msgid "Study Abroad"
+msgstr "Soma Nje ya Nchi"
+
+msgid "Apply Now"
+msgstr "Omba Sasa"
+
+msgid "Our Services"
+msgstr "Huduma Zetu"
+
+msgid "University Application Assistance"
+msgstr "Msaada wa Maombi ya Chuo Kikuu"
+
+msgid "Visa Processing Support"
+msgstr "Msaada wa Kuchakata Visa"
+
+msgid "TCU Application Services"
+msgstr "Huduma za Maombi ya TCU"
+
+msgid "Pre-Departure Guidance"
+msgstr "Mwongozo wa Kabla ya Kusafiri"
+
+msgid "Dar es Salaam, Tanzania"
+msgstr "Dar es Salaam, Tanzania"
+
+msgid "Mon-Fri: 8:00 AM - 6:00 PM"
+msgstr "Jumatatu-Ijumaa: Saa 8:00 Asubuhi - 6:00 Jioni"
+
+msgid "Sat: 9:00 AM - 2:00 PM"
+msgstr "Jumamosi: Saa 9:00 Asubuhi - 2:00 Mchana"
+
+msgid "Privacy Policy"
+msgstr "Sera ya Faragha"
+
+msgid "Terms of Service"
+msgstr "Masharti ya Huduma"
+
+msgid "Employee Login"
+msgstr "Kuingia kwa Wafanyakazi"

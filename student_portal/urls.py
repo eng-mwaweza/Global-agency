@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from .password_reset_views import student_forgot_password, student_password_reset_confirm
 
 app_name = 'student_portal'
 
@@ -8,14 +9,24 @@ urlpatterns = [
     path('login/', views.student_login, name='login'),
     path('logout/', views.student_logout, name='logout'),
     
+    # Password Reset
+    path('forgot-password/', student_forgot_password, name='forgot_password'),
+    path('reset-password/<uidb64>/<token>/', student_password_reset_confirm, name='password_reset_confirm'),
+    
     # Profile
     path('profile/', views.student_profile, name='profile'),
+    path('profile/personal-details/', views.personal_details, name='personal_details'),
+    path('profile/parents-details/', views.parents_details, name='parents_details'),
+    path('profile/academic-qualifications/', views.academic_qualifications, name='academic_qualifications'),
+    path('profile/study-preferences/', views.study_preferences, name='study_preferences'),
+    path('profile/emergency-contact/', views.emergency_contact, name='emergency_contact'),
     
     # Applications
     path('applications/', views.applications, name='applications'),
     path('applications/<int:application_id>/', views.application_detail, name='application_detail'),
     path('applications/create/', views.create_application, name='create_application'),
     path('applications/<int:application_id>/payment/', views.payment_page, name='payment'),
+    path('applications/<int:application_id>/make-payment/', views.make_payment, name='make_payment'),
     
     # Payment verification and webhooks
     path('payment/<int:payment_id>/verify/', views.payment_verification, name='payment_verification'),

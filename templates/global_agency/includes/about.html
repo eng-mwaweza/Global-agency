@@ -1,36 +1,37 @@
+{% load i18n %}
 <section id="about" class="pt-0 pb-0 bg-gray-100 scroll-mt-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="lg:grid lg:grid-cols-12 lg:gap-12 items-start">
                 
                 <!-- Mission & Vision Column -->
                 <div class="lg:col-span-5 mb-10 lg:mb-0">
-                    <h2 class="text-base font-semibold text-accent-gold tracking-wide uppercase" data-lang-key="about_subheading">Who We Are</h2>
-                    <p class="mt-2 text-3xl font-extrabold text-dark-text sm:text-4xl" data-lang-key="about_heading">
-                        Leading the Way in International Education Counseling.
+                    <h2 class="text-base font-semibold text-accent-gold tracking-wide uppercase">{% trans "Who We Are" %}</h2>
+                    <p class="mt-2 text-3xl font-extrabold text-dark-text sm:text-4xl">
+                        {% trans "Leading the Way in International Education Counseling." %}
                     </p>
-                    <p class="mt-4 text-lg text-gray-600" data-lang-key="about_body">
-                        Founded over a decade ago, Global Agency Services was established with a clear mission: to democratize international education. We believe every ambitious student deserves world-class guidance to achieve their academic dreams without the stress of complex bureaucracy.
+                    <p class="mt-4 text-lg text-gray-600">
+                        {% trans "Founded in 2020 and launched in 2024, Africa Western Education Company Ltd is a professional educational consultancy empowering African students and professionals with reliable, transparent, and high-quality advisory services. We connect you to global learning opportunities while simplifying admissions, scholarship applications, and visa processes." %}
                     </p>
 
                     <!-- Mission Block -->
                     <div class="mt-8 p-6 bg-white rounded-xl shadow-lg border-t-4 border-primary-blue">
-                        <h3 class="text-xl font-bold text-primary-blue flex items-center flex-row-reverse-on-rtl" data-lang-key="about_mission_title">
+                        <h3 class="text-xl font-bold text-primary-blue flex items-center flex-row-reverse-on-rtl">
                             <svg class="w-6 h-6 mr-3 ml-0 icon-svg" viewBox="0 0 24 24"><path d="M12 2l-5.5 9h11L12 2zM12 22l-5.5-9h11L12 22z"/></svg>
-                            Our Core Mission
+                            {% trans "Our Mission" %}
                         </h3>
-                        <p class="mt-2 text-gray-600" data-lang-key="about_mission_body">
-                            To deliver highly personalized, ethical, and comprehensive consulting services that maximize student success rates in securing admission and visas to top global universities.
+                        <p class="mt-2 text-gray-600">
+                            {% trans "To empower African students and professionals by providing reliable, transparent, and high-quality educational consultancy services that connect them to global learning opportunities." %}
                         </p>
                     </div>
 
                     <!-- Vision Block -->
                     <div class="mt-6 p-6 bg-white rounded-xl shadow-lg border-t-4 border-accent-gold">
-                        <h3 class="text-xl font-bold text-dark-text flex items-center flex-row-reverse-on-rtl" data-lang-key="about_vision_title">
+                        <h3 class="text-xl font-bold text-dark-text flex items-center flex-row-reverse-on-rtl">
                             <svg class="w-6 h-6 mr-3 ml-0 icon-svg" viewBox="0 0 24 24"><path d="M10 12h4"/><path d="M12 10v4"/><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/></svg>
-                            Our Vision
+                            {% trans "Our Vision" %}
                         </h3>
-                        <p class="mt-2 text-gray-600" data-lang-key="about_vision_body">
-                            To be the most trusted and globally recognized name in study abroad services, known for our unwavering commitment to student integrity and success.
+                        <p class="mt-2 text-gray-600">
+                            {% trans "To become Africa's leading and most trusted educational consultancy, shaping futures through global academic access and excellence." %}
                         </p>
                     </div>
                 </div>
@@ -38,17 +39,17 @@
                 <!-- Core Values & Expertise Column -->
                 <div class="lg:col-span-7">
                     <div class="p-8 bg-white rounded-xl shadow-2xl">
-                        <h3 class="text-2xl font-extrabold text-dark-text border-b pb-4 mb-6" data-lang-key="pillars_heading">The Pillars of Our Success</h3>
+                        <h3 class="text-2xl font-extrabold text-dark-text border-b pb-4 mb-6">{% trans "The Pillars of Our Success" %}</h3>
                         <dl class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-10">
                             
                             <!-- Value 1: Integrity -->
                             <div class="relative pl-12 lg:pl-12 rtl:pr-12 rtl:pl-0">
                                 <dt class="text-lg font-semibold text-primary-blue">
                                     <svg class="absolute left-0 top-1 w-6 h-6 icon-svg text-accent-gold rtl:right-0 rtl:left-auto" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
-                                    <span data-lang-key="value_integrity">Unwavering Integrity</span>
+                                    <span>{% trans "Integrity" %}</span>
                                 </dt>
-                                <dd class="mt-1 text-base text-gray-600" data-lang-key="value_integrity_desc">
-                                    We operate with complete transparency, ensuring you receive honest, accurate, and ethical advice throughout the entire process.
+                                <dd class="mt-1 text-base text-gray-600">
+                                    {% trans "We uphold honesty, transparency, and ethical standards in all our services and interactions." %}
                                 </dd>
                             </div>
 
@@ -56,10 +57,10 @@
                             <div class="relative pl-12 lg:pl-12 rtl:pr-12 rtl:pl-0">
                                 <dt class="text-lg font-semibold text-primary-blue">
                                     <svg class="absolute left-0 top-1 w-6 h-6 icon-svg text-accent-gold rtl:right-0 rtl:left-auto" viewBox="0 0 24 24"><path d="M15 11V5h-2V3h-2v2H9v6zM22 12c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2c.465 0 .92.032 1.365.093"/></svg>
-                                    <span data-lang-key="value_personalization">Personalized Guidance</span>
+                                    <span>{% trans "Innovation" %}</span>
                                 </dt>
-                                <dd class="mt-1 text-base text-gray-600" data-lang-key="value_personalization_desc">
-                                    We treat every student profile uniquely. Your path is customized to your specific academic background, career goals, and budget.
+                                <dd class="mt-1 text-base text-gray-600">
+                                    {% trans "We embrace creativity and continuously improve our services with new methods and technologies." %}
                                 </dd>
                             </div>
                             
@@ -67,10 +68,10 @@
                             <div class="relative pl-12 lg:pl-12 rtl:pr-12 rtl:pl-0">
                                 <dt class="text-lg font-semibold text-primary-blue">
                                     <svg class="absolute left-0 top-1 w-6 h-6 icon-svg text-accent-gold rtl:right-0 rtl:left-auto" viewBox="0 0 24 24"><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/><path d="M12 2v20"/></svg>
-                                    <span data-lang-key="value_expertise">Global Expertise</span>
+                                    <span>{% trans "Excellence" %}</span>
                                 </dt>
-                                <dd class="mt-1 text-base text-gray-600" data-lang-key="value_expertise_desc">
-                                    Our team consists of certified counselors who maintain up-to-date knowledge of visa laws and university admission policies across 40+ destinations.
+                                <dd class="mt-1 text-base text-gray-600">
+                                    {% trans "We are committed to delivering the highest quality of service and achieving outstanding results for our clients." %}
                                 </dd>
                             </div>
                             
@@ -78,10 +79,33 @@
                             <div class="relative pl-12 lg:pl-12 rtl:pr-12 rtl:pl-0">
                                 <dt class="text-lg font-semibold text-primary-blue">
                                     <svg class="absolute left-0 top-1 w-6 h-6 icon-svg text-accent-gold rtl:right-0 rtl:left-auto" viewBox="0 0 24 24"><path d="M22 10a8 8 0 0 1-8 8h-2a8 8 0 0 1-8-8V7a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v3z"/></svg>
-                                    <span data-lang-key="value_partnership">Dedicated Partnership</span>
+                                    <span>{% trans "Customer Focus" %}</span>
                                 </dt>
-                                <dd class="mt-1 text-base text-gray-600" data-lang-key="value_partnership_desc">
-                                    Our relationship doesn't end with an offer letter. We are your partner from the first consultation until you successfully arrive at your campus.
+                                <dd class="mt-1 text-base text-gray-600">
+                                    {% trans "Our clients are at the center of everything we do; we prioritize their needs and ensure satisfaction." %}
+                            </div>
+
+                            <!-- Value 5: Accountability -->
+                            <div class="relative pl-12 lg:pl-12 rtl:pr-12 rtl:pl-0">
+                                <dt class="text-lg font-semibold text-primary-blue">
+                                    <svg class="absolute left-0 top-1 w-6 h-6 icon-svg text-accent-gold rtl:right-0 rtl:left-auto" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4"/><path d="M21 7l-9 14L3 12l4-4 5 5 9-10"/></svg>
+                                    {% trans "Accountability" %}
+                                </dt>
+                                <dd class="mt-1 text-base text-gray-600">
+                                    {% trans "We take full responsibility for our actions and outcomes, ensuring reliability and trustworthiness." %}
+                                </dd>
+                            </div>
+
+                            <!-- Value 6: Teamwork -->
+                            <div class="relative pl-12 lg:pl-12 rtl:pr-12 rtl:pl-0">
+                                <dt class="text-lg font-semibold text-primary-blue">
+                                    <svg class="absolute left-0 top-1 w-6 h-6 icon-svg text-accent-gold rtl:right-0 rtl:left-auto" viewBox="0 0 24 24"><path d="M16 3.13a4 4 0 110 7.75"/><path d="M7 20h10"/><path d="M12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                                    {% trans "Teamwork" %}
+                                </dt>
+                                <dd class="mt-1 text-base text-gray-600">
+                                    {% trans "We foster collaboration and cooperation within our team and with partners to achieve common goals." %}
+                                </dd>
+                            </div>
                                 </dd>
                             </div>
                         </dl>

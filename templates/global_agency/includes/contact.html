@@ -1,113 +1,86 @@
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Book Free Consultation | Global Agency</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-50 font-sans">
 
-  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-    <div class="lg:grid lg:grid-cols-2 lg:gap-12">
-      
-      <!-- Info Column -->
-      <div class="mb-12 lg:mb-0">
-        <h2 class="text-base font-semibold text-yellow-600 uppercase">Get In Touch</h2>
-        <p class="mt-2 text-3xl font-extrabold text-gray-900 sm:text-4xl">
-          Ready to Start Your Journey?
-        </p>
-        <p class="mt-4 text-lg text-gray-600">
-          Book a free consultation with our expert counselors today. We'll assess your profile and map out your path to global education.
-        </p>
-      </div>
+<section id="contact" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+  {% for message in messages %}
+    <div class="mb-4 p-4 rounded bg-green-100 text-green-800">{{ message }}</div>
+  {% endfor %}
 
-      <!-- Form Column -->
-      <div class="bg-white p-8 rounded-xl shadow-lg">
+  <div class="mb-12 lg:mb-0">
+    <h2 class="text-base font-semibold text-yellow-600 uppercase">Get In Touch</h2>
+    <p class="mt-2 text-3xl font-extrabold text-gray-900 sm:text-4xl">
+      Book Your Free Consultation
+    </p>
 
-        <!-- Success Message -->
-        {% if messages %}
-          {% for message in messages %}
-            <div class="mb-4 p-4 rounded bg-green-100 text-green-800">{{ message }}</div>
-          {% endfor %}
+    <form action="{% url 'global_agency:contact' %}" method="POST">
+      {% csrf_token %}
+
+      <!-- Full Name -->
+      <div class="mb-4">
+        <label for="id_name" class="block text-gray-700 font-medium">Full Name</label>
+        <input type="text" name="name" id="id_name"
+               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-yellow-400 focus:border-yellow-400"
+               placeholder="John Doe" value="{{ form.name.value|default_if_none:'' }}">
+        {% if form.name.errors %}
+          <p class="text-red-500 text-sm mt-1">{{ form.name.errors.0 }}</p>
         {% endif %}
-
-        <form action="{% url 'global_agency:contact' %}" method="POST">
-          {% csrf_token %}
-
-          <!-- Full Name -->
-          <div class="mb-4">
-            <label for="id_name" class="block text-gray-700 font-medium">Full Name</label>
-            <input type="text" name="name" id="id_name" 
-                   class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-yellow-400 focus:border-yellow-400"
-                   placeholder="John Doe" value="{{ form.name.value|default_if_none:'' }}">
-            {% if form.name.errors %}
-              <p class="text-red-500 text-sm mt-1">{{ form.name.errors.0 }}</p>
-            {% endif %}
-          </div>
-
-          <!-- Email -->
-          <div class="mb-4">
-            <label for="id_email" class="block text-gray-700 font-medium">Email</label>
-            <input type="email" name="email" id="id_email"
-                   class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-yellow-400 focus:border-yellow-400"
-                   placeholder="name@example.com" value="{{ form.email.value|default_if_none:'' }}">
-            {% if form.email.errors %}
-              <p class="text-red-500 text-sm mt-1">{{ form.email.errors.0 }}</p>
-            {% endif %}
-          </div>
-
-          <!-- Phone -->
-          <div class="mb-4">
-            <label for="id_phone" class="block text-gray-700 font-medium">Phone / WhatsApp</label>
-            <input type="tel" name="phone" id="id_phone"
-                   class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-yellow-400 focus:border-yellow-400"
-                   placeholder="+255 7XX XXX XXX" value="{{ form.phone.value|default_if_none:'' }}">
-            {% if form.phone.errors %}
-              <p class="text-red-500 text-sm mt-1">{{ form.phone.errors.0 }}</p>
-            {% endif %}
-          </div>
-
-          <!-- Destination -->
-          <div class="mb-4">
-            <label for="id_destination" class="block text-gray-700 font-medium">Preferred Study Destination</label>
-            <select name="destination" id="id_destination"
-                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-yellow-400 focus:border-yellow-400">
-              <option value="">Select a Country</option>
-              <option value="UK" {% if form.destination.value == "UK" %}selected{% endif %}>United Kingdom</option>
-              <option value="Canada" {% if form.destination.value == "Canada" %}selected{% endif %}>Canada</option>
-              <option value="USA" {% if form.destination.value == "USA" %}selected{% endif %}>United States</option>
-              <option value="Australia" {% if form.destination.value == "Australia" %}selected{% endif %}>Australia</option>
-              <option value="Germany" {% if form.destination.value == "Germany" %}selected{% endif %}>Germany</option>
-              <option value="Other" {% if form.destination.value == "Other" %}selected{% endif %}>Other/Not Sure</option>
-            </select>
-            {% if form.destination.errors %}
-              <p class="text-red-500 text-sm mt-1">{{ form.destination.errors.0 }}</p>
-            {% endif %}
-          </div>
-
-          <!-- Message -->
-          <div class="mb-4">
-            <label for="id_message" class="block text-gray-700 font-medium">Message</label>
-            <textarea name="message" id="id_message" rows="4"
-                      class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-yellow-400 focus:border-yellow-400"
-                      placeholder="Tell us about your educational background and goals.">{{ form.message.value|default_if_none:'' }}</textarea>
-            {% if form.message.errors %}
-              <p class="text-red-500 text-sm mt-1">{{ form.message.errors.0 }}</p>
-            {% endif %}
-          </div>
-
-          <button type="submit"
-                  class="w-full py-3 px-4 rounded-full bg-yellow-500 hover:bg-yellow-600 text-white font-semibold transition">
-            Send Message & Book Consultation
-          </button>
-
-        </form>
       </div>
 
-    </div>
-  </section>
+      <!-- Email -->
+      <div class="mb-4">
+        <label for="id_email" class="block text-gray-700 font-medium">Email</label>
+        <input type="email" name="email" id="id_email"
+               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-yellow-400 focus:border-yellow-400"
+               placeholder="name@example.com" value="{{ form.email.value|default_if_none:'' }}">
+        {% if form.email.errors %}
+          <p class="text-red-500 text-sm mt-1">{{ form.email.errors.0 }}</p>
+        {% endif %}
+      </div>
 
-</body>
-</html>
+      <!-- Phone -->
+      <div class="mb-4">
+        <label for="id_phone" class="block text-gray-700 font-medium">Phone / WhatsApp</label>
+        <input type="tel" name="phone" id="id_phone"
+               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-yellow-400 focus:border-yellow-400"
+               placeholder="+255 7XX XXX XXX" value="{{ form.phone.value|default_if_none:'' }}">
+        {% if form.phone.errors %}
+          <p class="text-red-500 text-sm mt-1">{{ form.phone.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <!-- Destination -->
+      <div class="mb-4">
+        <label for="id_destination" class="block text-gray-700 font-medium">Preferred Study Destination</label>
+        <select name="destination" id="id_destination"
+                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-yellow-400 focus:border-yellow-400">
+          <option value="">Select a Country</option>
+          <option value="UK" {% if form.destination.value == "UK" %}selected{% endif %}>United Kingdom</option>
+          <option value="Canada" {% if form.destination.value == "Canada" %}selected{% endif %}>Canada</option>
+          <option value="USA" {% if form.destination.value == "USA" %}selected{% endif %}>United States</option>
+          <option value="Australia" {% if form.destination.value == "Australia" %}selected{% endif %}>Australia</option>
+          <option value="Germany" {% if form.destination.value == "Germany" %}selected{% endif %}>Germany</option>
+          <option value="Other" {% if form.destination.value == "Other" %}selected{% endif %}>Other/Not Sure</option>
+        </select>
+        {% if form.destination.errors %}
+          <p class="text-red-500 text-sm mt-1">{{ form.destination.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <!-- Message -->
+      <div class="mb-4">
+        <label for="id_message" class="block text-gray-700 font-medium">Message</label>
+        <textarea name="message" id="id_message" rows="4"
+                  class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-yellow-400 focus:border-yellow-400"
+                  placeholder="Tell us about your educational background and goals.">{{ form.message.value|default_if_none:'' }}</textarea>
+        {% if form.message.errors %}
+          <p class="text-red-500 text-sm mt-1">{{ form.message.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <button type="submit"
+              class="w-full py-3 px-4 rounded-full bg-yellow-500 hover:bg-yellow-600 text-white font-semibold transition">
+        Send Message & Book Consultation
+      </button>
+
+    </form>
+  </div>
+</section>

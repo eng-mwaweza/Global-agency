@@ -1,195 +1,118 @@
-<footer class="bg-dark-text py-10">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- Contact Information Section -->
-        <div id="contact-info" class="hidden bg-gray-800 rounded-lg p-6 mb-8 transition-all duration-300">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-left">
-                <!-- Contact Details -->
-                <div>
-                    <h3 class="text-white font-semibold mb-4 flex items-center">
-                        <i class="fas fa-map-marker-alt mr-2 text-accent-gold"></i>
-                        Office Location
-                    </h3>
-                    <p class="text-gray-400 text-sm">
-                        Global Agency Services (GASE)<br>
-                        Kigamboni<br>
-                        Dar es Salaam, Tanzania<br>
-                        P.O. Box 36098
-                    </p>
-                </div>
-
-                <!-- Contact Numbers -->
-                <div>
-                    <h3 class="text-white font-semibold mb-4 flex items-center">
-                        <i class="fas fa-phone-alt mr-2 text-accent-gold"></i>
-                        Call Us
-                    </h3>
-                    <div class="space-y-2 text-sm">
-                        <p class="text-gray-400">
-                            <strong class="text-white">Main Office:</strong><br>
-                            <a href="tel:+255746177230" class="text-gray-400 hover:text-white transition duration-150">
-                                +255 746 177 230
-                            </a>
-                        </p>
-                        <p class="text-gray-400">
-                            <strong class="text-white">WhatsApp:</strong><br>
-                            <a href="https://wa.me/255746177230" class="text-gray-400 hover:text-white transition duration-150">
-                                +255 746 177 230
-                            </a>
-                        </p>
-                        <p class="text-gray-400">
-                            <strong class="text-white">Telegram:</strong><br>
-                            <a href="https://t.me/255746177230" class="text-gray-400 hover:text-white transition duration-150">
-                                +255 746 177 230
-                            </a>
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Email & Online -->
-                <div>
-                    <h3 class="text-white font-semibold mb-4 flex items-center">
-                        <i class="fas fa-envelope mr-2 text-accent-gold"></i>
-                        Email & Online
-                    </h3>
-                    <div class="space-y-2 text-sm">
-                        <p class="text-gray-400">
-                            <strong class="text-white">General Inquiries:</strong><br>
-                            <a href="mailto:info@neovam.com" class="text-gray-400 hover:text-white transition duration-150">
-                                infoglobalagency@neovam.com
-                            </a>
-                        </p>
-                            </a>
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Business Hours -->
-                <div>
-                    <h3 class="text-white font-semibold mb-4 flex items-center">
-                        <i class="fas fa-clock mr-2 text-accent-gold"></i>
-                        Business Hours
-                    </h3>
-                    <div class="space-y-1 text-sm text-gray-400">
-                        <p><strong class="text-white">Monday - Friday:</strong><br>8:00 AM - 6:00 PM</p>
-                        <p><strong class="text-white">Saturday:</strong><br>9:00 AM - 2:00 PM</p>
-                        <p><strong class="text-white">Sunday:</strong><br>Closed</p>
-                        <p class="text-xs text-accent-gold mt-2">* Emergency support available</p>
-                    </div>
+{% load i18n %}
+<footer class="bg-gray-900 text-gray-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <!-- Main Footer Content -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-6">
+            
+            <!-- Company Info -->
+            <div>
+                <h3 class="text-white font-bold text-xs mb-3">{% trans "AFRICA WESTERN EDUCATION COMPANY LTD" %}</h3>
+                <p class="text-xs mb-3 leading-relaxed">
+                    {% trans "Empowering African students and professionals through reliable, transparent, and high-quality educational consultancy services." %}
+                </p>
+                <div class="flex space-x-3">
+                    <a href="https://facebook.com/AFRICA WESTERN EDUCATION COMPANY LTD" class="text-gray-400 hover:text-white transition duration-200" aria-label="Facebook">
+                        <i class="fab fa-facebook-f text-sm"></i>
+                    </a>
+                    <a href="https://x.com/AfricaWesternEdu" class="text-gray-400 hover:text-white transition duration-200" aria-label="Twitter">
+                        <i class="fab fa-twitter text-sm"></i>
+                    </a>
+                    <a href="https://instagram.com/africawesterneducation" class="text-gray-400 hover:text-white transition duration-200" aria-label="Instagram">
+                        <i class="fab fa-instagram text-sm"></i>
+                    </a>
+                    <a href="https://linkedin.com/company/AFRICA WESTERN EDUCATION COMPANY LTD" class="text-gray-400 hover:text-white transition duration-200" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin-in text-sm"></i>
+                    </a>
                 </div>
             </div>
 
-            <!-- Additional Services Information -->
-            <div class="mt-6 pt-6 border-t border-gray-700">
-                <h3 class="text-white font-semibold mb-4 text-center">Our Services</h3>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center text-sm text-gray-400">
-                    <div>🎓 Study Abroad</div>
-                    <div>📚 TCU Services</div>
-                    <div>🛂 Visa Processing</div>
-                    <div>🏠 Accommodation</div>
-                </div>
+            <!-- Quick Links -->
+            <div>
+                <h3 class="text-white font-bold text-xs mb-3">{% trans "Quick Links" %}</h3>
+                <ul class="space-y-0.5 text-xs">
+                    <li><a href="{% url 'global_agency:home' %}" class="hover:text-white transition duration-200">{% trans "Home" %}</a></li>
+                    <li><a href="{% url 'global_agency:all_countries' %}" class="hover:text-white transition duration-200">{% trans "Study Abroad" %}</a></li>
+                    <li><a href="{% url 'global_agency:vyuo_ndani' %}" class="hover:text-white transition duration-200">{% trans "Local Universities" %}</a></li>
+                    <li><a href="{% url 'global_agency:tcu_services' %}" class="hover:text-white transition duration-200">{% trans "TCU Services" %}</a></li>
+                    <li><a href="{% url 'global_agency:register' %}" class="hover:text-white transition duration-200">{% trans "Apply Now" %}</a></li>
+                    <li><a href="{% url 'global_agency:contact' %}" class="hover:text-white transition duration-200">{% trans "Contact Us" %}</a></li>
+                </ul>
             </div>
 
-            <!-- Social Media Links -->
-            <div class="mt-6 pt-6 border-t border-gray-700">
-                <h3 class="text-white font-semibold mb-4 text-center">Follow Global Agency (GASE)</h3>
-                <div class="flex justify-center space-x-6">
-                    <a href="#" class="text-gray-400 hover:text-blue-400 transition duration-150 transform hover:scale-110">
-                        <i class="fab fa-facebook-f text-xl"></i>
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-blue-300 transition duration-150 transform hover:scale-110">
-                        <i class="fab fa-twitter text-xl"></i>
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-pink-500 transition duration-150 transform hover:scale-110">
-                        <i class="fab fa-instagram text-xl"></i>
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-blue-600 transition duration-150 transform hover:scale-110">
-                        <i class="fab fa-linkedin-in text-xl"></i>
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-red-600 transition duration-150 transform hover:scale-110">
-                        <i class="fab fa-youtube text-xl"></i>
-                    </a>
-                </div>
+            <!-- Services -->
+            <div>
+                <h3 class="text-white font-bold text-xs mb-3">{% trans "Our Services" %}</h3>
+                <ul class="space-y-0.5 text-xs">
+                    <li class="flex items-start">
+                        <i class="fas fa-check text-accent-gold mr-2 mt-1 text-xs"></i>
+                        <span>{% trans "University Application Assistance" %}</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check text-accent-gold mr-2 mt-1 text-xs"></i>
+                        <span>{% trans "Visa Processing Support" %}</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check text-accent-gold mr-2 mt-1 text-xs"></i>
+                        <span>{% trans "TCU Application Services" %}</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check text-accent-gold mr-2 mt-1 text-xs"></i>
+                        <span>{% trans "Pre-Departure Guidance" %}</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check text-accent-gold mr-2 mt-1 text-xs"></i>
+                        <span>{% trans "Scholarship Assistance" %}</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Contact Info -->
+            <div>
+                <h3 class="text-white font-bold text-xs mb-3">{% trans "Contact Us" %}</h3>
+                <ul class="space-y-3 text-sm">
+                    <li class="flex items-start">
+                        <i class="fas fa-map-marker-alt text-accent-gold mr-3 mt-1"></i>
+                        <span>{% trans "Dar es Salaam, Tanzania" %}</span>
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fas fa-phone text-accent-gold mr-3"></i>
+                        <a href="tel:+255757095160" class="hover:text-white transition duration-200">+255 767 688 766</a>
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fas fa-envelope text-accent-gold mr-3"></i>
+                        <a href="mailto:info@africawesterneducation.com" class="hover:text-white transition duration-200">info@africawesterneducation.com</a>
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fas fa-globe text-accent-gold mr-3"></i>
+                        <a href="https://www.africawesterneducation.com" class="hover:text-white transition duration-200" target="_blank">www.africawesterneducation.com</a>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-clock text-accent-gold mr-3 mt-1"></i>
+                        <span>{% trans "Mon-Fri: 8:00 AM - 6:00 PM" %}<br>{% trans "Sat: 9:00 AM - 2:00 PM" %}</span>
+                    </li>
+                </ul>
             </div>
         </div>
 
-        <!-- Main Footer Content -->
-        <div class="text-center">
-            <!-- Contact Us Button -->
-            <button id="contact-toggle" 
-                    class="bg-accent-gold text-dark-text px-8 py-3 rounded-full font-semibold hover:bg-yellow-500 transition duration-300 transform hover:scale-105 mb-8 shadow-lg">
-                <i class="fas fa-phone-alt mr-2"></i>
-                Contact Global Agency (GASE)
-            </button>
-
-            <!-- Brand Logo -->
-            <div class="mb-4">
-                <span class="text-2xl font-extrabold text-white">Global <span class="text-accent-gold">Agency</span> Services</span>
-                <p class="text-gray-400 text-sm mt-2">(GASE) - Your Trusted Education Partner</p>
-            </div>
-            
-            <!-- Quick Contact Summary -->
-            <div class="mb-4 text-sm text-gray-400">
-                <p>📍 Kigamboni, Dar es Salaam | 📞 +255 746 177 230 | 📧 infoglobalagency@neovam.com</p>
-            </div>
-            
-            <!-- Copyright Text -->
-            <p class="mt-4 text-gray-400 text-sm">
-                &copy; 2025 Global Agency Services (GASE). <span data-lang-key="footer_rights">All rights reserved.</span> | Your trusted partner for study abroad since 2015.
-            </p>
-            
-            <!-- Footer Links -->
-            <div class="mt-6 space-x-4 text-sm">
-                <a href="#" class="text-gray-400 hover:text-white transition duration-150" data-lang-key="footer_privacy">Privacy Policy</a>
-                <span class="text-gray-600">|</span>
-                <a href="#" class="text-gray-400 hover:text-white transition duration-150" data-lang-key="footer_terms">Terms of Service</a>
-                <span class="text-gray-600">|</span>
-                <a href="{% url 'employee:employee_login' %}" 
-                   class="text-gray-400 hover:text-white transition duration-150">
-                   Employee Login
-                </a>
-            </div>
-
-            <!-- Quick Action Buttons -->
-            <div class="mt-6 flex flex-wrap justify-center gap-4">
-                <a href="{% url 'global_agency:contact' %}" 
-                   class="bg-primary-blue text-white px-6 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition duration-300 inline-flex items-center">
-                   <i class="fas fa-calendar-check mr-2"></i>
-                   Book Free Consultation
-                </a>
-                <a href="tel:+255746177230" 
-                   class="bg-green-600 text-white px-6 py-2 rounded-lg text-sm font-semibold hover:bg-green-700 transition duration-300 inline-flex items-center">
-                   <i class="fas fa-phone mr-2"></i>
-                   Call Now
-                </a>
-                <a href="https://wa.me/255746177230" 
-                   class="bg-green-500 text-white px-6 py-2 rounded-lg text-sm font-semibold hover:bg-green-600 transition duration-300 inline-flex items-center">
-                   <i class="fab fa-whatsapp mr-2"></i>
-                   WhatsApp Us
-                </a>
-            </div>
-
-            <!-- Trust Badges -->
-            <div class="mt-6 pt-6 border-t border-gray-700">
-                <div class="flex flex-wrap justify-center items-center gap-6 text-gray-400 text-sm">
-                    <div class="flex items-center">
-                        <i class="fas fa-shield-alt text-accent-gold mr-2"></i>
-                        <span>Trusted Education Partner</span>
-                    </div>
-                    <div class="flex items-center">
-                        <i class="fas fa-users text-accent-gold mr-2"></i>
-                        <span>5000+ Students Served</span>
-                    </div>
-                    <div class="flex items-center">
-                        <i class="fas fa-graduation-cap text-accent-gold mr-2"></i>
-                        <span>TCU Certified</span>
-                    </div>
+        <!-- Bottom Bar -->
+        <div class="border-t border-gray-800 pt-8">
+            <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+                <p class="text-sm text-gray-400">
+                    {% trans "&copy; 2025 AFRICA WESTERN EDUCATION COMPANY LTD. All rights reserved." %}
+                </p>
+                <div class="flex flex-wrap justify-center gap-4 text-sm">
+                    <a href="#" class="text-gray-400 hover:text-white transition duration-200">{% trans "Privacy Policy" %}</a>
+                    <span class="text-gray-600">|</span>
+                    <a href="#" class="text-gray-400 hover:text-white transition duration-200">{% trans "Terms of Service" %}</a>
+                    <span class="text-gray-600">|</span>
+                    <a href="{% url 'employee:employee_login' %}" class="text-gray-400 hover:text-white transition duration-200">{% trans "Employee Login" %}</a>
                 </div>
             </div>
         </div>
     </div>
 </footer>
 
-<!-- Add Font Awesome for icons -->
+<!-- Font Awesome -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
 <style>
@@ -249,7 +172,7 @@
                 
                 // Update button text based on state
                 if (contactInfo.classList.contains('hidden')) {
-                    contactToggle.innerHTML = '<i class="fas fa-phone-alt mr-2"></i>Contact Global Agency (GASE)';
+                    contactToggle.innerHTML = '<i class="fas fa-phone-alt mr-2"></i>Contact Africa Western Education (AWEDUCOL)';
                 } else {
                     contactToggle.innerHTML = '<i class="fas fa-times mr-2"></i>Close Contact Info';
                 }
@@ -259,7 +182,7 @@
             document.addEventListener('click', function(event) {
                 if (!contactInfo.contains(event.target) && !contactToggle.contains(event.target)) {
                     contactInfo.classList.add('hidden');
-                    contactToggle.innerHTML = '<i class="fas fa-phone-alt mr-2"></i>Contact Global Agency (GASE)';
+                    contactToggle.innerHTML = '<i class="fas fa-phone-alt mr-2"></i>Contact Africa Western Education (AWEDUCOL)';
                 }
             });
         }
@@ -277,9 +200,9 @@
         const telLinks = document.querySelectorAll('a[href^="tel:"]');
         telLinks.forEach(link => {
             link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const phone = this.getAttribute('href').replace('tel:', '');
-                window.location.href = `tel:${phone}`;
+                // Allow default tel: behavior on mobile devices
+                // Only prevent default if we want to do something custom
+                // For now, let the browser handle tel: links naturally
             });
         });
 

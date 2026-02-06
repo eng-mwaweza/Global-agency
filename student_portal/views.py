@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.db import transaction
+from django.core.cache import cache
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -9,7 +11,9 @@ from django.conf import settings
 import json
 from datetime import datetime
 from .models import StudentProfile, Application, Document, Message, Payment
-from .forms import StudentProfileForm, DocumentForm, ApplicationForm
+from .forms import (StudentProfileForm, DocumentForm, ApplicationForm, 
+                    PersonalDetailsForm, ParentsDetailsForm, AcademicQualificationsForm,
+                    StudyPreferencesForm, EmergencyContactForm)
 from .clickpesa_service import clickpesa_service
 
 # ADD THIS IMPORT
@@ -75,10 +79,10 @@ def student_login(request):
 def student_dashboard(request):
     """Student dashboard view"""
     # Ensure student profile exists
-    StudentProfile.objects.get_or_create(user=request.user)
+    profile, created = StudentProfile.objects.get_or_create(user=request.user)
     
     # Get student data
-    applications = Application.objects.filter(student=request.user)
+    applications = Application.objects.filter(student=request.user).select_related('student').prefetch_related('payment_set')
     documents = Document.objects.filter(student=request.user)
     unread_messages = Message.objects.filter(student=request.user, is_read=False)
     
@@ -86,6 +90,7 @@ def student_dashboard(request):
         'applications': applications,
         'documents_count': documents.count(),
         'unread_messages_count': unread_messages.count(),
+        'profile_completion': profile.get_completion_percentage(),
     }
     
     # Add cache control to prevent back button after logout
@@ -121,6 +126,117 @@ def student_profile(request):
     response['Pragma'] = 'no-cache'
     response['Expires'] = '0'
     return response
+
+# Profile Section Views
+@login_required
+def personal_details(request):
+    """Personal details form view"""
+    profile, created = StudentProfile.objects.get_or_create(user=request.user)
+    
+    if request.method == 'POST':
+        form = PersonalDetailsForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Personal details saved successfully!')
+            return redirect('student_portal:parents_details')
+        else:
+            messages.error(request, 'Please correct the errors below.')
+    else:
+        form = PersonalDetailsForm(instance=profile)
+    
+    context = {
+        'form': form,
+        'profile_completion': profile.get_completion_percentage(),
+    }
+    return render(request, 'student_portal/personal_details.html', context)
+
+@login_required
+def parents_details(request):
+    """Parents details form view"""
+    profile, created = StudentProfile.objects.get_or_create(user=request.user)
+    
+    if request.method == 'POST':
+        form = ParentsDetailsForm(request.POST, instance=profile)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Parents details saved successfully!')
+            return redirect('student_portal:academic_qualifications')
+        else:
+            messages.error(request, 'Please correct the errors below.')
+    else:
+        form = ParentsDetailsForm(instance=profile)
+    
+    context = {
+        'form': form,
+        'profile_completion': profile.get_completion_percentage(),
+    }
+    return render(request, 'student_portal/parents_details.html', context)
+
+@login_required
+def academic_qualifications(request):
+    """Academic qualifications form view"""
+    profile, created = StudentProfile.objects.get_or_create(user=request.user)
+    
+    if request.method == 'POST':
+        form = AcademicQualificationsForm(request.POST, instance=profile)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Academic qualifications saved successfully!')
+            return redirect('student_portal:study_preferences')
+        else:
+            messages.error(request, 'Please correct the errors below.')
+    else:
+        form = AcademicQualificationsForm(instance=profile)
+    
+    context = {
+        'form': form,
+        'profile_completion': profile.get_completion_percentage(),
+    }
+    return render(request, 'student_portal/academic_qualifications.html', context)
+
+@login_required
+def study_preferences(request):
+    """Study preferences form view"""
+    profile, created = StudentProfile.objects.get_or_create(user=request.user)
+    
+    if request.method == 'POST':
+        form = StudyPreferencesForm(request.POST, instance=profile)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Study preferences saved successfully!')
+            return redirect('student_portal:emergency_contact')
+        else:
+            messages.error(request, 'Please correct the errors below.')
+    else:
+        form = StudyPreferencesForm(instance=profile)
+    
+    context = {
+        'form': form,
+        'profile_completion': profile.get_completion_percentage(),
+    }
+    return render(request, 'student_portal/study_preferences.html', context)
+
+@login_required
+def emergency_contact(request):
+    """Emergency contact form view"""
+    profile, created = StudentProfile.objects.get_or_create(user=request.user)
+    
+    if request.method == 'POST':
+        form = EmergencyContactForm(request.POST, instance=profile)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Emergency contact information saved successfully! Your profile is now complete.')
+            return redirect('student_portal:dashboard')
+        else:
+            messages.error(request, 'Please correct the errors below.')
+    else:
+        form = EmergencyContactForm(instance=profile)
+    
+    context = {
+        'form': form,
+        'profile_completion': profile.get_completion_percentage(),
+    }
+    return render(request, 'student_portal/emergency_contact.html', context)
 
 @login_required
 def applications(request):
@@ -203,82 +319,92 @@ def create_application(request):
 @login_required
 @csrf_protect
 def payment_page(request, application_id):
-    """Payment page view"""
+    """M-PESA Manual Payment Instructions"""
     # Ensure student profile exists
     StudentProfile.objects.get_or_create(user=request.user)
     
     application = get_object_or_404(Application, id=application_id, student=request.user)
     
     # Check if application is already paid
-    if application.is_paid:
-        messages.info(request, 'This application has already been paid for.')
+    if application.is_paid and application.payment_status == 'paid':
+        messages.info(request, 'This application has already been paid and verified.')
         return redirect('student_portal:application_detail', application_id=application.id)
     
-    # Check if there's already a pending payment
-    pending_payment = Payment.objects.filter(
-        application=application, 
-        status__in=['pending', 'processing']
-    ).first()
-    
     if request.method == 'POST':
-        payment_method = request.POST.get('payment_method')
+        # Student provides the name on their M-PESA account
+        mpesa_account_name = request.POST.get('mpesa_account_name', '').strip()
         
-        if not payment_method:
-            messages.error(request, 'Please select a payment method.')
-            return render(request, 'student_portal/payment.html', {
-                'application': application,
-                'payment_amount': application.payment_amount,
-                'pending_payment': pending_payment,
-                'payment_gateway': settings.PAYMENT_GATEWAY,
-                'currency': settings.CURRENCY
-            })
-        
-        try:
-            if payment_method == 'mobile_money':
-                phone_number = request.POST.get('phone_number')
-                
-                if not phone_number:
-                    messages.error(request, 'Please provide phone number.')
-                    return render(request, 'student_portal/payment.html', {
-                        'application': application,
-                        'payment_amount': application.payment_amount,
-                        'pending_payment': pending_payment,
-                        'payment_gateway': settings.PAYMENT_GATEWAY,
-                        'currency': settings.CURRENCY
-                    })
-                
-                # Use ClickPesa for mobile money payment
-                if settings.PAYMENT_GATEWAY == 'clickpesa':
-                    return process_clickpesa_mobile_payment(request, application, phone_number)
-                else:
-                    # Fallback to dummy payment
-                    return process_mobile_money_payment(request, application, phone_number, 'mpesa')
-                
-            elif payment_method == 'card':
-                # Use ClickPesa for card payment
-                if settings.PAYMENT_GATEWAY == 'clickpesa':
-                    return process_clickpesa_card_payment(request, application)
-                else:
-                    messages.error(request, 'Card payment is only available through ClickPesa.')
-                    
-            else:
-                messages.error(request, 'Invalid payment method selected.')
-                
-        except Exception as e:
-            messages.error(request, f'Payment processing failed: {str(e)}')
+        if mpesa_account_name:
+            application.mpesa_account_name = mpesa_account_name
+            application.payment_status = 'pending_verification'
+            application.save()
+            messages.success(request, 'Payment details submitted successfully. Our team will verify your payment shortly.')
+            return redirect('student_portal:application_detail', application_id=application.id)
+        else:
+            messages.error(request, 'Please provide the name on your M-PESA account.')
     
-    # Add cache control
-    response = render(request, 'student_portal/payment.html', {
+    # M-PESA payment details
+    mpesa_number = "68067686"
+    mpesa_name = "AFRICA WESTERN EDUCATION"
+    
+    context = {
         'application': application,
         'payment_amount': application.payment_amount,
-        'pending_payment': pending_payment,
-        'payment_gateway': settings.PAYMENT_GATEWAY,
-        'currency': settings.CURRENCY
-    })
+        'mpesa_number': mpesa_number,
+        'mpesa_name': mpesa_name,
+        'payment_status': application.payment_status,
+        'currency': 'TZS'
+    }
+    
+    # Add cache control
+    response = render(request, 'student_portal/mpesa_payment.html', context)
     response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
     response['Pragma'] = 'no-cache'
     response['Expires'] = '0'
     return response
+
+@login_required
+def make_payment(request, application_id):
+    """Enhanced payment retry functionality"""
+    application = get_object_or_404(Application, id=application_id, student=request.user)
+    
+    # Check if application is already paid
+    if application.is_paid:
+        messages.success(request, 'This application has already been paid for.')
+        return redirect('student_portal:application_detail', application_id=application.id)
+    
+    # Check for existing payments (failed or pending)
+    existing_payments = Payment.objects.filter(
+        application=application
+    ).order_by('-payment_date')
+    
+    pending_payment = existing_payments.filter(
+        status__in=['pending', 'processing']
+    ).first()
+    
+    failed_payments = existing_payments.filter(
+        status='failed'
+    )
+    
+    if request.method == 'POST':
+        # Cancel any pending payments before creating a new one
+        if pending_payment:
+            pending_payment.status = 'failed'
+            pending_payment.error_message = 'Cancelled by user for retry'
+            pending_payment.save()
+        
+        # Redirect to payment page to process the new payment
+        return redirect('student_portal:payment', application_id=application.id)
+    
+    context = {
+        'application': application,
+        'pending_payment': pending_payment,
+        'failed_payments': failed_payments,
+        'payment_amount': application.payment_amount,
+        'currency': settings.CURRENCY,
+    }
+    
+    return render(request, 'student_portal/make_payment.html', context)
 
 # ALL PAYMENT PROCESSING FUNCTIONS REMAIN THE SAME AS BEFORE
 def process_clickpesa_mobile_payment(request, application, phone_number):
@@ -289,8 +415,8 @@ def process_clickpesa_mobile_payment(request, application, phone_number):
         if phone_number.startswith('0'):
             phone_number = '255' + phone_number[1:]  # Tanzania country code
         
-        # Generate unique order reference
-        order_reference = f"APP{application.id}_{int(datetime.now().timestamp())}"
+        # Generate unique order reference (alphanumeric like Node.js script)
+        order_reference = clickpesa_service.generate_order_reference(application.id)
         
         # Step 1: Preview the payment
         success, preview_data, error_msg = clickpesa_service.preview_ussd_push(
@@ -906,7 +1032,7 @@ def application_statistics(request):
     # Ensure student profile exists
     StudentProfile.objects.get_or_create(user=request.user)
     
-    applications = Application.objects.filter(student=request.user)
+    applications = Application.objects.filter(student=request.user).select_related('student').prefetch_related('payment_set')
     
     stats = {
         'total': applications.count(),

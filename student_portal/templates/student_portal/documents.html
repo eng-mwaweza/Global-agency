@@ -1,457 +1,172 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Documents - Student Portal</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f8f9fa;
-            line-height: 1.6;
-        }
-        .header {
-            background: linear-gradient(135deg, #007bff, #0056b3);
-            color: white;
-            padding: 1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            flex-wrap: wrap;
-        }
-        .header h1 {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-        }
-        .nav-menu {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            margin: 0.5rem 0;
-        }
-        .nav-menu a {
-            color: white;
-            text-decoration: none;
-            padding: 0.5rem;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-            font-size: 0.9rem;
-        }
-        .nav-menu a:hover {
-            background-color: rgba(255,255,255,0.2);
-        }
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-            margin: 0.5rem 0;
-            font-size: 0.9rem;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
-        .page-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-        .page-header h2 {
-            color: #333;
-            font-size: 1.75rem;
-        }
-        .btn-primary {
-            background: #007bff;
-            color: white;
-            padding: 0.75rem 1.5rem;
-            text-decoration: none;
-            border-radius: 6px;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            display: inline-block;
-            text-align: center;
-            font-size: 0.9rem;
-            width: 100%;
-        }
-        .btn-primary:hover {
-            background: #0056b3;
-        }
-        .btn-success {
-            background: #28a745;
-            color: white;
-            padding: 0.75rem 1.5rem;
-            text-decoration: none;
-            border-radius: 6px;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            display: inline-block;
-            text-align: center;
-            font-size: 0.9rem;
-            width: 100%;
-        }
-        .btn-success:hover {
-            background: #218838;
-        }
-        .upload-card, .documents-card {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            margin-bottom: 2rem;
-        }
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: #333;
-            font-weight: bold;
-            font-size: 0.95rem;
-        }
-        .form-control {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 1rem;
-            transition: border-color 0.3s;
-        }
-        .form-control:focus {
-            outline: none;
-            border-color: #007bff;
-            box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
-        }
-        .documents-grid {
-            display: grid;
-            gap: 1rem;
-        }
-        .document-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem;
-            border: 1px solid #e9ecef;
-            border-radius: 6px;
-            transition: background-color 0.3s;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-        .document-item:hover {
-            background-color: #f8f9fa;
-        }
-        .document-info {
-            flex: 1;
-            min-width: 200px;
-        }
-        .document-name {
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 0.25rem;
-            font-size: 1rem;
-        }
-        .document-meta {
-            font-size: 0.875rem;
-            color: #666;
-        }
-        .document-actions {
-            display: flex;
-            gap: 0.5rem;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        .btn-sm {
-            padding: 0.375rem 0.75rem;
-            border-radius: 4px;
-            font-size: 0.875rem;
-            text-decoration: none;
-            display: inline-block;
-            text-align: center;
-        }
-        .btn-outline-primary {
-            border: 1px solid #007bff;
-            color: #007bff;
-            background: transparent;
-        }
-        .btn-outline-primary:hover {
-            background: #007bff;
-            color: white;
-        }
-        .verification-badge {
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: bold;
-            white-space: nowrap;
-        }
-        .verified {
-            background: #d4edda;
-            color: #155724;
-        }
-        .pending {
-            background: #fff3cd;
-            color: #856404;
-        }
-        .empty-state {
-            text-align: center;
-            padding: 2rem 1rem;
-            color: #666;
-        }
-        .empty-state h3 {
-            margin-bottom: 1rem;
-            font-size: 1.25rem;
-        }
-        .empty-state p {
-            font-size: 1rem;
-        }
-        .services-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-        .service-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            text-align: center;
-            transition: transform 0.3s;
-            cursor: pointer;
-            border: 1px solid #e9ecef;
-        }
-        .service-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-        }
-        .service-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-        .btn-logout {
-            background: #dc3545;
-            color: white;
-            padding: 0.5rem 1rem;
-            text-decoration: none;
-            border-radius: 4px;
-            display: inline-block;
-            font-size: 0.9rem;
-        }
-        
-        /* Mobile-specific styles */
-        @media (max-width: 768px) {
-            .header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .header h1 {
-                font-size: 1.25rem;
-            }
-            .nav-menu {
-                width: 100%;
-                justify-content: space-between;
-                margin: 0.5rem 0;
-            }
-            .nav-menu a {
-                padding: 0.5rem;
-                font-size: 0.9rem;
-            }
-            .user-info {
-                width: 100%;
-                justify-content: space-between;
-            }
-            .container {
-                margin: 1rem auto;
-                padding: 0 0.5rem;
-            }
-            .page-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .page-header h2 {
-                font-size: 1.5rem;
-            }
-            .upload-card, .documents-card {
-                padding: 1rem;
-            }
-            .document-item {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .document-actions {
-                width: 100%;
-                justify-content: space-between;
-            }
-            .service-card {
-                padding: 1.5rem;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .nav-menu {
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-            .nav-menu a {
-                width: 100%;
-                text-align: center;
-            }
-            .user-info {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.5rem;
-            }
-            .btn-logout {
-                width: 100%;
-                text-align: center;
-                margin-left: 0 !important;
-                margin-top: 0.5rem;
-            }
-            .document-actions {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.5rem;
-            }
-            .btn-sm {
-                width: 100%;
-            }
-            .empty-state {
-                padding: 1.5rem 0.5rem;
-            }
-            .empty-state h3 {
-                font-size: 1.1rem;
-            }
-        }
-        
-        @media (min-width: 768px) {
-            .btn-primary, .btn-success {
-                width: auto;
-            }
-            .services-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        
-        @media (min-width: 1024px) {
-            .services-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-        
-        /* File input styling */
-        input[type="file"] {
-            padding: 0.5rem;
-        }
-        
-        /* Textarea styling */
-        textarea.form-control {
-            resize: vertical;
-            min-height: 80px;
-        }
-    </style>
-</head>
-<body>
-    <div class="header">
-        <h1>Student Portal</h1>
-        <nav class="nav-menu">
-            <a href="{% url 'student_portal:dashboard' %}">Dashboard</a>
-            <a href="{% url 'student_portal:profile' %}">My Profile</a>
-            <a href="{% url 'student_portal:applications' %}">Applications</a>
-            <a href="{% url 'student_portal:documents' %}">Documents</a>
-            <a href="{% url 'student_portal:messages' %}">Messages</a>
-        </nav>
-        <div class="user-info">
-            Welcome, {{ user.get_full_name|default:user.username }}!
-            <a href="{% url 'student_portal:logout' %}" class="btn-logout">Logout</a>
-        </div>
+{% extends 'student_portal/dashboard_base.html' %}
+
+{% block title %}Documents - Student Portal{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Page Header -->
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+        <h2 class="text-3xl font-bold text-gray-900">Document Management</h2>
+        <a href="{% url 'student_portal:document_services' %}" 
+           class="inline-flex items-center px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors duration-200 shadow-sm hover:shadow-md">
+            <i class="fas fa-hands-helping mr-2"></i>
+            Document Services
+        </a>
     </div>
 
-    <div class="container">
-        <div class="page-header">
-            <h2>Document Management</h2>
-            <a href="{% url 'student_portal:document_services' %}" class="btn-success">Document Services</a>
-        </div>
-
-        <div class="upload-card">
-            <h3 style="margin-bottom: 1.5rem; font-size: 1.25rem;">Upload New Document</h3>
-            <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                
-                <div class="form-group">
-                    <label for="id_document_type">Document Type</label>
-                    <select name="document_type" id="id_document_type" class="form-control" required>
-                        <option value="">Select Document Type</option>
-                        <option value="passport">Passport</option>
-                        <option value="academic_transcript">Academic Transcript</option>
-                        <option value="degree_certificate">Degree Certificate</option>
-                        <option value="recommendation_letter">Recommendation Letter</option>
-                        <option value="sop">Statement of Purpose</option>
-                        <option value="cv">CV/Resume</option>
-                        <option value="language_test">Language Test Results</option>
-                        <option value="financial_documents">Financial Documents</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="id_file">Document File</label>
-                    <input type="file" name="file" id="id_file" class="form-control" required accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
-                </div>
-
-                <div class="form-group">
-                    <label for="id_description">Description (Optional)</label>
-                    <textarea name="description" id="id_description" class="form-control" rows="3" placeholder="Add any notes about this document"></textarea>
-                </div>
-
-                <button type="submit" class="btn-primary">Upload Document</button>
-            </form>
-        </div>
-
-        <div class="documents-card">
-            <h3 style="margin-bottom: 1.5rem; font-size: 1.25rem;">My Documents</h3>
+    <!-- Upload Document Card -->
+    <div class="bg-white rounded-xl shadow-sm p-8 mb-8 border border-gray-100">
+        <h3 class="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+            <i class="fas fa-upload text-blue-600 mr-3"></i>
+            Upload New Document
+        </h3>
+        
+        <form method="post" enctype="multipart/form-data" class="space-y-6">
+            {% csrf_token %}
             
-            {% if documents %}
-            <div class="documents-grid">
-                {% for document in documents %}
-                <div class="document-item">
-                    <div class="document-info">
-                        <div class="document-name">{{ document.get_document_type_display }}</div>
-                        <div class="document-meta">
-                            Uploaded: {{ document.uploaded_at|date:"M d, Y" }} | 
-                            File: {{ document.file.name|slice:"-20:" }}
+            <!-- Document Type -->
+            <div>
+                <label for="id_document_type" class="block text-sm font-medium text-gray-700 mb-2">
+                    Document Type <span class="text-red-500">*</span>
+                </label>
+                <select name="document_type" 
+                        id="id_document_type" 
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" 
+                        required>
+                    <option value="">Select Document Type</option>
+                    <option value="passport">Passport</option>
+                    <option value="academic_transcript">Academic Transcript</option>
+                    <option value="degree_certificate">Degree Certificate</option>
+                    <option value="recommendation_letter">Recommendation Letter</option>
+                    <option value="sop">Statement of Purpose</option>
+                    <option value="cv">CV/Resume</option>
+                    <option value="language_test">Language Test Results</option>
+                    <option value="financial_documents">Financial Documents</option>
+                </select>
+            </div>
+
+            <!-- File Upload -->
+            <div>
+                <label for="id_file" class="block text-sm font-medium text-gray-700 mb-2">
+                    Document File <span class="text-red-500">*</span>
+                </label>
+                <div class="relative">
+                    <input type="file" 
+                           name="file" 
+                           id="id_file" 
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" 
+                           required 
+                           accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                </div>
+                <p class="mt-2 text-sm text-gray-500">
+                    <i class="fas fa-info-circle mr-1"></i>
+                    Accepted formats: PDF, DOC, DOCX, JPG, JPEG, PNG (Max 10MB)
+                </p>
+            </div>
+
+            <!-- Description -->
+            <div>
+                <label for="id_description" class="block text-sm font-medium text-gray-700 mb-2">
+                    Description <span class="text-gray-400">(Optional)</span>
+                </label>
+                <textarea name="description" 
+                          id="id_description" 
+                          rows="3" 
+                          class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-y" 
+                          placeholder="Add any notes about this document..."></textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="flex justify-end">
+                <button type="submit" 
+                        class="inline-flex items-center px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200 shadow-sm hover:shadow-md">
+                    <i class="fas fa-cloud-upload-alt mr-2"></i>
+                    Upload Document
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Documents List -->
+    <div class="bg-white rounded-xl shadow-sm p-8 border border-gray-100">
+        <h3 class="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+            <i class="fas fa-folder-open text-blue-600 mr-3"></i>
+            My Documents
+        </h3>
+        
+        {% if documents %}
+        <div class="space-y-4">
+            {% for document in documents %}
+            <div class="border border-gray-200 rounded-lg p-5 hover:border-blue-300 hover:shadow-md transition-all duration-200">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <!-- Document Info -->
+                    <div class="flex-1">
+                        <div class="flex items-start gap-3">
+                            <div class="flex-shrink-0 w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-file-alt text-blue-600 text-xl"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="text-lg font-semibold text-gray-900 mb-1">
+                                    {{ document.get_document_type_display }}
+                                </h4>
+                                <div class="space-y-1 text-sm text-gray-600">
+                                    <p>
+                                        <i class="far fa-calendar mr-1"></i>
+                                        Uploaded: {{ document.uploaded_at|date:"M d, Y" }}
+                                    </p>
+                                    <p>
+                                        <i class="far fa-file mr-1"></i>
+                                        File: {{ document.file.name|slice:"-30:" }}
+                                    </p>
+                                    {% if document.description %}
+                                    <p class="text-gray-700 mt-2">
+                                        <i class="far fa-sticky-note mr-1"></i>
+                                        {{ document.description }}
+                                    </p>
+                                    {% endif %}
+                                </div>
+                            </div>
                         </div>
-                        {% if document.description %}
-                        <div class="document-meta">{{ document.description }}</div>
-                        {% endif %}
                     </div>
-                    <div class="document-actions">
-                        <span class="verification-badge {% if document.is_verified %}verified{% else %}pending{% endif %}">
-                            {% if document.is_verified %}Verified{% else %}Pending Verification{% endif %}
+                    
+                    <!-- Actions & Status -->
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+                        <!-- Verification Badge -->
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide
+                            {% if document.is_verified %}bg-green-100 text-green-800{% else %}bg-yellow-100 text-yellow-800{% endif %}">
+                            {% if document.is_verified %}
+                                <i class="fas fa-check-circle mr-1"></i>
+                                Verified
+                            {% else %}
+                                <i class="fas fa-clock mr-1"></i>
+                                Pending Verification
+                            {% endif %}
                         </span>
-                        <a href="{{ document.file.url }}" target="_blank" class="btn-sm btn-outline-primary">View</a>
+                        
+                        <!-- View Button -->
+                        <a href="{{ document.file.url }}" 
+                           target="_blank" 
+                           class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors duration-200">
+                            <i class="fas fa-eye mr-1"></i>
+                            View
+                        </a>
                     </div>
                 </div>
-                {% endfor %}
             </div>
-            {% else %}
-            <div class="empty-state">
-                <h3>No Documents Uploaded</h3>
-                <p>You haven't uploaded any documents yet. Start by uploading your first document!</p>
-            </div>
-            {% endif %}
+            {% endfor %}
         </div>
+        {% else %}
+        <!-- Empty State -->
+        <div class="text-center py-12">
+            <div class="mx-auto w-24 h-24 bg-gray-50 rounded-full flex items-center justify-center mb-6">
+                <i class="fas fa-folder-open text-gray-400 text-4xl"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-3">No Documents Uploaded</h3>
+            <p class="text-gray-600 max-w-md mx-auto">
+                You haven't uploaded any documents yet. Use the form above to upload your first document.
+            </p>
+        </div>
+        {% endif %}
     </div>
-</body>
-</html>
+</div>
+{% endblock %}

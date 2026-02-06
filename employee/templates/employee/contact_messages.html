@@ -586,7 +586,7 @@
                             </select>
                             <button type="submit" class="btn btn-primary">Update Status</button>
                         </form>
-                        <a href="mailto:{{ consultation.email }}?subject=Re: Your Consultation Request - Global Agency&body=Dear {{ consultation.name }}," class="btn btn-success">Reply via Email</a>
+                        <a href="mailto:{{ consultation.email }}?subject=Re: Your Consultation Request - Africa Western Education&body=Dear {{ consultation.name }}," class="btn btn-success">Reply via Email</a>
                         {% if consultation.phone %}
                         <a href="https://wa.me/{{ consultation.phone|cut:' '|cut:'+'|cut:'-' }}?text=Hello%20{{ consultation.name|urlencode }}%2C%20regarding%20your%20consultation%20request%20with%20Global%20Agency" 
                            target="_blank" class="btn btn-success">Reply via WhatsApp</a>
@@ -600,7 +600,7 @@
                 <div class="message-card contact-card">
                     <div class="message-header">
                         <div>
-                            <h4 style="margin: 0;">📧 {{ message.subject|default:"Contact Form Message" }}</h4>
+                            <h4 style="margin: 0;"><i class="fas fa-envelope"></i> {{ message.subject|default:"Contact Form Message" }}</h4>
                             <div class="message-meta">
                                 From: <strong>{{ message.name }}</strong> ({{ message.email }}) | 
                                 {{ message.created_at|date:"M d, Y H:i" }}
@@ -695,7 +695,7 @@
                             </select>
                             <button type="submit" class="btn btn-primary">Update Status</button>
                         </form>
-                        <a href="mailto:{{ consultation.email }}?subject=Re: Your Consultation Request - Global Agency&body=Dear {{ consultation.name }}," class="btn btn-success">Reply via Email</a>
+                        <a href="mailto:{{ consultation.email }}?subject=Re: Your Consultation Request - Africa Western Education&body=Dear {{ consultation.name }}," class="btn btn-success">Reply via Email</a>
                         {% if consultation.phone %}
                         <a href="https://wa.me/{{ consultation.phone|cut:' '|cut:'+'|cut:'-' }}?text=Hello%20{{ consultation.name|urlencode }}%2C%20regarding%20your%20consultation%20request%20with%20Global%20Agency" 
                            target="_blank" class="btn btn-success">Reply via WhatsApp</a>
@@ -718,7 +718,7 @@
                 <div class="message-card contact-card">
                     <div class="message-header">
                         <div>
-                            <h4 style="margin: 0;">📧 {{ message.subject|default:"Contact Form Message" }}</h4>
+                            <h4 style="margin: 0;"><i class="fas fa-envelope"></i> {{ message.subject|default:"Contact Form Message" }}</h4>
                             <div class="message-meta">
                                 From: <strong>{{ message.name }}</strong> ({{ message.email }}) | 
                                 {{ message.created_at|date:"M d, Y H:i" }}

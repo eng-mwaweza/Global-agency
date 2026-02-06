@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Universities in {{ country.name }} - Global Agency</title>
+    <title>Universities in {{ country.name }} - Africa Western Education</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
@@ -55,6 +55,17 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {% for university in country.universities %}
                 <div class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group">
+                    <!-- University Logo/Image -->
+                    <div class="h-48 bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center overflow-hidden relative">
+                        <img src="{% static 'global_agency/img/university-logos/' %}{{ university.slug }}.png" 
+                             alt="{{ university.name }}" 
+                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                             class="h-full w-full object-contain p-6">
+                        <div style="display: none;" class="absolute inset-0 flex flex-col items-center justify-center text-center p-6">
+                            <i class="fas fa-university text-blue-600 text-6xl mb-3"></i>
+                            <p class="text-gray-700 font-semibold text-lg">{{ university.name }}</p>
+                        </div>
+                    </div>
                     <div class="p-6">
                         <div class="flex items-start justify-between mb-4">
                             <div>
@@ -160,7 +171,7 @@
     <!-- Footer -->
     <footer class="bg-gray-900 text-white py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <p>&copy; 2025 Global Agency. All rights reserved.</p>
+            <p>&copy; 2025 Africa Western Education. All rights reserved.</p>
         </div>
     </footer>
 </body>

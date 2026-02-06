@@ -1,6 +1,6 @@
 # ClickPesa Payment Gateway Integration
 
-This document explains the ClickPesa payment gateway integration for the Global Agency Student Portal.
+This document explains the ClickPesa payment gateway integration for the Africa Western Education Student Portal.
 
 ## Overview
 
@@ -223,4 +223,4 @@ Before going live:
 
 ## License
 
-This integration is part of the Global Agency platform.
+This integration is part of the Africa Western Education platform.
