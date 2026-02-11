@@ -893,16 +893,36 @@ def export_single_application_pdf(request, application_id):
     elements.append(app_table)
     elements.append(Spacer(1, 0.3*inch))
     
+    # Student Profile Picture (if available)
+    if student_profile and student_profile.profile_picture:
+        try:
+            # Add profile picture
+            img_path = student_profile.profile_picture.path
+            img = Image(img_path, width=1.5*inch, height=1.5*inch)
+            img.hAlign = 'LEFT'
+            elements.append(img)
+            elements.append(Spacer(1, 0.2*inch))
+        except:
+            # If image can't be loaded, continue without it
+            pass
+    
     # Student Information
     elements.append(Paragraph("Student Information", heading_style))
     student_data = [
         ['Full Name:', application.student.get_full_name()],
         ['Email:', application.student.email],
-        ['Phone:', getattr(student_profile, 'phone_number', 'N/A') if student_profile else 'N/A'],
-        ['Date of Birth:', str(getattr(student_profile, 'date_of_birth', 'N/A')) if student_profile else 'N/A'],
-        ['Gender:', getattr(student_profile, 'gender', 'N/A') if student_profile else 'N/A'],
-        ['Nationality:', getattr(student_profile, 'nationality', 'N/A') if student_profile else 'N/A'],
+        ['Username:', application.student.username],
     ]
+    
+    # Add all StudentProfile fields if profile exists
+    if student_profile:
+        student_data.extend([
+            ['Phone:', student_profile.phone_number or 'N/A'],
+            ['Date of Birth:', str(student_profile.date_of_birth) if student_profile.date_of_birth else 'N/A'],
+            ['Gender:', student_profile.get_gender_display() if student_profile.gender else 'N/A'],
+            ['Nationality:', student_profile.nationality or 'N/A'],
+            ['Address:', student_profile.address or 'N/A'],
+        ])
     
     student_table = Table(student_data, colWidths=[2*inch, 4*inch])
     student_table.setStyle(TableStyle([
@@ -917,34 +937,153 @@ def export_single_application_pdf(request, application_id):
     elements.append(student_table)
     elements.append(Spacer(1, 0.3*inch))
     
+    # Parents Information (if available)
+    if student_profile and (student_profile.father_name or student_profile.mother_name):
+        elements.append(Paragraph("Parents/Guardian Information", heading_style))
+        parents_data = []
+        
+        if student_profile.father_name:
+            parents_data.extend([
+                ['Father Name:', student_profile.father_name],
+                ['Father Phone:', student_profile.father_phone or 'N/A'],
+                ['Father Email:', student_profile.father_email or 'N/A'],
+                ['Father Occupation:', student_profile.father_occupation or 'N/A'],
+            ])
+        
+        if student_profile.mother_name:
+            parents_data.extend([
+                ['Mother Name:', student_profile.mother_name],
+                ['Mother Phone:', student_profile.mother_phone or 'N/A'],
+                ['Mother Email:', student_profile.mother_email or 'N/A'],
+                ['Mother Occupation:', student_profile.mother_occupation or 'N/A'],
+            ])
+        
+        if parents_data:
+            parents_table = Table(parents_data, colWidths=[2*inch, 4*inch])
+            parents_table.setStyle(TableStyle([
+                ('BACKGROUND', (0, 0), (0, -1), colors.HexColor('#f0f9ff')),
+                ('TEXTCOLOR', (0, 0), (-1, -1), colors.black),
+                ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+                ('FONTNAME', (0, 0), (0, -1), 'Helvetica-Bold'),
+                ('FONTSIZE', (0, 0), (-1, -1), 10),
+                ('BOTTOMPADDING', (0, 0), (-1, -1), 12),
+                ('GRID', (0, 0), (-1, -1), 0.5, colors.grey)
+            ]))
+            elements.append(parents_table)
+            elements.append(Spacer(1, 0.3*inch))
+    
+    # Emergency Contact Information (if available)
+    if student_profile and student_profile.emergency_contact:
+        elements.append(Paragraph("Emergency Contact Information", heading_style))
+        emergency_data = [
+            ['Contact Name:', student_profile.emergency_contact],
+            ['Relation:', student_profile.emergency_relation or 'N/A'],
+            ['Phone/Gender:', f"{student_profile.emergency_occupation or 'N/A'} / {student_profile.get_emergency_gender_display() if student_profile.emergency_gender else 'N/A'}"],
+            ['Address:', student_profile.emergency_address or 'N/A'],
+        ]
+        
+        emergency_table = Table(emergency_data, colWidths=[2*inch, 4*inch])
+        emergency_table.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (0, -1), colors.HexColor('#fef3c7')),
+            ('TEXTCOLOR', (0, 0), (-1, -1), colors.black),
+            ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+            ('FONTNAME', (0, 0), (0, -1), 'Helvetica-Bold'),
+            ('FONTSIZE', (0, 0), (-1, -1), 10),
+            ('BOTTOMPADDING', (0, 0), (-1, -1), 12),
+            ('GRID', (0, 0), (-1, -1), 0.5, colors.grey)
+        ]))
+        elements.append(emergency_table)
+        elements.append(Spacer(1, 0.3*inch))
+    
+    # Profile Completion Status
+    if student_profile:
+        elements.append(Paragraph("Profile Completion Status", heading_style))
+        completion_data = [
+            ['Personal Details:', 'Complete' if student_profile.personal_details_complete else 'Incomplete'],
+            ['Parents Details:', 'Complete' if student_profile.parents_details_complete else 'Incomplete'],
+            ['Academic Qualifications:', 'Complete' if student_profile.academic_qualifications_complete else 'Incomplete'],
+            ['Study Preferences:', 'Complete' if student_profile.study_preferences_complete else 'Incomplete'],
+            ['Emergency Contact:', 'Complete' if student_profile.emergency_contact_complete else 'Incomplete'],
+            ['Overall Completion:', f"{student_profile.get_completion_percentage()}%"],
+        ]
+        
+        completion_table = Table(completion_data, colWidths=[2*inch, 4*inch])
+        completion_table.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (0, -1), colors.HexColor('#ecfdf5')),
+            ('TEXTCOLOR', (0, 0), (-1, -1), colors.black),
+            ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+            ('FONTNAME', (0, 0), (0, -1), 'Helvetica-Bold'),
+            ('FONTSIZE', (0, 0), (-1, -1), 10),
+            ('BOTTOMPADDING', (0, 0), (-1, -1), 12),
+            ('GRID', (0, 0), (-1, -1), 0.5, colors.grey)
+        ]))
+        elements.append(completion_table)
+        elements.append(Spacer(1, 0.3*inch))
+    
     # Academic Information
-    elements.append(Paragraph("Application Details", heading_style))
+    elements.append(Paragraph("Academic & Educational Information", heading_style))
     academic_data = [
         ['University/Institution:', application.university_name or 'N/A'],
         ['Course/Program:', application.course or 'N/A'],
         ['Country:', application.country or 'N/A'],
     ]
     
-    # Add student profile academic information if available
+    # Add comprehensive student profile academic information if available
     if student_profile:
-        if student_profile.olevel_school:
-            academic_data.append(['O-Level School:', student_profile.olevel_school])
-            academic_data.append(['O-Level Year:', student_profile.olevel_year or 'N/A'])
-            academic_data.append(['O-Level GPA:', student_profile.olevel_gpa or 'N/A'])
+        # O-Level Education Details
+        if student_profile.olevel_school or student_profile.olevel_year or student_profile.olevel_gpa:
+            academic_data.extend([
+                ['O-Level School:', student_profile.olevel_school or 'N/A'],
+                ['O-Level Country:', student_profile.olevel_country or 'N/A'],
+                ['O-Level Address:', student_profile.olevel_address or 'N/A'],
+                ['O-Level Region:', student_profile.olevel_region or 'N/A'],
+                ['O-Level Year:', student_profile.olevel_year or 'N/A'],
+                ['O-Level Candidate No:', student_profile.olevel_candidate_no or 'N/A'],
+                ['O-Level GPA:', student_profile.olevel_gpa or 'N/A'],
+            ])
         
-        if student_profile.alevel_school:
-            academic_data.append(['A-Level School:', student_profile.alevel_school])
-            academic_data.append(['A-Level Year:', student_profile.alevel_year or 'N/A'])
-            academic_data.append(['A-Level GPA:', student_profile.alevel_gpa or 'N/A'])
+        # A-Level Education Details
+        if student_profile.alevel_school or student_profile.alevel_year or student_profile.alevel_gpa:
+            academic_data.extend([
+                ['A-Level School:', student_profile.alevel_school or 'N/A'],
+                ['A-Level Country:', student_profile.alevel_country or 'N/A'],
+                ['A-Level Address:', student_profile.alevel_address or 'N/A'],
+                ['A-Level Region:', student_profile.alevel_region or 'N/A'],
+                ['A-Level Year:', student_profile.alevel_year or 'N/A'],
+                ['A-Level Candidate No:', student_profile.alevel_candidate_no or 'N/A'],
+                ['A-Level GPA:', student_profile.alevel_gpa or 'N/A'],
+            ])
         
-        # Add study preferences
-        if student_profile.preferred_country_1:
-            academic_data.append(['Preferred Country 1:', student_profile.preferred_country_1])
-            academic_data.append(['Preferred Program 1:', student_profile.preferred_program_1 or 'N/A'])
+        # Study Preferences (all 4 options)
+        if student_profile.preferred_country_1 or student_profile.preferred_program_1:
+            academic_data.extend([
+                ['Preferred Country 1:', student_profile.preferred_country_1 or 'N/A'],
+                ['Preferred Program 1:', student_profile.preferred_program_1 or 'N/A'],
+            ])
         
-        if student_profile.preferred_country_2:
-            academic_data.append(['Preferred Country 2:', student_profile.preferred_country_2])
-            academic_data.append(['Preferred Program 2:', student_profile.preferred_program_2 or 'N/A'])
+        if student_profile.preferred_country_2 or student_profile.preferred_program_2:
+            academic_data.extend([
+                ['Preferred Country 2:', student_profile.preferred_country_2 or 'N/A'],
+                ['Preferred Program 2:', student_profile.preferred_program_2 or 'N/A'],
+            ])
+        
+        if student_profile.preferred_country_3 or student_profile.preferred_program_3:
+            academic_data.extend([
+                ['Preferred Country 3:', student_profile.preferred_country_3 or 'N/A'],
+                ['Preferred Program 3:', student_profile.preferred_program_3 or 'N/A'],
+            ])
+        
+        if student_profile.preferred_country_4 or student_profile.preferred_program_4:
+            academic_data.extend([
+                ['Preferred Country 4:', student_profile.preferred_country_4 or 'N/A'],
+                ['Preferred Program 4:', student_profile.preferred_program_4 or 'N/A'],
+            ])
+        
+        # Additional information
+        if student_profile.heard_about_us:
+            academic_data.append(['Heard About Us:', student_profile.heard_about_us])
+        if student_profile.heard_about_other:
+            academic_data.append(['Heard About Us (Other):', student_profile.heard_about_other])
     
     academic_table = Table(academic_data, colWidths=[2*inch, 4*inch])
     academic_table.setStyle(TableStyle([
