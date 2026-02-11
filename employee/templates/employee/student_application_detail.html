@@ -581,6 +581,424 @@
             </div>
         </div>
 
+        <!-- Student Profile Section -->
+        {% if student_profile %}
+        <div class="card">
+            <h3><i class="fas fa-user-circle"></i> Student Profile Information</h3>
+            
+            <!-- Profile Picture and Basic Info -->
+            <div style="display: flex; gap: 2rem; margin: 1.5rem 0; flex-wrap: wrap; align-items: flex-start;">
+                <!-- Profile Picture -->
+                <div style="flex-shrink: 0; text-align: center;">
+                    {% if student_profile.profile_picture %}
+                    <img src="{{ student_profile.profile_picture.url }}" alt="{{ application.student.get_full_name }}" 
+                         style="width: 200px; height: 200px; border-radius: 12px; object-fit: cover; box-shadow: 0 4px 12px rgba(0,0,0,0.15); border: 3px solid #28a745;">
+                    {% else %}
+                    <div style="width: 200px; height: 200px; border-radius: 12px; background: linear-gradient(135deg, #28a745, #20c997); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.15); border: 3px solid #28a745;">
+                        <i class="fas fa-user" style="font-size: 5rem; color: white;"></i>
+                    </div>
+                    {% endif %}
+                    <div style="margin-top: 1rem; text-align: center;">
+                        <strong style="font-size: 1.1rem; display: block; margin-bottom: 0.5rem;">{{ application.student.get_full_name|default:application.student.username }}</strong>
+                        <small style="color: #666;">{{ application.student.email }}</small>
+                    </div>
+                </div>
+                
+                <!-- Quick Info Sidebar -->
+                <div style="flex: 1; min-width: 250px;">
+                    <h4 style="margin-top: 0; color: #28a745; margin-bottom: 1rem;">
+                        <i class="fas fa-info-circle"></i> Quick Information
+                    </h4>
+                    <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                        <div style="padding: 0.75rem; background: #f8f9fa; border-radius: 6px; border-left: 3px solid #28a745;">
+                            <strong style="font-size: 0.85rem; color: #666; text-transform: uppercase;">Username</strong>
+                            <div>{{ application.student.username }}</div>
+                        </div>
+                        
+                        {% if student_profile.phone_number %}
+                        <div style="padding: 0.75rem; background: #f8f9fa; border-radius: 6px; border-left: 3px solid #17a2b8;">
+                            <strong style="font-size: 0.85rem; color: #666; text-transform: uppercase;"><i class="fas fa-phone"></i> Phone</strong>
+                            <div>{{ student_profile.phone_number }}</div>
+                        </div>
+                        {% endif %}
+                        
+                        {% if student_profile.date_of_birth %}
+                        <div style="padding: 0.75rem; background: #f8f9fa; border-radius: 6px; border-left: 3px solid #ffc107;">
+                            <strong style="font-size: 0.85rem; color: #666; text-transform: uppercase;"><i class="fas fa-birthday-cake"></i> Date of Birth</strong>
+                            <div>{{ student_profile.date_of_birth|date:"F d, Y" }}</div>
+                        </div>
+                        {% endif %}
+                        
+                        {% if student_profile.nationality %}
+                        <div style="padding: 0.75rem; background: #f8f9fa; border-radius: 6px; border-left: 3px solid #e91e63;">
+                            <strong style="font-size: 0.85rem; color: #666; text-transform: uppercase;"><i class="fas fa-flag"></i> Nationality</strong>
+                            <div>{{ student_profile.nationality }}</div>
+                        </div>
+                        {% endif %}
+                        
+                        <div style="padding: 0.75rem; background: #f8f9fa; border-radius: 6px; border-left: 3px solid #9c27b0;">
+                            <strong style="font-size: 0.85rem; color: #666; text-transform: uppercase;"><i class="fas fa-chart-pie"></i> Profile Completion</strong>
+                            <div style="font-size: 1.3rem; color: #28a745; font-weight: bold;">{{ student_profile.get_completion_percentage }}%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <hr style="margin: 1.5rem 0; border: none; border-top: 1px solid #e9ecef;">
+            
+            <!-- Personal Details -->
+            <div style="margin-top: 1.5rem;">
+                <h4 style="color: #28a745; border-bottom: 2px solid #28a745; padding-bottom: 0.5rem;">
+                    <i class="fas fa-id-card"></i> Personal Details
+                </h4>
+                <div class="info-grid">
+                    {% if student_profile.phone_number %}
+                    <div class="info-item">
+                        <div class="info-label"><i class="fas fa-phone"></i> Phone Number</div>
+                        <div>{{ student_profile.phone_number }}</div>
+                    </div>
+                    {% endif %}
+                    
+                    {% if student_profile.date_of_birth %}
+                    <div class="info-item">
+                        <div class="info-label"><i class="fas fa-birthday-cake"></i> Date of Birth</div>
+                        <div>{{ student_profile.date_of_birth|date:"F d, Y" }}</div>
+                    </div>
+                    {% endif %}
+                    
+                    {% if student_profile.gender %}
+                    <div class="info-item">
+                        <div class="info-label"><i class="fas fa-venus-mars"></i> Gender</div>
+                        <div>{{ student_profile.get_gender_display }}</div>
+                    </div>
+                    {% endif %}
+                    
+                    {% if student_profile.nationality %}
+                    <div class="info-item">
+                        <div class="info-label"><i class="fas fa-flag"></i> Nationality</div>
+                        <div>{{ student_profile.nationality }}</div>
+                    </div>
+                    {% endif %}
+                    
+                    {% if student_profile.address %}
+                    <div class="info-item" style="grid-column: span 2;">
+                        <div class="info-label"><i class="fas fa-map-marker-alt"></i> Address</div>
+                        <div>{{ student_profile.address }}</div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Parents Details -->
+            {% if student_profile.father_name or student_profile.mother_name %}
+            <div style="margin-top: 2rem;">
+                <h4 style="color: #17a2b8; border-bottom: 2px solid #17a2b8; padding-bottom: 0.5rem;">
+                    <i class="fas fa-users"></i> Parents/Guardian Details
+                </h4>
+                <div class="info-grid">
+                    {% if student_profile.father_name %}
+                    <div class="info-item">
+                        <div class="info-label"><i class="fas fa-male"></i> Father's Name</div>
+                        <div>{{ student_profile.father_name }}</div>
+                        {% if student_profile.father_phone %}
+                        <div style="margin-top: 0.5rem;"><strong>Phone:</strong> {{ student_profile.father_phone }}</div>
+                        {% endif %}
+                        {% if student_profile.father_email %}
+                        <div><strong>Email:</strong> {{ student_profile.father_email }}</div>
+                        {% endif %}
+                        {% if student_profile.father_occupation %}
+                        <div><strong>Occupation:</strong> {{ student_profile.father_occupation }}</div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    
+                    {% if student_profile.mother_name %}
+                    <div class="info-item">
+                        <div class="info-label"><i class="fas fa-female"></i> Mother's Name</div>
+                        <div>{{ student_profile.mother_name }}</div>
+                        {% if student_profile.mother_phone %}
+                        <div style="margin-top: 0.5rem;"><strong>Phone:</strong> {{ student_profile.mother_phone }}</div>
+                        {% endif %}
+                        {% if student_profile.mother_email %}
+                        <div><strong>Email:</strong> {{ student_profile.mother_email }}</div>
+                        {% endif %}
+                        {% if student_profile.mother_occupation %}
+                        <div><strong>Occupation:</strong> {{ student_profile.mother_occupation }}</div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Academic Qualifications -->
+            {% if student_profile.olevel_school or student_profile.alevel_school %}
+            <div style="margin-top: 2rem;">
+                <h4 style="color: #ff9800; border-bottom: 2px solid #ff9800; padding-bottom: 0.5rem;">
+                    <i class="fas fa-graduation-cap"></i> Academic Qualifications
+                </h4>
+                
+                <!-- O-Level -->
+                {% if student_profile.olevel_school %}
+                <div style="margin-bottom: 1.5rem;">
+                    <h5 style="color: #666; margin-bottom: 0.5rem;"><i class="fas fa-book"></i> O-Level Education</h5>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-label">School</div>
+                            <div>{{ student_profile.olevel_school }}</div>
+                        </div>
+                        {% if student_profile.olevel_country %}
+                        <div class="info-item">
+                            <div class="info-label">Country</div>
+                            <div>{{ student_profile.olevel_country }}</div>
+                        </div>
+                        {% endif %}
+                        {% if student_profile.olevel_year %}
+                        <div class="info-item">
+                            <div class="info-label">Year Completed</div>
+                            <div>{{ student_profile.olevel_year }}</div>
+                        </div>
+                        {% endif %}
+                        {% if student_profile.olevel_gpa %}
+                        <div class="info-item">
+                            <div class="info-label">GPA/Grade</div>
+                            <div>{{ student_profile.olevel_gpa }}</div>
+                        </div>
+                        {% endif %}
+                        {% if student_profile.olevel_candidate_no %}
+                        <div class="info-item">
+                            <div class="info-label">Candidate Number</div>
+                            <div>{{ student_profile.olevel_candidate_no }}</div>
+                        </div>
+                        {% endif %}
+                        {% if student_profile.olevel_region %}
+                        <div class="info-item">
+                            <div class="info-label">Region</div>
+                            <div>{{ student_profile.olevel_region }}</div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+                
+                <!-- A-Level -->
+                {% if student_profile.alevel_school %}
+                <div>
+                    <h5 style="color: #666; margin-bottom: 0.5rem;"><i class="fas fa-book"></i> A-Level Education</h5>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-label">School</div>
+                            <div>{{ student_profile.alevel_school }}</div>
+                        </div>
+                        {% if student_profile.alevel_country %}
+                        <div class="info-item">
+                            <div class="info-label">Country</div>
+                            <div>{{ student_profile.alevel_country }}</div>
+                        </div>
+                        {% endif %}
+                        {% if student_profile.alevel_year %}
+                        <div class="info-item">
+                            <div class="info-label">Year Completed</div>
+                            <div>{{ student_profile.alevel_year }}</div>
+                        </div>
+                        {% endif %}
+                        {% if student_profile.alevel_gpa %}
+                        <div class="info-item">
+                            <div class="info-label">GPA/Grade</div>
+                            <div>{{ student_profile.alevel_gpa }}</div>
+                        </div>
+                        {% endif %}
+                        {% if student_profile.alevel_candidate_no %}
+                        <div class="info-item">
+                            <div class="info-label">Candidate Number</div>
+                            <div>{{ student_profile.alevel_candidate_no }}</div>
+                        </div>
+                        {% endif %}
+                        {% if student_profile.alevel_region %}
+                        <div class="info-item">
+                            <div class="info-label">Region</div>
+                            <div>{{ student_profile.alevel_region }}</div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            {% endif %}
+
+            <!-- Study Preferences -->
+            {% if student_profile.preferred_country_1 or student_profile.preferred_program_1 %}
+            <div style="margin-top: 2rem;">
+                <h4 style="color: #9c27b0; border-bottom: 2px solid #9c27b0; padding-bottom: 0.5rem;">
+                    <i class="fas fa-compass"></i> Study Preferences
+                </h4>
+                <div class="info-grid">
+                    {% if student_profile.preferred_country_1 %}
+                    <div class="info-item">
+                        <div class="info-label"><i class="fas fa-globe"></i> Preferred Country (1st Choice)</div>
+                        <div>{{ student_profile.preferred_country_1 }}</div>
+                        {% if student_profile.preferred_program_1 %}
+                        <div style="margin-top: 0.5rem;"><strong>Program:</strong> {{ student_profile.preferred_program_1 }}</div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    
+                    {% if student_profile.preferred_country_2 %}
+                    <div class="info-item">
+                        <div class="info-label"><i class="fas fa-globe"></i> Preferred Country (2nd Choice)</div>
+                        <div>{{ student_profile.preferred_country_2 }}</div>
+                        {% if student_profile.preferred_program_2 %}
+                        <div style="margin-top: 0.5rem;"><strong>Program:</strong> {{ student_profile.preferred_program_2 }}</div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    
+                    {% if student_profile.preferred_country_3 %}
+                    <div class="info-item">
+                        <div class="info-label"><i class="fas fa-globe"></i> Preferred Country (3rd Choice)</div>
+                        <div>{{ student_profile.preferred_country_3 }}</div>
+                        {% if student_profile.preferred_program_3 %}
+                        <div style="margin-top: 0.5rem;"><strong>Program:</strong> {{ student_profile.preferred_program_3 }}</div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    
+                    {% if student_profile.preferred_country_4 %}
+                    <div class="info-item">
+                        <div class="info-label"><i class="fas fa-globe"></i> Preferred Country (4th Choice)</div>
+                        <div>{{ student_profile.preferred_country_4 }}</div>
+                        {% if student_profile.preferred_program_4 %}
+                        <div style="margin-top: 0.5rem;"><strong>Program:</strong> {{ student_profile.preferred_program_4 }}</div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Emergency Contact -->
+            {% if student_profile.emergency_contact %}
+            <div style="margin-top: 2rem;">
+                <h4 style="color: #e91e63; border-bottom: 2px solid #e91e63; padding-bottom: 0.5rem;">
+                    <i class="fas fa-exclamation-circle"></i> Emergency Contact Information
+                </h4>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label"><i class="fas fa-user"></i> Contact Name</div>
+                        <div>{{ student_profile.emergency_contact }}</div>
+                    </div>
+                    
+                    {% if student_profile.emergency_relation %}
+                    <div class="info-item">
+                        <div class="info-label"><i class="fas fa-link"></i> Relation</div>
+                        <div>{{ student_profile.emergency_relation }}</div>
+                    </div>
+                    {% endif %}
+                    
+                    {% if student_profile.emergency_gender %}
+                    <div class="info-item">
+                        <div class="info-label"><i class="fas fa-venus-mars"></i> Gender</div>
+                        <div>{{ student_profile.get_emergency_gender_display }}</div>
+                    </div>
+                    {% endif %}
+                    
+                    {% if student_profile.emergency_address %}
+                    <div class="info-item" style="grid-column: span 2;">
+                        <div class="info-label"><i class="fas fa-map-marker-alt"></i> Address</div>
+                        <div>{{ student_profile.emergency_address }}</div>
+                    </div>
+                    {% endif %}
+                    
+                    {% if student_profile.emergency_occupation %}
+                    <div class="info-item">
+                        <div class="info-label"><i class="fas fa-briefcase"></i> Occupation</div>
+                        <div>{{ student_profile.emergency_occupation }}</div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Profile Completion Status -->
+            <div style="margin-top: 2rem; padding: 1.5rem; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border-radius: 8px;">
+                <h4 style="margin-top: 0;"><i class="fas fa-chart-pie"></i> Profile Completion Status</h4>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">Completion Percentage</div>
+                        <div style="font-size: 1.8rem; color: #28a745; font-weight: bold;">
+                            {{ student_profile.get_completion_percentage }}%
+                        </div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-label"><i class="fas fa-check-circle"></i> Personal Details</div>
+                        <div>
+                            {% if student_profile.personal_details_complete %}
+                            <span style="color: #28a745; font-weight: bold;"><i class="fas fa-check-circle"></i> Complete</span>
+                            {% else %}
+                            <span style="color: #dc3545; font-weight: bold;"><i class="fas fa-times-circle"></i> Incomplete</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-label"><i class="fas fa-check-circle"></i> Parents Details</div>
+                        <div>
+                            {% if student_profile.parents_details_complete %}
+                            <span style="color: #28a745; font-weight: bold;"><i class="fas fa-check-circle"></i> Complete</span>
+                            {% else %}
+                            <span style="color: #dc3545; font-weight: bold;"><i class="fas fa-times-circle"></i> Incomplete</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-label"><i class="fas fa-check-circle"></i> Academic Qualifications</div>
+                        <div>
+                            {% if student_profile.academic_qualifications_complete %}
+                            <span style="color: #28a745; font-weight: bold;"><i class="fas fa-check-circle"></i> Complete</span>
+                            {% else %}
+                            <span style="color: #dc3545; font-weight: bold;"><i class="fas fa-times-circle"></i> Incomplete</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-label"><i class="fas fa-check-circle"></i> Study Preferences</div>
+                        <div>
+                            {% if student_profile.study_preferences_complete %}
+                            <span style="color: #28a745; font-weight: bold;"><i class="fas fa-check-circle"></i> Complete</span>
+                            {% else %}
+                            <span style="color: #dc3545; font-weight: bold;"><i class="fas fa-times-circle"></i> Incomplete</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-label"><i class="fas fa-check-circle"></i> Emergency Contact</div>
+                        <div>
+                            {% if student_profile.emergency_contact_complete %}
+                            <span style="color: #28a745; font-weight: bold;"><i class="fas fa-check-circle"></i> Complete</span>
+                            {% else %}
+                            <span style="color: #dc3545; font-weight: bold;"><i class="fas fa-times-circle"></i> Incomplete</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+            <div style="display: flex; align-items: center; gap: 1rem; color: #856404;">
+                <i class="fas fa-exclamation-triangle" style="font-size: 1.5rem;"></i>
+                <div>
+                    <strong>No Student Profile Found</strong>
+                    <p style="margin: 0.25rem 0 0 0;">This student has not yet completed their profile information. Information will appear here once they fill out their student profile.</p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
         <!-- Documents Section -->
         <div class="card">
             <h3><i class="fas fa-file-upload"></i> Uploaded Documents</h3>
