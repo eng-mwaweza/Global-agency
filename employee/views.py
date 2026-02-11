@@ -918,21 +918,33 @@ def export_single_application_pdf(request, application_id):
     elements.append(Spacer(1, 0.3*inch))
     
     # Academic Information
-    if application.application_type == 'study_abroad':
-        elements.append(Paragraph("Study Abroad Details", heading_style))
-        academic_data = [
-            ['Preferred Country:', application.preferred_country or 'N/A'],
-            ['Preferred University:', application.preferred_university or 'N/A'],
-            ['Program of Interest:', application.program_of_interest or 'N/A'],
-            ['Education Level:', application.education_level or 'N/A'],
-        ]
-    else:
-        elements.append(Paragraph("Local University Details", heading_style))
-        academic_data = [
-            ['Preferred University:', application.preferred_university or 'N/A'],
-            ['Program of Interest:', application.program_of_interest or 'N/A'],
-            ['Education Level:', application.education_level or 'N/A'],
-        ]
+    elements.append(Paragraph("Application Details", heading_style))
+    academic_data = [
+        ['University/Institution:', application.university_name or 'N/A'],
+        ['Course/Program:', application.course or 'N/A'],
+        ['Country:', application.country or 'N/A'],
+    ]
+    
+    # Add student profile academic information if available
+    if student_profile:
+        if student_profile.olevel_school:
+            academic_data.append(['O-Level School:', student_profile.olevel_school])
+            academic_data.append(['O-Level Year:', student_profile.olevel_year or 'N/A'])
+            academic_data.append(['O-Level GPA:', student_profile.olevel_gpa or 'N/A'])
+        
+        if student_profile.alevel_school:
+            academic_data.append(['A-Level School:', student_profile.alevel_school])
+            academic_data.append(['A-Level Year:', student_profile.alevel_year or 'N/A'])
+            academic_data.append(['A-Level GPA:', student_profile.alevel_gpa or 'N/A'])
+        
+        # Add study preferences
+        if student_profile.preferred_country_1:
+            academic_data.append(['Preferred Country 1:', student_profile.preferred_country_1])
+            academic_data.append(['Preferred Program 1:', student_profile.preferred_program_1 or 'N/A'])
+        
+        if student_profile.preferred_country_2:
+            academic_data.append(['Preferred Country 2:', student_profile.preferred_country_2])
+            academic_data.append(['Preferred Program 2:', student_profile.preferred_program_2 or 'N/A'])
     
     academic_table = Table(academic_data, colWidths=[2*inch, 4*inch])
     academic_table.setStyle(TableStyle([
