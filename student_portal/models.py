@@ -174,6 +174,8 @@ class Application(models.Model):
 class Document(models.Model):
     DOCUMENT_TYPES = [
         ('passport', 'Passport'),
+        ('ordinary_level', 'Ordinary Level Certificate'),
+        ('advanced_level', 'Advanced Level Certificate'),
         ('academic_transcript', 'Academic Transcript'),
         ('degree_certificate', 'Degree Certificate'),
         ('recommendation_letter', 'Recommendation Letter'),
