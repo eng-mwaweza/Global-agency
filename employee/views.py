@@ -989,7 +989,7 @@ def export_single_application_pdf(request, application_id):
     elements.append(Spacer(1, 0.3*inch))
     
     # Documents
-    documents = Document.objects.filter(application=application)
+    documents = Document.objects.filter(student=application.student)
     if documents.exists():
         elements.append(Paragraph("Uploaded Documents", heading_style))
         doc_data = [['Document Type', 'Uploaded Date']]
