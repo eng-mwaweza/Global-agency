@@ -827,6 +827,12 @@ def export_single_application_pdf(request, application_id):
     
     application = get_object_or_404(Application, id=application_id)
     
+    # Fetch student profile if it exists
+    try:
+        student_profile = StudentProfile.objects.get(user=application.student)
+    except StudentProfile.DoesNotExist:
+        student_profile = None
+    
     # Create the HttpResponse object with PDF headers
     response = HttpResponse(content_type='application/pdf')
     filename = f'Application_{application.id}_{application.student.get_full_name().replace(" ", "_")}.pdf'
@@ -892,10 +898,10 @@ def export_single_application_pdf(request, application_id):
     student_data = [
         ['Full Name:', application.student.get_full_name()],
         ['Email:', application.student.email],
-        ['Phone:', getattr(application.student_profile, 'phone_number', 'N/A')],
-        ['Date of Birth:', str(getattr(application.student_profile, 'date_of_birth', 'N/A'))],
-        ['Gender:', getattr(application.student_profile, 'gender', 'N/A')],
-        ['Nationality:', getattr(application.student_profile, 'nationality', 'N/A')],
+        ['Phone:', getattr(student_profile, 'phone_number', 'N/A') if student_profile else 'N/A'],
+        ['Date of Birth:', str(getattr(student_profile, 'date_of_birth', 'N/A')) if student_profile else 'N/A'],
+        ['Gender:', getattr(student_profile, 'gender', 'N/A') if student_profile else 'N/A'],
+        ['Nationality:', getattr(student_profile, 'nationality', 'N/A') if student_profile else 'N/A'],
     ]
     
     student_table = Table(student_data, colWidths=[2*inch, 4*inch])
