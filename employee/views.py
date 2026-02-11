@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.http import JsonResponse
 from django.utils import timezone
 from global_agency.models import ContactMessage, StudentApplication
-from student_portal.models import Application, Document, Payment
+from student_portal.models import Application, Document, Payment, StudentProfile
 from .models import UserProfile
 from .decorators import employee_required, admin_required
 
@@ -181,8 +181,15 @@ def student_application_detail(request, application_id):
     documents = Document.objects.filter(student=application.student)
     payments = Payment.objects.filter(application=application)
     
+    # Fetch student profile data if it exists
+    try:
+        student_profile = StudentProfile.objects.get(user=application.student)
+    except StudentProfile.DoesNotExist:
+        student_profile = None
+    
     context = {
         'application': application,
+        'student_profile': student_profile,
         'documents': documents,
         'payments': payments,
         'is_admin': profile.is_admin(),
