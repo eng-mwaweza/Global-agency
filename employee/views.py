@@ -1132,10 +1132,10 @@ def export_single_application_pdf(request, application_id):
     if documents.exists():
         elements.append(Paragraph("Uploaded Documents", heading_style))
         doc_data = [['Document Type', 'Uploaded Date']]
-        for doc in documents:
+        for document in documents:
             doc_data.append([
-                doc.get_document_type_display(),
-                doc.uploaded_at.strftime('%B %d, %Y')
+                document.get_document_type_display(),
+                document.uploaded_at.strftime('%B %d, %Y')
             ])
         
         doc_table = Table(doc_data, colWidths=[3*inch, 3*inch])
